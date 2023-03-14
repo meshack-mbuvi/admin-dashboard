@@ -1,17 +1,17 @@
-import "@/styles/globals.css";
 import type { AppProps } from "next/app";
+import "styles/globals.css";
 import { configureChains, createClient, goerli, WagmiConfig } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
 
 import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { arbitrum, mainnet, optimism, polygon } from "wagmi/chains";
+
+const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || "";
+
 const { chains, provider, webSocketProvider } = configureChains(
   [mainnet, goerli, polygon, optimism, arbitrum],
-  [
-    alchemyProvider({ apiKey: "KEjoTwYE2Ckhvrsbk5tO94HXMor3qf_A" }),
-    alchemyProvider({ apiKey: "UyVbnU_JfK0AjrPFdO_Txn4qruRcT5HU" }),
-  ]
+  [alchemyProvider({ apiKey: ALCHEMY_API_KEY })]
 );
 
 const { connectors } = getDefaultWallets({
