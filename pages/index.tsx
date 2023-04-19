@@ -1,5 +1,4 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import Head from "next/head";
+import Head from "next/head"
 
 export default function Home() {
   return (
@@ -16,10 +15,9 @@ export default function Home() {
             <h1 className="text-3xl underline my-2">
               Admin dashboard skeleton setup
             </h1>
-            <ConnectButton />
           </div>
         </div>
       </main>
     </>
-  );
+  )
 }
