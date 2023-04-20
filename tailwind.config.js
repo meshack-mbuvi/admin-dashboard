@@ -1,3 +1,5 @@
+const { fontFamily } = require("tailwindcss/defaultTheme")
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -5,7 +7,16 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["var(--font-slussen)", ...fontFamily.sans],
+      },
+    },
+    colors: {
+      black: "#000",
+      white: "#fff",
+      gray: { 7: "#232529", 8: "#131416", 9: "#0B0C0D" },
+    },
   },
   plugins: [],
-};
+}
