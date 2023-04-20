@@ -1,8 +1,10 @@
 import { useState } from "react"
+import { useStytchB2BClient } from "@stytch/nextjs/b2b"
 
 import Section from "@/components/Section"
 import Logo from "@/components/icons/Logo"
-import { useStytchB2BClient } from "@stytch/nextjs/b2b"
+import Label from "@/components/Label"
+import Input from "@/components/Input"
 
 const VALID_DOMAINS = ["syndicate.io", "nike.com"]
 
@@ -32,12 +34,12 @@ export default function Login() {
       </h2>
 
       <Section className="p-6 w-full">
-        <label className="block text-white text-base font-medium mb-4">
+        <Label className="block mb-4" htmlFor="">
           Enter your email address
-        </label>
+        </Label>
 
-        <input
-          className="block w-full text-white border bg-gray-8 border-gray-7 rounded-lg px-4 py-4 mb-6"
+        <Input
+          className="block w-full mb-6"
           placeholder="Email address"
           onChange={(e) => setEmailAddress(e.target.value)}
           value={emailAddress}
