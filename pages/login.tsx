@@ -6,7 +6,7 @@ import { useStytchB2BClient } from "@stytch/nextjs/b2b"
 
 const VALID_DOMAINS = ["syndicate.io", "nike.com"]
 
-export default function SignIn() {
+export default function Login() {
   const [emailAddress, setEmailAddress] = useState("")
   const stytch = useStytchB2BClient()
 
