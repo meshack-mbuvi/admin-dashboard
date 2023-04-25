@@ -1,3 +1,4 @@
+"use client"
 import localFont from "next/font/local"
 
 import Providers from "@/components/Providers"
