@@ -1,3 +1,5 @@
+"use client"
+
 import { useState } from "react"
 import { useStytchB2BClient } from "@stytch/nextjs/b2b"
 

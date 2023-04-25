@@ -1,5 +1,7 @@
+"use client"
+
 import { useStytchB2BClient, useStytchMemberSession } from "@stytch/nextjs/b2b"
-import { useRouter } from "next/router"
+import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
 // DEV: This page is configured as the login callback url from Stytch
