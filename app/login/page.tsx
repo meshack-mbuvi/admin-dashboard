@@ -11,7 +11,7 @@ import Input from "@/components/Input"
 const VALID_DOMAINS = ["syndicate.io", "nike.com"]
 
 const DOMAIN_CONNECTIONS = {
-  "syndicate.io": "oidc-connection-test-56716532-5fa9-41f7-9842-69b6e90d689d",
+  "syndicate.io": "organization-test-2f932663-014a-438c-8b2f-11722cdaae3a",
   "nike.com": "",
 }
 
@@ -25,8 +25,9 @@ export default function Login() {
       return alert("Please use a valid email address")
     }
 
-    stytch.sso.start({
-      connection_id:
+    stytch.magicLinks.email.loginOrSignup({
+      email_address: emailAddress,
+      organization_id:
         DOMAIN_CONNECTIONS[domain as keyof typeof DOMAIN_CONNECTIONS],
       login_redirect_url: "http://localhost:3000/authenticate",
     })
