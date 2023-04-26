@@ -1,29 +1,28 @@
 import Image from "next/image"
 import Link from "next/link"
+
 import chevronDown from "public/images/chevronDown.svg"
 import helpIcon from "public/images/help.svg"
 import logo from "public/images/logo.svg"
 import userIcon from "public/images/user.svg"
-import { B2, B3 } from "../Typography"
 
 const LabelWithDropdown = ({ text }: { text: string }) => {
   return (
-    <div className="flex rounded-full space-x-2 font-normal  bg-gray-8 w-fit py-2 px-4">
-      <B2 extraClasses="text-gray-2">{text}</B2>
+    <div className="flex rounded-full space-x-2 font-normal bg-gray-8 w-fit py-2 px-4">
+      <p className="text-base text-gray-2">{text}</p>
       <span className="flex">
         <Image width={16} height={16} src={chevronDown} alt="" />
-      </span>{" "}
+      </span>
     </div>
   )
 }
 
 const Help = () => {
   return (
-    <div className="flex space-x-2 font-Slussen w-fit py-2 px-4 text-gray-4">
-      <span className="flex">
-        <Image width={16} height={16} src={helpIcon} alt="" />
-      </span>
-      <B2>Help</B2>
+    <div className="flex items-center space-x-2 w-fit py-2 px-4 text-gray-4">
+      <Image width={16} height={16} src={helpIcon} alt="help" />
+
+      <p className="text-base">Help</p>
     </div>
   )
 }
@@ -43,13 +42,11 @@ export default function Header() {
         </div>
         <div className="flex space-x-2 mr-24">
           <Help />
-          <div
-            className={`flex space-x-2 rounded-full text-gray-2 bg-gray-8 w-fit py-3 px-4`}
-          >
+          <div className="flex space-x-2 rounded-full text-gray-2 bg-gray-8 w-fit py-3 px-4">
             <span className="flex">
               <Image width={12} height={12} src={userIcon} alt="" />
             </span>
-            <B3 extraClasses="text-gray-2">Nathan</B3>
+            <p className="text-sm text-gray-2">Nathan</p>
           </div>
         </div>
       </div>

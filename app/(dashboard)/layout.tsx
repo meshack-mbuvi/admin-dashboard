@@ -1,9 +1,7 @@
-// This is where the main layout goes
-"use client"
+import { ReactNode } from "react"
 
 import Header from "@/components/Navigation/Header"
 import Sidebar from "@/components/Navigation/Sidebar"
-import { ReactNode } from "react"
 
 interface LayoutProps {
   children: ReactNode

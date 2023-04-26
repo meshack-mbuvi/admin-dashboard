@@ -1,6 +1,8 @@
 import Image from "next/image"
+
 import fileIcon from "public/images/file.svg"
 import settingsIcon from "public/images/settings.svg"
+
 import NavLink from "./NavLink"
 
 export default function Sidebar() {
