@@ -13,7 +13,7 @@ interface ProvidersProps {
   children: React.ReactNode
 }
 
-export default function Proivders(props: ProvidersProps) {
+export default function Providers(props: ProvidersProps) {
   const { children } = props
   return <StytchB2BProvider stytch={stytch}>{children}</StytchB2BProvider>
 }
