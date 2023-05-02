@@ -1,5 +1,5 @@
 import { useAddContractContext } from "@/context/addContract"
-import Button, { ButtonStyle } from "../Buttons"
+import Button, { LightButtonStyles } from "../Buttons"
 import Card from "../Card"
 import { InputField } from "../InpuField"
 import Modal from "../Modal"
@@ -61,8 +61,8 @@ export const ListContracts = () => {
           <div className="flex w-full mt-10">
             <Button
               onClick={handleContinue}
-              customClasses="w-full rounded-lg"
-              style={ButtonStyle.LIGHT}
+              className="w-full rounded-lg"
+              style={LightButtonStyles}
               disabled={isDisabled}
               buttonLabel="Continue"
             />
@@ -87,8 +87,8 @@ export const ListContracts = () => {
           <div className="flex w-full mt-[30px]">
             <Button
               onClick={handleContinue}
-              customClasses="w-full rounded-lg"
-              style={ButtonStyle.LIGHT}
+              className="w-full rounded-lg"
+              style={LightButtonStyles}
               buttonLabel="Contact Syndicate team"
             />
           </div>

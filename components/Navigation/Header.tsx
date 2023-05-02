@@ -1,7 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import Logo from "../icons/Logo"
+import Logo from "@/components/icons/Logo"
 import chevronDown from "public/images/chevronDown.svg"
 import helpIcon from "public/images/help.svg"
 import userIcon from "public/images/user.svg"

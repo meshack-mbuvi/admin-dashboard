@@ -14,8 +14,7 @@ interface InputFieldProps {
   icon?: string
   style?: InputFieldStyle
   type?: string
-  extraClasses?: string
-  classesOverride?: string
+  className?: string
   errorText?: string
 }
 
@@ -29,8 +28,7 @@ export const InputField = (
     isInErrorState = false,
     style = InputFieldStyle.REGULAR,
     type = "text",
-    extraClasses = "",
-    classesOverride,
+    className = "",
     onChange,
     onClick,
     onFocus,
@@ -43,11 +41,11 @@ export const InputField = (
 
   switch (style) {
     case InputFieldStyle.REGULAR:
-      errorStyles = `${isInErrorState ? "border-red-error" : "border-gray-24"}`
+      errorStyles = `${isInErrorState ? "border-red-500" : "border-gray-24"}`
       inputStyles = `bg-transparent bg-gray-8 p-4 rounded-md border border-gray-7 focus:border-blue-navy outline-none text-white hover:border-gray-3 transition-all ease-out`
       break
     case InputFieldStyle.MODAL:
-      errorStyles = `${isInErrorState ? "border-red-error" : "border-gray-24"}`
+      errorStyles = `${isInErrorState ? "border-red-500" : "border-gray-24"}`
       inputStyles = `p-4 bg-gray-syn7 rounded-md`
       break
   }
@@ -60,8 +58,8 @@ export const InputField = (
         <input
           className={clsx(
             "block text-base w-full focus:outline-none focus:cursor-text text-white",
-            classesOverride ? classesOverride : inputStyles,
-            extraClasses,
+            inputStyles,
+            className,
             errorStyles
           )}
           placeholder={placeholderLabel}

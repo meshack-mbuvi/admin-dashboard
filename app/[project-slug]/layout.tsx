@@ -1,7 +1,7 @@
 "use client"
 import { ReactNode } from "react"
-import Header from "../../components/Navigation/Header"
-import Sidebar from "../../components/Navigation/Sidebar"
+import Header from "@/components/Navigation/Header"
+import Sidebar from "@/components/Navigation/Sidebar"
 import AddContractProvider from '@/context/addContract'
 
 interface LayoutProps {
