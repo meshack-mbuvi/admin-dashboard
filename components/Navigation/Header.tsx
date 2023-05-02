@@ -27,9 +27,9 @@ const Help = () => {
   )
 }
 
-export default function Header() {
+export const Header = () => {
   return (
-    <div className="fixed top-0 flex w-full py-7">
+    <div className="fixed top-0 flex w-full pt-7 mb-14">
       <div className="mx-7 top-0">
         <Link href="/projects">
           <Logo className="w-9 text-white" />
@@ -53,3 +53,5 @@ export default function Header() {
     </div>
   )
 }
+
+export default Header

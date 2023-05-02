@@ -1,8 +1,9 @@
-import { ReactNode } from "react"
 import localFont from "next/font/local"
+import { ReactNode } from "react"
 
-import Providers from "@/components/Providers"
+import Providers from "../components/Providers"
 
+import React from "react"
 import "styles/globals.css"
 
 interface RootLayoutProps {
