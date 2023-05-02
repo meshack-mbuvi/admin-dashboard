@@ -2,11 +2,15 @@
 
 import Button from "@/components/Buttons"
 import { ListContracts } from "@/components/Contract"
+import PageLoading from "@/components/PageLoading"
 import { Tab } from "@/components/Tab"
 import { useAddContractContext } from "@/context/addContract"
+import useAuth from "@/hooks/useAuth"
 import { useState } from "react"
 
 export default function Contracts() {
+  const { isSessionLoading, session } = useAuth()
+
   const { handleShowAddContractModal } = useAddContractContext()
   const tabHeaders = ["Contracts", "Second item"]
 
@@ -23,6 +27,7 @@ export default function Contracts() {
     handleShowAddContractModal?.(true)
   }
 
+  if (isSessionLoading) return <PageLoading />
   return (
     <div className="flex flex-col text-white">
       <div className="flex justify-between pt-14">
