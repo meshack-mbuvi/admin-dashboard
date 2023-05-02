@@ -1,9 +1,9 @@
 import Image from "next/image"
 import Link from "next/link"
 
+import Logo from "../icons/Logo"
 import chevronDown from "public/images/chevronDown.svg"
 import helpIcon from "public/images/help.svg"
-import logo from "public/images/logo.svg"
 import userIcon from "public/images/user.svg"
 
 const LabelWithDropdown = ({ text }: { text: string }) => {
@@ -31,8 +31,8 @@ export default function Header() {
   return (
     <div className="fixed top-0 flex w-full py-7">
       <div className="mx-7 top-0">
-        <Link href="/">
-          <Image width={35} height={35} src={logo} alt="" />
+        <Link href="/projects">
+          <Logo className="w-9 text-white" />
         </Link>
       </div>
       <div className="flex w-full justify-between">

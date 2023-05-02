@@ -14,7 +14,7 @@ export default function Authenticate() {
     const authenticate = async () => {
       // If a session is found redirect to the projects page
       if (session) {
-        router.push("/projects")
+        router.push("/")
         return
       }
 
@@ -26,12 +26,12 @@ export default function Authenticate() {
         return
       }
       // Authenticate the user with the token
-      await stytch.sso.authenticate({
-        sso_token: token,
+      await stytch.magicLinks.authenticate({
+        magic_links_token: token,
         session_duration_minutes: 60,
       })
 
-      router.push("/projects")
+      router.push("/")
     }
 
     authenticate()

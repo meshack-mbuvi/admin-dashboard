@@ -1,7 +1,13 @@
+"use client"
+
+import PageLoading from "@/components/PageLoading"
 import { Tab, TabProps } from "@/components/Tab"
 import Text from "@/components/Text"
+import useAuth from "@/hooks/useAuth"
 
 export default function Home() {
+  const { isSessionLoading, session } = useAuth()
+
   const tabs: TabProps = {
     contracts: {
       header: "Contracts",
@@ -21,6 +27,8 @@ export default function Home() {
       content: <div>Second Item</div>,
     },
   }
+
+  if (isSessionLoading) return <PageLoading />
 
   return (
     <main>

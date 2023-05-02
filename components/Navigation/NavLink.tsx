@@ -1,23 +1,30 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useParams, useSelectedLayoutSegment } from "next/navigation"
 
-/**
- * A Navigation link component with both active and inactive navigation states.
- * @param props
- * @returns
- */
-const NavLink = (props: { path: any; children: any }) => {
-  const { path, children } = props
-  const pathname = usePathname()
+interface NavLinkProps {
+  path: string
+  page: string | null
+  children: React.ReactNode
+}
+const NavLink = (props: NavLinkProps) => {
+  const { path, page, children } = props
+  const params = useParams()
+
+  const segment = useSelectedLayoutSegment()
+
+  const projectSlug = params["project-slug"]
 
   const isActive = () => {
-    return path === pathname
+    return segment === page
   }
 
   return (
-    <Link href={path} className={isActive() ? "" : "opacity-40"}>
+    <Link
+      href={`/${projectSlug}${path}`}
+      className={isActive() ? "" : "opacity-40"}
+    >
       {children}
     </Link>
   )

@@ -1,10 +1,10 @@
-export default function Page() {
+"use client"
+
+export default function Home() {
   return (
     <div className="flex h-screen w-full text-center">
       <div className="justify-center content-center align-middle m-auto">
-        <h1 className="text-3xl underline my-2 text-white">
-          Admin dashboard skeleton setup
-        </h1>
+        <h1 className="text-3xl my-2 text-white">UnAuthenticated Home</h1>
       </div>
     </div>
   )
