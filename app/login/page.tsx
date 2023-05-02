@@ -29,7 +29,7 @@ export default function Login() {
       email_address: emailAddress,
       organization_id:
         DOMAIN_CONNECTIONS[domain as keyof typeof DOMAIN_CONNECTIONS],
-      login_redirect_url: "http://localhost:3000/authenticate",
+      login_redirect_url: process.env.NEXT_PUBLIC_AUTH_CALLBACK_URL,
     })
   }
 
