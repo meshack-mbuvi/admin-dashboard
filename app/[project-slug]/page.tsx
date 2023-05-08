@@ -29,7 +29,7 @@ export default function Contracts() {
 
   if (isSessionLoading) return <PageLoading />
   return (
-    <div className="flex flex-col text-white">
+    <div className="flex flex-col  ">
       <div className="flex justify-between pt-14">
         <Tab
           headers={tabHeaders}
@@ -37,12 +37,10 @@ export default function Contracts() {
           setActiveIndex={setActiveTabIndex}
         />
         {activeTabIndex === 0 && (
-          <Button onClick={handleButtonClick} buttonLabel="Add contract" />
+          <Button onClick={handleButtonClick}>Add contract</Button>
         )}
       </div>
-      <div className="text-white">
-        {tabComponents[tabHeaders[activeTabIndex]]}
-      </div>
+      <div className=" ">{tabComponents[tabHeaders[activeTabIndex]]}</div>
     </div>
   )
 }

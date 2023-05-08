@@ -138,14 +138,14 @@ const Modal = (props: ModalProps): JSX.Element => {
               {/* modal title */}
               {title ? (
                 <div
-                  className={` text-white text-2xl font-medium leading-8 mb-2 pr-12 sm:pr-0`}
+                  className={`   text-2xl font-medium leading-8 mb-2 pr-12 sm:pr-0`}
                 >
                   {title}
                 </div>
               ) : null}
               {/* end of modal title */}
 
-              <div className={`no-scroll-bar text-white`}>{children}</div>
+              <div className={`no-scroll-bar  `}>{children}</div>
             </div>
           </Transition.Child>
         </div>

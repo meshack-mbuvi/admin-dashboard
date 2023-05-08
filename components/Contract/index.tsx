@@ -1,4 +1,5 @@
 import { useAddContractContext } from "@/context/addContract"
+import clsx from "clsx"
 import Button, { LightButtonStyles } from "../Buttons"
 import Card from "../Card"
 import { InputField } from "../InpuField"
@@ -61,11 +62,11 @@ export const ListContracts = () => {
           <div className="flex w-full mt-10">
             <Button
               onClick={handleContinue}
-              className="w-full rounded-lg"
-              style={LightButtonStyles}
+              className={clsx(LightButtonStyles, "w-full rounded-lg")}
               disabled={isDisabled}
-              buttonLabel="Continue"
-            />
+            >
+              Continue
+            </Button>
           </div>
         </div>
       </Modal>
@@ -87,10 +88,10 @@ export const ListContracts = () => {
           <div className="flex w-full mt-[30px]">
             <Button
               onClick={handleContinue}
-              className="w-full rounded-lg"
-              style={LightButtonStyles}
-              buttonLabel="Contact Syndicate team"
-            />
+              className={clsx(LightButtonStyles, "w-full rounded-lg")}
+            >
+              Contact Syndicate team
+            </Button>
           </div>
         </div>
       </Modal>

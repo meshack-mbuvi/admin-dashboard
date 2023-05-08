@@ -32,7 +32,7 @@ export const Header = () => {
     <div className="fixed top-0 flex w-full pt-7 mb-14">
       <div className="mx-7 top-0">
         <Link href="/projects">
-          <Logo className="w-9 text-white" />
+          <Logo className="w-9" />
         </Link>
       </div>
       <div className="flex w-full justify-between">

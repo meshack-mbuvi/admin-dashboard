@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind utilities;
 @tailwind components;
+
+@layer base {
+  body {
+    background-color: #000000;
+    font-family: "Slussen", "Helvetica", "Arial", "sans-serif";
+    color: white;
+    font-style: normal;
+    @apply antialiased;
+    font-variation-settings: "slnt" 0;
+  }
+}

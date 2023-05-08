@@ -1,37 +1,27 @@
 import clsx from "clsx"
-import React from "react"
+import React, { ReactNode } from "react"
 
 export const LightButtonStyles =
-  "bg-white text-black disabled:bg-gray-5 disabled:text-gray-24 disabled:cursor-not-allowed"
+  "py-3 h-fit px-8 bg-white border-gray-7 border text-black disabled:bg-gray-5 disabled:text-gray-24 text-center hover:opacity-80 disabled:cursor-not-allowed"
 export const DarkButtonStyles =
-  "bg-gray-8 text-white disabled:bg-gray-7 disabled:text-gray-24"
+  "py-3 h-fit px-8 bg-gray-8 border-gray-7 border   disabled:bg-gray-7 disabled:text-gray-24 text-center hover:opacity-80 disabled:cursor-not-allowed"
 
 type ExtraButtonProps = {
   className?: string
-  style?: string
-  buttonLabel: string
+  children: ReactNode
 }
 export const Button = (
   props: React.ButtonHTMLAttributes<HTMLButtonElement> & ExtraButtonProps
 ) => {
   const {
     onClick,
-    className = "w-fit rounded-full",
-    style = DarkButtonStyles,
-    buttonLabel,
+    className = clsx(DarkButtonStyles, "w-fit rounded-full"),
+    children,
     ...otherProps
   } = props
   return (
-    <button
-      {...otherProps}
-      onClick={onClick}
-      className={clsx(
-        "text-center hover:opacity-80 py-3 h-fit px-8 bg-gray-8 border-gray-7 border",
-        className,
-        style
-      )}
-    >
-      {buttonLabel}
+    <button {...otherProps} onClick={onClick} className={clsx(className)}>
+      {children}
     </button>
   )
 }
