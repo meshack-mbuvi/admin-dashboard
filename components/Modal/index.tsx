@@ -117,12 +117,12 @@ const Modal = (props: ModalProps): JSX.Element => {
               <div className="hidden sm:block absolute p-4 top-0 left-0"></div>
 
               {/* close button */}
-              <div className={`absolute z-10 top-9 right-10`}>
+              <div className="absolute z-10 top-9 right-10">
                 {/* close button at the right top of the modal */}
                 {showCloseButton ? (
                   <button
                     type="button"
-                    className={`text-gray-syn7 rounded-md hover:text-gray-syn7 focus:outline-none focus:ring-0`}
+                    className="text-gray-syn7 rounded-md hover:text-gray-syn7 focus:outline-none focus:ring-0"
                     onClick={() => closeModal?.()}
                   >
                     <span className="sr-only">Close</span>
@@ -137,15 +137,13 @@ const Modal = (props: ModalProps): JSX.Element => {
               </div>
               {/* modal title */}
               {title ? (
-                <div
-                  className={`   text-2xl font-medium leading-8 mb-2 pr-12 sm:pr-0`}
-                >
+                <div className="text-2xl font-medium leading-8 mb-2 pr-12 sm:pr-0">
                   {title}
                 </div>
               ) : null}
               {/* end of modal title */}
 
-              <div className={`no-scroll-bar  `}>{children}</div>
+              <div className="no-scroll-bar">{children}</div>
             </div>
           </Transition.Child>
         </div>
