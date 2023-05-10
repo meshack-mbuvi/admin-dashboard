@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react"
 import { useStytchB2BClient } from "@stytch/nextjs/b2b"
+import { useState } from "react"
 
+import Input from "@/components/Input"
+import Label from "@/components/Label"
 import Section from "@/components/Section"
 import Logo from "@/components/icons/Logo"
-import Label from "@/components/Label"
-import Input from "@/components/Input"
 
 const VALID_DOMAINS = ["syndicate.io", "nike.com"]
 
@@ -35,11 +35,9 @@ export default function Login() {
 
   return (
     <div className="w-[500px] mx-auto flex flex-col items-center mt-32">
-      <Logo className="text-white w-12 mb-10" />
+      <Logo className="  w-12 mb-10" />
 
-      <h2 className="text-white font-medium text-2xl mb-14">
-        Welcome to Syndicate
-      </h2>
+      <h2 className="  font-medium text-2xl mb-14">Welcome to Syndicate</h2>
 
       <Section className="p-6 w-full">
         <Label className="block mb-4" htmlFor="">

@@ -38,7 +38,7 @@ export default function Authenticate() {
   }, [stytch, session, router])
 
   return (
-    <div className="text-white font-medium text-2xl text-center w-full mt-24">
+    <div className="  font-medium text-2xl text-center w-full mt-24">
       Loading...
     </div>
   )

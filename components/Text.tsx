@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import React from "react"
 
 interface TextProps {
   children: React.ReactNode
@@ -6,6 +6,6 @@ interface TextProps {
 }
 
 export default function Text(props: TextProps) {
-  const { children, className } = props
-  return <p className={clsx("text-white", className)}>{children}</p>
+  const { children, className = " " } = props
+  return <p className={className}>{children}</p>
 }

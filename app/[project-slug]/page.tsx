@@ -1,38 +1,36 @@
 "use client"
 
+import { ListContracts } from "@/components/Contract"
 import PageLoading from "@/components/PageLoading"
-import { Tab, TabProps } from "@/components/Tab"
-import Text from "@/components/Text"
+import { Tab } from "@/components/Tab"
 import useAuth from "@/hooks/useAuth"
+import { useState } from "react"
 
-export default function Home() {
+export default function Contracts() {
   const { isSessionLoading, session } = useAuth()
 
-  const tabs: TabProps = {
-    contracts: {
-      header: "Contracts",
-      content: (
-        <div>
-          Contracts
-          <div className="flex h-full w-full text-center">
-            <div className="justify-center content-center align-middle m-auto">
-              <Text>Contracts</Text>
-            </div>
-          </div>
-        </div>
-      ),
-    },
-    secondItem: {
-      header: "Second Item",
-      content: <div>Second Item</div>,
-    },
+  const tabHeaders = ["Contracts", "Second item"]
+
+  const tabComponents: {
+    [key: string]: JSX.Element
+  } = {
+    Contracts: <ListContracts />,
+    "Second item": <div>Second item</div>,
   }
 
-  if (isSessionLoading) return <PageLoading />
+  const [activeTabIndex, setActiveTabIndex] = useState(0)
 
+  if (isSessionLoading) return <PageLoading />
   return (
-    <main>
-      <Tab tabs={tabs} />
-    </main>
+    <div className="flex flex-col  ">
+      <div className="flex justify-between pt-14">
+        <Tab
+          headers={tabHeaders}
+          activeIndex={activeTabIndex}
+          setActiveIndex={setActiveTabIndex}
+        />
+      </div>
+      <div>{tabComponents[tabHeaders[activeTabIndex]]}</div>
+    </div>
   )
 }
