@@ -1,12 +1,13 @@
 "use client"
 
-import { ListContracts } from "@/components/Contract"
-import PageLoading from "@/components/PageLoading"
-import { Tab } from "@/components/Tab"
-import useAuth from "@/hooks/useAuth"
 import { useState } from "react"
 
-export default function Contracts() {
+import { Tab } from "@/components/Tab"
+import { ListContracts } from "@/components/Contract"
+
+import useAuth from "@/hooks/useAuth"
+
+export default function Home() {
   const { isSessionLoading, session } = useAuth()
 
   const tabHeaders = ["Contracts", "Second item"]
@@ -20,7 +21,6 @@ export default function Contracts() {
 
   const [activeTabIndex, setActiveTabIndex] = useState(0)
 
-  if (isSessionLoading) return <PageLoading />
   return (
     <div className="flex flex-col  ">
       <div className="flex justify-between pt-14">
