@@ -13,7 +13,6 @@ export default function DashboardLayout(props: LayoutProps) {
     <div className="flex flex-col">
       <Header />
       <div className="flex h-screen pt-24">
-        <Sidebar />
         <div className="flex flex-col w-full h-screens">{children}</div>
       </div>
     </div>
