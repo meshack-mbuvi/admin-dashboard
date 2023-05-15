@@ -14,7 +14,7 @@ export default function Projects() {
           href={`/dot-swoosh`}
           className="  bg-gray-9 rounded-2xl py-5 text-center w-full flex items-center justify-center"
         >
-          .SWOOSH <RightArrow className="  w-4 ml-2" />
+          .SWOOSH <RightArrow className="w-4 ml-2" />
         </NextLink>
       </div>
     </div>

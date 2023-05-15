@@ -1,6 +1,5 @@
 "use client"
 import Header from "@/components/Navigation/Header"
-import Sidebar from "@/components/Navigation/Sidebar"
 import { ReactNode } from "react"
 import AuthLoading from "@/components/AuthLoading"
 
@@ -13,8 +12,7 @@ export default function DashboardLayout(props: LayoutProps) {
   return (
     <div className="flex flex-col relative">
       <Header />
-      <div className="flex h-screen pt-24">
-        <Sidebar />
+      <div className="flex h-screen pt-14 pl-24">
         <div className="flex flex-col w-full h-screens">
           <AuthLoading>{children}</AuthLoading>
         </div>
