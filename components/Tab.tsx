@@ -6,18 +6,14 @@ export type TabProps = {
   activeIndex: number
   setActiveIndex: (index: number) => void
 }
-/**
- * Renders tab headers and content for the active header
- * @param tabs
- * @returns
- */
+
 export const Tab = (props: TabProps) => {
   const { headers, activeIndex, setActiveIndex } = props
 
   return (
     <div className="flex flex-col">
       <div className="flex space-x-10 w-full mt-2 mb-12">
-        {headers.map((header: string, index: number) => {
+        {headers.map((header, index) => {
           return (
             <button
               key={index}

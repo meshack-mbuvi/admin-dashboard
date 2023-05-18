@@ -2,12 +2,12 @@ import clsx from "clsx"
 import React from "react"
 
 export const RegularInputFieldStyles =
-  "block min-wid-[1ch] text-ellipsis text-base w-full focus:outline-none focus:cursor-text bg-transparent bg-gray-8 p-4 rounded-md border focus:border-blue-navy outline-none   hover:border-gray-3 transition-all ease-out"
+  "block min-wid-[1ch] text-ellipsis text-base w-full focus:outline-none focus:cursor-text bg-transparent bg-gray-8 p-4 rounded-md border focus:border-blue-navy outline-none hover:border-gray-3 transition-all ease-out"
 
 interface InputFieldProps {
   value?: string
   label: string
-  placeholderLabel?: string
+  placeholder?: string
   type?: string
   className?: string
   errorText?: string
@@ -19,7 +19,7 @@ export const InputField = (
   const {
     value,
     label,
-    placeholderLabel,
+    placeholder,
     type = "text",
     className = RegularInputFieldStyles,
     onClick,
@@ -37,7 +37,7 @@ export const InputField = (
             className,
             errorText ? "border-red-500" : "border-gray-7"
           )}
-          placeholder={placeholderLabel}
+          placeholder={placeholder}
           value={value}
           onClick={onClick}
           type={type}
