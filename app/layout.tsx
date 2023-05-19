@@ -10,7 +10,7 @@ interface RootLayoutProps {
 }
 
 const slussenFont = localFont({
-  src: "./Slussen-Variable.woff2",
+  src: "./fonts/Slussen-Variable.woff2",
   variable: "--font-slussen",
 })
 
