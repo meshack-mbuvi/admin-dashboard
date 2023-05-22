@@ -6,6 +6,6 @@ interface TextProps {
 }
 
 export default function Text(props: TextProps) {
-  const { children, className = " " } = props
+  const { children, className } = props
   return <p className={className}>{children}</p>
 }

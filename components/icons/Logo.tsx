@@ -1,8 +1,6 @@
-interface LogoProps {
-  className?: string
-}
+import { SvgProps } from "./interface"
 
-export default function Logo(props: LogoProps) {
+export default function Logo(props: SvgProps) {
   const { className } = props
 
   return (

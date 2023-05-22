@@ -7,7 +7,7 @@ export default function Label(
   return (
     <label
       htmlFor={htmlFor}
-      className={clsx("text-base font-medium  ", className)}
+      className={clsx("text-base font-medium", className)}
     >
       {children}
     </label>

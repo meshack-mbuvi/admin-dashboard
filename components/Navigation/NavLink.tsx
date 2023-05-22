@@ -14,7 +14,7 @@ const NavLink = (props: NavLinkProps) => {
 
   const segment = useSelectedLayoutSegment()
 
-  const projectSlug = params["project-slug"]
+  const projectSlug = params["contractAddress"]
 
   const isActive = () => {
     return segment === page
@@ -22,7 +22,9 @@ const NavLink = (props: NavLinkProps) => {
 
   return (
     <Link
-      href={`/${projectSlug}${path}`}
+      href={{
+        pathname: `/projects/${projectSlug}/${path}`,
+      }}
       className={isActive() ? "" : "opacity-40"}
     >
       {children}

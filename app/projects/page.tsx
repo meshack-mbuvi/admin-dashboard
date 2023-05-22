@@ -1,21 +1,108 @@
-import NextLink from "next/link"
-
-import Logo from "@/components/icons/Logo"
-import RightArrow from "@/components/icons/RightArrow"
+"use client"
+import CopyComponent from "@/components/CopyToClipboard"
+import ArrowRight from "@/components/icons/ArrowRight"
+import { getNetworkIcon } from "@/components/icons/networkIcons"
+import { chains } from "@/utils/network"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { useState } from "react"
 
 export default function Projects() {
-  return (
-    <div className="max-w-lg mx-auto py-32">
-      <Logo className="w-12   mb-10 mx-auto" />
-      <p className="font-medium text-2xl   text-center mb-12">Projects</p>
+  const pathname = usePathname()
 
-      <div>
-        <NextLink
-          href={`/dot-swoosh`}
-          className="  bg-gray-9 rounded-2xl py-5 text-center w-full flex items-center justify-center"
-        >
-          .SWOOSH <RightArrow className="w-4 ml-2" />
-        </NextLink>
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null)
+  const projects = [
+    {
+      name: ".Swoosh",
+      coreContract: "0x388C818CA8B9251b393131C08a736A67ccB19297",
+      chainId: 1,
+    },
+    {
+      name: "Nike",
+      coreContract: "0x388C818CA8B9251b393131C08a736A67ccB19297",
+      chainId: 137,
+    },
+    {
+      name: "Project 3",
+      coreContract: "0x388C818CA8B9251b393131C08a736A67ccB19297",
+      chainId: 137,
+    },
+  ]
+
+  return (
+    <div className="flex flex-col space-y-8">
+      <div className="text-2xl text-gray-1 ml-28 pl-1">Projects</div>
+      <div className="flex flex-col space-y-7 ml-28">
+        {/* Header */}
+        <div className="w-full flex -ml-7 px-8">
+          <div className="w-1/4 text-left italic text-sm text-gray-4">Name</div>
+          <div className="w-1/2 text-left italic text-sm text-gray-4">
+            Core contract
+          </div>
+          <div className="text-left italic text-sm text-gray-4">Network</div>
+        </div>
+
+        {/* Project list */}
+        <div className="w-full -ml-7 flex flex-col">
+          {projects.map(({ coreContract, name, chainId }, index) => (
+            <a
+              href={`${pathname}/${coreContract}`}
+              key={index}
+              onMouseEnter={() => setHoveredProject(index)}
+              onMouseLeave={() => setHoveredProject(null)}
+              rel="noopener noreferrer"
+              className="project-item cursor-pointer px-8"
+            >
+              <div className="flex w-full border-gray-7">
+                <div className="w-1/4 text-left text-xl text-gray-1">
+                  {name}
+                </div>
+                <div className="flex w-1/2 text-left slashed-zero items-center">
+                  <span className="text-gray-4">0x</span>
+                  <span className="text-gray-2">{coreContract.slice(2)}</span>
+                  <div className="flex space-x-4 justify-between ml-6 items-center">
+                    {hoveredProject === index && (
+                      <>
+                        <CopyComponent text={coreContract} />
+                        <Link
+                          href={{
+                            pathname: `${chains[chainId].blockExplorers?.default.url}/address/${coreContract}`,
+                          }}
+                          target="_blank"
+                        >
+                          <div>
+                            {getNetworkIcon(chainId, "w-5 h-5", "#232529")}
+                          </div>
+                        </Link>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <div className="flex flex-1 justify-between text-gray-2 space-x-4">
+                  <div className="flex items-center">
+                    <span className="flex mr-2">
+                      <div>{getNetworkIcon(chainId, "w-5")}</div>
+                    </span>
+                    <span className="italic">{chains[chainId].name}</span>
+                  </div>
+                  {hoveredProject === index && (
+                    <div className="flex text-right text-gray-2 italic space-x-4 items-center">
+                      <span className="flex">
+                        <Link
+                          href={{
+                            pathname: `${pathname}/${coreContract}`,
+                          }}
+                        >
+                          <ArrowRight className="w-5" />
+                        </Link>
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
     </div>
   )
