@@ -11,7 +11,7 @@ const APIKeys = () => {
     const createKey = () => {
         setKeys(prevKeyList => [...prevKeyList, "pk_test_QmMWqQ6TJ0t6qTkAtIJP1fhv"]);
         let date = new Date();
-        let options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true, timeZoneName: 'short' };
+        let options = { year: 'numeric' as 'numeric', month: 'long' as "long", day: 'numeric'as 'numeric', hour: 'numeric' as 'numeric', minute: 'numeric' as 'numeric', hour12: true, timeZoneName: 'short' as 'short'};
         let formattedDate = date.toLocaleString('en-US', options);
         setKeySetDates(prevKeySetDates => [...prevKeySetDates, formattedDate.toLocaleString()]);
     };
@@ -21,7 +21,7 @@ const APIKeys = () => {
     const BlurredView = () => {
         return (
             <>
-                <div className="relative border-2 rounded-lg border-gray-7" onClick={() => setIsBlurred(false)}>
+                <div className="relative border-2 rounded-lg border-gray-7 mb-1" onClick={() => setIsBlurred(false)}>
                     <p className={`${isBlurred ? 'opacity-50 filter blur-md' : 'opacity-100'} font-normal text-normal py-2.5`}>pk_test_QmMWqQ6TJ0t6qTkAtIJP1fhv</p>
                     <div className={`absolute top-3 left-20 opacity-100`} 
                         onClick={() => setIsBlurred(false)}>
@@ -32,25 +32,24 @@ const APIKeys = () => {
         )
     }
 
-    console.log(keys)
     return (
         <div>
             <div className="flex font-sans flex-col h-full w-full">
                 <div className="flex flex-col p-10 border-1 bg-gray-8 rounded-lg mb-10 mr-10">
                     <Text className="font-medium text-2xl pb-5">Secret keys</Text>
                     <p className="font-small text-gray-3 text-sm pb-7">Secret keys are used for API endpoint authentication.</p>
-                    <div className="flex flex-row w-3/5 justify-between">
+                    <div className="flex flex-row w-3/5 justify-between pb-5">
                         <div className="flex flex-col pb-3">
                             <Text className="font-small text-gray-3 text-sm pb-3">Key</Text>
                             {keys.map((key) => {
                                 if (isBlurred) return <BlurredView />
-                                return <p key={key} className="font-normal text-normal py-3">{key}</p>
+                                return <p key={key} className="font-normal text-normal py-3 mb-1">{key}</p>
                             })}
                         </div>
                         <div className="flex flex-col pb-3">
-                            <Text className="font-small justify-right text-gray-3 text-sm pb-3">Created</Text>
+                            <Text className="font-small justify-right text-gray-3 text-sm pb-2.5">Created</Text>
                             {keySetDates.map((dates) => {
-                                return <p key={dates} className="font-normal text-normal py-3">{dates}</p>
+                                return <p key={dates} className="font-normal text-normal py-3 mb-1">{dates}</p>
                             })}
                         </div>
                     </div>
