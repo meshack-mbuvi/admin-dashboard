@@ -1,8 +1,6 @@
-interface HelpProps {
-  className?: string
-}
+import { SvgProps } from "./interface"
 
-export default function Help(props: HelpProps) {
+export default function Help(props: SvgProps) {
   const { className } = props
 
   return (

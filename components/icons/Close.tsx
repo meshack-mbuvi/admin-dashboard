@@ -1,8 +1,6 @@
-interface CloseProps {
-  className?: string
-}
+import { SvgProps } from "./interface"
 
-export default function Close(props: CloseProps) {
+export default function Close(props: SvgProps) {
   const { className } = props
 
   return (

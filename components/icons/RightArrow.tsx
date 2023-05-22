@@ -1,8 +1,6 @@
-interface RightArrowProps {
-  className?: string
-}
+import { SvgProps } from "./interface"
 
-export default function RightArrow(props: RightArrowProps) {
+export default function RightArrow(props: SvgProps) {
   const { className } = props
   return (
     <svg

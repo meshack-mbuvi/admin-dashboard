@@ -1,8 +1,6 @@
-interface ChevronDownProps {
-  className?: string
-}
+import { SvgProps } from "./interface"
 
-export default function ChevronDown(props: ChevronDownProps) {
+export default function ChevronDown(props: SvgProps) {
   const { className } = props
 
   return (

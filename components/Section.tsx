@@ -10,7 +10,10 @@ export default function Section(props: SectionProps) {
 
   return (
     <div
-      className={clsx("rounded-2xl bg-gray-9 border border-gray-8", className)}
+      className={clsx(
+        "rounded-2xl bg-gray-9 border border-gray-8",
+        className
+      )}
     >
       {children}
     </div>

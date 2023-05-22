@@ -3,6 +3,7 @@ import { ReactNode } from "react"
 
 import Providers from "../components/Providers"
 
+import "react-tooltip/dist/react-tooltip.css"
 import "styles/globals.css"
 
 interface RootLayoutProps {

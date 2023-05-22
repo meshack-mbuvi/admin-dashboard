@@ -1,7 +1,7 @@
 "use client"
+import AuthLoading from "@/components/AuthLoading"
 import Header from "@/components/Navigation/Header"
 import { ReactNode } from "react"
-import AuthLoading from "@/components/AuthLoading"
 
 interface LayoutProps {
   children: ReactNode
@@ -12,8 +12,8 @@ export default function DashboardLayout(props: LayoutProps) {
   return (
     <div className="flex flex-col relative">
       <Header />
-      <div className="flex h-screen pt-14 pl-24">
-        <div className="flex flex-col w-full h-screens">
+      <div className="flex h-full">
+        <div className="flex flex-col w-full pr-7">
           <AuthLoading>{children}</AuthLoading>
         </div>
       </div>

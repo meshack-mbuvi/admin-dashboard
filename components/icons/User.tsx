@@ -1,8 +1,6 @@
-interface UserProps {
-  className?: string
-}
+import { SvgProps } from "./interface"
 
-export default function User(props: UserProps) {
+export default function User(props: SvgProps) {
   const { className } = props
 
   return (

@@ -9,17 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@headlessui/react": "^1.7.14",
-    "@stytch/nextjs": "^5.0.1",
-    "@stytch/vanilla-js": "^0.13.3",
+    "@wagmi/chains": "^0.2.23",
     "clsx": "^1.2.1",
     "next": "13.3.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-copy-to-clipboard": "^5.1.0",
+    "react-dom": "18.2.0",
+    "react-tooltip": "^5.12.0",
+    "stytch": "^6.2.1"
   },
   "devDependencies": {
+    "@stytch/nextjs": "^5.0.1",
+    "@stytch/vanilla-js": "^0.13.3",
     "@types/node": "^18.15.11",
     "@types/react": "^18.0.37",
+    "@types/react-copy-to-clipboard": "^5.0.4",
     "@types/react-dom": "^18.0.11",
     "autoprefixer": "^10.4.14",
     "eslint": "8.38.0",
