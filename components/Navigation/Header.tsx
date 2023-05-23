@@ -4,7 +4,7 @@ import HelpIcon from "@/components/icons/Help"
 import Logo from "@/components/icons/Logo"
 import NikeBrand from "@/components/icons/NikeBrand"
 import User from "@/components/icons/User"
-import { getNetworkIcon } from "@/components/icons/networkIcons"
+import { getNetworkIcon } from "@/utils/getNetworkIcon"
 import { formatAddress } from "@/utils/formatAddress"
 import { useParams } from "next/navigation"
 

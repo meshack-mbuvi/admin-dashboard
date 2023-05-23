@@ -1,4 +1,5 @@
-import { SvgProps } from "./interface"
+import { SvgProps } from "@/types/Svg"
+
 export default function NikeBrand(props: SvgProps) {
   return (
     <svg

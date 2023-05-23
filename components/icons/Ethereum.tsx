@@ -1,7 +1,7 @@
-import { SvgProps } from "./interface"
+import { SvgProps } from "@/types/Svg"
 
 export default function Ethereum(props: SvgProps) {
-  const { className = "w-5, h-5", currentColor = "#627EEA" } = props
+  const { className = "w-5" } = props
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -11,7 +11,7 @@ export default function Ethereum(props: SvgProps) {
     >
       <g clipPath="url(#a)">
         <path
-          fill={currentColor}
+          fill="#627EEA"
           d="M10 20c5.523 0 10-4.477 10-10S15.523 0 10 0 0 4.477 0 10s4.477 10 10 10Z"
         />
         <path

@@ -1,6 +1,6 @@
 import Input from "@/components/Input"
 import Text from "@/components/Text"
-import { getNetworkIcon } from "@/components/icons/networkIcons"
+import { getNetworkIcon } from "@/utils/getNetworkIcon"
 import Section from "../Section"
 const General = () => {
   return (

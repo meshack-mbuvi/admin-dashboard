@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Tooltip } from "react-tooltip"
-import { CopyLinkIcon } from "../icons/copy"
+
+import { CopyLinkIcon } from "@/components/icons/Copy"
 
 export default function CopyComponent(props: {
   text: string
