@@ -30,20 +30,18 @@ export const Header = () => {
           <Logo className="w-8" />
         </Link>
       </div>
-      <div className="flex borders  w-full justify-between">
+      <div className="flex w-full justify-between">
         <div className="flex space-x-6">
           <ul className="breadcrumb">
             <li>
-              <div className="flex breadcrumb-level space-x-3 pt-[7px] pb-[6px] text-sm active capitalize">
-                <span className="flex">
-                  <NikeBrand className="w-7" />
-                </span>
+              <div className="flex h-full breadcrumb-level space-x-3 py-2 text-sm active capitalize">
+                <NikeBrand className="w-7" />
                 <span className="flex text-center items-center">Nike</span>
               </div>
             </li>
             {contractAddress && (
               <li>
-                <div className="flex items-center breadcrumb-level space-x-3 px-12 py-2 active capitalize">
+                <div className="flex items-center breadcrumb-level h-full space-x-3 px-12 py-2.5 active capitalize">
                   <span className="">.Swoosh</span>
                   <span className="text-gray-3 text-sm flex items-baseline ordinal slashed-zero">
                     {formatAddress(contractAddress, 6, 4)}
@@ -65,8 +63,9 @@ export const Header = () => {
           <Help />
           <div className="flex space-x-2 rounded-full text-gray-2 bg-gray-8 w-fit py-[10px] px-4">
             <User className="w-3 text-gray-4" />
-
-            <p className="text-sm text-gray-2">Nathan</p>
+            <span className="text-sm flex items-center text-gray-2">
+              Nathan
+            </span>
           </div>
         </div>
       </div>
