@@ -1,6 +1,9 @@
 "use client"
-import Header from "@/components/Navigation/Header"
+
 import { ReactNode } from "react"
+
+import AuthLoading from "@/components/AuthLoading"
+import Header from "@/components/Navigation/Header"
 
 interface LayoutProps {
   children: ReactNode
@@ -11,7 +14,9 @@ export default function DashboardLayout(props: LayoutProps) {
   return (
     <div className="flex flex-col space-y-28">
       <Header />
-      <div className="flex flex-col w-full pr-7">{children}</div>
+      <div className="flex flex-col w-full pr-7">
+        <AuthLoading>{children}</AuthLoading>
+      </div>
     </div>
   )
 }

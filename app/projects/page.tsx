@@ -22,10 +22,10 @@ export default function Projects() {
   const pathname = usePathname()
 
   const [hoveredProject, setHoveredProject] = useState<number | null>(null)
-  const { session, isSessionLoading } = useAuth()
-  const { data } = useGetProjects({ session, enabled: !!session })
+  const { session } = useAuth()
+  const { data } = useGetProjects({ enabled: !!session })
 
-  console.log(isSessionLoading, session, data)
+  console.log(data)
 
   const projects: Project[] = [
     {
