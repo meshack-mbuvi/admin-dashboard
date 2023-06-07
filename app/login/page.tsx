@@ -2,7 +2,7 @@
 
 import { useStytchB2BClient } from "@stytch/nextjs/b2b"
 import { useState } from "react"
-
+import { isDev } from '@/utils/environment';
 import Input from "@/components/Input"
 import Label from "@/components/Label"
 import Section from "@/components/Section"
@@ -30,7 +30,9 @@ export default function Login() {
       organization_id:
         DOMAIN_CONNECTIONS[domain as keyof typeof DOMAIN_CONNECTIONS],
         // Upon successful login and receiving email invite, redirect the user to the specified URL
-        login_redirect_url: process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL,
+        login_redirect_url: isDev 
+          ? process.env.NEXT_PUBLIC_TEST_LOGIN_REDIRECT_URL 
+          : process.env.NEXT_PUBLIC_LIVE_LOGIN_REDIRECT_URL,
     })
   }
 
