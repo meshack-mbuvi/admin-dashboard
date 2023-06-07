@@ -9,7 +9,7 @@ export default function CopyComponent(props: {
 }) {
   const { text, className } = props
 
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState<boolean>(false)
 
   const copyContent = async (event: { preventDefault: () => void }) => {
     event.preventDefault()
