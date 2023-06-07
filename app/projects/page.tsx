@@ -25,8 +25,6 @@ export default function Projects() {
   const { session } = useAuth()
   const { data } = useGetProjects({ enabled: !!session })
 
-  console.log(data)
-
   const projects: Project[] = [
     {
       name: ".Swoosh",

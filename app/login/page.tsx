@@ -29,7 +29,8 @@ export default function Login() {
       email_address: emailAddress,
       organization_id:
         DOMAIN_CONNECTIONS[domain as keyof typeof DOMAIN_CONNECTIONS],
-      login_redirect_url: process.env.NEXT_PUBLIC_AUTH_CALLBACK_URL,
+        // Upon successful login and receiving email invite, redirect the user to the specified URL
+        login_redirect_url: process.env.NEXT_PUBLIC_LOGIN_REDIRECT_URL,
     })
   }
 
