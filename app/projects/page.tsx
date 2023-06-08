@@ -23,8 +23,12 @@ export default function Projects() {
 
   const [hoveredProject, setHoveredProject] = useState<number | null>(null)
   const { session } = useAuth()
+  console.log("Projects session: ", session)
+  console.log("Projects session enabled? : ", !!session)
   const { data } = useGetProjects({ enabled: !!session })
 
+  
+  console.log("Projects data: ", data)
   const projects: Project[] = [
     {
       name: ".Swoosh",
