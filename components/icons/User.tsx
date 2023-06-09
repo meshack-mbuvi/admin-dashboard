@@ -1,4 +1,4 @@
-import { SvgProps } from "./interface"
+import { SvgProps } from "@/types/Svg"
 
 export default function User(props: SvgProps) {
   const { className } = props

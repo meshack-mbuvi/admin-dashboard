@@ -14,7 +14,7 @@ export default function Authenticate() {
     const authenticate = async () => {
       // If a session is found redirect to the projects page
       if (session) {
-        router.push("/")
+        router.push("/projects")
         return
       }
 

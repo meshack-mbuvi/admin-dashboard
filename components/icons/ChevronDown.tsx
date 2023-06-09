@@ -1,4 +1,4 @@
-import { SvgProps } from "./interface"
+import { SvgProps } from "@/types/Svg"
 
 export default function ChevronDown(props: SvgProps) {
   const { className } = props

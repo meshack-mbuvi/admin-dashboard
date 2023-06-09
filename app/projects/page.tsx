@@ -1,17 +1,34 @@
 "use client"
-import CopyComponent from "@/components/CopyToClipboard"
-import ArrowRight from "@/components/icons/ArrowRight"
-import { getNetworkIcon } from "@/components/icons/networkIcons"
-import { chains } from "@/utils/network"
+
+import { useMemo, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useState } from "react"
+import CopyComponent from "@/components/CopyToClipboard"
+import ArrowRight from "@/components/icons/ArrowRight"
+import { getNetworkIcon } from "@/utils/getNetworkIcon"
+import { getNetwork } from "@/utils/getNetwork"
+import useGetProjects from "@/hooks/useGetProjects"
+import { useStytchB2BClient } from "@stytch/nextjs/b2b"
+
+interface Project {
+  name: string
+  coreContract: string
+  chainId: 1 | 137 | 5
+}
 
 export default function Projects() {
   const pathname = usePathname()
-
+  const stytch = useStytchB2BClient()
   const [hoveredProject, setHoveredProject] = useState<number | null>(null)
-  const projects = [
+  
+  const sessionTokens = useMemo(() => {
+    return stytch.session.getTokens();
+  }, [stytch.session]);
+
+  // Projects data accessed here
+  const { data } = useGetProjects({ sessionToken: sessionTokens?.session_token })
+
+  const projects: Project[] = [
     {
       name: ".Swoosh",
       coreContract: "0x388C818CA8B9251b393131C08a736A67ccB19297",
@@ -66,13 +83,13 @@ export default function Projects() {
                         <CopyComponent text={coreContract} />
                         <Link
                           href={{
-                            pathname: `${chains[chainId].blockExplorers?.default.url}/address/${coreContract}`,
+                            pathname: `${
+                              getNetwork(chainId).blockExplorers?.default.url
+                            }/address/${coreContract}`,
                           }}
                           target="_blank"
                         >
-                          <div>
-                            {getNetworkIcon(chainId, "w-5 h-5", "#232529")}
-                          </div>
+                          <div>{getNetworkIcon(chainId, "w-5 h-5")}</div>
                         </Link>
                       </>
                     )}
@@ -83,7 +100,7 @@ export default function Projects() {
                     <span className="flex mr-2">
                       <div>{getNetworkIcon(chainId, "w-5")}</div>
                     </span>
-                    <span className="italic">{chains[chainId].name}</span>
+                    <span className="italic">{getNetwork(chainId).name}</span>
                   </div>
                   {hoveredProject === index && (
                     <div className="flex text-right text-gray-2 italic space-x-4 items-center">

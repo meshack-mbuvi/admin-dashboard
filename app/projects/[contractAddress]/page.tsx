@@ -20,7 +20,7 @@ export default function Home() {
     Wallets: <Wallets />,
   }
 
-  const [activeTabIndex, setActiveTabIndex] = useState(0)
+  const [activeTabIndex, setActiveTabIndex] = useState<number>(0)
 
   return (
     <div className="flex flex-col ml-28 container">

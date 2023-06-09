@@ -1,8 +1,7 @@
-import { SvgProps } from './interface'
-
+import { SvgProps } from "@/types/Svg"
 
 export default function Polygon(props: SvgProps) {
-  const { className, currentColor = "#8247E5" } = props
+  const { className } = props
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -10,7 +9,7 @@ export default function Polygon(props: SvgProps) {
       viewBox="0 0 14 15"
       className={className}
     >
-      <circle cx="7" cy="7.5" r="7" fill={currentColor} />
+      <circle cx="7" cy="7.5" r="7" fill="#8247E5" />
       <path
         fill="#fff"
         d="M9.1 6.184a.546.546 0 0 0-.512 0l-1.194.7-.81.445-1.173.7a.546.546 0 0 1-.511 0l-.917-.551a.516.516 0 0 1-.256-.446v-1.06c0-.17.085-.34.256-.445l.917-.53a.546.546 0 0 1 .511 0l.917.55c.15.086.256.255.256.446v.7l.81-.467v-.72c0-.17-.085-.34-.256-.446l-1.705-.996a.546.546 0 0 0-.512 0L3.172 5.08a.466.466 0 0 0-.256.424V7.5c0 .17.086.339.256.445l1.728.997a.55.55 0 0 0 .511 0l1.173-.679.81-.466 1.173-.679a.546.546 0 0 1 .512 0l.917.53a.518.518 0 0 1 .256.445v1.06c0 .17-.086.34-.256.446l-.896.53a.546.546 0 0 1-.512 0l-.916-.53a.516.516 0 0 1-.256-.445v-.679l-.81.467v.7c0 .169.085.339.255.445l1.727.996c.15.085.342.085.512 0l1.727-.996a.516.516 0 0 0 .256-.446V7.626a.52.52 0 0 0-.256-.445L9.1 6.184Z"

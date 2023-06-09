@@ -5,8 +5,9 @@ import RightArrow from "../icons/RightArrow";
 
 const APIKeys = () => {
     // TODO: Keys/created dates should likely be stored in a more secure way, but currently a placeholder
-    const [keys, setKeys] = useState(["pk_test_QmMWqQ6TJ0t6qTkAtIJP1fhv"]);
-    const [keySetDates, setKeySetDates] = useState(["April 30, 2023 at 5:32 PM PDT"]);
+    const [keys, setKeys] = useState<Array<string>>(["pk_test_QmMWqQ6TJ0t6qTkAtIJP1fhv"]);
+    const [keySetDates, setKeySetDates] = useState<Array<string>>(["April 30, 2023 at 5:32 PM PDT"]);
+    const [isBlurred, setIsBlurred] = useState<boolean>(true);
 
     const createKey = () => {
         setKeys(prevKeyList => [...prevKeyList, "pk_test_QmMWqQ6TJ0t6qTkAtIJP1fhv"]);
@@ -15,8 +16,6 @@ const APIKeys = () => {
         let formattedDate = date.toLocaleString('en-US', options);
         setKeySetDates(prevKeySetDates => [...prevKeySetDates, formattedDate.toLocaleString()]);
     };
-
-    const [isBlurred, setIsBlurred] = useState(true);
 
     const BlurredView = () => {
         return (

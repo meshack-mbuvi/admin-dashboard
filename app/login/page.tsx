@@ -2,7 +2,7 @@
 
 import { useStytchB2BClient } from "@stytch/nextjs/b2b"
 import { useState } from "react"
-
+import { isDev } from '@/utils/environment';
 import Input from "@/components/Input"
 import Label from "@/components/Label"
 import Section from "@/components/Section"
@@ -16,8 +16,10 @@ const DOMAIN_CONNECTIONS = {
 }
 
 export default function Login() {
-  const [emailAddress, setEmailAddress] = useState("")
+  const [emailAddress, setEmailAddress] = useState<string>("")
+  const [loginContinued, setLoginContinued] = useState<boolean>(false);
   const stytch = useStytchB2BClient()
+
 
   const handleLogin = () => {
     const [_, domain] = emailAddress.split("@")
@@ -29,35 +31,45 @@ export default function Login() {
       email_address: emailAddress,
       organization_id:
         DOMAIN_CONNECTIONS[domain as keyof typeof DOMAIN_CONNECTIONS],
-      login_redirect_url: process.env.NEXT_PUBLIC_AUTH_CALLBACK_URL,
+        // Upon successful login and receiving email invite, redirect the user to the specified URL
+        login_redirect_url: isDev 
+          ? process.env.NEXT_PUBLIC_TEST_LOGIN_REDIRECT_URL 
+          : process.env.NEXT_PUBLIC_LIVE_LOGIN_REDIRECT_URL,
     })
+    setLoginContinued(true);
   }
 
   return (
     <div className="w-[500px] mx-auto flex flex-col items-center mt-32">
-      <Logo className="  w-12 mb-10" />
+      <Logo className="w-12 mb-10" />
+      {
+        loginContinued 
+        ?
+          <h2 className="font-medium text-2xl mb-14">Check your email for Dashboard Access</h2>
+        :
+          <>
+            <h2 className="font-medium text-2xl mb-14">Welcome to Syndicate</h2>
+            <Section className="p-6 w-full">
+              <Label className="block mb-4" htmlFor="">
+                Enter your email address
+              </Label>
 
-      <h2 className="  font-medium text-2xl mb-14">Welcome to Syndicate</h2>
+              <Input
+                className="block w-full mb-6"
+                placeholder="Email address"
+                onChange={(e) => setEmailAddress(e.target.value)}
+                value={emailAddress}
+              />
 
-      <Section className="p-6 w-full">
-        <Label className="block mb-4" htmlFor="">
-          Enter your email address
-        </Label>
-
-        <Input
-          className="block w-full mb-6"
-          placeholder="Email address"
-          onChange={(e) => setEmailAddress(e.target.value)}
-          value={emailAddress}
-        />
-
-        <button
-          className="bg-white rounded-lg w-full py-4 text-black text-base font-semibold"
-          onClick={handleLogin}
-        >
-          Continue
-        </button>
-      </Section>
+              <button
+                className="bg-white rounded-lg w-full py-4 text-black text-base font-semibold hover:opacity-90"
+                onClick={handleLogin}
+              >
+                Continue
+              </button>
+            </Section>
+          </>
+      }
     </div>
   )
 }
