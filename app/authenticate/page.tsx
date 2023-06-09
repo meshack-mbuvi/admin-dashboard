@@ -4,23 +4,6 @@ import { useStytchB2BClient, useStytchMemberSession } from "@stytch/nextjs/b2b"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
-export function runningInClient() {
-  // eslint-disable-next-line no-restricted-globals
-  return typeof window === 'object';
-}
-
-// Safeguard for NextJS support
-export function featheryDoc() {
-  // eslint-disable-next-line no-restricted-globals
-  return runningInClient() ? document : ({} as any);
-}
-export function getCookie(key: string) {
-  return featheryDoc()
-    .cookie.split('; ')
-    .filter((row: string) => row.startsWith(`${key}=`))
-    .map((c: string) => c.split('=')[1])[0];
-}
-
 // DEV: This page is configured as the login callback url from Stytch
 export default function Authenticate() {
   const stytch = useStytchB2BClient()
