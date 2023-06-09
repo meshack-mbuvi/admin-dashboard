@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
 interface UseGetProjectsArgs {
-  sessionToken: string;
+  sessionToken: string | undefined;
 }
 
 export default function useGetProjects(args: UseGetProjectsArgs) {
@@ -11,12 +11,21 @@ export default function useGetProjects(args: UseGetProjectsArgs) {
     ["get-projects"],
     async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/projects`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/organization/projects`, {
           headers: new Headers({
-           'Authorization': sessionToken,
-           credentials: 'include'
+           'Authorization': 'Session ' + sessionToken
           })
         })
+
+        // Wallet manager request works! Leave here for now, successful request
+        /* const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/wallet/project/df397af4-0a91-4b9f-bdb6-06c5b86e6ee6/wallets`, {
+          headers: new Headers({
+           'Authorization': 'Session ' + sessionToken
+          })
+        }) */
+
+        console.log("res: ", res)
+        console.log("res body: ", res.body)
   
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}, ${res.statusText}`);

@@ -25,7 +25,7 @@ export default function Projects() {
     return stytch.session.getTokens();
   }, [stytch.session]);
 
-  const { data } = useGetProjects({ sessionToken: sessionTokens ? sessionTokens.session_token : '' })
+  const { data } = useGetProjects({ sessionToken: sessionTokens?.session_token })
   
   console.log("Projects data: ", data)
   const projects: Project[] = [
