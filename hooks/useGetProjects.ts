@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
 
 interface UseGetProjectsArgs {
-  sessionTokens: string | undefined;
+  sessionToken: string;
 }
 
 export default function useGetProjects(args: UseGetProjectsArgs) {
-  const { sessionTokens } = args
+  const { sessionToken } = args
 
   return useQuery(
     ["get-projects"],
@@ -13,7 +13,7 @@ export default function useGetProjects(args: UseGetProjectsArgs) {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/projects`, {
           headers: new Headers({
-           'Authorization': 'Bearer ' + sessionTokens,
+           'Authorization': sessionToken,
            credentials: 'include'
           })
         })
