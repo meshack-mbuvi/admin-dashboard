@@ -1,28 +1,33 @@
 import { useQuery } from "@tanstack/react-query"
 
 interface UseGetProjectsArgs {
-  enabled: boolean
+  sessionTokens: string | undefined;
 }
 
 export default function useGetProjects(args: UseGetProjectsArgs) {
-  const { enabled } = args
+  const { sessionTokens } = args
 
   return useQuery(
     ["get-projects"],
     async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/projects`, {
-        credentials: "include"
-      })
-
-
-      console.log("useGetProjects res: ", res)
-      if (res.ok) {
-        const data = await res.json()
-        return data
+      try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/projects`, {
+          headers: new Headers({
+           'Authorization': 'Bearer ' + sessionTokens,
+           credentials: 'include'
+          })
+        })
+  
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}, ${res.statusText}`);
+        }
+  
+        const data = await res.json();
+        return data;
+      } catch (err) {
+        console.error(err); 
+        throw err;
       }
-
-      throw Error("query error")
-    },
-    { enabled }
-  )
+    }
+  );
 }

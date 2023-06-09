@@ -1,16 +1,14 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-
 import CopyComponent from "@/components/CopyToClipboard"
 import ArrowRight from "@/components/icons/ArrowRight"
-
 import { getNetworkIcon } from "@/utils/getNetworkIcon"
 import { getNetwork } from "@/utils/getNetwork"
 import useGetProjects from "@/hooks/useGetProjects"
-import useAuth from "@/hooks/useAuth"
+import { useStytchB2BClient } from "@stytch/nextjs/b2b"
 
 interface Project {
   name: string
@@ -20,13 +18,14 @@ interface Project {
 
 export default function Projects() {
   const pathname = usePathname()
-
+  const stytch = useStytchB2BClient()
   const [hoveredProject, setHoveredProject] = useState<number | null>(null)
-  const { session } = useAuth()
-  console.log("Projects session: ", session)
-  console.log("Projects session enabled? : ", !!session)
-  const { data } = useGetProjects({ enabled: !!session })
+  
+  const sessionTokens = useMemo(() => {
+    return stytch.session.getTokens();
+  }, [stytch.session]);
 
+  const { data } = useGetProjects({ sessionTokens: sessionTokens?.session_token })
   
   console.log("Projects data: ", data)
   const projects: Project[] = [
