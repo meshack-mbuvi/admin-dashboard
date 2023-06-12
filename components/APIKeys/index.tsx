@@ -2,7 +2,8 @@ import Text from "@/components/Text"
 import Button from "@/components/Buttons"
 import { useState } from "react";
 import RightArrow from "../icons/RightArrow";
-import RedTrashIcon from "../icons/RedTrashIcon";
+import Trash from "../icons/Trash";
+import clsx from "clsx"
 
 interface KeyInfo {
     key: string
@@ -28,7 +29,11 @@ const APIKeys = () => {
     const BlurredView = () => {
         return (
             <div className="relative border-2 rounded-lg border-gray-7 mb-1 items-center" onClick={() => setIsBlurred(false)}>
-                <p className={`${isBlurred ? 'opacity-50 filter blur-md' : 'opacity-100'} font-normal text-normal py-1.5`}>pk_test_QmMWqQ6TJ0t6qTkAtIJP1fhv</p>
+                <p className={clsx("font-normal text-normal py-1.5",
+                    isBlurred
+                    ? "opacity-50 filter blur-md"
+                    : "opacity-100"
+                )}>pk_test_QmMWqQ6TJ0t6qTkAtIJP1fhv</p>
                 <div className={`absolute top-2 left-20 opacity-100 text-sm pl-2`} 
                     onClick={() => setIsBlurred(false)}>
                     CLICK TO REVEAL
@@ -47,7 +52,7 @@ const APIKeys = () => {
                         <div className="flex flex-row justify-between pb-5">
                             <Text className="font-small text-gray-3 text-sm pb-3">Key</Text>
                             <Text className="font-small text-gray-3 text-sm pb-3 pl-7">Created</Text>
-                            <Text>{" "}</Text>
+                            <Text>{" "}</Text> {/* Empty div for spacing */}
                         </div>
                         {keysInfo.length === 0 ? <p className="text-lg pb-5">No keys!</p> : ""}
                         {keysInfo.map((keyInfo, index) => {
@@ -56,7 +61,7 @@ const APIKeys = () => {
                                     <p>{isBlurred ? <BlurredView /> : keyInfo.key}</p>
                                     <p>{keyInfo.created_date}</p>
                                     <div className="flex flex-row items-center hover:opacity-90" onClick={() => deleteKey(index)}>
-                                        <RedTrashIcon />
+                                        <Trash className="w-3.5 h-4" currentColor="#F14D4D" />
                                         <p className="text-red pl-2">Delete</p>
                                     </div>
                                 </div>
