@@ -2,7 +2,7 @@ import Text from "@/components/Text"
 import Button from "@/components/Buttons"
 import { useState } from "react";
 import RightArrow from "../icons/RightArrow";
-import Trash from "../icons/Trash";
+import Trash from "@/components/icons/Trash";
 import clsx from "clsx"
 
 interface KeyInfo {
@@ -52,7 +52,7 @@ const APIKeys = () => {
                         <div className="flex flex-row justify-between pb-5">
                             <Text className="font-small text-gray-3 text-sm pb-3">Key</Text>
                             <Text className="font-small text-gray-3 text-sm pb-3 pl-7">Created</Text>
-                            <Text>{" "}</Text> {/* Empty div for spacing */}
+                            <div /> {/* Empty div for spacing */}
                         </div>
                         {keysInfo.length === 0 ? <p className="text-lg pb-5">No keys!</p> : ""}
                         {keysInfo.map((keyInfo, index) => {
@@ -61,7 +61,7 @@ const APIKeys = () => {
                                     <p>{isBlurred ? <BlurredView /> : keyInfo.key}</p>
                                     <p>{keyInfo.created_date}</p>
                                     <div className="flex flex-row items-center hover:opacity-90" onClick={() => deleteKey(index)}>
-                                        <Trash className="w-3.5 h-4" currentColor="#F14D4D" />
+                                        <Trash className="w-3.5 h-4 text-red fill-current" />
                                         <p className="text-red pl-2">Delete</p>
                                     </div>
                                 </div>
