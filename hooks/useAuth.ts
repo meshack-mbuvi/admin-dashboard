@@ -10,7 +10,7 @@ export default function useAuth() {
 
   useEffect(() => {
     if (isInitialized && !session) {
-      // router.push("/login")
+      router.push("/login")
     }
   }, [isInitialized, session, router])
 
