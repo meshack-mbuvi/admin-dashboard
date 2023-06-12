@@ -61,7 +61,7 @@ const APIKeys = () => {
                                     <p>{isBlurred ? <BlurredView /> : keyInfo.key}</p>
                                     <p>{keyInfo.created_date}</p>
                                     <div className="flex flex-row items-center hover:opacity-90" onClick={() => deleteKey(index)}>
-                                        <Trash className="w-3.5 h-4 text-red fill-current" />
+                                        <Trash className="w-3.5 h-4 text-red" />
                                         <p className="text-red pl-2">Delete</p>
                                     </div>
                                 </div>
