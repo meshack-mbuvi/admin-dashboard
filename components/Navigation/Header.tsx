@@ -4,8 +4,9 @@ import HelpIcon from "@/components/icons/Help"
 import Logo from "@/components/icons/Logo"
 import NikeBrand from "@/components/icons/NikeBrand"
 import User from "@/components/icons/User"
-import { getNetworkIcon } from "@/utils/getNetworkIcon"
 import { formatAddress } from "@/utils/formatAddress"
+import { getNetworkIcon } from "@/utils/getNetworkIcon"
+import { useStytchMember } from "@stytch/nextjs/b2b"
 import { useParams } from "next/navigation"
 
 const Help = () => {
@@ -19,6 +20,8 @@ const Help = () => {
 
 export const Header = () => {
   const { contractAddress } = useParams()
+  const { member } = useStytchMember()
+
   return (
     <div className="fixed top-0 flex pb-7 w-full pt-7 mb-7">
       <div className="ml-10 mr-11 flex items-center">
@@ -61,10 +64,11 @@ export const Header = () => {
 
         <div className="flex space-x-2 mr-24">
           <Help />
+
           <div className="flex space-x-2 rounded-full text-gray-2 bg-gray-8 w-fit py-[10px] px-4">
             <User className="w-3 text-gray-4" />
             <span className="text-sm flex items-center text-gray-2">
-              Nathan
+              {member?.name}
             </span>
           </div>
         </div>

@@ -17,6 +17,7 @@ module.exports = {
         white: "#fff",
         success: "#30E696",
         warning: "#FFA653",
+        red: "#F14D4D",
         gray: {
           1: "#F1F3F7",
           2: "#D9DDE5",
