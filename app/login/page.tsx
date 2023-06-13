@@ -38,8 +38,6 @@ export default function Login() {
     setLoginContinued(true)
   }
 
-  console.log(getAuthRedirectURL())
-
   return (
     <div className="w-[500px] mx-auto flex flex-col items-center mt-32">
       <Logo className="w-12 mb-10" />
