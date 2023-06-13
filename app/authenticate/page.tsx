@@ -28,7 +28,8 @@ export default function Authenticate() {
       // Authenticate the user with the token
       await stytch.magicLinks.authenticate({
         magic_links_token: token,
-        session_duration_minutes: 60,
+        // DEV: 7 days in minutes
+        session_duration_minutes: 10080,
       })
 
       router.push("/")
