@@ -1,4 +1,9 @@
-export const debug = process.env.NEXT_PUBLIC_DEBUG;
-export const isDev = debug === 'true';
-export const isProd = !isDev;
-export const isSSR = (): boolean => typeof window === 'undefined';
+export const getAuthRedirectURL = () => {
+  const isPreview = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
+  if (isPreview) {
+    const previewURL = process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
+    return `https://${previewURL}/authenticate`
+  }
+
+  return process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL
+}
