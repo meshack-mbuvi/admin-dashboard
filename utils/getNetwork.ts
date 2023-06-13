@@ -6,6 +6,8 @@ export const networks = {
   137: polygon,
 } as const
 
-export const getNetwork = (networkId: keyof typeof networks): Chain => {
+export type NetworkId = keyof typeof networks
+
+export const getNetwork = (networkId: NetworkId): Chain => {
   return networks[networkId]
 }
