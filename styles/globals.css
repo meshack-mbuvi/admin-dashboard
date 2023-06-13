@@ -12,17 +12,12 @@
 
   .project-item:hover,
   .project-item:focus {
-    @apply transform rounded-lg transition ease-in-out delay-75 bg-gray-8 hover:scale-y-[1.01] -translate-y-1 drop-shadow-2xl;
+    @apply transform rounded-lg transition ease-in-out delay-75 bg-gray-8 hover:-translate-y-1 drop-shadow-2xl;
   }
   .project-item:hover > div,
   .project-item:focus > div,
   .project-item:last-child > div {
     @apply border-none;
-  }
-
-  .project-item:hover > div,
-  .project-item:focus > div {
-    @apply py-6;
   }
 
   .project-item > div {

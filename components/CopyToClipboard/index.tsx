@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { MouseEvent, useEffect, useState } from "react"
 import { Tooltip } from "react-tooltip"
 
 import { CopyLinkIcon } from "@/components/icons/copy"
@@ -11,8 +11,9 @@ export default function CopyComponent(props: {
 
   const [copied, setCopied] = useState<boolean>(false)
 
-  const copyContent = async (event: { preventDefault: () => void }) => {
-    event.preventDefault()
+  const copyContent = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
     try {
       await navigator.clipboard.writeText(text)
       setCopied(true)
