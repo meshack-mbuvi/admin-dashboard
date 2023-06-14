@@ -1,7 +1,8 @@
 "use client"
 
-import { useState } from "react"
-import { useStytchB2BClient } from "@stytch/nextjs/b2b"
+import { FormEvent, useEffect, useState } from "react"
+import { useStytchB2BClient, useStytchMemberSession } from "@stytch/nextjs/b2b"
+import { useRouter } from "next/navigation"
 
 import { getAuthRedirectURL } from "@/utils/environment"
 
@@ -18,11 +19,22 @@ const DOMAIN_CONNECTIONS = {
 }
 
 export default function Login() {
+  const router = useRouter()
   const [emailAddress, setEmailAddress] = useState<string>("")
   const [loginContinued, setLoginContinued] = useState<boolean>(false)
   const stytch = useStytchB2BClient()
+  const { isInitialized, session } = useStytchMemberSession()
 
-  const handleLogin = () => {
+  // DEV: If a user is already logged in, redirect them to the projects page
+  useEffect(() => {
+    if (isInitialized && session) {
+      router.push("/projects")
+    }
+  }, [isInitialized, session, router])
+
+  const handleLogin = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
     const [_, domain] = emailAddress.split("@")
     if (!VALID_DOMAINS.includes(domain)) {
       return alert("Please use a valid email address")
@@ -49,23 +61,26 @@ export default function Login() {
         <>
           <h2 className="font-medium text-2xl mb-14">Welcome to Syndicate</h2>
           <Section className="p-6 w-full">
-            <Label className="block mb-4" htmlFor="">
-              Enter your email address
-            </Label>
+            <form onSubmit={handleLogin}>
+              <Label className="block mb-4" htmlFor="email-address">
+                Enter your email address
+              </Label>
 
-            <Input
-              className="block w-full mb-6"
-              placeholder="Email address"
-              onChange={(e) => setEmailAddress(e.target.value)}
-              value={emailAddress}
-            />
+              <Input
+                id="email-address"
+                className="block w-full mb-6"
+                placeholder="Email address"
+                onChange={(e) => setEmailAddress(e.target.value)}
+                value={emailAddress}
+              />
 
-            <button
-              className="bg-white rounded-lg w-full py-4 text-black text-base font-semibold hover:opacity-90"
-              onClick={handleLogin}
-            >
-              Continue
-            </button>
+              <button
+                type="submit"
+                className="bg-white rounded-lg w-full py-4 text-black text-base font-semibold hover:opacity-90"
+              >
+                Continue
+              </button>
+            </form>
           </Section>
         </>
       )}
