@@ -32,7 +32,7 @@ export default function Authenticate() {
         session_duration_minutes: 10080,
       })
 
-      router.push("/")
+      router.push("/projects")
     }
 
     authenticate()
