@@ -1,4 +1,4 @@
-import { useStytchB2BClient } from "@stytch/nextjs/dist/b2b"
+import { useStytchB2BClient } from "@stytch/nextjs/b2b"
 
 export default function useAuthToken() {
   const stytch = useStytchB2BClient()
