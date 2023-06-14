@@ -7,9 +7,10 @@ import { usePathname } from "next/navigation"
 import CopyComponent from "@/components/CopyToClipboard"
 import ArrowRight from "@/components/icons/ArrowRight"
 
+import useGetProjects from "@/hooks/useGetProjects"
+
 import { getNetworkIcon } from "@/utils/getNetworkIcon"
 import { getNetwork } from "@/utils/getNetwork"
-import useGetProjects from "@/hooks/useGetProjects"
 
 import ProjectRow from "./components/ProjectRow"
 
