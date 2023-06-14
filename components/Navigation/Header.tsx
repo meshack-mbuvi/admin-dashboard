@@ -1,13 +1,14 @@
 import Link from "next/link"
+import { useParams } from "next/navigation"
+import { useStytchMember } from "@stytch/nextjs/b2b"
 
 import HelpIcon from "@/components/icons/Help"
 import Logo from "@/components/icons/Logo"
 import NikeBrand from "@/components/icons/NikeBrand"
 import User from "@/components/icons/User"
+
 import { formatAddress } from "@/utils/formatAddress"
 import { getNetworkIcon } from "@/utils/getNetworkIcon"
-import { useStytchMember } from "@stytch/nextjs/b2b"
-import { useParams } from "next/navigation"
 
 const Help = () => {
   return (

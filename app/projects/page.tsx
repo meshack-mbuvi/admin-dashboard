@@ -1,7 +1,7 @@
 "use client"
 
-import { useMemo, useState } from "react"
-import { useStytchB2BClient } from "@stytch/nextjs/b2b"
+import { useState } from "react"
+import { usePathname } from "next/navigation"
 
 import ProjectRow from "./components/ProjectRow"
 
@@ -15,17 +15,10 @@ interface Project {
 }
 
 export default function Projects() {
-  const stytch = useStytchB2BClient()
   const [hoveredProject, setHoveredProject] = useState<number | null>(null)
 
-  const sessionTokens = useMemo(() => {
-    return stytch.session.getTokens()
-  }, [stytch.session])
-
   // Projects data accessed here
-  const { data } = useGetProjects({
-    sessionToken: sessionTokens?.session_token,
-  })
+  const { data } = useGetProjects()
 
   const projects: Project[] = [
     {

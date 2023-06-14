@@ -1,32 +1,21 @@
 import { useQuery } from "@tanstack/react-query"
 
-interface UseGetProjectsArgs {
-  sessionToken: string | undefined;
-}
+import gatewayFetch from "@/utils/gatewayFetch"
+import useAuthToken from "./useAuthToken"
 
-export default function useGetProjects(args: UseGetProjectsArgs) {
-  const { sessionToken } = args
+export default function useGetProjects() {
+  const sessionToken = useAuthToken()
 
   return useQuery(
     ["get-projects"],
     async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/admin/organization/projects`, {
-          headers: new Headers({
-           'Authorization': 'Session ' + sessionToken
-          })
-        })
-  
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}, ${res.statusText}`);
-        }
-  
-        const data = await res.json();
-        return data;
-      } catch (err) {
-        console.error(err); 
-        throw err;
-      }
-    }
-  );
+      const data = await gatewayFetch({
+        endpointPath: "/admin/organization/projects",
+        sessionToken,
+      })
+
+      return data
+    },
+    { enabled: !!sessionToken }
+  )
 }
