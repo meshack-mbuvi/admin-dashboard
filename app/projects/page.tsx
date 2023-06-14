@@ -1,16 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import Link from "next/link"
 import { usePathname } from "next/navigation"
-
-import CopyComponent from "@/components/CopyToClipboard"
-import ArrowRight from "@/components/icons/ArrowRight"
-
-import useGetProjects from "@/hooks/useGetProjects"
-
-import { getNetworkIcon } from "@/utils/getNetworkIcon"
-import { getNetwork } from "@/utils/getNetwork"
 
 import ProjectRow from "./components/ProjectRow"
 
@@ -24,7 +15,6 @@ interface Project {
 }
 
 export default function Projects() {
-  const pathname = usePathname()
   const [hoveredProject, setHoveredProject] = useState<number | null>(null)
 
   // Projects data accessed here
