@@ -15,22 +15,20 @@ const getConfig = (networkId: NetworkId) => {
     case 5:
       return {
         chain: goerli,
-        transport: http("", { batch: true }),
+        rpcUrl: "",
       }
 
     case 137:
       return {
         chain: polygon,
-        transport: http("", { batch: true }),
+        rpcUrl: "",
       }
 
     case 80001:
       return {
         chain: polygonMumbai,
-        transport: http(
+        rpcUrl:
           "https://polygon-mumbai.g.alchemy.com/v2/zm77930PML8GJvZ6MP2_XyI_82XrfOBq",
-          { batch: true }
-        ),
       }
   }
 }
@@ -48,18 +46,15 @@ export async function GET(
     transport: http(config.rpcUrl, { batch: true }),
   })
 
-  const resultsArray = await Promise.all(
-    blockNumbers.map((bn) => {
-      return client.getBlock({ blockNumber: BigInt(bn) })
+  const data = await Promise.all(
+    blockNumbers.map(async (bn) => {
+      const blockData = await client.getBlock({ blockNumber: BigInt(bn) })
+      return {
+        block: blockData.number?.toString(),
+        timestamp: blockData.timestamp.toString(),
+      }
     })
   )
-
-  const data = resultsArray.map((result) => {
-    return {
-      block: result.number?.toString(),
-      timestamp: result.timestamp.toString(),
-    }
-  })
 
   return NextResponse.json({ data })
 }
