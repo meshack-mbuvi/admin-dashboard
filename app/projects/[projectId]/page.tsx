@@ -4,12 +4,9 @@ import APIKeys from "@/components/APIKeys"
 import General from "@/components/General"
 import { Tab } from "@/components/Tab"
 import Wallets from "@/components/Wallets"
-import useAuth from "@/hooks/useAuth"
 import { useState } from "react"
 
 export default function Home() {
-  const { isSessionLoading, session } = useAuth()
-
   const tabHeaders = ["General", "API Keys", "Wallets"]
 
   const tabComponents: {
