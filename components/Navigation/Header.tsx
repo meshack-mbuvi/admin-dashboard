@@ -55,12 +55,16 @@ export const Header = () => {
             )}
           </ul>
 
-          <div className="flex items-center">
-            <span className="flex mr-2">{getNetworkIcon(137, "w-[14px]")}</span>
-            <span className="p-0 uppercase font-mono text-xs text-gray-4">
-              Polygon Mainnet
-            </span>
-          </div>
+          {contractAddress && (
+            <div className="flex items-center">
+              <span className="flex mr-2">
+                {getNetworkIcon(137, "w-[14px]")}
+              </span>
+              <span className="p-0 uppercase font-mono text-xs text-gray-4">
+                Polygon Mainnet
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="flex space-x-2 mr-24">
