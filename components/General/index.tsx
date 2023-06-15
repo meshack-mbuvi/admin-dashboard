@@ -49,5 +49,3 @@ const General: React.FC = () => {
     </div>
   )
 }
-
-export default General

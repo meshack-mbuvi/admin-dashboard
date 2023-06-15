@@ -19,6 +19,7 @@
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
     "react-tooltip": "^5.13.1",
+    "server-only": "^0.0.1",
     "stytch": "^6.2.1"
   },
   "devDependencies": {

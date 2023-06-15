@@ -1,10 +1,11 @@
 "use client"
 
+import { useState } from "react"
+
+import { Tab } from "@/components/Tab"
 import APIKeys from "@/components/APIKeys"
 import General from "@/components/General"
-import { Tab } from "@/components/Tab"
 import Wallets from "@/components/Wallets"
-import { useState } from "react"
 
 export default function Home() {
   const tabHeaders = ["General", "API Keys", "Wallets"]
