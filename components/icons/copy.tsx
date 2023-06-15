@@ -1,6 +1,6 @@
 import { SvgProps } from "@/types/Svg"
 
-export const CopyLinkIcon = (props: SvgProps): JSX.Element => {
+export default function Copy(props: SvgProps) {
   const { className } = props
   return (
     <svg
