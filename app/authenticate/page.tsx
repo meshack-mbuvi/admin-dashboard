@@ -22,7 +22,7 @@ export default function Authenticate() {
       const token = new URLSearchParams(window.location.search).get("token")
       // If no token is found redirect to the sign in page
       if (!token) {
-        router.push("/login")
+        router.push("/")
         return
       }
       // Authenticate the user with the token
@@ -32,7 +32,7 @@ export default function Authenticate() {
         session_duration_minutes: 10080,
       })
 
-      router.push("/")
+      router.push("/projects")
     }
 
     authenticate()

@@ -1,19 +1,26 @@
 import Text from "@/components/Text"
-import Check from "@/components/icons/Check"
-import Warning from "@/components/icons/Warning"
+import useGetProjectWallets from "@/hooks/useGetProjectWallets"
+import clsx from "clsx"
+import { useParams } from "next/navigation"
 import { useState } from "react"
 import CopyComponent from "../CopyToClipboard"
+import Section from "../Section"
+import Check from "../icons/Check"
 import RightArrow from "../icons/RightArrow"
+import Warning from "../icons/Warning"
 
-const Wallets = () => {
-  const [hoveredProject, setHoveredProject] = useState<string | null>(null)
+const Wallets: React.FC = () => {
+  const [hoveredWalletAddress, setHoveredWalletAddress] = useState<
+    string | null
+  >(null)
 
-  const wallets = [
-    "0x388C818CA8B9251b393131C08a736A67ccB19297",
-    "0x388C818CA8B9251b393131C08a736A67ccB19210",
-  ]
+  const { projectId } = useParams()
+  const { data: wallets } = useGetProjectWallets({
+    projectId,
+  })
+
   return (
-    <div className="flex flex-col font-sans p-10 border-1 bg-gray-8 rounded-lg mr-10">
+    <Section className="flex flex-col font-sans p-10 rounded-lg mr-10">
       <Text className="font-medium text-2xl pb-2">Wallets</Text>
       <div className="flex flex-row pb-7">
         <p className="font-small text-gray-4 text-sm pr-2">
@@ -26,45 +33,72 @@ const Wallets = () => {
           </a>
         </span>
       </div>
-      <div className="flex flex-row w-3/5 justify-between">
-        <div className="flex flex-col pb-3">
-          <p className="text-gray-4 text-sm pb-4">Address</p>
-          {wallets.map((wallet) => {
-            return (
-              <p
-                key={wallet}
-                className="flex font-normal space-x-4 text-base py-3"
-                onMouseEnter={() => setHoveredProject(wallet)}
-                onMouseLeave={() => setHoveredProject(null)}
-              >
-                <span className="text-gray-3">0x</span>
-                {wallet.substring(2)}
-                {hoveredProject === wallet && (
-                  <CopyComponent text={wallet} className="ml-4" />
-                )}
-              </p>
-            )
-          })}
-        </div>
-        <div className="flex flex-col pb-3">
-          <Text className="font-small justify-right text-gray-3 text-sm pb-4">
-            Status
-          </Text>
-          <div className="flex flex-row py-3 items-center text-success">
-            <span className="flex pr-3">
-              <Check className="w-4 h-4" />
-            </span>
-            <p className="font-normal text-base">Added</p>
+
+      <div className="flex flex-col">
+        {wallets && wallets.length > 0 && (
+          <div className="flex w-full space-x-48 mb-5">
+            <div className="flex flex-col w-1/3">
+              <p className="text-gray-3 text-sm">Address</p>
+            </div>
+            <div className="flex flex-col">
+              <Text className="font-small justify-right text-gray-3 text-sm">
+                Status
+              </Text>
+            </div>
           </div>
-          <div className="flex flex-row py-3 items-center text-warning">
-            <span className="flex pr-3">
-              <Warning className="w-4 h-4" />
-            </span>
-            <p className="font-normal text-base">Action needed</p>
-          </div>
+        )}
+
+        <div className="w-full flex-col flex py-3">
+          {wallets && wallets.length > 0 ? (
+            wallets.map(({ walletId, walletAddress, isActive }) => {
+              return (
+                <div
+                  key={walletId}
+                  className="flex space-x-48 border-b last:border-none border-gray-7"
+                >
+                  <div className="flex w-1/3">
+                    <p
+                      key={walletId}
+                      className="flex font-mono space-x-4 text-base py-3"
+                      onMouseEnter={() =>
+                        setHoveredWalletAddress(walletAddress)
+                      }
+                      onMouseLeave={() => setHoveredWalletAddress(null)}
+                    >
+                      <span className="text-gray-3">0x</span>
+                      {walletAddress.substring(2)}
+                      {hoveredWalletAddress === walletAddress && (
+                        <CopyComponent text={walletAddress} className="ml-4" />
+                      )}
+                    </p>
+                  </div>
+
+                  <div
+                    className={clsx(
+                      "flex flex-row py-3 items-center",
+                      isActive ? "text-success" : "text-warning"
+                    )}
+                  >
+                    <span className="flex pr-3">
+                      {isActive ? (
+                        <Check className="w-4 h-4" />
+                      ) : (
+                        <Warning className="w-4 h-4" />
+                      )}
+                    </span>
+                    <p className="font-normal text-base">
+                      {isActive ? "Added" : "Action needed"}
+                    </p>
+                  </div>
+                </div>
+              )
+            })
+          ) : (
+            <p className="text-lg pb-5">No Wallets!</p>
+          )}
         </div>
       </div>
-      <div className="flex flex-row items-center text-blue-1">
+      <div className="flex flex-row items-center mt-8 text-blue-1">
         <a
           href="mailto:hello@syndicate.io"
           className="font-medium text-normal pr-1"
@@ -73,7 +107,7 @@ const Wallets = () => {
         </a>
         <RightArrow className="w-4 h-3" />
       </div>
-    </div>
+    </Section>
   )
 }
 
