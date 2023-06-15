@@ -6,7 +6,7 @@ import { getNetworkIcon } from "@/utils/getNetworkIcon"
 import { useParams } from "next/navigation"
 import Section from "../Section"
 
-const General: React.FC = () => {
+export default function General() {
   const { projectId } = useParams()
   const { data } = useGetProjectById({
     projectId,
