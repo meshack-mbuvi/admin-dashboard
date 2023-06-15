@@ -1,7 +1,7 @@
 import { MouseEvent, useEffect, useState } from "react"
 import { Tooltip } from "react-tooltip"
 
-import Copy from "@/components/icons/Copy"
+import Clipboard from "@/components/icons/Clipboard"
 
 export default function CopyComponent(props: {
   text: string
@@ -39,7 +39,7 @@ export default function CopyComponent(props: {
           data-tooltip-content={copied ? "Copied" : ""}
           data-tooltip-place="top"
         >
-          <Copy className="cursor-pointer w-4" />
+          <Clipboard className="cursor-pointer w-4" />
         </span>
       </button>
       <Tooltip id="copy" />

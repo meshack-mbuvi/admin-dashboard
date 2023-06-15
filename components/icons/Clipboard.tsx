@@ -1,6 +1,6 @@
 import { SvgProps } from "@/types/Svg"
 
-export default function Copy(props: SvgProps) {
+export default function Clipboard(props: SvgProps) {
   const { className } = props
   return (
     <svg
