@@ -11,7 +11,7 @@ export default async function gatewayFetch<ResponseData>(
     ...rest,
     headers: new Headers({
       Authorization: `Bearer Stytch ${sessionToken}`,
-      "Content-Type": "application/json",
+      ...rest.headers,
     }),
   })
 
