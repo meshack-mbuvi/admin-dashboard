@@ -10,7 +10,7 @@ export default async function gatewayFetch<ResponseData>(
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpointPath}`, {
     ...rest,
     headers: new Headers({
-      Authorization: `Session ${sessionToken}`,
+      Authorization: `Bearer Stytch ${sessionToken}`,
       "Content-Type": "application/json",
     }),
   })
