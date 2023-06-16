@@ -3,62 +3,30 @@
 @tailwind components;
 
 @layer base {
-  body {
-    background-color: #000000;
-    color: #ffffff;
-    font-style: normal;
-    font-variation-settings: "slnt" 0;
-  }
-
-  .project-item:hover,
-  .project-item:focus {
-    @apply transform rounded-lg transition ease-in-out delay-75 bg-gray-8 hover:-translate-y-1 drop-shadow-2xl;
-  }
-  .project-item:hover > div,
-  .project-item:focus > div,
-  .project-item:last-child > div {
-    @apply border-none;
-  }
-
-  .project-item > div {
-    @apply py-7 border-b border-gray-7;
-  }
-
   /* Breadcrumb styles  */
   .breadcrumb {
-    list-style: none;
     overflow: hidden;
   }
+
   .breadcrumb li {
-    float: left;
-  }
-  .breadcrumb li div {
-    color: white;
-    text-decoration: none;
     position: relative;
-    float: left;
-    @apply bg-gray-8;
   }
 
-  .breadcrumb li div {
-    border-top-left-radius: 16px;
-    border-bottom-left-radius: 16px;
+  .breadcrumb li:last-child {
+    @apply rounded-r-full;
+    @apply pr-3.5;
   }
 
-  .breadcrumb li:last-child div {
-    border-top-right-radius: 16px;
-    border-bottom-right-radius: 16px;
-  }
-
-  .breadcrumb li div::after,
-  .breadcrumb li div::before {
-    content: " ";
+  .breadcrumb li::after,
+  .breadcrumb li::before {
+    content: "";
     display: block;
     width: 0;
     height: 0;
-    border-top: 50px solid transparent; /* Go big on the size, and let overflow hide */
+    border-top: 50px solid transparent;
     border-bottom: 50px solid transparent;
-    border-left: 30px solid #131416;
+    border-left: 24px solid;
+    @apply border-l-gray-8;
     position: absolute;
     top: 50%;
     margin-top: -50px;
@@ -66,27 +34,10 @@
     z-index: 2;
   }
 
-  .breadcrumb li div::before {
-    content: " ";
-    display: block;
-    width: 0;
-    height: 0;
-    border-top: 50px solid transparent;
-    border-bottom: 50px solid transparent;
-    border-left: 30px solid black;
-    position: absolute;
-    top: 50%;
-    margin-top: -50px;
+  .breadcrumb li::before {
+    border-left: 24px solid;
+    @apply border-l-black;
     margin-left: 6px;
-    left: 100%;
     z-index: 1;
-  }
-
-  .breadcrumb li:first-child div {
-    padding-left: 10px;
-  }
-  .breadcrumb li:last-child div {
-    background: #131416;
-    padding-right: 16px;
   }
 }

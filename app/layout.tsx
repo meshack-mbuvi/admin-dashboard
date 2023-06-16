@@ -20,7 +20,7 @@ export default function RootLayout(props: RootLayoutProps) {
 
   return (
     <html lang="en">
-      <body className={`${slussenFont.variable} font-sans bg-black`}>
+      <body className={`${slussenFont.variable} font-sans bg-black text-white`}>
         <Providers>{children}</Providers>
       </body>
     </html>
