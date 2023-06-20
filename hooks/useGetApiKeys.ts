@@ -7,11 +7,11 @@ interface UseGetProjectApiKeysArgs {
 }
 
 export interface ProjectAccessKeys {
-  AccesKey: AccesKey
+  AccessKey: AccessKey
   RoleTitle: string
 }
 
-export interface AccesKey {
+export interface AccessKey {
   id: string
   createdAt: string
   updatedAt: string

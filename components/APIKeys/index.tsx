@@ -2,6 +2,7 @@ import Button from "@/components/Buttons"
 import Text from "@/components/Text"
 import Trash from "@/components/icons/Trash"
 import useAuthToken from "@/hooks/useAuthToken"
+import useCreateApiKey from "@/hooks/useCreateApiKey"
 import useDeleteApiKey from "@/hooks/useDeleteApiKey"
 import useGetProjectApiKeys from "@/hooks/useGetApiKeys"
 import { formatDate } from "@/utils/formatDate"
@@ -17,6 +18,7 @@ const APIKeys: React.FC = () => {
     projectId,
   })
   const sessionToken = useAuthToken()
+  const createMutation = useCreateApiKey(projectId);
   const deleteMutation = useDeleteApiKey(projectId)
 
   const BlurredView = () => {
@@ -41,6 +43,20 @@ const APIKeys: React.FC = () => {
         </div>
       </div>
     )
+  }
+
+  const handleCreateAccessKey = () => {
+    if (sessionToken) {
+      createMutation.mutate({
+        method: 'POST',
+        sessionToken,
+        endpointPath: `/admin/accessKey`,
+        body: JSON.stringify({ 
+          projectId: projectId, 
+          roleTitle: "admin" 
+        }),
+      })
+    }
   }
 
   const handleDeleteAccessKey = (keyId: string) => {
@@ -76,17 +92,17 @@ const APIKeys: React.FC = () => {
               </p>
             )}
             {data &&
-              data.map(({ AccesKey }, index) => {
+              data.map(({ AccessKey }, index) => {
                 return (
                   <div
                     className="flex flex-row justify-between pb-5 items-center"
                     key={index}
                   >
-                    <p>{isBlurred ? <BlurredView /> : AccesKey?.key}</p>
-                    <p>{formatDate(AccesKey?.createdAt)}</p>
+                    <p>{isBlurred ? <BlurredView /> : AccessKey?.key}</p>
+                    <p>{formatDate(AccessKey?.createdAt)}</p>
                     <div
                       className="flex flex-row cursor-pointer items-center hover:opacity-90"
-                      onClick={() => handleDeleteAccessKey(AccesKey?.id)}
+                      onClick={() => handleDeleteAccessKey(AccessKey?.id)}
                     >
                       <Trash className="w-3.5 h-4 text-red" />
                       <p className="text-red pl-2">Delete</p>
@@ -98,7 +114,7 @@ const APIKeys: React.FC = () => {
           <div className="flex flex-row text-blue-1 items-center">
             <Button
               className="font-normal text-normal pr-1"
-              //   onClick={createKey}
+              onClick={handleCreateAccessKey}
             >
               Create a new key
             </Button>
