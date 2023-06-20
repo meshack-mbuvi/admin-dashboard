@@ -16,8 +16,6 @@ export default async function gatewayFetch<ResponseData>(
     }),
   })
 
-  // console.log("gatewayFetch res: ", res.json())
-
   if (!res.ok) {
     throw new Error(`Failed to fetch ${endpointPath}`)
   }

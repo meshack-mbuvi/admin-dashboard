@@ -45,7 +45,7 @@ const APIKeys: React.FC = () => {
     )
   }
 
-  const handleCreateAccessKey = (projectId: string) => {
+  const handleCreateAccessKey = () => {
     if (sessionToken) {
       createMutation.mutate({
         method: 'POST',
@@ -55,10 +55,6 @@ const APIKeys: React.FC = () => {
           projectId: projectId, 
           roleTitle: "admin" 
         }),
-      }, {
-        onSuccess: (data) => {
-          console.log("onSuccess data: ", data)
-        }
       })
     }
   }
@@ -97,7 +93,6 @@ const APIKeys: React.FC = () => {
             )}
             {data &&
               data.map(({ AccessKey }, index) => {
-                console.log("AccessKey: ", AccessKey)
                 return (
                   <div
                     className="flex flex-row justify-between pb-5 items-center"
@@ -119,7 +114,7 @@ const APIKeys: React.FC = () => {
           <div className="flex flex-row text-blue-1 items-center">
             <Button
               className="font-normal text-normal pr-1"
-              onClick={() => handleCreateAccessKey(projectId)}
+              onClick={handleCreateAccessKey}
             >
               Create a new key
             </Button>
