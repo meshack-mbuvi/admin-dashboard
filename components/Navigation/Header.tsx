@@ -16,7 +16,7 @@ const Help = () => {
 
 export const Header = () => {
   return (
-    <div className="flex py-7 mb-7 mx-10">
+    <div className="flex py-7 mb-7 mx-10 bg-black z-50">
       <div className="mr-11 flex items-center">
         <Link
           href={{

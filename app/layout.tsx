@@ -14,13 +14,19 @@ const slussenFont = localFont({
   src: "./fonts/Slussen-Variable.woff2",
   variable: "--font-slussen",
 })
+const slussenMono = localFont({
+  src: "./fonts/Slussen-Mono-Regular.woff2",
+  variable: "--font-slussen-mono",
+})
 
 export default function RootLayout(props: RootLayoutProps) {
   const { children } = props
 
   return (
     <html lang="en">
-      <body className={`${slussenFont.variable} font-sans bg-black text-white`}>
+      <body
+        className={`${slussenFont.variable} ${slussenMono.variable} font-sans bg-black text-white`}
+      >
         <Providers>{children}</Providers>
       </body>
     </html>
