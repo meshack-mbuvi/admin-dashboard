@@ -7,6 +7,7 @@ export default async function gatewayFetch<ResponseData>(
   args: GatewayFetchArgs
 ) {
   const { endpointPath, sessionToken, ...rest } = args
+
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpointPath}`, {
     ...rest,
     headers: new Headers({
@@ -14,6 +15,8 @@ export default async function gatewayFetch<ResponseData>(
       ...rest.headers,
     }),
   })
+
+  // console.log("gatewayFetch res: ", res.json())
 
   if (!res.ok) {
     throw new Error(`Failed to fetch ${endpointPath}`)
