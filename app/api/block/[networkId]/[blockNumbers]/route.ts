@@ -2,29 +2,27 @@ import { NextResponse } from "next/server"
 import { createPublicClient, http } from "viem"
 import { goerli, mainnet, polygon, polygonMumbai } from "viem/chains"
 
-import { NetworkId } from "@/utils/getNetwork"
-
-const getConfig = (networkId: NetworkId) => {
+const getConfig = (networkId: string) => {
   switch (networkId) {
-    case 1:
+    case "1":
       return {
         chain: mainnet,
         rpcUrl: "",
       }
 
-    case 5:
+    case "5":
       return {
         chain: goerli,
         rpcUrl: "",
       }
 
-    case 137:
+    case "137":
       return {
         chain: polygon,
         rpcUrl: "",
       }
 
-    case 80001:
+    case "80001":
       return {
         chain: polygonMumbai,
         rpcUrl:
@@ -35,11 +33,17 @@ const getConfig = (networkId: NetworkId) => {
 
 export async function GET(
   _: Request,
-  { params }: { params: { blockNumbers: string; networkId: NetworkId } }
+  { params }: { params: { blockNumbers: string; networkId: string } }
 ) {
   const blockNumbers = params.blockNumbers.split(",")
 
   const config = getConfig(params.networkId)
+
+  if (!config)
+    return NextResponse.json(
+      { error: "Invalid Network ID provided" },
+      { status: 400 }
+    )
 
   const client = createPublicClient({
     chain: config.chain,
