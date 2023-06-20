@@ -1,6 +1,8 @@
 import Button from "@/components/Buttons"
 import Text from "@/components/Text"
 import Trash from "@/components/icons/Trash"
+import useAuthToken from "@/hooks/useAuthToken"
+import useDeleteApiKey from "@/hooks/useDeleteApiKey"
 import useGetProjectApiKeys from "@/hooks/useGetApiKeys"
 import { formatDate } from "@/utils/formatDate"
 import clsx from "clsx"
@@ -14,6 +16,8 @@ const APIKeys: React.FC = () => {
   const { data } = useGetProjectApiKeys({
     projectId,
   })
+  const sessionToken = useAuthToken()
+  const deleteMutation = useDeleteApiKey(projectId)
 
   const BlurredView = () => {
     return (
@@ -39,6 +43,16 @@ const APIKeys: React.FC = () => {
     )
   }
 
+  const handleDeleteAccessKey = (keyId: string) => {
+    const confirm = window.confirm("Are you sure you want to delete")
+    if (confirm && sessionToken) {
+      deleteMutation.mutate({
+        sessionToken,
+        endpointPath: `/admin/accessKey/${keyId}`,
+      })
+    }
+  }
+
   return (
     <div>
       <div className="flex font-sans flex-col h-full w-full">
@@ -48,15 +62,18 @@ const APIKeys: React.FC = () => {
             Secret keys are used for API endpoint authentication.
           </p>
           <div className="flex flex-col pb-5">
-            <div className="flex flex-row justify-between pb-5">
-              <Text className="font-small text-gray-3 text-sm pb-3">Key</Text>
-              <Text className="font-small text-gray-3 text-sm pb-3 pl-7">
-                Created
-              </Text>
-              <div /> {/* Empty div for spacing */}
-            </div>
-            {data && data.length === 0 && (
-              <p className="text-lg pb-5">No keys!</p>
+            {data && data.length ? (
+              <div className="flex flex-row justify-between pb-5">
+                <Text className="font-small text-gray-3 text-sm pb-3">Key</Text>
+                <Text className="font-small text-gray-3 text-sm pb-3 pl-7">
+                  Created
+                </Text>
+                <div /> {/* Empty div for spacing */}
+              </div>
+            ) : (
+              <p className="text-lg pb-5">
+                There are currently no API keys for this project
+              </p>
             )}
             {data &&
               data.map(({ AccesKey }, index) => {
@@ -69,7 +86,7 @@ const APIKeys: React.FC = () => {
                     <p>{formatDate(AccesKey?.createdAt)}</p>
                     <div
                       className="flex flex-row cursor-pointer items-center hover:opacity-90"
-                      // onClick={() => deleteKey(index)}
+                      onClick={() => handleDeleteAccessKey(AccesKey?.id)}
                     >
                       <Trash className="w-3.5 h-4 text-red" />
                       <p className="text-red pl-2">Delete</p>

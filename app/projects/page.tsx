@@ -2,8 +2,26 @@ import ProjectRow from "./components/ProjectRow"
 
 import gatewayFetch from "@/utils/gatewayFetch"
 import getAuthToken from "@/utils/getAuthToken"
-import { GetProjectsResponse } from "@/hooks/useGetProjects"
 
+type GetProjectsResponse = {
+  id: string
+  createdAt: string
+  updatedAt: string | null
+  deletedAt: string | null
+  name: string
+  organizationId: string
+  tokens: {
+    id: string
+    createdAt: string
+    updatedAt: string | null
+    deletedAt: string | null
+    chainId: number
+    address: string
+    expiresAt: string | null
+    functionSignatures: []
+    projectId: string
+  }[]
+}[]
 async function getProjects() {
   const sessionToken = getAuthToken()
   const data = await gatewayFetch<GetProjectsResponse>({

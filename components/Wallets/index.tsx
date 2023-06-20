@@ -94,7 +94,9 @@ const Wallets: React.FC = () => {
               )
             })
           ) : (
-            <p className="text-lg pb-5">No Wallets!</p>
+            <p className="text-lg pb-5">
+              There are currently no wallets for this project
+            </p>
           )}
         </div>
       </div>

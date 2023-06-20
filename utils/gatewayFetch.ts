@@ -1,4 +1,4 @@
-interface GatewayFetchArgs extends RequestInit {
+export interface GatewayFetchArgs extends RequestInit {
   endpointPath: `/${string}`
   sessionToken?: string
 }
