@@ -2,6 +2,7 @@ import { redirect } from "next/navigation"
 
 import getAuthToken from "@/utils/getAuthToken"
 import gatewayFetch from "@/utils/gatewayFetch"
+import Sidebar from "@/components/Navigation/Sidebar"
 
 interface ProjectLayoutProps {
   children: React.ReactNode
@@ -52,5 +53,10 @@ export default async function ProjectLayout(props: ProjectLayoutProps) {
     redirect("/projects")
   }
 
-  return <>{children}</>
+  return (
+    <>
+      <Sidebar />
+      {children}
+    </>
+  )
 }
