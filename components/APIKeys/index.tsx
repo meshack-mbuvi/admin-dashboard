@@ -18,7 +18,7 @@ const APIKeys: React.FC = () => {
     projectId,
   })
   const sessionToken = useAuthToken()
-  const createMutation = useCreateApiKey(projectId);
+  const createMutation = useCreateApiKey(projectId)
   const deleteMutation = useDeleteApiKey(projectId)
 
   const BlurredView = () => {
@@ -48,12 +48,12 @@ const APIKeys: React.FC = () => {
   const handleCreateAccessKey = () => {
     if (sessionToken) {
       createMutation.mutate({
-        method: 'POST',
+        method: "POST",
         sessionToken,
         endpointPath: `/admin/accessKey`,
-        body: JSON.stringify({ 
-          projectId: projectId, 
-          roleTitle: "admin" 
+        body: JSON.stringify({
+          projectId: projectId,
+          roleTitle: "admin",
         }),
       })
     }
@@ -79,11 +79,15 @@ const APIKeys: React.FC = () => {
           </p>
           <div className="flex flex-col pb-5">
             {data && data.length ? (
-              <div className="flex flex-row justify-between pb-5">
-                <Text className="font-small text-gray-3 text-sm pb-3">Key</Text>
-                <Text className="font-small text-gray-3 text-sm pb-3 pl-7">
-                  Created
-                </Text>
+              <div className="grid grid-cols-2 pb-5">
+                <div className="grid grid-cols-2 gap-x-8">
+                  <Text className="font-small text-gray-3 text-sm pb-3">
+                    Key
+                  </Text>
+                  <Text className="font-small text-gray-3 text-sm pb-3">
+                    Created
+                  </Text>
+                </div>
                 <div /> {/* Empty div for spacing */}
               </div>
             ) : (
@@ -94,18 +98,23 @@ const APIKeys: React.FC = () => {
             {data &&
               data.map(({ AccessKey }, index) => {
                 return (
-                  <div
-                    className="flex flex-row justify-between pb-5 items-center"
-                    key={index}
-                  >
-                    <p>{isBlurred ? <BlurredView /> : AccessKey?.key}</p>
-                    <p>{formatDate(AccessKey?.createdAt)}</p>
+                  <div className="grid grid-cols-2 pb-5" key={index}>
+                    <div className="grid grid-cols-2 gap-x-8">
+                      {isBlurred ? (
+                        <BlurredView />
+                      ) : (
+                        <Text className="items-center">{AccessKey?.key}</Text>
+                      )}
+                      <Text className="flex items-center">
+                        {formatDate(AccessKey?.createdAt)}
+                      </Text>
+                    </div>
                     <div
-                      className="flex flex-row cursor-pointer items-center hover:opacity-90"
+                      className="flex justify-end mr-16 flex-row cursor-pointer items-center hover:opacity-90"
                       onClick={() => handleDeleteAccessKey(AccessKey?.id)}
                     >
                       <Trash className="w-3.5 h-4 text-red" />
-                      <p className="text-red pl-2">Delete</p>
+                      <Text className="text-red pl-2">Delete</Text>
                     </div>
                   </div>
                 )
