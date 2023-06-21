@@ -30,8 +30,8 @@ export default function useGetProjectApiKeys(args: UseGetProjectApiKeysArgs) {
     ["get-project-api-keys", projectId],
     async () => {
       const data = await gatewayFetch<ProjectAccessKeys[]>({
-        endpointPath: `/admin/project/${projectId}/accessKeys`,
         sessionToken,
+        endpointPath: `/admin/project/${projectId}/accessKeys`,
       })
 
       return data

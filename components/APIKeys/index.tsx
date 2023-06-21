@@ -64,6 +64,7 @@ const APIKeys: React.FC = () => {
     if (confirm && sessionToken) {
       deleteMutation.mutate({
         sessionToken,
+        method: "DELETE",
         endpointPath: `/admin/accessKey/${keyId}`,
       })
     }
