@@ -1,5 +1,5 @@
 import gatewayFetch from "@/utils/gatewayFetch"
-import { useQuery } from "@tanstack/react-query"
+import { UseQueryOptions, useQuery } from "@tanstack/react-query"
 import useAuthToken from "./useAuthToken"
 
 interface UseGetProjectByIdArgs {
@@ -16,11 +16,14 @@ export interface ProjectInterface {
   tokens: any[]
 }
 
-export default function useGetProjectById(args: UseGetProjectByIdArgs) {
+export default function useGetProjectById(
+  args: UseGetProjectByIdArgs,
+  queryOptions?: UseQueryOptions<ProjectInterface>
+) {
   const { projectId } = args
   const sessionToken = useAuthToken()
 
-  return useQuery(
+  return useQuery<ProjectInterface>(
     ["get-project-by-id", projectId],
     async () => {
       const data = await gatewayFetch<ProjectInterface>({
@@ -30,6 +33,6 @@ export default function useGetProjectById(args: UseGetProjectByIdArgs) {
 
       return data
     },
-    { enabled: !!sessionToken }
+    { enabled: !!sessionToken, ...queryOptions }
   )
 }
