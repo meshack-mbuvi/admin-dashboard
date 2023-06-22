@@ -19,6 +19,7 @@ import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
 import useGetTransactions, {
   TransactionDataType,
 } from "@/hooks/useGetTransactions"
+import Loading from "@/components/Loading"
 
 const columnHelper = createColumnHelper<TransactionDataType>()
 
@@ -64,8 +65,8 @@ const columns = [
       />
     ),
   }),
-  columnHelper.accessor("updatedAt", {
-    header: () => <span>Transaction age</span>,
+  columnHelper.accessor("blockTimestamp", {
+    header: () => <span>Block Age</span>,
     cell: (info) => (
       <TransactionTimeStamp
         transactionId={info.row.original.transactionId}
@@ -118,10 +119,19 @@ const AllTransactions = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
   })
+
   return (
     <div>
       {isLoading ? (
-        <div className="">Loading...</div>
+        [...Array(6)].map((_, i) => (
+          <div className="flex gap-5 py-4" key={i}>
+            <Loading className="w-1/5" />
+            <Loading className="w-1/5" />
+            <Loading className="w-1/5" />
+            <Loading className="w-1/5" />
+            <Loading className="w-1/5" />
+          </div>
+        ))
       ) : !isLoading && transactionsResp?.total ? (
         <div className="flex flex-col items-center">
           <Table tableConfig={table} />

@@ -4,14 +4,14 @@ import { Tooltip } from "react-tooltip"
 
 interface TimestampProps {
   transactionId: string
-  timeStamp: string
+  timeStamp: string | null
 }
 
 const TransactionTimeStamp = (props: TimestampProps) => {
   const { timeStamp, transactionId } = props
 
   return (
-    <div className="">
+    <div>
       {!timeStamp ? (
         <span className="text-gray-6 font-mono">•••</span>
       ) : (
@@ -24,8 +24,10 @@ const TransactionTimeStamp = (props: TimestampProps) => {
           )}
           data-tooltip-place="bottom"
         >
-          <Tooltip id={`timeTooltip-${transactionId}`} className="" />
-          {formatDistanceToNowStrict(new Date(timeStamp), { addSuffix: true })}
+          <Tooltip id={`timeTooltip-${transactionId}`} />
+          {formatDistanceToNowStrict(new Date(timeStamp), {
+            addSuffix: true,
+          })}
         </span>
       )}
     </div>

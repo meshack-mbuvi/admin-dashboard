@@ -5,6 +5,7 @@ import gatewayFetch from "@/utils/gatewayFetch"
 import useAuthToken from "./useAuthToken"
 import { NetworkId } from "@/utils/getNetwork"
 import { RawStatusEnum } from "@/components/Transactions/atoms/Status"
+import { formatISO, fromUnixTime } from "date-fns"
 
 interface UseGetTransactionsArgs {
   projectId: string
@@ -22,6 +23,7 @@ export interface TransactionDataType {
   transactionId: string
   updatedAt: string
   walletAddress: string
+  blockTimestamp: string | null
 }
 
 export default function useGetTransactions(args: UseGetTransactionsArgs) {
@@ -36,16 +38,44 @@ export default function useGetTransactions(args: UseGetTransactionsArgs) {
   return useQuery(
     ["get-transactions", projectId, page, limit, statusFilters],
     async () => {
-      const data = await gatewayFetch<{transactionAttempts: TransactionDataType[]; total: number}>
-
-      ({
+      const txRes = await gatewayFetch<{
+        transactionAttempts: TransactionDataType[]
+        total: number
+      }>({
         endpointPath: `/wallet/project/${projectId}/transactions?page=${page}&limit=${limit}&${statusFilters}`,
         sessionToken,
       })
 
-      return data
+      const blocks = txRes?.transactionAttempts.map((tx) => tx.block)
+      const networkId = txRes?.transactionAttempts[0].chainId
+
+      const blocksParam = blocks?.join(",")
+
+      const res = await fetch(`/api/block/${networkId}/${blocksParam}`)
+      const blocksData = (await res.json()) as {
+        data: { block: string; timestamp: string }[]
+      }
+
+      const mergedData = txRes?.transactionAttempts.map((tx) => {
+        const block = blocksData?.data?.find(
+          (d) => d.block === tx.block?.toString()
+        )
+        const unixAsTimestamp = block?.timestamp
+          ? formatISO(fromUnixTime(Number(block?.timestamp)))
+          : null
+        return {
+          ...tx,
+          blockTimestamp: unixAsTimestamp,
+        }
+      })
+
+      const finalData = {
+        transactionAttempts: mergedData,
+        total: txRes?.total,
+      }
+
+      return finalData
     },
-    { enabled: !!sessionToken, keepPreviousData: true },
-    
+    { enabled: !!sessionToken, keepPreviousData: true }
   )
 }

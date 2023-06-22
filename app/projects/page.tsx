@@ -22,6 +22,7 @@ type GetProjectsResponse = {
     projectId: string
   }[]
 }[]
+
 async function getProjects() {
   const sessionToken = getAuthToken()
   const data = await gatewayFetch<GetProjectsResponse>({
