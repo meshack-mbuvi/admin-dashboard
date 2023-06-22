@@ -6,6 +6,7 @@ import {
 import { useParams } from "next/navigation"
 import { useState } from "react"
 
+import EmptyState from "@/components/Transactions/atoms/Empty"
 import Table from "@/components/Transactions/atoms/Table"
 import TransactionPagination from "@/components/Transactions/atoms/Pagination"
 import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
@@ -77,7 +78,7 @@ const FailedTransactions = () => {
           />
         </div>
       ) : (
-        <div>No transactions</div>
+        <EmptyState heading="No failed requests" description={""} />
       )}
     </div>
   )

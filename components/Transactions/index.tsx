@@ -7,6 +7,7 @@ import { useParams } from "next/navigation"
 import { useState } from "react"
 
 import CaretDown from "@/components/icons/CaretDown"
+import EmptyState from "@/components/Transactions/atoms/Empty"
 import Hex from "@/components/Transactions/atoms/Hex"
 import Table from "@/components/Transactions/atoms/Table"
 import TransactionBlock from "@/components/Transactions/atoms/Block"
@@ -134,7 +135,15 @@ const AllTransactions = () => {
           />
         </div>
       ) : (
-        <div>No transactions</div>
+        <EmptyState
+          heading="No transactions yet"
+          description={
+            <span>
+              When transactions are requested, they<span>&#39;</span>ll appear
+              here
+            </span>
+          }
+        />
       )}
     </div>
   )
