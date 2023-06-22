@@ -107,8 +107,6 @@ const AllTransactions = () => {
     ],
   })
 
-  console.log(transactionsResp)
-
   const onPageChange = (page: number) => {
     setPage(page)
     refetch?.()
