@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import CopyComponent from "@/components/CopyToClipboard"
+import CopyToClipboard from "@/components/CopyToClipboard"
 import { getNetwork, NetworkId } from "@/utils/getNetwork"
 
 interface BlockProps {
@@ -28,7 +28,7 @@ const TransactionBlock = (props: BlockProps) => {
             {blockValue}
           </Link>
 
-          <CopyComponent
+          <CopyToClipboard
             text={blockValue.toString()}
             className="ml-4 invisible group-hover:visible"
           />
