@@ -10,6 +10,7 @@ import EmptyState from "@/components/Transactions/atoms/Empty"
 import Table from "@/components/Transactions/atoms/Table"
 import TransactionPagination from "@/components/Transactions/atoms/Pagination"
 import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
+import Loading from "@/components/Loading"
 
 import useGetRequests, { RequestDataType } from "@/hooks/useGetRequests"
 
@@ -65,7 +66,15 @@ const FailedTransactions = () => {
   return (
     <div>
       {isLoading ? (
-        <div className="">Loading...</div>
+        [...Array(6)].map((_, i) => (
+          <div className="flex gap-5 py-4" key={i}>
+            <Loading className="w-1/5" />
+            <Loading className="w-1/5" />
+            <Loading className="w-1/5" />
+            <Loading className="w-1/5" />
+            <Loading className="w-1/5" />
+          </div>
+        ))
       ) : !isLoading && requestsResp?.total ? (
         <div className="flex flex-col items-center">
           <Table tableConfig={table} />

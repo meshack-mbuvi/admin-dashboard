@@ -5,6 +5,7 @@ import gatewayFetch from "@/utils/gatewayFetch"
 import useAuthToken from "./useAuthToken"
 import { NetworkId } from "@/utils/getNetwork"
 import { RawStatusEnum } from "@/components/Transactions/atoms/Status"
+import { formatISO, fromUnixTime } from "date-fns"
 
 interface UseGetTransactionsArgs {
   projectId: string
@@ -59,9 +60,12 @@ export default function useGetTransactions(args: UseGetTransactionsArgs) {
         const block = blocksData?.data?.find(
           (d) => d.block === tx.block?.toString()
         )
+        const unixAsTimestamp = block?.timestamp
+          ? formatISO(fromUnixTime(Number(block?.timestamp)))
+          : null
         return {
           ...tx,
-          blockTimestamp: block?.timestamp ?? null,
+          blockTimestamp: unixAsTimestamp,
         }
       })
 

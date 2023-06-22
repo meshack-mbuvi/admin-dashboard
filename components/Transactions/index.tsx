@@ -19,6 +19,7 @@ import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
 import useGetTransactions, {
   TransactionDataType,
 } from "@/hooks/useGetTransactions"
+import Loading from "@/components/Loading"
 
 const columnHelper = createColumnHelper<TransactionDataType>()
 
@@ -122,7 +123,15 @@ const AllTransactions = () => {
   return (
     <div>
       {isLoading ? (
-        <div className="">Loading...</div>
+        [...Array(6)].map((_, i) => (
+          <div className="flex gap-5 py-4" key={i}>
+            <Loading className="w-1/5" />
+            <Loading className="w-1/5" />
+            <Loading className="w-1/5" />
+            <Loading className="w-1/5" />
+            <Loading className="w-1/5" />
+          </div>
+        ))
       ) : !isLoading && transactionsResp?.total ? (
         <div className="flex flex-col items-center">
           <Table tableConfig={table} />
