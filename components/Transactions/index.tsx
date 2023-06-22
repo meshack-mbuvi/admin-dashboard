@@ -63,7 +63,7 @@ const columns = [
       />
     ),
   }),
-  columnHelper.accessor("updatedAt", {
+  columnHelper.accessor("blockTimestamp", {
     header: () => <span>Transaction age</span>,
     cell: (info) => (
       <TransactionTimeStamp
@@ -107,6 +107,8 @@ const AllTransactions = () => {
     ],
   })
 
+  console.log(transactionsResp)
+
   const onPageChange = (page: number) => {
     setPage(page)
     refetch?.()
@@ -117,6 +119,7 @@ const AllTransactions = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
   })
+
   return (
     <div>
       {isLoading ? (
