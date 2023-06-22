@@ -65,7 +65,7 @@ const columns = [
     ),
   }),
   columnHelper.accessor("blockTimestamp", {
-    header: () => <span>Transaction age</span>,
+    header: () => <span>Block Age</span>,
     cell: (info) => (
       <TransactionTimeStamp
         transactionId={info.row.original.transactionId}
