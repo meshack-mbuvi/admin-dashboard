@@ -1,7 +1,6 @@
 import Link from "next/link"
 import { useMemo } from "react"
 
-import CopyComponent from "@/components/CopyToClipboard"
 import { formatAddress } from "@/utils/formatAddress"
 import { getNetwork, NetworkId } from "@/utils/getNetwork"
 
@@ -31,6 +30,7 @@ const Hex = (props: HexProps) => {
         className={`focus:outline-none text-base leading-5.5 text-white cursor-pointer font-mono`}
       >
         <Link
+          className="hover:text-blue-1 text-gray-3"
           href={{
             pathname: `${
               getNetwork(chainId).blockExplorers?.default.url
@@ -38,14 +38,10 @@ const Hex = (props: HexProps) => {
           }}
           target="_blank"
         >
-          <span className="text-gray-3">{formattedHexValue?.slice(0, 2)}</span>
+          {formattedHexValue?.slice(0, 2)}
           {formattedHexValue?.slice(2)}
         </Link>
       </span>
-      <CopyComponent
-        text={hexValue}
-        className="ml-4 invisible group-hover:visible"
-      />
     </div>
   )
 }

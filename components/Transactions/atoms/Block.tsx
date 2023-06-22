@@ -16,7 +16,7 @@ const TransactionBlock = (props: BlockProps) => {
     <div className="">
       {!blockValue && <span className="text-gray-6 font-mono">•••</span>}
       {!!(viewType === "block" && blockValue) && (
-        <span className="text-blue-1 group flex cursor-pointer">
+        <span className="hover:text-blue-1 text-gray-3 group flex cursor-pointer">
           <Link
             href={{
               pathname: `${
