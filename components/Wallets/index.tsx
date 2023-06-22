@@ -8,7 +8,7 @@ import Text from "@/components/Text"
 import Section from "@/components/Section"
 import Check from "@/components/icons/Check"
 import RightArrow from "@/components/icons/RightArrow"
-import CopyComponent from "@/components/CopyToClipboard"
+import CopyToClipboard from "@/components/CopyToClipboard"
 import Warning from "@/components/icons/Warning"
 import Loading from "@/components/Loading"
 
@@ -80,7 +80,10 @@ export default function Wallets() {
                       <span className="text-gray-3">0x</span>
                       {walletAddress.substring(2)}
                       {hoveredWalletAddress === walletAddress && (
-                        <CopyComponent text={walletAddress} className="ml-4" />
+                        <CopyToClipboard
+                          text={walletAddress}
+                          className="ml-4"
+                        />
                       )}
                     </p>
                   </div>

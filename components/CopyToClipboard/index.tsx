@@ -3,7 +3,7 @@ import { Tooltip } from "react-tooltip"
 
 import Clipboard from "@/components/icons/Clipboard"
 
-export default function CopyComponent(props: {
+export default function CopyToClipboard(props: {
   text: string
   className?: string
 }) {
