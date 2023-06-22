@@ -1,21 +1,26 @@
-import Text from "@/components/Text"
-import useGetProjectWallets from "@/hooks/useGetProjectWallets"
+"use client"
+
+import { useState } from "react"
 import clsx from "clsx"
 import { useParams } from "next/navigation"
-import { useState } from "react"
-import CopyComponent from "../CopyToClipboard"
-import Section from "../Section"
-import Check from "../icons/Check"
-import RightArrow from "../icons/RightArrow"
-import Warning from "../icons/Warning"
 
-const Wallets: React.FC = () => {
+import Text from "@/components/Text"
+import Section from "@/components/Section"
+import Check from "@/components/icons/Check"
+import RightArrow from "@/components/icons/RightArrow"
+import CopyComponent from "@/components/CopyToClipboard"
+import Warning from "@/components/icons/Warning"
+import Loading from "@/components/Loading"
+
+import useGetProjectWallets from "@/hooks/useGetProjectWallets"
+
+export default function Wallets() {
   const [hoveredWalletAddress, setHoveredWalletAddress] = useState<
     string | null
   >(null)
 
   const { projectId } = useParams()
-  const { data: wallets } = useGetProjectWallets({
+  const { data: wallets, isLoading } = useGetProjectWallets({
     projectId,
   })
 
@@ -49,7 +54,14 @@ const Wallets: React.FC = () => {
         )}
 
         <div className="w-full flex-col flex py-3">
-          {wallets && wallets.length > 0 ? (
+          {isLoading ? (
+            [...Array(3)].map((_, i) => (
+              <div className="flex space-x-48 py-3" key={i}>
+                <Loading className="w-1/3" />
+                <Loading className="w-32" />
+              </div>
+            ))
+          ) : wallets && wallets.length > 0 ? (
             wallets.map(({ walletId, walletAddress, isActive }) => {
               return (
                 <div
@@ -112,5 +124,3 @@ const Wallets: React.FC = () => {
     </Section>
   )
 }
-
-export default Wallets
