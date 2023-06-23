@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query"
 import gatewayFetch from "@/utils/gatewayFetch"
 import useAuthToken from "./useAuthToken"
 
-
 interface UseGetRequestArgs {
   projectId: string
   page: number
@@ -26,10 +25,15 @@ export default function useGetRequest(args: UseGetRequestArgs) {
   return useQuery(
     ["get-requests", projectId, page, limit, invalid],
     async () => {
-      const data = await gatewayFetch<{transactionRequests: RequestDataType[], total: number}>({
+      const res = await gatewayFetch({
         endpointPath: `/wallet/project/${projectId}/requests?invalid=${invalid}&page=${page}&limit=${limit}`,
         sessionToken,
       })
+
+      const data = (await res.json()) as {
+        transactionRequests: RequestDataType[]
+        total: number
+      }
 
       return data
     },

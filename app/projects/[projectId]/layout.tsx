@@ -31,10 +31,12 @@ async function getProjectById(args: GetProjectByIdProps) {
 
   if (!sessionToken) return
 
-  const data = await gatewayFetch<ProjectInterface>({
+  const res = await gatewayFetch({
     endpointPath: `/admin/project/${projectId}`,
     sessionToken,
   })
+
+  const data = (await res.json()) as ProjectInterface
 
   return data
 }

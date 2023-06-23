@@ -3,9 +3,7 @@ export interface GatewayFetchArgs extends RequestInit {
   sessionToken?: string
 }
 
-export default async function gatewayFetch<ResponseData>(
-  args: GatewayFetchArgs
-) {
+export default async function gatewayFetch(args: GatewayFetchArgs) {
   const { endpointPath, sessionToken, ...rest } = args
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpointPath}`, {
@@ -20,5 +18,5 @@ export default async function gatewayFetch<ResponseData>(
     throw new Error(`Failed to fetch ${endpointPath}`)
   }
 
-  return res.json() as ResponseData
+  return res
 }

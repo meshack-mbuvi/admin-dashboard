@@ -18,18 +18,25 @@ export interface ProjectInterface {
 
 export default function useGetProjectById(
   args: UseGetProjectByIdArgs,
-  queryOptions?: UseQueryOptions<ProjectInterface>
+  queryOptions?: UseQueryOptions<
+    ProjectInterface,
+    unknown,
+    ProjectInterface,
+    string[]
+  >
 ) {
   const { projectId } = args
   const sessionToken = useAuthToken()
 
-  return useQuery<ProjectInterface>(
+  return useQuery(
     ["get-project-by-id", projectId],
     async () => {
-      const data = await gatewayFetch<ProjectInterface>({
+      const res = await gatewayFetch({
         endpointPath: `/admin/project/${projectId}`,
         sessionToken,
       })
+
+      const data = (await res.json()) as ProjectInterface
 
       return data
     },

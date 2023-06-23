@@ -38,16 +38,18 @@ export default function useGetTransactions(args: UseGetTransactionsArgs) {
   return useQuery(
     ["get-transactions", projectId, page, limit, statusFilters],
     async () => {
-      const txRes = await gatewayFetch<{
-        transactionAttempts: TransactionDataType[]
-        total: number
-      }>({
+      const txRes = await gatewayFetch({
         endpointPath: `/wallet/project/${projectId}/transactions?page=${page}&limit=${limit}&${statusFilters}`,
         sessionToken,
       })
 
-      const blocks = txRes?.transactionAttempts.map((tx) => tx.block)
-      const networkId = txRes?.transactionAttempts[0].chainId
+      const txData = (await txRes.json()) as {
+        transactionAttempts: TransactionDataType[]
+        total: number
+      }
+
+      const blocks = txData?.transactionAttempts.map((tx) => tx.block)
+      const networkId = txData?.transactionAttempts[0].chainId
 
       const blocksParam = blocks?.join(",")
 
@@ -56,7 +58,7 @@ export default function useGetTransactions(args: UseGetTransactionsArgs) {
         data: { block: string; timestamp: string }[]
       }
 
-      const mergedData = txRes?.transactionAttempts.map((tx) => {
+      const mergedData = txData?.transactionAttempts.map((tx) => {
         const block = blocksData?.data?.find(
           (d) => d.block === tx.block?.toString()
         )
@@ -71,7 +73,7 @@ export default function useGetTransactions(args: UseGetTransactionsArgs) {
 
       const finalData = {
         transactionAttempts: mergedData,
-        total: txRes?.total,
+        total: txData?.total,
       }
 
       return finalData
