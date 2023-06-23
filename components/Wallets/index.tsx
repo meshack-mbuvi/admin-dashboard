@@ -32,11 +32,6 @@ export default function Wallets() {
           These wallets will be used to perform actions on your contract. Please
           add them as an allowed operator.
         </p>
-        <span className="flex items-center text-blue-1 justify-center">
-          <a href="#" className="flex items-center font-medium text-sm pr-1">
-            Learn more <RightArrow className="w-4 h-4 ml-2" />
-          </a>
-        </span>
       </div>
 
       <div className="flex flex-col">
