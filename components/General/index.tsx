@@ -5,6 +5,7 @@ import { useParams } from "next/navigation"
 import Input from "@/components/Input"
 import Section from "@/components/Section"
 import Text from "@/components/Text"
+import Loading from "@/components/Loading"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useGetProjectById from "@/hooks/useGetProjectById"
@@ -19,7 +20,7 @@ export default function General() {
 
   const updateProjectNameMutation = useUpdateProjectNameMutation(projectId)
 
-  useGetProjectById(
+  const { isLoading } = useGetProjectById(
     {
       projectId,
     },
@@ -50,12 +51,16 @@ export default function General() {
           <Text className="font-medium text-2xl pb-7">Name</Text>
           <div className="flex flex-col">
             <Text className="pb-3">Project name</Text>
-            <Input
-              className="w-1/3 border-gray-6 bg-white bg-opacity-[0.01]"
-              value={updatedProjectName}
-              onChange={(e) => setUpdatedProjectName(e.target.value)}
-              onBlur={handleUpdateProjectName}
-            />
+            {isLoading ? (
+              <Loading className="h-14 max-w-xs" />
+            ) : (
+              <Input
+                className="w-1/3 border-gray-6 bg-white bg-opacity-[0.01]"
+                value={updatedProjectName}
+                onChange={(e) => setUpdatedProjectName(e.target.value)}
+                onBlur={handleUpdateProjectName}
+              />
+            )}
           </div>
         </Section>
       </div>
