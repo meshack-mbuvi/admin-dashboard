@@ -14,7 +14,7 @@ export default function Authenticate() {
   const stytch = useStytchB2BClient()
   const { session } = useStytchMemberSession()
   const router = useRouter()
-  const [error, setError] = useState<ErrorType | null>("expiredLink")
+  const [error, setError] = useState<ErrorType | null>(null)
 
   const handleBackToLogin = () => {
     router.push("/")
