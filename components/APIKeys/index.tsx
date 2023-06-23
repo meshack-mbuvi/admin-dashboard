@@ -1,14 +1,14 @@
 "use client"
 
-import { useState } from "react"
 import { useParams } from "next/navigation"
+import { useState } from "react"
 
 import Button from "@/components/Buttons"
-import Text from "@/components/Text"
-import Trash from "@/components/icons/Trash"
-import RightArrow from "@/components/icons/RightArrow"
-import Loading from "@/components/Loading"
 import CopyToClipboard from "@/components/CopyToClipboard"
+import Loading from "@/components/Loading"
+import Text from "@/components/Text"
+import RightArrow from "@/components/icons/RightArrow"
+import Trash from "@/components/icons/Trash"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateApiKey from "@/hooks/useCreateApiKey"
@@ -81,9 +81,9 @@ export default function APIKeys() {
             </p>
           )}
           {data &&
-            data.map(({ AccessKey }, index) => {
+            data.map(({ AccessKey }) => {
               return (
-                <div className="grid grid-cols-3 pb-5" key={index}>
+                <div className="grid grid-cols-3 pb-5" key={AccessKey?.id}>
                   <div className="col-span-2 grid grid-cols-2 gap-x-8 items-center">
                     <BlurredView>
                       <div className="flex">
