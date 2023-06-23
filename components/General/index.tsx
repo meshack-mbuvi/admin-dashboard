@@ -1,6 +1,8 @@
 "use client"
 
 import { useParams } from "next/navigation"
+import { ChangeEvent, useEffect, useState } from "react"
+import { useDebouncedCallback } from "use-debounce"
 
 import Input from "@/components/Input"
 import Section from "@/components/Section"
@@ -10,35 +12,44 @@ import Loading from "@/components/Loading"
 import useAuthToken from "@/hooks/useAuthToken"
 import useGetProjectById from "@/hooks/useGetProjectById"
 import useUpdateProjectNameMutation from "@/hooks/useUpdateProjectNameMutation"
-import { useState } from "react"
 
 export default function General() {
   const { projectId } = useParams()
   const sessionToken = useAuthToken()
 
-  const [updatedProjectName, setUpdatedProjectName] = useState("")
+  const [saved, setSaved] = useState(false)
+  const debounced = useDebouncedCallback((value) => {
+    handleUpdateProjectName(value)
+  }, 300)
 
-  const updateProjectNameMutation = useUpdateProjectNameMutation(projectId)
-
-  const { isLoading } = useGetProjectById(
-    {
-      projectId,
+  const updateProjectNameMutation = useUpdateProjectNameMutation({
+    projectId,
+    onSuccess: () => {
+      setSaved(true)
     },
-    {
-      onSuccess: (data) => {
-        setUpdatedProjectName(data.name)
-      },
-    }
-  )
+  })
 
-  const handleUpdateProjectName = () => {
-    if (sessionToken && updatedProjectName) {
+  // DEV: hides the saved copy after 2 seconds
+  useEffect(() => {
+    if (saved) {
+      setTimeout(() => {
+        setSaved(false)
+      }, 2000)
+    }
+  }, [saved])
+
+  const { data, isLoading } = useGetProjectById({
+    projectId,
+  })
+
+  const handleUpdateProjectName = (e: ChangeEvent<HTMLInputElement>) => {
+    if (sessionToken && e.target.value) {
       updateProjectNameMutation.mutate({
         method: "POST",
         sessionToken,
         endpointPath: `/admin/project/${projectId}/updateName`,
         body: JSON.stringify({
-          name: updatedProjectName,
+          name: e.target.value,
         }),
       })
     }
@@ -54,12 +65,16 @@ export default function General() {
             {isLoading ? (
               <Loading className="h-14 max-w-xs" />
             ) : (
-              <Input
-                className="w-1/3 border-gray-6 bg-white bg-opacity-[0.01]"
-                value={updatedProjectName}
-                onChange={(e) => setUpdatedProjectName(e.target.value)}
-                onBlur={handleUpdateProjectName}
-              />
+              <div className="flex">
+                <Input
+                  className="w-1/3 border-gray-6 bg-white bg-opacity-[0.01]"
+                  defaultValue={data?.name ?? ""}
+                  onChange={(e) => debounced(e)}
+                />
+                {saved && (
+                  <p className="text-success text-sm ml-4 self-end">Saved!</p>
+                )}
+              </div>
             )}
           </div>
         </Section>

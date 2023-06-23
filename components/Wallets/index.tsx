@@ -52,8 +52,8 @@ export default function Wallets() {
           {isLoading ? (
             [...Array(3)].map((_, i) => (
               <div className="flex space-x-48 py-3" key={i}>
-                <Loading className="w-1/3" />
-                <Loading className="w-32" />
+                <Loading className="w-1/3 h-4" />
+                <Loading className="w-32 h-4" />
               </div>
             ))
           ) : wallets && wallets.length > 0 ? (

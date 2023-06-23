@@ -23,6 +23,7 @@
     "react-tooltip": "^5.13.2",
     "server-only": "^0.0.1",
     "stytch": "^6.2.1",
+    "use-debounce": "^9.0.4",
     "viem": "^1.0.7"
   },
   "devDependencies": {

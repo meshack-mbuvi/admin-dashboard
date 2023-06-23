@@ -68,11 +68,11 @@ const FailedTransactions = () => {
       {isLoading ? (
         [...Array(6)].map((_, i) => (
           <div className="flex gap-5 py-4" key={i}>
-            <Loading className="w-1/5" />
-            <Loading className="w-1/5" />
-            <Loading className="w-1/5" />
-            <Loading className="w-1/5" />
-            <Loading className="w-1/5" />
+            <Loading className="w-1/5 h-4" />
+            <Loading className="w-1/5 h-4" />
+            <Loading className="w-1/5 h-4" />
+            <Loading className="w-1/5 h-4" />
+            <Loading className="w-1/5 h-4" />
           </div>
         ))
       ) : !isLoading && requestsResp?.total ? (
