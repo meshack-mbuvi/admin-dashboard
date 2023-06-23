@@ -3,13 +3,13 @@ import { useQuery } from "@tanstack/react-query"
 import gatewayFetch from "@/utils/gatewayFetch"
 import useAuthToken from "./useAuthToken"
 
-interface UseGetRequestArgs {
+interface UseGetRequestsArgs {
   projectId: string
   page: number
   limit: number
   invalid: boolean
 }
-export interface RequestDataType {
+export interface RequestsDataType {
   createdAt: string
   invalid: boolean
   transactionId: string
@@ -17,7 +17,7 @@ export interface RequestDataType {
   transactionAttempts: []
 }
 
-export default function useGetRequest(args: UseGetRequestArgs) {
+export default function useGetRequests(args: UseGetRequestsArgs) {
   const { page, limit, invalid, projectId } = args
 
   const sessionToken = useAuthToken()
@@ -31,7 +31,7 @@ export default function useGetRequest(args: UseGetRequestArgs) {
       })
 
       const data = (await res.json()) as {
-        transactionRequests: RequestDataType[]
+        transactionRequests: RequestsDataType[]
         total: number
       }
 
