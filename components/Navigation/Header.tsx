@@ -1,18 +1,8 @@
 import Link from "next/link"
 
-import HelpIcon from "@/components/icons/Help"
-import Logo from "@/components/icons/Logo"
 import UserMenu from "@/components/Navigation/UserMenu"
+import Logo from "@/components/icons/Logo"
 import Breadcrumbs from "./Breadcrumbs"
-
-const Help = () => {
-  return (
-    <div className="flex items-center space-x-2 w-fit py-2 px-4 text-gray-4">
-      <HelpIcon className="w-4 text-gray-4" />
-      <p className="text-base">Help</p>
-    </div>
-  )
-}
 
 export const Header = () => {
   return (
@@ -31,8 +21,6 @@ export const Header = () => {
         <Breadcrumbs />
 
         <div className="flex space-x-2">
-          <Help />
-
           <UserMenu />
         </div>
       </div>
