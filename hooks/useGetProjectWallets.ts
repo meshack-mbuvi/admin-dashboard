@@ -25,10 +25,12 @@ export default function useGetProjectWallets(args: UseGetProjectWalletsArgs) {
   return useQuery(
     ["get-project-wallets", projectId],
     async () => {
-      const data = await gatewayFetch<Wallets[]>({
+      const res = await gatewayFetch({
         endpointPath: `/wallet/project/${projectId}/wallets`,
         sessionToken,
       })
+
+      const data = (await res.json()) as Wallets[]
 
       return data
     },

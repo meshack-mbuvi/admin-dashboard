@@ -29,10 +29,12 @@ export default function useGetProjectApiKeys(args: UseGetProjectApiKeysArgs) {
   return useQuery(
     ["get-project-api-keys", projectId],
     async () => {
-      const data = await gatewayFetch<ProjectAccessKeys[]>({
+      const res = await gatewayFetch({
         sessionToken,
         endpointPath: `/admin/project/${projectId}/accessKeys`,
       })
+
+      const data = (await res.json()) as ProjectAccessKeys[]
 
       return data
     },

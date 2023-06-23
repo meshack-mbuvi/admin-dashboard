@@ -25,10 +25,12 @@ type GetProjectsResponse = {
 
 async function getProjects() {
   const sessionToken = getAuthToken()
-  const data = await gatewayFetch<GetProjectsResponse>({
+  const res = await gatewayFetch({
     endpointPath: "/admin/organization/projects",
     sessionToken,
   })
+
+  const data = (await res.json()) as GetProjectsResponse
 
   return data
 }
