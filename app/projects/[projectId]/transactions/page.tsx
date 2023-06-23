@@ -1,12 +1,12 @@
 "use client"
 
-import FailedRequests from "@/components/Transactions/FailedRequests"
-import AllTransactions from "@/components/Transactions"
 import { Tab } from "@/components/Tab"
+import AllTransactions from "@/components/Transactions"
+import FailedRequests from "@/components/Transactions/FailedRequests"
 import { useState } from "react"
 
 export default function Transactions() {
-  const tabHeaders = ["Transactions", "Failed Request"]
+  const tabHeaders = ["Transactions", "Failed requests"]
 
   const tabComponents: {
     [key: string]: JSX.Element
