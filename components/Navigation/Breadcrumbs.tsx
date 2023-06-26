@@ -1,11 +1,23 @@
-"use client"
-
 import Link from "next/link"
 import { useParams } from "next/navigation"
 
 import NikeBrand from "@/components/icons/NikeBrand"
+import getAuthToken from "@/utils/getAuthToken"
+import gatewayFetch from "@/utils/gatewayFetch"
 
-export default function Breadcrumbs() {
+async function getOrganizationName() {
+  const sessionToken = getAuthToken()
+  const data = await gatewayFetch({
+    endpointPath: "/admin/organization",
+    sessionToken,
+  })
+
+  return data
+}
+
+export default async function Breadcrumbs() {
+
+  const name = await getOrganizationName()
   const { projectId } = useParams()
 
   return (
