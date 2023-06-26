@@ -61,8 +61,8 @@ export default function APIKeys() {
           {isLoading ? (
             [...Array(6)].map((_, i) => (
               <div className="flex gap-x-8 py-4" key={i}>
-                <Loading className="w-1/4" />
-                <Loading className=" w-1/4" />
+                <Loading className="w-1/4 h-4" />
+                <Loading className=" w-1/4 h-4" />
               </div>
             ))
           ) : data && data.length ? (

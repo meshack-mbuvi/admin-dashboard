@@ -2,9 +2,9 @@ import { flexRender } from "@tanstack/react-table"
 import type { HeaderGroup, Row, Table } from "@tanstack/react-table"
 
 import { TransactionDataType } from "@/hooks/useGetTransactions"
-import { RequestDataType } from "@/hooks/useGetRequests"
+import { RequestsDataType } from "@/hooks/useGetRequests"
 interface TableProps {
-  tableConfig: Table<TransactionDataType> | Table<RequestDataType>
+  tableConfig: Table<TransactionDataType> | Table<RequestsDataType>
 }
 
 export default function Table({ tableConfig }: TableProps) {
@@ -18,7 +18,7 @@ export default function Table({ tableConfig }: TableProps) {
               (
                 headerGroup:
                   | HeaderGroup<TransactionDataType>
-                  | HeaderGroup<RequestDataType>
+                  | HeaderGroup<RequestsDataType>
               ) => (
                 <tr
                   key={headerGroup.id}
@@ -44,20 +44,15 @@ export default function Table({ tableConfig }: TableProps) {
         <tbody className="divide-y divide-gray-7">
           {tableConfig
             .getRowModel()
-            .rows.map(
-              (row: Row<TransactionDataType> | Row<RequestDataType>) => (
-                <tr key={row.id} className="h-[58px]">
-                  {row.getVisibleCells().map((cell: any) => (
-                    <td key={cell.id} className="whitespace-nowrap pr-4">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              )
-            )}
+            .rows.map((row: Row<TransactionDataType | RequestsDataType>) => (
+              <tr key={row.id} className="h-[58px]">
+                {row.getVisibleCells().map((cell: any) => (
+                  <td key={cell.id} className="whitespace-nowrap pr-4">
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

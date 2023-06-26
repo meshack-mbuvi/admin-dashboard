@@ -12,7 +12,7 @@ export default function Transactions() {
     [key: string]: JSX.Element
   } = {
     Transactions: <AllTransactions />,
-    "Failed Request": <FailedRequests />,
+    "Failed requests": <FailedRequests />,
   }
 
   const [activeTabIndex, setActiveTabIndex] = useState(0)

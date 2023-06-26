@@ -12,9 +12,9 @@ import TransactionPagination from "@/components/Transactions/atoms/Pagination"
 import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
 import Loading from "@/components/Loading"
 
-import useGetRequests, { RequestDataType } from "@/hooks/useGetRequests"
+import useGetRequests, { RequestsDataType } from "@/hooks/useGetRequests"
 
-const columnHelper = createColumnHelper<RequestDataType>()
+const columnHelper = createColumnHelper<RequestsDataType>()
 
 const columns = [
   columnHelper.accessor("transactionId", {
@@ -34,7 +34,7 @@ const columns = [
   }),
 ]
 
-const FailedTransactions = () => {
+export default function FailedRequests() {
   const [page, setPage] = useState<number>(0)
   const [limit] = useState<number>(20)
 
@@ -68,11 +68,11 @@ const FailedTransactions = () => {
       {isLoading ? (
         [...Array(6)].map((_, i) => (
           <div className="flex gap-5 py-4" key={i}>
-            <Loading className="w-1/5" />
-            <Loading className="w-1/5" />
-            <Loading className="w-1/5" />
-            <Loading className="w-1/5" />
-            <Loading className="w-1/5" />
+            <Loading className="w-1/5 h-4" />
+            <Loading className="w-1/5 h-4" />
+            <Loading className="w-1/5 h-4" />
+            <Loading className="w-1/5 h-4" />
+            <Loading className="w-1/5 h-4" />
           </div>
         ))
       ) : !isLoading && requestsResp?.total ? (
@@ -92,5 +92,3 @@ const FailedTransactions = () => {
     </div>
   )
 }
-
-export default FailedTransactions

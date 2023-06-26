@@ -32,11 +32,6 @@ export default function Wallets() {
           These wallets will be used to perform actions on your contract. Please
           add them as an allowed operator.
         </p>
-        <span className="flex items-center text-blue-1 justify-center">
-          <a href="#" className="flex items-center font-medium text-sm pr-1">
-            Learn more <RightArrow className="w-4 h-4 ml-2" />
-          </a>
-        </span>
       </div>
 
       <div className="flex flex-col">
@@ -57,8 +52,8 @@ export default function Wallets() {
           {isLoading ? (
             [...Array(3)].map((_, i) => (
               <div className="flex space-x-48 py-3" key={i}>
-                <Loading className="w-1/3" />
-                <Loading className="w-32" />
+                <Loading className="w-1/3 h-4" />
+                <Loading className="w-32 h-4" />
               </div>
             ))
           ) : wallets && wallets.length > 0 ? (

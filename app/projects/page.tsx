@@ -1,42 +1,11 @@
+"use client"
+
+import useGetProjects from "@/hooks/useGetProjects"
 import ProjectRow from "./components/ProjectRow"
+import Loading from "@/components/Loading"
 
-import gatewayFetch from "@/utils/gatewayFetch"
-import getAuthToken from "@/utils/getAuthToken"
-
-type GetProjectsResponse = {
-  id: string
-  createdAt: string
-  updatedAt: string | null
-  deletedAt: string | null
-  name: string
-  organizationId: string
-  tokens: {
-    id: string
-    createdAt: string
-    updatedAt: string | null
-    deletedAt: string | null
-    chainId: number
-    address: string
-    expiresAt: string | null
-    functionSignatures: []
-    projectId: string
-  }[]
-}[]
-
-async function getProjects() {
-  const sessionToken = getAuthToken()
-  const res = await gatewayFetch({
-    endpointPath: "/admin/organization/projects",
-    sessionToken,
-  })
-
-  const data = (await res.json()) as GetProjectsResponse
-
-  return data
-}
-
-export default async function Projects() {
-  const projects = await getProjects()
+export default function Projects() {
+  const { data, isLoading } = useGetProjects()
 
   return (
     <>
@@ -48,11 +17,26 @@ export default async function Projects() {
         </div>
 
         {/* Project list */}
-        <div className="-ml-7 -mr-7 flex flex-col">
-          {projects.map(({ name, id }) => (
-            <ProjectRow key={id} name={name} projectId={id} />
-          ))}
-        </div>
+        {isLoading && (
+          <div>
+            <Loading className="h-6 w-48" />
+            <div className="border-b border-gray-7 my-6" />
+            <Loading className="h-6 w-52" />
+            <div className="border-b border-gray-7 my-6" />
+            <Loading className="h-6 w-60" />
+            <div className="border-b border-gray-7 my-6" />
+            <Loading className="h-6 w-48" />
+            <div className="border-b border-gray-7 my-6" />
+          </div>
+        )}
+
+        {data && (
+          <div className="-ml-7 -mr-7 flex flex-col">
+            {data.map(({ name, id }) => (
+              <ProjectRow key={id} name={name} projectId={id} />
+            ))}
+          </div>
+        )}
       </div>
     </>
   )

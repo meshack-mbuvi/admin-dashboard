@@ -48,6 +48,11 @@ export default function useGetTransactions(args: UseGetTransactionsArgs) {
         total: number
       }
 
+      // DEV: if there are no transactions, return early
+      if (txData?.total === 0) {
+        return txData
+      }
+
       const blocks = txData?.transactionAttempts.map((tx) => tx.block)
       const networkId = txData?.transactionAttempts[0].chainId
 

@@ -1,5 +1,6 @@
-import gatewayFetch from "@/utils/gatewayFetch"
 import { UseQueryOptions, useQuery } from "@tanstack/react-query"
+
+import gatewayFetch from "@/utils/gatewayFetch"
 import useAuthToken from "./useAuthToken"
 
 interface UseGetProjectByIdArgs {
