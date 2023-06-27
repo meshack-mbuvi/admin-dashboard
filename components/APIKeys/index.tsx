@@ -57,7 +57,7 @@ export default function APIKeys() {
         <p className="font-small text-gray-3 text-sm pb-7">
           Secret keys are used for API endpoint authentication.
         </p>
-        <div className="flex flex-col pb-5">
+        <div className="pb-5 overflow-x-auto">
           {isLoading ? (
             [...Array(6)].map((_, i) => (
               <div className="flex gap-x-8 py-4" key={i}>
@@ -66,7 +66,7 @@ export default function APIKeys() {
               </div>
             ))
           ) : data && data.length ? (
-            <div className="grid grid-cols-3 pb-5">
+            <div className="grid-cols-3 pb-5 hidden lg:grid">
               <div className="col-span-2 grid grid-cols-2 gap-x-8">
                 <Text className="font-small text-gray-3 text-sm pb-3">Key</Text>
                 <Text className="font-small text-gray-3 text-sm pb-3">
@@ -84,7 +84,7 @@ export default function APIKeys() {
             data.map(({ AccessKey }) => {
               return (
                 <div className="grid grid-cols-3 pb-5" key={AccessKey?.id}>
-                  <div className="col-span-2 grid grid-cols-2 gap-x-8 items-center">
+                  <div className="col-span-2 lg:grid grid-cols-2 gap-x-8 items-center">
                     <BlurredView>
                       <div className="flex">
                         <Text className="font-mono">{AccessKey?.key}</Text>
@@ -95,16 +95,18 @@ export default function APIKeys() {
                       </div>
                     </BlurredView>
 
-                    <Text className="flex font-mono flex-shrink-0">
+                    <Text className="flex font-mono flex-shrink-0 whitespace-nowrap">
                       {formatDate(AccessKey?.createdAt)}
                     </Text>
                   </div>
                   <div
-                    className="flex justify-end mr-16 flex-row cursor-pointer items-center hover:opacity-90"
+                    className="flex justify-end lg:mr-16 flex-row cursor-pointer lg:items-center items-end hover:opacity-90"
                     onClick={() => handleDeleteAccessKey(AccessKey?.id)}
                   >
                     <Trash className="w-3.5 h-4 text-red" />
-                    <Text className="text-red pl-2">Delete</Text>
+                    <Text className="text-red pl-2 hidden lg:block">
+                      Delete
+                    </Text>
                   </div>
                 </div>
               )
