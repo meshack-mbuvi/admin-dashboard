@@ -5,9 +5,9 @@ import { ChangeEvent, useEffect, useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
 
 import Input from "@/components/Input"
+import Loading from "@/components/Loading"
 import Section from "@/components/Section"
 import Text from "@/components/Text"
-import Loading from "@/components/Loading"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useGetProjectById from "@/hooks/useGetProjectById"
@@ -18,6 +18,7 @@ export default function General() {
   const sessionToken = useAuthToken()
 
   const [saved, setSaved] = useState(false)
+  const [showError, setShowError] = useState(false)
   const debounced = useDebouncedCallback((value) => {
     handleUpdateProjectName(value)
   }, 300)
@@ -43,13 +44,21 @@ export default function General() {
   })
 
   const handleUpdateProjectName = (e: ChangeEvent<HTMLInputElement>) => {
-    if (sessionToken && e.target.value) {
+    const _projectName = e.target.value.trim()
+    if (!_projectName) {
+      setShowError(true)
+      return
+    }
+
+    setShowError(false)
+
+    if (sessionToken && _projectName) {
       updateProjectNameMutation.mutate({
         method: "POST",
         sessionToken,
         endpointPath: `/admin/project/${projectId}/updateName`,
         body: JSON.stringify({
-          name: e.target.value,
+          name: _projectName,
         }),
       })
     }
@@ -73,6 +82,12 @@ export default function General() {
                 />
                 {saved && (
                   <p className="text-success text-sm ml-4 self-end">Saved!</p>
+                )}
+
+                {showError && (
+                  <p className="text-red text-sm ml-4 self-end">
+                    Project name cannot be empty!
+                  </p>
                 )}
               </div>
             )}
