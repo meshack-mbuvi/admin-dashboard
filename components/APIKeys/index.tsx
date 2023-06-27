@@ -83,7 +83,10 @@ export default function APIKeys() {
           {data &&
             data.map(({ AccessKey }) => {
               return (
-                <div className="grid grid-cols-3 pb-5" key={AccessKey?.id}>
+                <div
+                  className="flex lg:grid grid-cols-3 pb-5"
+                  key={AccessKey?.id}
+                >
                   <div className="col-span-2 lg:grid grid-cols-2 gap-x-8 items-center">
                     <BlurredView>
                       <div className="flex">
@@ -100,11 +103,11 @@ export default function APIKeys() {
                     </Text>
                   </div>
                   <div
-                    className="flex justify-end lg:mr-16 flex-row cursor-pointer lg:items-center items-end hover:opacity-90"
+                    className="flex justify-end ml-auto lg:mr-16 flex-row cursor-pointer lg:items-center items-baseline hover:opacity-90 mt-auto lg:mt-0"
                     onClick={() => handleDeleteAccessKey(AccessKey?.id)}
                   >
                     <Trash className="w-3.5 h-4 text-red" />
-                    <Text className="text-red pl-2 hidden lg:block">
+                    <Text className="text-red pl-2 hidden md:block">
                       Delete
                     </Text>
                   </div>
