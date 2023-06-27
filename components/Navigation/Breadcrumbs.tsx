@@ -1,24 +1,13 @@
+"use client"
+
 import Link from "next/link"
-import { useParams } from "next/navigation"
-
 import NikeBrand from "@/components/icons/NikeBrand"
-import getAuthToken from "@/utils/getAuthToken"
-import gatewayFetch from "@/utils/gatewayFetch"
+import useGetOrganization from "@/hooks/useGetOrganization"
 
-async function getOrganizationName() {
-  const sessionToken = getAuthToken()
-  const data = await gatewayFetch({
-    endpointPath: "/admin/organization",
-    sessionToken,
-  })
+export default /* async */ function Breadcrumbs() {
+  const { data, isLoading } = useGetOrganization()
 
-  return data
-}
-
-export default async function Breadcrumbs() {
-
-  const name = await getOrganizationName()
-  const { projectId } = useParams()
+  console.log("useGetOrganization data", data)
 
   return (
     <ul className="breadcrumb flex">
@@ -31,11 +20,11 @@ export default async function Breadcrumbs() {
         </Link>
       </li>
 
-      {projectId && (
+      {/* {projectId && (
         <li className="flex items-center space-x-3 pl-10 py-2.5 active text-sm bg-gray-8 text-gray-2">
           .Swoosh
         </li>
-      )}
+      )} */}
     </ul>
   )
 }
