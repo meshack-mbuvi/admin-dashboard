@@ -7,20 +7,20 @@ import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
 
-import CaretDown from "@/components/icons/CaretDown"
+import Loading from "@/components/Loading"
+import TransactionBlock from "@/components/Transactions/atoms/Block"
 import EmptyState from "@/components/Transactions/atoms/Empty"
 import Hex from "@/components/Transactions/atoms/Hex"
-import Table from "@/components/Transactions/atoms/Table"
-import TransactionBlock from "@/components/Transactions/atoms/Block"
 import TransactionPagination from "@/components/Transactions/atoms/Pagination"
 import TransactionStatus, {
   RawStatusEnum,
 } from "@/components/Transactions/atoms/Status"
+import Table from "@/components/Transactions/atoms/Table"
 import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
+import CaretDown from "@/components/icons/CaretDown"
 import useGetTransactions, {
   TransactionDataType,
 } from "@/hooks/useGetTransactions"
-import Loading from "@/components/Loading"
 
 const columnHelper = createColumnHelper<TransactionDataType>()
 
@@ -161,8 +161,8 @@ const AllTransactions = ({ searchTerm }: { searchTerm: string }) => {
               <span>Try searching for a different transaction or wallet</span>
             ) : (
               <span>
-                When transactions are requested, they<span>&#39;</span>ll appear
-                here
+                When transactions are successfully added to the blockchain they
+                will appear here
               </span>
             )
           }
