@@ -10,7 +10,7 @@ export const Header = () => {
       <div className="mr-11 flex items-center">
         <Link
           href={{
-            pathname: "/projects",
+            pathname: "/dashboard",
           }}
         >
           <Logo className="w-8" />

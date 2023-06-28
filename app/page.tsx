@@ -8,9 +8,9 @@ import getAuthToken from "@/utils/getAuthToken"
 export default function Login() {
   const authToken = getAuthToken()
 
-  // DEV: If a user is already logged in take them to the projects page
+  // DEV: If a user is already logged in take them to the dashboard page
   if (authToken) {
-    redirect("/projects")
+    redirect("/dashboard")
   }
 
   return (

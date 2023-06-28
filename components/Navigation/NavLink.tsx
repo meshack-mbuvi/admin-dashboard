@@ -21,7 +21,7 @@ const NavLink = (props: NavLinkProps) => {
   return (
     <Link
       href={{
-        pathname: `/projects/${projectId}/${path}`,
+        pathname: `/dashboard/${projectId}/${path}`,
       }}
       className={isActive() ? "" : "opacity-40"}
     >

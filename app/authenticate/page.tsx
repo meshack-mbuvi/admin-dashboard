@@ -22,9 +22,9 @@ export default function Authenticate() {
 
   useEffect(() => {
     const authenticate = async () => {
-      // If a session is found redirect to the projects page
+      // If a session is found redirect to the dashboard page
       if (session) {
-        router.push("/projects")
+        router.push("/dashboard")
         return
       }
 
@@ -44,7 +44,7 @@ export default function Authenticate() {
           session_duration_minutes: 10080,
         })
 
-        router.push("/projects")
+        router.push("/dashboard")
       } catch (error) {
         if (
           error instanceof Error &&
