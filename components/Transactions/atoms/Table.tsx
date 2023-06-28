@@ -1,8 +1,9 @@
-import { flexRender } from "@tanstack/react-table"
 import type { HeaderGroup, Row, Table } from "@tanstack/react-table"
+import { flexRender } from "@tanstack/react-table"
 
-import { TransactionDataType } from "@/hooks/useGetTransactions"
 import { RequestsDataType } from "@/hooks/useGetRequests"
+import { TransactionDataType } from "@/hooks/useGetTransactions"
+import clsx from "clsx"
 interface TableProps {
   tableConfig: Table<TransactionDataType> | Table<RequestsDataType>
   isLoading?: boolean
@@ -10,7 +11,7 @@ interface TableProps {
 
 export default function Table({ tableConfig, isLoading }: TableProps) {
   return (
-    <div className={`w-full overflow-x-scroll ${isLoading && "opacity-70"}`}>
+    <div className={clsx("w-full overflow-x-auto", isLoading && "opacity-70")}>
       <table className="w-full" align="left">
         <thead>
           {tableConfig
