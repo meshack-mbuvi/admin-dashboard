@@ -68,7 +68,7 @@ export default function General() {
     <div>
       <div className="flex flex-col space-y-10 font-sans w-full">
         <Section className="p-10">
-          <Text className="font-medium text-2xl pb-7">Name</Text>
+          <Text className="font-medium text-2xl pb-7">Details</Text>
           <div className="flex flex-col">
             <Text className="pb-3">Project name</Text>
             {isLoading ? (
