@@ -36,7 +36,7 @@ export default function UserMenu() {
 
       {menuOpen && (
         <ClickAwayListener onClickAway={handleToggleMenu}>
-          <div className="absolute right-0 translate-y-2 rounded-2xl bg-gray-8 border border-gray-7 px-4 py-4 w-96">
+          <div className="absolute z-40 right-0 translate-y-2 rounded-2xl bg-gray-8 border border-gray-7 px-4 py-4 w-96">
             <p className="text-xl mb-1">{member?.name}</p>
             <p className="text-gray-4 mb-4">{member?.email_address}</p>
             <button

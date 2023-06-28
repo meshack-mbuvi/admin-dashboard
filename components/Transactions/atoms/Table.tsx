@@ -5,11 +5,12 @@ import { TransactionDataType } from "@/hooks/useGetTransactions"
 import { RequestsDataType } from "@/hooks/useGetRequests"
 interface TableProps {
   tableConfig: Table<TransactionDataType> | Table<RequestsDataType>
+  isLoading?: boolean
 }
 
-export default function Table({ tableConfig }: TableProps) {
+export default function Table({ tableConfig, isLoading }: TableProps) {
   return (
-    <div className="w-full overflow-x-scroll">
+    <div className={`w-full overflow-x-scroll ${isLoading && "opacity-70"}`}>
       <table className="w-full" align="left">
         <thead>
           {tableConfig
