@@ -26,7 +26,7 @@ const columnHelper = createColumnHelper<TransactionDataType>()
 
 const columns = [
   columnHelper.accessor("transactionId", {
-    header: () => "Transaction",
+    header: () => <span className="font-normal">Transaction</span>,
     cell: (info) => (
       <span className="text-white flex items-center space-x-3 font-mono">
         <TransactionStatus

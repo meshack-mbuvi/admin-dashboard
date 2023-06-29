@@ -7,11 +7,11 @@ export default function Projects() {
 
   return (
     <>
-      <div className="text-2xl text-gray-1 pl-1 mb-7">Projects</div>
-      <div className="flex flex-col space-y-7">
+      <div className="text-2xl text-gray-1 mb-7">Projects</div>
+      <div className="flex flex-col space-y-5">
         {/* Header */}
         <div className="flex">
-          <div className="w-1/4 text-left italic text-sm text-gray-4">Name</div>
+          <div className="w-1/4 text-left text-sm text-gray-3">Name</div>
         </div>
 
         {/* Project list */}
