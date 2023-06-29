@@ -41,6 +41,6 @@ export default function useGetProjectById(
 
       return data
     },
-    { enabled: !!sessionToken, ...queryOptions }
+    { enabled: !!sessionToken && !!projectId, ...queryOptions }
   )
 }
