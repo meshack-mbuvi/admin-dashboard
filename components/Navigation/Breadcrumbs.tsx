@@ -18,8 +18,8 @@ export default function Breadcrumbs() {
   return (
     <ul className="breadcrumb flex">
       <li className="cursor-pointer flex space-x-3 py-2 text-sm active pl-3 bg-gray-8 rounded-l-full">
-        <Link href="/dashboard" className="flex">
-          <span className="flex text-center items-center text-gray-2">
+        <Link href={{ pathname: "/dashboard" }} className="flex">
+          <span className="flex text-center uppercase items-center font-sans font-bold text-gray-2 text-sm pl-2">
             {isOrganizationDataLoading ? (
               <Loading className="h-6 w-24" />
             ) : (
@@ -30,7 +30,7 @@ export default function Breadcrumbs() {
       </li>
 
       {projectId && (
-        <li className="flex items-center space-x-3 pl-10 py-2.5 active text-sm bg-gray-8 text-gray-2">
+        <li className="flex items-center space-x-3 pl-10 py-2.5 active text-base bg-gray-8 text-gray-2">
           {isProjectDataLoading ? (
             <Loading className="h-6 w-24" />
           ) : (
