@@ -19,11 +19,11 @@ export default function Breadcrumbs() {
     <ul className="breadcrumb flex">
       <li className="cursor-pointer flex space-x-3 py-2 text-sm active pl-3 bg-gray-8 rounded-l-full">
         <Link href={{ pathname: "/dashboard" }} className="flex">
-          <span className="flex text-center items-center font-sans font-bold text-gray-2 text-sm pl-2">
+          <span className="flex text-center uppercase items-center font-sans font-bold text-gray-2 text-sm pl-2">
             {isOrganizationDataLoading ? (
               <Loading className="h-6 w-24" />
             ) : (
-              organizationData?.name.toUpperCase()
+              organizationData?.name
             )}
           </span>
         </Link>
