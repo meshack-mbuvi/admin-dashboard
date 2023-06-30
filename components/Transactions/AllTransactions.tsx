@@ -26,7 +26,7 @@ const columnHelper = createColumnHelper<TransactionDataType>()
 
 const columns = [
   columnHelper.accessor("transactionId", {
-    header: () => <span className="font-normal">Transaction</span>,
+    header: () => <span className="font-normal">Transaction ID</span>,
     cell: (info) => (
       <span className="text-white flex items-center space-x-3 font-mono">
         <TransactionStatus
@@ -39,7 +39,7 @@ const columns = [
     ),
   }),
   columnHelper.accessor((row) => row.hash, {
-    id: "Hash",
+    id: "TX Hash",
     cell: (info) => (
       <Hex
         hexValue={info.getValue()}
@@ -47,7 +47,7 @@ const columns = [
         chainId={info.row.original.chainId}
       />
     ),
-    header: () => <span>Hash</span>,
+    header: () => <span>TX Hash</span>,
   }),
   columnHelper.accessor("block", {
     header: () => (
