@@ -11,7 +11,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["var(--font-slussen)", ...fontFamily.sans],
-        "mono": ['var(--font-slussen-mono)', ...fontFamily.mono],
+        mono: ["var(--font-slussen-mono)", ...fontFamily.mono],
       },
       colors: {
         black: "#000",
@@ -27,14 +27,15 @@ module.exports = {
           3: "#B8BDC7",
           4: "#90949E",
           5: "#646871",
-          6: "#3F4147", 
+          6: "#3F4147",
           7: "#232529",
           8: "#131416",
           9: "#0B0C0D",
         },
         blue: {
           1: "#A4DEFF",
-        }
+          neptune: "#4376FF",
+        },
       },
     },
   },

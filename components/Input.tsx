@@ -7,7 +7,7 @@ export default function Input(
   return (
     <input
       className={clsx(
-        "border bg-gray-8 border-gray-7 rounded-lg px-4 py-4",
+        "border bg-gray-8 outline-none border-gray-7 outline-offset-0 ring-0 focus:border-blue-neptune rounded-lg px-4 py-4",
         className
       )}
       placeholder={placeholder}
