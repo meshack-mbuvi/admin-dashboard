@@ -24,7 +24,7 @@ const columns = [
     ),
   }),
   columnHelper.accessor("updatedAt", {
-    header: () => <span>Request time</span>,
+    header: () => <span>Request Age</span>,
     cell: (info) => (
       <TransactionTimeStamp
         timeStamp={info.getValue()}
