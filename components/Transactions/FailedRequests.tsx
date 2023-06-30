@@ -6,11 +6,11 @@ import {
 import { useParams } from "next/navigation"
 import { useState } from "react"
 
-import EmptyState from "@/components/Transactions/atoms/Empty"
-import Table from "@/components/Transactions/atoms/Table"
-import TransactionPagination from "@/components/Transactions/atoms/Pagination"
-import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
 import Loading from "@/components/Loading"
+import EmptyState from "@/components/Transactions/atoms/Empty"
+import TransactionPagination from "@/components/Transactions/atoms/Pagination"
+import Table from "@/components/Transactions/atoms/Table"
+import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
 
 import useGetRequests, { RequestsDataType } from "@/hooks/useGetRequests"
 
@@ -18,7 +18,7 @@ const columnHelper = createColumnHelper<RequestsDataType>()
 
 const columns = [
   columnHelper.accessor("transactionId", {
-    header: () => "Request",
+    header: () => "Request ID",
     cell: (info) => (
       <span className="text-white font-mono">{info.getValue()}</span>
     ),
