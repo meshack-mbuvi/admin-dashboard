@@ -106,8 +106,8 @@ const AllTransactions = ({ searchTerm }: { searchTerm: string }) => {
     search: searchTerm,
     statuses: [
       RawStatusEnum.PENDING,
+      RawStatusEnum.SUBMITTED,
       RawStatusEnum.CONFIRMED,
-      RawStatusEnum.PENDING,
     ],
   })
 
