@@ -1,5 +1,6 @@
 "use client"
 
+import AddUserModal from "@/components/AddUserModal"
 import Button, { DarkButtonStyles } from "@/components/Buttons"
 import Projects from "@/components/Projects"
 import { Tab } from "@/components/Tab"
@@ -18,6 +19,15 @@ export default function Dashboard() {
   }
 
   const [activeTabIndex, setActiveTabIndex] = useState(0)
+  const [showAddUserModal, setShowAddUserModal] = useState(false);
+
+  const handleAddUserModal = () => {
+    setShowAddUserModal(true);
+  }
+
+  const handleCloseAddUserModal = () => {
+    setShowAddUserModal(false);
+  };
 
   return (
     <div className="flex flex-col">
@@ -28,10 +38,17 @@ export default function Dashboard() {
           setActiveIndex={setActiveTabIndex}
         />
 
-        <Button className={clsx(DarkButtonStyles, "flex items-center")}>
-          <Add className="h-4 w-4 mr-4" />
-          Add a manager
-        </Button>
+        {
+          activeTabIndex === 1 && (
+            <Button onClick={handleAddUserModal} className={clsx(DarkButtonStyles, "flex items-center")}>
+              <Add className="h-4 w-4 mr-4" />
+              Add a manager
+            </Button>
+          )
+        }
+
+        <AddUserModal show={showAddUserModal} onClose={handleCloseAddUserModal} />
+        
       </div>
       <div className="ml-2">{tabComponents[tabHeaders[activeTabIndex]]}</div>
     </div>
