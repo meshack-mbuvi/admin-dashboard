@@ -3,6 +3,7 @@
 import Button, { DarkButtonStyles } from "@/components/Buttons"
 import Projects from "@/components/Projects"
 import { Tab } from "@/components/Tab"
+import Users from "@/components/Users"
 import Add from "@/components/icons/Add"
 import clsx from "clsx"
 import { useState } from "react"
@@ -14,7 +15,7 @@ export default function Dashboard() {
     [key: string]: JSX.Element
   } = {
     Projects: <Projects />,
-    People: <>People</>,
+    People: <Users />,
   }
 
   const [activeTabIndex, setActiveTabIndex] = useState(0)

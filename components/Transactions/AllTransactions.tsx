@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
 
 import Loading from "@/components/Loading"
+import Table from "@/components/Shared/Table"
 import TransactionBlock from "@/components/Transactions/atoms/Block"
 import EmptyState from "@/components/Transactions/atoms/Empty"
 import Hex from "@/components/Transactions/atoms/Hex"
@@ -15,7 +16,6 @@ import TransactionPagination from "@/components/Transactions/atoms/Pagination"
 import TransactionStatus, {
   RawStatusEnum,
 } from "@/components/Transactions/atoms/Status"
-import Table from "@/components/Transactions/atoms/Table"
 import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
 import CaretDown from "@/components/icons/CaretDown"
 import useGetTransactions, {

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.15",
     "@stytch/nextjs": "^5.0.1",
     "@stytch/vanilla-js": "^0.13.3",
     "@tanstack/react-query": "^4.29.7",

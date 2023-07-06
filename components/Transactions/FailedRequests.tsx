@@ -7,9 +7,9 @@ import { useParams } from "next/navigation"
 import { useState } from "react"
 
 import Loading from "@/components/Loading"
+import Table from "@/components/Shared/Table"
 import EmptyState from "@/components/Transactions/atoms/Empty"
 import TransactionPagination from "@/components/Transactions/atoms/Pagination"
-import Table from "@/components/Transactions/atoms/Table"
 import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
 
 import useGetRequests, { RequestsDataType } from "@/hooks/useGetRequests"
