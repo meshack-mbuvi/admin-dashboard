@@ -18,6 +18,7 @@
     "date-fns": "^2.30.0",
     "next": "^13.4.5",
     "react": "^18.2.0",
+    "react-auth-code-input": "^3.2.1",
     "react-click-away-listener": "^2.2.3",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",

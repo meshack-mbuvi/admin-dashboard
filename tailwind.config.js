@@ -37,6 +37,15 @@ module.exports = {
           neptune: "#4376FF",
         },
       },
+      height: {
+        18: "4.5rem", // 72px
+      }, 
+      width: {
+        13: "3.25rem", // 52px
+      },
+      borderRadius: {
+        "2lg": "0.625rem" // 10px
+      }
     },
   },
   plugins: [],

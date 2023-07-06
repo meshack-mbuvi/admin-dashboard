@@ -3,9 +3,12 @@
 import { useState } from "react"
 import { useStytchB2BClient, useStytchMember } from "@stytch/nextjs/b2b"
 import ClickAwayListener from "react-click-away-listener"
+import clsx from "clsx"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 
 import User from "../icons/User"
+import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
 
 export default function UserMenu() {
   const { member } = useStytchMember()
@@ -18,6 +21,7 @@ export default function UserMenu() {
   }
 
   const handleLogout = async () => {
+    handleToggleMenu()
     await stytchClient.session.revoke()
     router.push("/")
   }
@@ -39,6 +43,17 @@ export default function UserMenu() {
           <div className="absolute z-40 right-0 translate-y-2 rounded-2xl bg-gray-8 border border-gray-7 px-4 py-4 w-96">
             <p className="text-xl mb-1">{member?.name}</p>
             <p className="text-gray-4 mb-4">{member?.email_address}</p>
+            <div className="mb-4 text-blue-1 align-middle">
+              <Link
+                href={{
+                  pathname: "/2fa",
+                }}
+                className="flex space-x-2 items-center"
+              >
+                <div className="leading-4 py-1">Set up 2FA</div>
+                <ArrowUpperRight className="h-4 w-4" />
+              </Link>
+            </div>
             <button
               className="w-full bg-gray-6 rounded-lg py-4 font-medium"
               onClick={handleLogout}
