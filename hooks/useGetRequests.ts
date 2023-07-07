@@ -14,6 +14,7 @@ export interface RequestsDataType {
   invalid: boolean
   transactionId: string
   updatedAt: string
+  chainId: number
   transactionAttempts: []
 }
 

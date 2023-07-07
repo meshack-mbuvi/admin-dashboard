@@ -13,6 +13,7 @@ import TransactionPagination from "@/components/Transactions/atoms/Pagination"
 import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
 
 import useGetRequests, { RequestsDataType } from "@/hooks/useGetRequests"
+import Text from "../Text"
 
 const columnHelper = createColumnHelper<RequestsDataType>()
 
@@ -22,6 +23,10 @@ const columns = [
     cell: (info) => (
       <span className="text-white font-mono">{info.getValue()}</span>
     ),
+  }),
+  columnHelper.accessor("chainId", {
+    header: () => <span>Chain ID</span>,
+    cell: (info) => <Text className="text-gray-3">{info.getValue()}</Text>,
   }),
   columnHelper.accessor("updatedAt", {
     header: () => <span>Request Age</span>,

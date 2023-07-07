@@ -21,6 +21,7 @@ import CaretDown from "@/components/icons/CaretDown"
 import useGetTransactions, {
   TransactionDataType,
 } from "@/hooks/useGetTransactions"
+import Text from "../Text"
 
 const columnHelper = createColumnHelper<TransactionDataType>()
 
@@ -37,6 +38,10 @@ const columns = [
         <span>{info.getValue()}</span>
       </span>
     ),
+  }),
+  columnHelper.accessor("chainId", {
+    header: () => <span>Chain ID</span>,
+    cell: (info) => <Text className="text-gray-3">{info.getValue()}</Text>,
   }),
   columnHelper.accessor((row) => row.hash, {
     id: "TX Hash",
