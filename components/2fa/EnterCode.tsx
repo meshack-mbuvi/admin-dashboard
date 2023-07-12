@@ -4,6 +4,8 @@ import clsx from "clsx"
 
 import CheckCircle from "../icons/CheckCircle"
 import Spinner from "../icons/Spinner"
+import use2FA from "@/hooks/use2FA"
+import useAuthToken from "@/hooks/useAuthToken"
 
 interface CodeProps {
   onSetupVerified?: (next: boolean) => void
@@ -13,40 +15,44 @@ interface CodeProps {
 
 export default function EnterCode(props: CodeProps) {
   const { onSetupVerified, onVerify, mode } = props
-  const [result, setResult] = useState<string>()
-
-  // placeholder states
-  const [loading, setLoading] = useState<boolean>(false)
+  const [authCode, setAuthCode] = useState<string>()
   const [success, setSuccess] = useState<boolean>(false)
   const [error, setError] = useState<boolean>(false)
 
-  const handleOnChange = (res: string) => {
-    setResult(res)
+  const sessionToken = useAuthToken()
+
+  const completeVerification = () => {
+    setSuccess(true)
+    setTimeout(() => {
+      onSetupVerified?.(true)
+      onVerify?.()
+    }, 2000)
   }
 
-  useEffect(() => {
-    if (result?.length === 6) {
-      setLoading(true)
+  const handleError = () => {
+    setError(true)
+  }
 
-      if (result === "123456") {
-        setTimeout(() => {
-          setLoading(false)
-          setSuccess(true)
-        }, 2000)
-        setTimeout(() => {
-          onSetupVerified?.(true)
-          onVerify?.()
-        }, 3000)
-      } else {
-        setTimeout(() => {
-          setLoading(false)
-          setError(true)
-        }, 2000)
-      }
-    } else {
+  const { mutate: verify2FAMutation, isLoading } = use2FA({
+    requestType: "complete2FA",
+    onSuccess: completeVerification,
+    onError: handleError,
+  })
+
+  useEffect(() => {
+    if (authCode?.length === 6) {
+      verify2FAMutation({
+        method: "POST",
+        sessionToken,
+        endpointPath: `/admin/user/complete2FA`,
+        body: JSON.stringify({ Code: authCode }),
+      })
+    }
+    return () => {
       setError(false)
     }
-  }, [result, onSetupVerified, onVerify])
+  }, [authCode, sessionToken, verify2FAMutation])
+
   return (
     <div className="flex flex-col text-center">
       <div className="text-2xl">
@@ -72,7 +78,7 @@ export default function EnterCode(props: CodeProps) {
         )}
       </div>
       <div className="mt-12 relative">
-        {loading && (
+        {isLoading && (
           <div className="absolute flex items-center justify-center w-full space-x-2 text-blue-1 backdrop-blur-sm h-20 -top-1">
             <Spinner className="w-4 animate-spin " />
             <span>Just a sec</span>
@@ -80,7 +86,7 @@ export default function EnterCode(props: CodeProps) {
         )}
 
         <AuthCode
-          onChange={handleOnChange}
+          onChange={setAuthCode}
           disabled={success}
           inputClassName={clsx(
             "border rounded-lg  w-13 h-18 text-3xl text-center font-mono uppercase focus:outline-none",

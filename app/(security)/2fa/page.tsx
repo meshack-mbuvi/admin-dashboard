@@ -2,12 +2,11 @@
 
 import clsx from "clsx"
 import Link from "next/link"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 
 import ArrowLeft from "@/components/icons/ArrowLeft"
 import ArrowRight from "@/components/icons/ArrowRight"
-import BackupCodes from "@/components/2fa/BackupCodes"
 import Button, {
   LightButtonStyles,
   DarkButtonStyles,
@@ -18,11 +17,13 @@ import GetApp from "@/components/2fa/GetApp"
 import Logo from "@/components/icons/Logo"
 import Setup from "@/components/2fa/Setup"
 import Start from "@/components/2fa/Start"
+import useGetUser from "@/hooks/useGetUser"
 
 export default function TwoFactorAuth() {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0)
-  const [done, setDone] = useState<boolean>(false)
   const router = useRouter()
+
+  const { data: user, isLoading } = useGetUser()
 
   const handleTabChange = (next: boolean) => {
     if (next && activeTabIndex < tabHeaders.length - 1) {
@@ -30,12 +31,18 @@ export default function TwoFactorAuth() {
     } else if (!next && activeTabIndex > 0) {
       setActiveTabIndex(activeTabIndex - 1)
     }
-    if (activeTabIndex === 4) {
+    if (activeTabIndex === 3) {
       router.push("/dashboard")
     }
   }
 
-  const tabHeaders = ["Start", "GetApp", "Setup", "EnterCode", "BackupCodes"]
+  useEffect(() => {
+    if (!isLoading && user?.is2FAEnabled) {
+      router.push("/dashboard")
+    }
+  }, [isLoading, user, router])
+
+  const tabHeaders = ["Start", "GetApp", "Setup", "EnterCode"]
 
   const tabComponents: {
     [key: string]: JSX.Element
@@ -44,7 +51,6 @@ export default function TwoFactorAuth() {
     GetApp: <GetApp />,
     Setup: <Setup />,
     EnterCode: <EnterCode onSetupVerified={handleTabChange} mode="setup" />,
-    BackupCodes: <BackupCodes setDone={setDone} />,
   }
 
   return (
@@ -56,8 +62,7 @@ export default function TwoFactorAuth() {
           }}
           className={clsx(
             "flex items-center justify-center h-12 w-12",
-            "rounded-full bg-gray-7 justify-self-start",
-            !done && activeTabIndex === 4 && "invisible"
+            "rounded-full bg-gray-7 justify-self-start"
           )}
         >
           <Close className="h-4" />
@@ -94,7 +99,6 @@ export default function TwoFactorAuth() {
             "lg:order-last self-start lg:self-auto",
             activeTabIndex === 3 && "invisible"
           )}
-          disabled={!done && activeTabIndex === 4}
           onClick={() => {
             handleTabChange(true)
           }}
