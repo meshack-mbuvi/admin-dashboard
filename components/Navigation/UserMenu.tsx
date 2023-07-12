@@ -1,14 +1,13 @@
 "use client"
 
-import { useState } from "react"
 import { useStytchB2BClient, useStytchMember } from "@stytch/nextjs/b2b"
-import ClickAwayListener from "react-click-away-listener"
-import clsx from "clsx"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
+import ClickAwayListener from "react-click-away-listener"
 
-import User from "../icons/User"
 import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
+import User from "../icons/User"
 
 export default function UserMenu() {
   const { member } = useStytchMember()

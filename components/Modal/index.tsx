@@ -28,6 +28,7 @@ export default function Modal(props: ModalProps): JSX.Element {
   const childWrapperRef = useRef<HTMLDivElement>(null)
 
   const handleClose = (): void => {
+
     if (closeModal) {
       closeModal()
     }
