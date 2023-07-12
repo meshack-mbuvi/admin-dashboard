@@ -48,7 +48,7 @@ export default function Dashboard() {
           )
         }
 
-        <AddUserModal show={showAddUserModal} onClose={handleCloseAddUserModal} />
+        {showAddUserModal && <AddUserModal onClose={handleCloseAddUserModal} />}
         
       </div>
       <div className="ml-2">{tabComponents[tabHeaders[activeTabIndex]]}</div>
