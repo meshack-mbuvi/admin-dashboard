@@ -43,7 +43,7 @@ export default function Dashboard() {
           activeTabIndex === 1 && (
             <Button onClick={handleAddUserModal} className={clsx(DarkButtonStyles, "flex items-center")}>
               <Add className="h-4 w-4 mr-4" />
-              Add a manager
+              Add user
             </Button>
           )
         }

@@ -80,7 +80,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
     <Modal show={show} outsideOnClick={true} closeModal={onClose}>
       <div className="flex flex-col justify-center items-left bg-gray-8 my-4">
         <p className="font-sans font-medium text-2xl text-gray-1 mb-7">
-          Invite to organization
+          Invite User
         </p>
         <div className="flex flex-col justify-center items-left mb-7">
           <p className="font-sans font-medium text-white text-sm mb-2 bg-dark">
