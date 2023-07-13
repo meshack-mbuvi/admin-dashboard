@@ -1,20 +1,23 @@
 "use client"
 
-import { useState } from "react"
 import { useStytchB2BClient, useStytchMember } from "@stytch/nextjs/b2b"
-import ClickAwayListener from "react-click-away-listener"
-import clsx from "clsx"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
+import ClickAwayListener from "react-click-away-listener"
 
-import User from "../icons/User"
 import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
+import useGetUser from "@/hooks/useGetUser"
+import CheckCircle from "@/components/icons/CheckCircle"
+import User from "../icons/User"
 
 export default function UserMenu() {
   const { member } = useStytchMember()
   const stytchClient = useStytchB2BClient()
   const router = useRouter()
   const [menuOpen, setMenuOpen] = useState(false)
+
+  const { data: user } = useGetUser()
 
   const handleToggleMenu = () => {
     setMenuOpen(!menuOpen)
@@ -44,15 +47,22 @@ export default function UserMenu() {
             <p className="text-xl mb-1">{member?.name}</p>
             <p className="text-gray-4 mb-4">{member?.email_address}</p>
             <div className="mb-4 text-blue-1 align-middle">
-              <Link
-                href={{
-                  pathname: "/2fa",
-                }}
-                className="flex space-x-2 items-center"
-              >
-                <div className="leading-4 py-1">Set up 2FA</div>
-                <ArrowUpperRight className="h-4 w-4" />
-              </Link>
+              {user?.is2FAEnabled ? (
+                <div className="text-success flex items-center space-x-2">
+                  <CheckCircle className="h-4 w-4" />{" "}
+                  <div className="leading-4 py-1">2FA enabled</div>
+                </div>
+              ) : (
+                <Link
+                  href={{
+                    pathname: "/2fa",
+                  }}
+                  className="flex space-x-2 items-center"
+                >
+                  <div className="leading-4 py-1">Set up 2FA</div>
+                  <ArrowUpperRight className="h-4 w-4" />
+                </Link>
+              )}
             </div>
             <button
               className="w-full bg-gray-6 rounded-lg py-4 font-medium"

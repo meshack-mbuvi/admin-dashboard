@@ -43,12 +43,12 @@ export default function Dashboard() {
           activeTabIndex === 1 && (
             <Button onClick={handleAddUserModal} className={clsx(DarkButtonStyles, "flex items-center")}>
               <Add className="h-4 w-4 mr-4" />
-              Add user
+              Add a manager
             </Button>
           )
         }
 
-        {showAddUserModal && <AddUserModal onClose={handleCloseAddUserModal} />}
+        <AddUserModal show={showAddUserModal} onClose={handleCloseAddUserModal} />
         
       </div>
       <div className="ml-2">{tabComponents[tabHeaders[activeTabIndex]]}</div>
