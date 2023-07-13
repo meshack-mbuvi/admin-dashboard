@@ -44,7 +44,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
   const debounced = useDebouncedCallback((e) => {
     const { value } = e.target
     setEmail(value)
-    handleValidation()
+    handleValidation(value)
   }, 300)
 
   const allowedDomains = useMemo(() => {
@@ -52,11 +52,11 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
     return organizationData.stytchInformation.email_allowed_domains
   }, [organizationData])
 
-  const handleValidation = () => {
+  const handleValidation = (value: string) => {
     setEmailErrorMessage("")
     if (!email) return
 
-    const [_, domain] = email.split("@")
+    const [_, domain] = value.split("@")
     let _errorMessage = ""
 
     if (allowedDomains.length === 0) {
@@ -64,10 +64,10 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
     } else if (!domain) {
       _errorMessage = "Please enter a valid email"
     } else {
-      const isValidDomain = allowedDomains.find(
-        (_domain: string) => _domain === domain.toLowerCase()
-      )
-      if (!isValidDomain) {
+      const isValidDomain = allowedDomains.indexOf(domain.toLowerCase()) > -1
+      if (isValidDomain) {
+        _errorMessage = ""
+      } else {
         _errorMessage = `Please enter a valid email address from the following domain(s): ${allowedDomains.join(
           ", "
         )}`
