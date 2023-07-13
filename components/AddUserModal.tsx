@@ -15,18 +15,15 @@ const AddUserModal : React.FC<AddUserModalProps> = ({ onClose }) => {
 
     const handleRequest = () => {
         if (sessionToken) {
-            console.log("name: " + name)
-            console.log("email: " + email)
-            console.log("sessionToken: " + sessionToken)
             createMutation.mutate({
                 method: "POST",
                 sessionToken,
                 endpointPath: `/admin/user`,
                 // Set Role to "admin" for now
                 body: JSON.stringify({ 
-                    name: name, 
                     email: email, 
-                    role: "admin" 
+                    name: name, 
+                    roleTitle: "admin" 
                 })
             })
             setName("");
