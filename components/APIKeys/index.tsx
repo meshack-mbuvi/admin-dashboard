@@ -9,6 +9,7 @@ import Loading from "@/components/Loading"
 import Text from "@/components/Text"
 import RightArrow from "@/components/icons/RightArrow"
 import Trash from "@/components/icons/Trash"
+import Verify2FAModal from "@/components/2fa/VerifyModal"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateApiKey from "@/hooks/useCreateApiKey"
@@ -17,6 +18,7 @@ import useGetProjectApiKeys from "@/hooks/useGetApiKeys"
 import { formatDate } from "@/utils/formatDate"
 
 export default function APIKeys() {
+  const [showModal, setShowModal] = useState(false)
   const { projectId } = useParams()
   const { data, isLoading } = useGetProjectApiKeys({
     projectId,
@@ -41,6 +43,10 @@ export default function APIKeys() {
 
   const handleDeleteAccessKey = (keyId: string) => {
     const confirm = window.confirm("Are you sure you want to delete")
+
+    // placeholder for 2FA
+    setShowModal(true)
+
     if (confirm && sessionToken) {
       deleteMutation.mutate({
         sessionToken,
@@ -125,6 +131,8 @@ export default function APIKeys() {
           <RightArrow className="w-3 h-3" />
         </div>
       </div>
+
+      <Verify2FAModal show={showModal} closeModal={() => setShowModal(false)} />
     </div>
   )
 }
