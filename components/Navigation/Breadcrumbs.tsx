@@ -23,7 +23,7 @@ export default function Breadcrumbs() {
             {isOrganizationDataLoading ? (
               <Loading className="h-6 w-24" />
             ) : (
-              organizationData?.name
+              organizationData?.organization.name
             )}
           </span>
         </Link>
