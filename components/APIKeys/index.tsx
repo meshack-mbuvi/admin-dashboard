@@ -16,6 +16,7 @@ import useCreateApiKey from "@/hooks/useCreateApiKey"
 import useDeleteApiKey from "@/hooks/useDeleteApiKey"
 import useGetProjectApiKeys from "@/hooks/useGetApiKeys"
 import { formatDate } from "@/utils/formatDate"
+import { GatewayFetchArgs } from "@/utils/gatewayFetch"
 
 export default function APIKeys() {
   const [showModal, setShowModal] = useState(false)
@@ -27,9 +28,16 @@ export default function APIKeys() {
   const createMutation = useCreateApiKey(projectId)
   const deleteMutation = useDeleteApiKey(projectId)
 
+  const [pendingRequest, setPendingRequest] = useState<string>(
+    "create" || "delete"
+  )
+  const [pendingRequestParams, setPendingRequestParams] =
+    useState<GatewayFetchArgs>()
+
   const handleCreateAccessKey = () => {
     if (sessionToken) {
-      createMutation.mutate({
+      setPendingRequest("create")
+      setPendingRequestParams({
         method: "POST",
         sessionToken,
         endpointPath: `/admin/accessKey`,
@@ -38,21 +46,39 @@ export default function APIKeys() {
           roleTitle: "admin",
         }),
       })
+      setShowModal(true)
     }
   }
 
   const handleDeleteAccessKey = (keyId: string) => {
     const confirm = window.confirm("Are you sure you want to delete")
 
-    // placeholder for 2FA
-    setShowModal(true)
-
     if (confirm && sessionToken) {
-      deleteMutation.mutate({
+      setPendingRequest("delete")
+      setPendingRequestParams({
         sessionToken,
         method: "DELETE",
         endpointPath: `/admin/accessKey/${keyId}`,
       })
+      setShowModal(true)
+    }
+  }
+
+  const complete2FARequest = (authCode: string) => {
+    if (pendingRequest == "create") {
+      const params = {
+        ...pendingRequestParams,
+        headers: { "x-2fa-code": authCode },
+      }
+      createMutation.mutate(params as GatewayFetchArgs)
+    }
+
+    if (pendingRequest == "delete") {
+      const params = {
+        ...pendingRequestParams,
+        headers: { "x-2fa-code": authCode },
+      }
+      deleteMutation.mutate(params as GatewayFetchArgs)
     }
   }
 
@@ -132,7 +158,18 @@ export default function APIKeys() {
         </div>
       </div>
 
-      <Verify2FAModal show={showModal} closeModal={() => setShowModal(false)} />
+      <Verify2FAModal
+        show={showModal}
+        closeModal={() => setShowModal(false)}
+        onAuthCode={complete2FARequest}
+        error={deleteMutation.isError || createMutation.isError}
+        success={deleteMutation.isSuccess || createMutation.isSuccess}
+        loading={deleteMutation.isLoading || createMutation.isLoading}
+        reset={() => {
+          deleteMutation.reset()
+          createMutation.reset()
+        }}
+      />
     </div>
   )
 }

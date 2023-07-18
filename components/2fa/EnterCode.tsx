@@ -9,12 +9,22 @@ import useAuthToken from "@/hooks/useAuthToken"
 
 interface CodeProps {
   onSetupVerified?: (next: boolean) => void
-  onVerify?: () => void
+  onAuthCode?: (authCode: string) => void
   mode: "setup" | "verify"
+  verifySuccess?: boolean
+  verifyError?: boolean
+  verifyLoading?: boolean
 }
 
 export default function EnterCode(props: CodeProps) {
-  const { onSetupVerified, onVerify, mode } = props
+  const {
+    onSetupVerified,
+    onAuthCode,
+    mode,
+    verifySuccess,
+    verifyError,
+    verifyLoading,
+  } = props
   const [authCode, setAuthCode] = useState<string>()
   const [success, setSuccess] = useState<boolean>(false)
   const [error, setError] = useState<boolean>(false)
@@ -25,7 +35,6 @@ export default function EnterCode(props: CodeProps) {
     setSuccess(true)
     setTimeout(() => {
       onSetupVerified?.(true)
-      onVerify?.()
     }, 2000)
   }
 
@@ -41,6 +50,7 @@ export default function EnterCode(props: CodeProps) {
 
   useEffect(() => {
     if (authCode?.length === 6) {
+      if (mode === "verify") return onAuthCode?.(authCode)
       verify2FAMutation({
         method: "POST",
         sessionToken,
@@ -51,7 +61,7 @@ export default function EnterCode(props: CodeProps) {
     return () => {
       setError(false)
     }
-  }, [authCode, sessionToken, verify2FAMutation])
+  }, [authCode, sessionToken, verify2FAMutation, mode])
 
   return (
     <div className="flex flex-col text-center">
@@ -78,7 +88,7 @@ export default function EnterCode(props: CodeProps) {
         )}
       </div>
       <div className="mt-12 relative">
-        {isLoading && (
+        {(isLoading || verifyLoading) && (
           <div className="absolute flex items-center justify-center w-full space-x-2 text-blue-1 backdrop-blur-sm h-20 -top-1">
             <Spinner className="w-4 animate-spin " />
             <span>Just a sec</span>
@@ -87,13 +97,16 @@ export default function EnterCode(props: CodeProps) {
 
         <AuthCode
           onChange={setAuthCode}
-          disabled={success}
+          disabled={success || verifySuccess}
           inputClassName={clsx(
             "border rounded-lg  w-13 h-18 text-3xl text-center font-mono uppercase focus:outline-none",
-            success && "border-success bg-success/10",
-            error && "border-red bg-red/10 focus:bg-red/10 focus:border-red",
+            (success || verifySuccess) && "border-success bg-success/10",
+            (error || verifyError) &&
+              "border-red bg-red/10 focus:bg-red/10 focus:border-red",
             !success &&
               !error &&
+              !verifyError &&
+              !verifySuccess &&
               "border-white bg-white/[.02] focus:border-blue-1 focus:bg-blue-1/10"
           )}
           containerClassName="flex justify-center space-x-4"
@@ -101,18 +114,19 @@ export default function EnterCode(props: CodeProps) {
         <div
           className={clsx(
             "mt-7 h-6 text-center",
-            success && "flex justify-center space-x-2 text-success visible",
-            error && "text-red visible",
-            !success && !error && "invisible"
+            (success || verifySuccess) &&
+              "flex justify-center space-x-2 text-success visible",
+            (error || verifyError) && "text-red visible",
+            !success && !error && !verifyError && !verifySuccess && "invisible"
           )}
         >
-          {success && (
+          {(success || verifySuccess) && (
             <>
               <CheckCircle className="w-4" />
               <span>Verified</span>
             </>
           )}
-          {error && "That code isn't valid. Try again."}
+          {(error || verifyError) && "That code isn't valid. Try again."}
         </div>
       </div>
     </div>
