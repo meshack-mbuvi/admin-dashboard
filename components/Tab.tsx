@@ -5,10 +5,11 @@ export type TabProps = {
   headers: string[]
   activeIndex: number
   setActiveIndex: (index: number) => void
+  tabSuffixes?: string[]
 }
 
 export const Tab = (props: TabProps) => {
-  const { headers, activeIndex, setActiveIndex } = props
+  const { headers, activeIndex, setActiveIndex, tabSuffixes } = props
 
   return (
     <div className="flex flex-col">
@@ -26,6 +27,7 @@ export const Tab = (props: TabProps) => {
               )}
             >
               {header}
+              {tabSuffixes && tabSuffixes[index]}
             </button>
           )
         })}
