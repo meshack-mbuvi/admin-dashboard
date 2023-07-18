@@ -1,15 +1,43 @@
 import { useState } from "react"
 
+import { Tab } from "@/components/Tab"
 import AllTransactions from "@/components/Transactions/AllTransactions"
 import FailedRequests from "@/components/Transactions/FailedRequests"
 import Search from "@/components/Transactions/atoms/Search"
-import { Tab } from "@/components/Tab"
+import { RawStatusEnum } from "@/components/Transactions/atoms/Status"
+import useGetRequests from "@/hooks/useGetRequests"
+import useGetTransactions from "@/hooks/useGetTransactions"
+import { useParams } from "next/navigation"
 
 export default function TransactionTables() {
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   const [searchTerm, setSearchTerm] = useState<string>("")
 
-  const tabHeaders = ["Transactions", "Failed requests"]
+  const { projectId } = useParams()
+
+  const { data: failedTxResponse } = useGetRequests({
+    projectId,
+    page: 20,
+    limit: 20,
+    invalid: true,
+  })
+
+  const { data: successfulTxResponse } = useGetTransactions({
+    projectId,
+    page: 20,
+    limit: 20,
+    search: searchTerm,
+    statuses: [
+      RawStatusEnum.PENDING,
+      RawStatusEnum.SUBMITTED,
+      RawStatusEnum.CONFIRMED,
+    ],
+  })
+
+  const tabHeaders = [
+    `Transactions (${successfulTxResponse?.total || 0})`,
+    `Failed requests (${failedTxResponse?.total || 0})`,
+  ]
 
   const tabComponents: {
     [key: string]: JSX.Element
