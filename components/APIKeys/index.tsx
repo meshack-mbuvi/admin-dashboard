@@ -3,13 +3,12 @@
 import { useParams } from "next/navigation"
 import { useState } from "react"
 
-import Button from "@/components/Buttons"
+import Verify2FAModal from "@/components/2fa/VerifyModal"
+import Button, { LightButtonStyles } from "@/components/Buttons"
 import CopyToClipboard from "@/components/CopyToClipboard"
 import Loading from "@/components/Loading"
 import Text from "@/components/Text"
-import RightArrow from "@/components/icons/RightArrow"
 import Trash from "@/components/icons/Trash"
-import Verify2FAModal from "@/components/2fa/VerifyModal"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateApiKey from "@/hooks/useCreateApiKey"
@@ -17,6 +16,8 @@ import useDeleteApiKey from "@/hooks/useDeleteApiKey"
 import useGetProjectApiKeys from "@/hooks/useGetApiKeys"
 import { formatDate } from "@/utils/formatDate"
 import { GatewayFetchArgs } from "@/utils/gatewayFetch"
+import clsx from "clsx"
+import Add from "../icons/Add"
 
 export default function APIKeys() {
   const [showModal, setShowModal] = useState(false)
@@ -85,7 +86,16 @@ export default function APIKeys() {
   return (
     <div>
       <div className="flex flex-col p-10 border-1 bg-gray-8 rounded-lg mb-10 mr-10">
-        <Text className="font-medium text-2xl pb-5">Secret keys</Text>
+        <div className="flex justify-between">
+          <Text className="font-medium text-2xl pb-5">Secret keys</Text>
+          <Button
+            className={clsx(LightButtonStyles, "flex items-center")}
+            onClick={handleCreateAccessKey}
+          >
+            <Add className="h-4 w-4 mr-4" />
+            Create a new key
+          </Button>
+        </div>
         <p className="font-small text-gray-3 text-sm pb-7">
           Secret keys are used for API endpoint authentication.
         </p>
@@ -146,15 +156,6 @@ export default function APIKeys() {
                 </div>
               )
             })}
-        </div>
-        <div className="flex flex-row text-blue-1 items-center">
-          <Button
-            className="font-normal text-normal pr-1"
-            onClick={handleCreateAccessKey}
-          >
-            Create a new key
-          </Button>
-          <RightArrow className="w-3 h-3" />
         </div>
       </div>
 
