@@ -83,6 +83,13 @@ export default function APIKeys() {
     }
   }
 
+  const sortedData = data?.sort((a, b) => {
+    return (
+      new Date(b.AccessKey.createdAt).getTime() -
+      new Date(a.AccessKey.createdAt).getTime()
+    )
+  })
+
   return (
     <div>
       <div className="flex flex-col p-10 border-1 bg-gray-8 rounded-lg mb-10 mr-10">
@@ -107,7 +114,7 @@ export default function APIKeys() {
                 <Loading className=" w-1/4 h-4" />
               </div>
             ))
-          ) : data && data.length ? (
+          ) : sortedData && sortedData.length ? (
             <div className="grid-cols-3 pb-5 hidden lg:grid">
               <div className="col-span-2 grid grid-cols-2 gap-x-8">
                 <Text className="font-small text-gray-3 text-sm pb-3">Key</Text>
@@ -122,8 +129,8 @@ export default function APIKeys() {
               There are currently no API keys for this project
             </p>
           )}
-          {data &&
-            data.map(({ AccessKey }) => {
+          {sortedData &&
+            sortedData.map(({ AccessKey }) => {
               return (
                 <div
                   className="flex lg:grid grid-cols-3 pb-5"
