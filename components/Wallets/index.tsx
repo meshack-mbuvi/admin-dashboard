@@ -112,7 +112,7 @@ export default function Wallets() {
       </div>
       <div className="flex flex-row items-center mt-8 text-blue-1">
         <a
-          href="mailto:hello@syndicate.io"
+          href="mailto:support@syndicate.io"
           className="font-medium text-normal pr-1"
         >
           Need more wallets? Contact us
