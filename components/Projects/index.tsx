@@ -7,7 +7,6 @@ export default function Projects() {
 
   return (
     <>
-      <div className="text-2xl text-gray-1 mb-7">Projects</div>
       <div className="flex flex-col space-y-5">
         {/* Header */}
         <div className="flex">
