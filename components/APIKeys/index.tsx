@@ -1,30 +1,34 @@
 "use client"
 
+import clsx from "clsx"
 import { useParams } from "next/navigation"
 import { useState } from "react"
 
-import Verify2FAModal from "@/components/2fa/VerifyModal"
+import Add from "@/components/icons/Add"
 import Button, { LightButtonStyles } from "@/components/Buttons"
 import CopyToClipboard from "@/components/CopyToClipboard"
 import Loading from "@/components/Loading"
+import No2FAModal from "@/components/2fa/no2FAModal"
 import Text from "@/components/Text"
 import Trash from "@/components/icons/Trash"
+import Verify2FAModal from "@/components/2fa/VerifyModal"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateApiKey from "@/hooks/useCreateApiKey"
 import useDeleteApiKey from "@/hooks/useDeleteApiKey"
 import useGetProjectApiKeys from "@/hooks/useGetApiKeys"
+import useGetUser from "@/hooks/useGetUser"
 import { formatDate } from "@/utils/formatDate"
 import { GatewayFetchArgs } from "@/utils/gatewayFetch"
-import clsx from "clsx"
-import Add from "../icons/Add"
 
 export default function APIKeys() {
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = useState<boolean>(false)
+  const [showNo2FAModal, setShowNo2FAModal] = useState<boolean>(false)
   const { projectId } = useParams()
   const { data, isLoading } = useGetProjectApiKeys({
     projectId,
   })
+  const { data: user } = useGetUser()
   const sessionToken = useAuthToken()
   const createMutation = useCreateApiKey(projectId)
   const deleteMutation = useDeleteApiKey(projectId)
@@ -36,6 +40,7 @@ export default function APIKeys() {
     useState<GatewayFetchArgs>()
 
   const handleCreateAccessKey = () => {
+    if (!user?.is2FAEnabled) return setShowNo2FAModal(true)
     if (sessionToken) {
       setPendingRequest("create")
       setPendingRequestParams({
@@ -52,6 +57,7 @@ export default function APIKeys() {
   }
 
   const handleDeleteAccessKey = (keyId: string) => {
+    if (!user?.is2FAEnabled) return setShowNo2FAModal(true)
     const confirm = window.confirm("Are you sure you want to delete")
 
     if (confirm && sessionToken) {
@@ -177,6 +183,10 @@ export default function APIKeys() {
           deleteMutation.reset()
           createMutation.reset()
         }}
+      />
+      <No2FAModal
+        show={showNo2FAModal}
+        closeModal={() => setShowNo2FAModal(false)}
       />
     </div>
   )
