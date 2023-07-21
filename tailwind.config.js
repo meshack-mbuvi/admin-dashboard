@@ -1,4 +1,5 @@
 const { fontFamily } = require("tailwindcss/defaultTheme")
+const colors = require("tailwindcss/colors")
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -36,16 +37,20 @@ module.exports = {
           1: "#A4DEFF",
           neptune: "#4376FF",
         },
+        green: {
+          ...colors.green,
+          DEFAULT: "#30E696",
+        },
       },
       height: {
         18: "4.5rem", // 72px
-      }, 
+      },
       width: {
         13: "3.25rem", // 52px
       },
       borderRadius: {
-        "2lg": "0.625rem" // 10px
-      }
+        "2lg": "0.625rem", // 10px
+      },
     },
   },
   plugins: [],

@@ -4,13 +4,13 @@ export interface GatewayFetchArgs extends RequestInit {
 }
 
 export default async function gatewayFetch(args: GatewayFetchArgs) {
-  const { endpointPath, sessionToken, ...rest } = args
+  const { endpointPath, sessionToken, ...otherProps } = args
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpointPath}`, {
-    ...rest,
+    ...otherProps,
     headers: new Headers({
       Authorization: `Bearer Stytch ${sessionToken}`,
-      ...rest.headers,
+      ...otherProps.headers,
     }),
   })
 

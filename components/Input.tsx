@@ -3,7 +3,7 @@ import clsx from "clsx"
 export default function Input(
   props: React.InputHTMLAttributes<HTMLInputElement>
 ) {
-  const { className, onChange, value, placeholder, ...rest } = props
+  const { className, onChange, value, placeholder, ...otherProps } = props
   return (
     <input
       className={clsx(
@@ -13,7 +13,7 @@ export default function Input(
       placeholder={placeholder}
       onChange={onChange}
       value={value}
-      {...rest}
+      {...otherProps}
     />
   )
 }
