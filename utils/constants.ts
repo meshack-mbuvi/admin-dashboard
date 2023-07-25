@@ -4,7 +4,7 @@ export const DOMAIN_CONNECTIONS =
       [
         {
           orgName: "syndicate.io",
-          orgId: "",
+          orgId: "organization-live-c85e9994-696d-4b11-ae36-1472f6a20934",
         },
         { orgName: "nike.com", orgId: "" },
       ]
