@@ -21,13 +21,13 @@ export default function No2FAModal(props: No2FAModalProps) {
         <div className="mt-4 text-2xl">Set up 2FA to continue</div>
         <div className="mt-4 text-gray-4 flex flex-col space-y-2">
           <div>
-            2FA is mandatory to perform this action. Please ensure that you have
-            enabled and configured 2FA for your account before proceeding.
+            Two factor authentication (2FA) is mandatory to perform this action,
+            as it protects your organization from authorized access and
+            maintains the integrity of sensitive information.
           </div>
           <div>
-            The additional verification step is necessary to protect your
-            organization from unauthorized access and maintain the integrity of
-            sensitive information.
+            Please ensure that you have enabled and configured 2FA for your
+            account before proceeding.
           </div>
         </div>
         <Button
