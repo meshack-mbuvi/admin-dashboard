@@ -25,9 +25,10 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
   const [showStatusModal, setShowStatusModal] = useState(false)
   const [statusText, setStatusText] = useState(PendingStatusText)
   const [requestStatus, setRequestStatus] = useState(RequestStatus.FAILURE)
-  const [name, setName] = useState("")
+  const [name, setName] = useState<string>("")
   const [email, setEmail] = useState<string>("")
-  const [emailErrorMessage, setEmailErrorMessage] = useState("")
+  const [nameErrorMessage, setNameErrorMessage] = useState<string>("")
+  const [emailErrorMessage, setEmailErrorMessage] = useState<string>("")
 
   const allowedDomains = useMemo(() => {
     if (!organizationData) return []
@@ -61,6 +62,12 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
     handleStatusUpdate()
   }, [isSuccess, isError, isLoading])
 
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    setName(value)
+    debouncedHandleValidation(value)
+  }
+
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setEmail(value)
@@ -68,30 +75,35 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
   }
 
   const handleValidation = (value: string) => {
+    setNameErrorMessage("")
     setEmailErrorMessage("")
 
     if (!email) return
 
     const [_, domain] = value.split("@")
-    let _errorMessage = ""
-
+    let _nameErrorMessage = ""
+    let _emailErrorMessage = ""
+    console.log("domain: ", domain)
     if (!organizationData) {
-      _errorMessage = "Organization domains not loaded"
+      _emailErrorMessage = "Organization domains not loaded"
+    } else if (!name) {
+      _nameErrorMessage = "Please enter a name"
     } else if (!domain) {
-      _errorMessage = "Please enter a valid email"
+      _emailErrorMessage = "Please enter a valid email"
     } else {
       const isValidDomain = allowedDomains.indexOf(domain.toLowerCase()) > -1
 
       if (isValidDomain) {
-        _errorMessage = ""
+        _emailErrorMessage = ""
       } else {
-        _errorMessage = `Please enter a valid email address from the following domain(s): ${allowedDomains.join(
+        _emailErrorMessage = `Please enter a valid email address from the following domain(s): ${allowedDomains.join(
           ", "
         )}`
       }
     }
 
-    setEmailErrorMessage(_errorMessage)
+    setNameErrorMessage(_nameErrorMessage)
+    setEmailErrorMessage(_emailErrorMessage)
   }
 
   const debouncedHandleValidation = useDebouncedCallback(handleValidation, 300)
@@ -132,8 +144,11 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
             <Input
               placeholder="Example Person"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => handleNameChange(e)}
             />
+            {nameErrorMessage && <p className="font-sans font-medium text-red text-sm mt-2 mb-7">
+              {nameErrorMessage}
+            </p>}
           </div>
           <div className="flex flex-col justify-center items-left">
             <p className="font-sans font-medium  text-white text-sm mb-2">
@@ -149,7 +164,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
           </div>
           <input
             type="button"
-            disabled={!!emailErrorMessage || !name || !email}
+            disabled={!!nameErrorMessage || !!emailErrorMessage || !name || !email}
             onClick={() => {
               handleRequest()
               onClose()
