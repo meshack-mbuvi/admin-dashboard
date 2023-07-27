@@ -23,6 +23,6 @@ export default function useGetUsers() {
 
       return (await usersResponse.json()) as UserDataType[]
     },
-    { enabled: !!sessionToken, keepPreviousData: true }
+    { enabled: !!sessionToken}
   )
 }

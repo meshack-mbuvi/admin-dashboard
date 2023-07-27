@@ -13,6 +13,7 @@ interface Props {
   show: boolean
   children: string
   status: RequestStatus
+  closeModal?: () => void
 }
 
 /**
@@ -32,7 +33,7 @@ export const StatusModal: React.FC<Props> = (props) => {
     )
 
   return (
-    <Modal {...otherProps}>
+    <Modal outsideOnClick={true} {...otherProps}>
       <div className="flex flex-col justify-center m-auto mb-4">
         <div className="flex w-full justify-center m-auto my-8">{icon}</div>
 
