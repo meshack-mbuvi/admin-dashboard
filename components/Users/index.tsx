@@ -58,7 +58,7 @@ export default function Users() {
     }
     deleteMutation.mutate(params as GatewayFetchArgs)
   }
-  const { data, isFetching } = useGetUsers()
+  const { data, isFetching, isLoading } = useGetUsers()
 
   const handleDeleteUser = (id: any) => {
     setPendingRequestParams({
@@ -86,7 +86,7 @@ export default function Users() {
     }),
     columnHelper.accessor("role", {
       header: () => <ColumnHeader>Role</ColumnHeader>,
-      cell: (info) => <Text>{info.getValue()}</Text>,
+      cell: (info) => <Text className="capitalize">{info.getValue()}</Text>,
     }),
     columnHelper.accessor("status", {
       header: () => <ColumnHeader>Status</ColumnHeader>,
@@ -97,7 +97,7 @@ export default function Users() {
       header: () => <></>,
       cell: (info) => (
         <Button
-          className="flex items-center text-gray-4 text-sm"
+          className="flex items-center text-red text-sm "
           onClick={() => handleDeleteUser(info.row.original.id)}
         >
           <RemoveIcon className="w-4 h-4 mr-2" /> Remove
@@ -113,7 +113,7 @@ export default function Users() {
   })
   return (
     <div>
-      {isFetching ? (
+      {isLoading ? (
         [...Array(6)].map((_, i) => (
           <div className="flex gap-10 py-4" key={i}>
             <Loading className="w-1/5 h-4" />
