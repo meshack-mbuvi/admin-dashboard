@@ -7,8 +7,6 @@ interface UseSet2FAArgs {
   onError?: () => void
 }
 
-export interface Wallets {}
-
 export default function use2FA(args: UseSet2FAArgs) {
   return useMutation(gatewayFetch, {
     onSuccess: async (resp: Response) => {
