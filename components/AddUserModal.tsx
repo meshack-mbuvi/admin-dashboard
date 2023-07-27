@@ -12,9 +12,9 @@ type AddUserModalProps = {
   onClose: () => void
 }
 
-const PendingStatusText = "Adding user"
-const SuccessStatusText = "User added successfully"
-const FailureStatusText = "User addition failed"
+const PendingStatusText = "Inviting user"
+const SuccessStatusText = "User invitation sent"
+const FailureStatusText = "User invitation failed"
 
 const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
   const sessionToken = useAuthToken()
@@ -146,9 +146,11 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
               value={name}
               onChange={(e) => handleNameChange(e)}
             />
-            {nameErrorMessage && <p className="font-sans font-medium text-red text-sm mt-2 mb-7">
-              {nameErrorMessage}
-            </p>}
+            {nameErrorMessage && (
+              <p className="font-sans font-medium text-red text-sm mt-2 mb-7">
+                {nameErrorMessage}
+              </p>
+            )}
           </div>
           <div className="flex flex-col justify-center items-left">
             <p className="font-sans font-medium  text-white text-sm mb-2">
@@ -164,7 +166,9 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
           </div>
           <input
             type="button"
-            disabled={!!nameErrorMessage || !!emailErrorMessage || !name || !email}
+            disabled={
+              !!nameErrorMessage || !!emailErrorMessage || !name || !email
+            }
             onClick={() => {
               handleRequest()
               onClose()

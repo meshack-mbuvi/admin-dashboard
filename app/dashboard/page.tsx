@@ -45,7 +45,7 @@ export default function Dashboard() {
             className={clsx(LightButtonStyles, "flex items-center")}
           >
             <Add className="h-4 w-4 mr-4" />
-            Add user
+            Invite user
           </Button>
         )}
 
