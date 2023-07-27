@@ -6,7 +6,7 @@ export default function useCreateUser() {
   return useMutation(gatewayFetch, {
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["create-user"],
+        queryKey: ["get-users"],
       })
     },
   })
