@@ -61,7 +61,7 @@ export default function EnterCode(props: CodeProps) {
     return () => {
       setError(false)
     }
-  }, [authCode, sessionToken, verify2FAMutation, mode])
+  }, [authCode, sessionToken, verify2FAMutation, mode, onAuthCode])
 
   return (
     <div className="flex flex-col text-center">
