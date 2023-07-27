@@ -1,4 +1,4 @@
-import gatewayFetch, { GatewayFetchArgs } from "@/utils/gatewayFetch"
+import gatewayFetch from "@/utils/gatewayFetch"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 export default function useDeleteApiKey(projectId: string) {

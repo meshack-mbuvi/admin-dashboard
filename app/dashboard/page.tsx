@@ -1,7 +1,7 @@
 "use client"
 
 import AddUserModal from "@/components/AddUserModal"
-import Button, { DarkButtonStyles } from "@/components/Buttons"
+import Button, { LightButtonStyles } from "@/components/Buttons"
 import Projects from "@/components/Projects"
 import { Tab } from "@/components/Tab"
 import Users from "@/components/Users"
@@ -20,15 +20,15 @@ export default function Dashboard() {
   }
 
   const [activeTabIndex, setActiveTabIndex] = useState(0)
-  const [showAddUserModal, setShowAddUserModal] = useState(false);
+  const [showAddUserModal, setShowAddUserModal] = useState(false)
 
   const handleAddUserModal = () => {
-    setShowAddUserModal(true);
+    setShowAddUserModal(true)
   }
 
   const handleCloseAddUserModal = () => {
-    setShowAddUserModal(false);
-  };
+    setShowAddUserModal(false)
+  }
 
   return (
     <div className="flex flex-col">
@@ -39,17 +39,20 @@ export default function Dashboard() {
           setActiveIndex={setActiveTabIndex}
         />
 
-        {
-          activeTabIndex === 1 && (
-            <Button onClick={handleAddUserModal} className={clsx(DarkButtonStyles, "flex items-center")}>
-              <Add className="h-4 w-4 mr-4" />
-              Add user
-            </Button>
-          )
-        }
+        {activeTabIndex === 1 && (
+          <Button
+            onClick={handleAddUserModal}
+            className={clsx(LightButtonStyles, "flex items-center")}
+          >
+            <Add className="h-4 w-4 mr-4" />
+            Invite user
+          </Button>
+        )}
 
-        <AddUserModal show={showAddUserModal} onClose={handleCloseAddUserModal} />
-        
+        <AddUserModal
+          show={showAddUserModal}
+          onClose={handleCloseAddUserModal}
+        />
       </div>
       <div className="ml-2">{tabComponents[tabHeaders[activeTabIndex]]}</div>
     </div>

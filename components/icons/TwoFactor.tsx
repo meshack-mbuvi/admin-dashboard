@@ -18,8 +18,8 @@ export default function TwoFactorIcon(props: SvgProps) {
             height="36.3322"
             rx="10"
             fill="#30E696"
-            fill-opacity="0.02"
-            shape-rendering="crispEdges"
+            fillOpacity="0.02"
+            shapeRendering="crispEdges"
           />
           <rect
             x="34.5"
@@ -28,7 +28,7 @@ export default function TwoFactorIcon(props: SvgProps) {
             height="35.3322"
             rx="9.5"
             stroke="#30E696"
-            shape-rendering="crispEdges"
+            shapeRendering="crispEdges"
           />
         </g>
         <path
@@ -66,7 +66,7 @@ export default function TwoFactorIcon(props: SvgProps) {
             rx="10"
             transform="rotate(-3.84568 159.865 12.4265)"
             fill="#131416"
-            fill-opacity="0.5"
+            fillOpacity="0.5"
           />
           <rect
             x="160.397"
@@ -85,13 +85,13 @@ export default function TwoFactorIcon(props: SvgProps) {
         <path
           d="M180.095 96.0208L196.529 94.9161"
           stroke="white"
-          stroke-linecap="round"
+          strokeLinecap="round"
         />
         <path
           d="M177.507 16.4727L188.446 15.7373"
           stroke="white"
-          stroke-width="3"
-          stroke-linecap="round"
+          strokeWidth="3"
+          strokeLinecap="round"
         />
       </g>
       <defs>
@@ -102,9 +102,9 @@ export default function TwoFactorIcon(props: SvgProps) {
           width="206.701"
           height="38.3323"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feBlend
             mode="normal"
             in="SourceGraphic"
@@ -123,9 +123,9 @@ export default function TwoFactorIcon(props: SvgProps) {
           width="272.701"
           height="104.332"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
@@ -158,9 +158,9 @@ export default function TwoFactorIcon(props: SvgProps) {
           width="78.2244"
           height="118.972"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
@@ -193,9 +193,9 @@ export default function TwoFactorIcon(props: SvgProps) {
           width="72.2244"
           height="112.972"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feGaussianBlur in="BackgroundImageFix" stdDeviation="5.5" />
           <feComposite
             in2="SourceAlpha"

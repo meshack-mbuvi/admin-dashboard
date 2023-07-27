@@ -32,13 +32,13 @@ export default function TwoFactorAuth() {
       setActiveTabIndex(activeTabIndex - 1)
     }
     if (activeTabIndex === 3) {
-      router.push("/dashboard")
+      router.back()
     }
   }
 
   useEffect(() => {
     if (!isLoading && user?.is2FAEnabled) {
-      router.push("/dashboard")
+      router.back()
     }
   }, [isLoading, user, router])
 
@@ -56,17 +56,15 @@ export default function TwoFactorAuth() {
   return (
     <>
       <div className="left-6 top-6 fixed z-10">
-        <Link
-          href={{
-            pathname: "/dashboard",
-          }}
+        <button
+          onClick={() => router.back()}
           className={clsx(
             "flex items-center justify-center h-12 w-12",
             "rounded-full bg-gray-7 justify-self-start"
           )}
         >
           <Close className="h-4" />
-        </Link>
+        </button>
       </div>
       <div className="flex justify-center py-6 absolute w-full">
         <Logo className="w-12 text-gray-5 justify-self-center" />

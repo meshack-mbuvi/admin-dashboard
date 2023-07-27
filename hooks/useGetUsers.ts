@@ -3,10 +3,10 @@ import { useQuery } from "@tanstack/react-query"
 import useAuthToken from "./useAuthToken"
 
 export interface UserDataType {
-  stytchId: number
+  id: string
   name: string
   emailAddress: string
-  role: "admin" | "viewer"
+  role: "admin" | "manager" | "read"
   status: "Active" | "Invited"
 }
 
@@ -23,6 +23,6 @@ export default function useGetUsers() {
 
       return (await usersResponse.json()) as UserDataType[]
     },
-    { enabled: !!sessionToken, keepPreviousData: true }
+    { enabled: !!sessionToken}
   )
 }
