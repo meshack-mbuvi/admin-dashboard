@@ -6,15 +6,17 @@ import { Tab } from "@/components/Tab"
 import APIKeys from "@/components/APIKeys"
 import General from "@/components/General"
 import Wallets from "@/components/Wallets"
+import Contracts from "@/components/Contracts"
 
 export default function Home() {
-  const tabHeaders = ["General", "API Keys", "Wallets"]
+  const tabHeaders = ["General", "API Keys", "Contracts", "Wallets"]
 
   const tabComponents: {
     [key: string]: JSX.Element
   } = {
     General: <General />,
     "API Keys": <APIKeys />,
+    Contracts: <Contracts />,
     Wallets: <Wallets />,
   }
 
