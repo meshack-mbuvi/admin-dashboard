@@ -109,7 +109,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                   onClick={() => {
                     router.push(`/dashboard/${newProjectId}/transactions`)
                   }}
-                  className="text-black font-sans disabled:bg-opacity-60 cursor-pointer disabled:cursor-not-allowed font-medium bg-white rounded-lg px-8 py-3.5"
+                  className="text-black font-sans disabled:bg-opacity-60 cursor-pointer font-medium bg-white rounded-lg px-8 py-3.5"
                   value="Go to project"
                 />
               )}
