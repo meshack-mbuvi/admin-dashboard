@@ -1,5 +1,8 @@
 "use client"
 
+import clsx from "clsx"
+import { useState } from "react"
+
 import AddUserModal from "@/components/AddUserModal"
 import CreateProjectModal from "@/components/CreateProjectModal"
 import Button, { LightButtonStyles } from "@/components/Buttons"
@@ -7,8 +10,6 @@ import Projects from "@/components/Projects"
 import { Tab } from "@/components/Tab"
 import Users from "@/components/Users"
 import Add from "@/components/icons/Add"
-import clsx from "clsx"
-import { useState } from "react"
 
 export default function Dashboard() {
   const tabHeaders = ["Projects", "People"]
@@ -25,21 +26,10 @@ export default function Dashboard() {
   const [showAddUserModal, setShowAddUserModal] = useState(false)
   const [showCreateProjectModal, setShowCreateProjectModal] = useState(false)
 
-  const handleAddUserModal = () => {
-    setShowAddUserModal(true)
-  }
-  const handleCloseAddUserModal = () => {
-    setShowAddUserModal(false)
-  }
-
-  const handleOpenCreateProjectModal = () => {
-    setShowCreateProjectModal(true)
-  }
-  const handleCloseCreateProjectModal = () => {
-    setShowCreateProjectModal(false)
-  }
-
-  const tabButtonHandler = [handleOpenCreateProjectModal, handleAddUserModal]
+  const tabButtonHandler = [
+    () => setShowCreateProjectModal(true),
+    () => setShowAddUserModal(true),
+  ]
 
   return (
     <div className="flex flex-col">
@@ -60,11 +50,11 @@ export default function Dashboard() {
 
         <AddUserModal
           show={showAddUserModal}
-          onClose={handleCloseAddUserModal}
+          onClose={() => setShowAddUserModal(false)}
         />
         <CreateProjectModal
           show={showCreateProjectModal}
-          onClose={handleCloseCreateProjectModal}
+          onClose={() => setShowCreateProjectModal(false)}
         />
       </div>
       <div className="ml-2">{tabComponents[tabHeaders[activeTabIndex]]}</div>

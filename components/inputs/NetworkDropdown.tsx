@@ -1,7 +1,9 @@
 import { Fragment, useState } from "react"
 import { Listbox, Transition } from "@headlessui/react"
 import clsx from "clsx"
+
 import { getNetworkIcon } from "@/utils/getNetworkIcon"
+import { networks } from "@/utils/getNetwork"
 
 type NetworkDropdownProps = {
   currentNetwork: number
@@ -10,35 +12,16 @@ type NetworkDropdownProps = {
   above?: boolean
 }
 
-const supportedNetworks = [
-  {
-    chainId: 1,
-    name: "Ethereum - Mainnet",
-  },
-  {
-    chainId: 137,
-    name: "Polygon - Mainnet",
-  },
-  {
-    chainId: 80001,
-    name: "Polygon - Mumbai",
-  },
-]
-
-const getNetworkById = (networkId: number) => {
-  return supportedNetworks.find((network) => network.chainId === networkId)
-}
-
 const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
   currentNetwork,
   setCurrentNetwork,
   placeholder = "Select network",
   above = false,
 }) => {
-  const [selected, setSelected] = useState(getNetworkById(currentNetwork))
+  const [selected, setSelected] = useState(currentNetwork)
 
-  const onChange = (network: (typeof supportedNetworks)[number]) => {
-    setCurrentNetwork(network.chainId)
+  const onChange = (network: number) => {
+    setCurrentNetwork(network)
     setSelected(network)
   }
 
@@ -56,9 +39,11 @@ const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
                 "flex gap-4 border bg-gray-8 outline-none border-gray-7 rounded-lg px-4 py-4 w-full text-left"
               )}
             >
-              {selected && getNetworkIcon(selected.chainId, "w-5 h-5")}
+              {!!selected && getNetworkIcon(selected, "w-5 h-5")}
               <span className="block truncate">
-                {selected ? selected.name : placeholder}
+                {selected
+                  ? networks[selected as keyof typeof networks].name
+                  : placeholder}
               </span>
             </Listbox.Button>
 
@@ -75,19 +60,21 @@ const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
                   "absolute z-10 w-full overflow-auto bg-gray-8 text-white border border-gray-7 rounded-lg"
                 )}
               >
-                {supportedNetworks.map((network) => (
+                {Object.keys(networks).map((chainId) => (
                   <Listbox.Option
-                    key={network.chainId}
+                    key={chainId}
                     className={({ active }) =>
                       clsx(
                         active ? "bg-white/10" : "",
                         "flex gap-4 cursor-default select-none py-2 pl-3 pr-9 max-h-38 rounded-lg"
                       )
                     }
-                    value={network}
+                    value={+chainId}
                   >
-                    {getNetworkIcon(network.chainId, "w-5 h-5")}
-                    <span className="block truncate">{network.name}</span>
+                    {getNetworkIcon(+chainId, "w-5 h-5")}
+                    <span className="block truncate">
+                      {networks[+chainId as keyof typeof networks].name}
+                    </span>
                   </Listbox.Option>
                 ))}
               </Listbox.Options>

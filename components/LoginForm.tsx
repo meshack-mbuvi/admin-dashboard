@@ -5,7 +5,7 @@ import { useStytchB2BClient } from "@stytch/nextjs/b2b"
 
 import Section from "./Section"
 import Label from "./Label"
-import Input from "./Input"
+import Input from "./inputs/Input"
 
 import { getAuthRedirectURL } from "@/utils/environment"
 import { DOMAIN_CONNECTIONS } from "@/utils/constants"

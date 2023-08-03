@@ -4,7 +4,7 @@ import { useParams } from "next/navigation"
 import { ChangeEvent, useEffect, useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
 
-import Input from "@/components/Input"
+import Input from "@/components/inputs/Input"
 import Loading from "@/components/Loading"
 import Section from "@/components/Section"
 import Text from "@/components/Text"

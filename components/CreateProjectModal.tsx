@@ -1,14 +1,15 @@
+import React, { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateUser from "@/hooks/useCreateUser"
-import React, { useEffect, useMemo, useState } from "react"
-import Input from "./Input"
-import Select from "./Select"
+import useGetOrganization from "@/hooks/useGetOrganization"
+import Input from "./inputs/Input"
+import Select from "./inputs/Select"
 import Modal from "./Modal"
 import { Spinner } from "./Spinner"
 import SuccessCheckMark from "./icons/successCheckMark"
-import NetworkDropdown from "./NetworkDropdown"
-import useGetOrganization from "@/hooks/useGetOrganization"
-import { useRouter } from "next/navigation"
+import NetworkDropdown from "./inputs/NetworkDropdown"
 
 type CreateProjectModalProps = {
   show: boolean
