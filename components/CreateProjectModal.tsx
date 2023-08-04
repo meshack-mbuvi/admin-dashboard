@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 
 import useAuthToken from "@/hooks/useAuthToken"
-import useCreateUser from "@/hooks/useCreateUser"
 import useGetOrganization from "@/hooks/useGetOrganization"
+import useCreateProject from "@/hooks/useCreateProject"
 import Input from "./inputs/Input"
 import Select from "./inputs/Select"
 import Modal from "./Modal"
@@ -34,7 +34,8 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
   const { data: organizationData, isLoading: isOrganizationDataLoading } =
     useGetOrganization()
 
-  const { data, isError, isSuccess, mutate, isLoading, reset } = useCreateUser()
+  const { data, isError, isSuccess, mutate, isLoading, reset } =
+    useCreateProject()
   const [newProjectId, setNewProjectId] = useState<string>("")
 
   const [name, setName] = useState<string>("")
