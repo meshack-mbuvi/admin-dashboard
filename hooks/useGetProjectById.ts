@@ -2,9 +2,25 @@ import { UseQueryOptions, useQuery } from "@tanstack/react-query"
 
 import gatewayFetch from "@/utils/gatewayFetch"
 import useAuthToken from "./useAuthToken"
+import { NetworkId } from "@/utils/getNetwork"
 
 interface UseGetProjectByIdArgs {
   projectId: string
+}
+
+export interface iFunctionSignature {
+  id: string
+  signature: string
+}
+
+export interface iContract {
+  id: string
+  name: string
+  address: string
+  functionSignatures: iFunctionSignature[]
+  createdAt: string
+  updatedAt: string
+  chainId: NetworkId
 }
 
 export interface ProjectInterface {
@@ -15,6 +31,7 @@ export interface ProjectInterface {
   name: string
   organizationId: string
   tokens: any[]
+  contracts: iContract[]
 }
 
 export default function useGetProjectById(

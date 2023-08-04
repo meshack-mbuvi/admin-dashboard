@@ -7,6 +7,7 @@ export const getNetworkIcon = (networkId: number, className?: string) => {
       return <Ethereum className={className} />
 
     case 137:
+    case 80001:
       return <Polygon className={className} />
 
     default:

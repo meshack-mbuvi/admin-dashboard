@@ -11,7 +11,7 @@ import Loading from "@/components/Loading"
 import Table from "@/components/Shared/Table"
 import TransactionBlock from "@/components/Transactions/atoms/Block"
 import EmptyState from "@/components/Shared/Empty"
-import Hex from "@/components/Transactions/atoms/Hex"
+import Hex from "@/components/Shared/Hex"
 import TransactionPagination from "@/components/Transactions/atoms/Pagination"
 import TransactionStatus, {
   RawStatusEnum,

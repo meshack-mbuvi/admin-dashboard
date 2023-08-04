@@ -9,13 +9,15 @@ interface HexProps {
   hexType: "address" | "tx"
   hexValue: string
   chainId: NetworkId
+  truncate?: boolean
 }
 
 const Hex = (props: HexProps) => {
-  const { hexType, hexValue, chainId } = props
+  const { hexType, hexValue, chainId, truncate = true } = props
 
   const formattedHexValue = useMemo(() => {
     if (!hexValue) return
+    if (!truncate) return hexValue
 
     if (hexType === "address") {
       return formatAddress(hexValue, 6, 4)
@@ -23,7 +25,7 @@ const Hex = (props: HexProps) => {
     if (hexType === "tx") {
       return `${hexValue.slice(0, 13)}...`
     }
-  }, [hexValue, hexType])
+  }, [hexValue, hexType, truncate])
 
   const linkAddress = `${
     getNetwork(chainId).blockExplorers?.default.url
@@ -33,13 +35,15 @@ const Hex = (props: HexProps) => {
     <div className="flex space-x-5 group">
       <span className="flex focus:outline-none text-base leading-5.5 group text-white hover:text-blue-1 cursor-pointer font-mono">
         <Link
-          className="hover:text-blue-1 text-gray-3"
+          className="hover:text-blue-1 text-white group/link"
           href={{
             pathname: linkAddress,
           }}
           target="_blank"
         >
-          {formattedHexValue?.slice(0, 2)}
+          <span className="text-gray-3 group-hover/link:text-blue-1">
+            {formattedHexValue?.slice(0, 2)}
+          </span>
           {formattedHexValue?.slice(2)}
         </Link>
         <CopyToClipboard
