@@ -82,10 +82,10 @@ export default function ProjectRow(props: ProjectRowProps) {
         >
           {formatEnvironment(environment)}
         </div>
-        <div className="w-1/5 text-left text-base text-gray-1">
+        <div className="w-1/5 text-left text-base text-gray-1 font-mono">
           {formatStat(stats?.numberOfTransactions)}
         </div>
-        <div className="w-1/5 text-left text-base text-gray-1">
+        <div className="w-1/5 text-left text-base text-gray-1 font-mono">
           {formatStat(stats?.numberOfFailedTransactions)}
         </div>
         <div className="flex gap-2 w-1/5 text-left text-base text-gray-1 leading-5">

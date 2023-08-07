@@ -13,10 +13,10 @@ export default function Projects() {
           <div className="w-1/5 text-left text-sm text-gray-3">Name</div>
           <div className="w-1/5 text-left text-sm text-gray-3">Environment</div>
           <div className="w-1/5 text-left text-sm text-gray-3">
-            Transactions in Last 24 hrs
+            Transactions (24hrs)
           </div>
           <div className="w-1/5 text-left text-sm text-gray-3">
-            Failed Requests in Last 24 hrs
+            Failed Requests (24hrs)
           </div>
           <div className="w-1/5 text-left text-sm text-gray-3">Network(s)</div>
           <div className="flex w-5"></div>
