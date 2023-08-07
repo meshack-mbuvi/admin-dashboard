@@ -7,26 +7,26 @@ const getConfig = (networkId: string) => {
     case "1":
       return {
         chain: mainnet,
-        rpcUrl: "",
+        rpcUrl: process.env.NEXT_PUBLIC_ALCHEMY_MAINNET_URL,
       }
 
     case "5":
       return {
         chain: goerli,
-        rpcUrl: "",
+        rpcUrl: process.env.NEXT_PUBLIC_ALCHEMY_GOERLI_URL,
       }
 
     case "137":
       return {
         chain: polygon,
-        rpcUrl: "",
+        rpcUrl: process.env.NEXT_PUBLIC_ALCHEMY_POLYGON_URL,
       }
 
     case "80001":
       return {
         chain: polygonMumbai,
         rpcUrl:
-          "https://polygon-mumbai.g.alchemy.com/v2/zm77930PML8GJvZ6MP2_XyI_82XrfOBq",
+        process.env.NEXT_PUBLIC_ALCHEMY_MUMBAI_URL,
       }
   }
 }
