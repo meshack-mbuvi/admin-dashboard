@@ -13,6 +13,7 @@ import Table from "@/components/Shared/Table"
 import Text from "@/components/Text"
 import Verify2FAModal from "@/components/2fa/VerifyModal"
 import { ColumnHeader } from "./atoms/columnHeader"
+import EmptyState from "../Shared/Empty"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useDeleteUserById from "@/hooks/useDeleteUser"
@@ -124,7 +125,16 @@ export default function Users() {
         ))
       ) : (
         <div className="flex flex-col items-center">
-          <Table tableConfig={table} isLoading={isFetching} />
+          {data && data.length > 0 ? (
+            <Table tableConfig={table} isLoading={isFetching} />
+          ) : (
+            <EmptyState
+              heading="No users yet"
+              description={
+                <span>When users are added they will appear here</span>
+              }
+            />
+          )}
         </div>
       )}
 
