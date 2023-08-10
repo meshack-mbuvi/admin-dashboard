@@ -61,7 +61,9 @@ export default function EnterCode(props: CodeProps) {
     return () => {
       setError(false)
     }
-  }, [authCode, sessionToken, verify2FAMutation, mode, onAuthCode])
+    // Passing in onAuthCode here causes an infinite loop
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authCode, sessionToken, verify2FAMutation, mode])
 
   return (
     <div className="flex flex-col text-center">
