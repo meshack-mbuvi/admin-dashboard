@@ -17,14 +17,14 @@ export default function TransactionTables() {
 
   const { data: failedTxResponse } = useGetRequests({
     projectId,
-    page: 20,
+    page: 0,
     limit: 20,
     invalid: true,
   })
 
   const { data: successfulTxResponse } = useGetTransactions({
     projectId,
-    page: 20,
+    page: 0,
     limit: 20,
     search: searchTerm,
     statuses: [

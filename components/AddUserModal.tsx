@@ -4,7 +4,7 @@ import useGetOrganization from "@/hooks/useGetOrganization"
 import { ResponseError } from "@/utils/gatewayFetch"
 import React, { useEffect, useMemo, useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
-import Input from "./Input"
+import Input from "./inputs/Input"
 import Modal from "./Modal"
 import { Spinner } from "./Spinner"
 import SuccessCheckMark from "./icons/successCheckMark"
@@ -173,7 +173,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
                 handleRequest()
               }}
               className="text-black font-sans disabled:bg-opacity-60 disabled:cursor-not-allowed font-medium bg-white rounded-lg px-8 py-3.5"
-              value="Invite to project"
+              value="Invite to organization"
             />
           )}
         </div>

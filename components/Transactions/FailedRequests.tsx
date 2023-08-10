@@ -8,7 +8,7 @@ import { useState } from "react"
 
 import Loading from "@/components/Loading"
 import Table from "@/components/Shared/Table"
-import EmptyState from "@/components/Transactions/atoms/Empty"
+import EmptyState from "@/components/Shared/Empty"
 import TransactionPagination from "@/components/Transactions/atoms/Pagination"
 import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
 
