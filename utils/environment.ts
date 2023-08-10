@@ -1,7 +1,7 @@
 export const getAuthRedirectURL = () => {
   const isPreview = process.env.NEXT_PUBLIC_VERCEL_ENV === "preview"
   if (isPreview) {
-    const previewURL = process.env.NEXT_PUBLIC_VERCEL_URL
+    const previewURL = process.env.NEXT_PUBLIC_VERCEL_BRANCH_URL
     return `https://${previewURL}/authenticate`
   }
 
