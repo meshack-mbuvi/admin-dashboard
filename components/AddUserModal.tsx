@@ -1,106 +1,102 @@
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateUser from "@/hooks/useCreateUser"
 import useGetOrganization from "@/hooks/useGetOrganization"
+import { ResponseError } from "@/utils/gatewayFetch"
 import React, { useEffect, useMemo, useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
-import Input from "./Input"
+import Input from "./inputs/Input"
 import Modal from "./Modal"
-import StatusModal, { RequestStatus } from "./StatusModal"
+import { Spinner } from "./Spinner"
+import SuccessCheckMark from "./icons/successCheckMark"
 
 type AddUserModalProps = {
   show: boolean
   onClose: () => void
 }
 
-const PendingStatusText = "Adding user"
-const SuccessStatusText = "User added successfully"
-const FailureStatusText = "User addition failed"
+const PendingStatusText = "Inviting user"
+const SuccessStatusText = "User invitation sent"
 
 const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
   const sessionToken = useAuthToken()
-  const { isError, isSuccess, isLoading, mutate } = useCreateUser()
-  const { data: organizationData, isLoading: isOrganizationDataLoading } =
-    useGetOrganization()
+  const { isError, isSuccess, mutate, error, reset } = useCreateUser()
+  const { data: organizationData } = useGetOrganization()
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const [showStatusModal, setShowStatusModal] = useState(false)
-  const [statusText, setStatusText] = useState(PendingStatusText)
-  const [requestStatus, setRequestStatus] = useState(RequestStatus.FAILURE)
-  const [name, setName] = useState("")
+  const [name, setName] = useState<string>("")
   const [email, setEmail] = useState<string>("")
-  const [emailErrorMessage, setEmailErrorMessage] = useState("")
+  const [nameErrorMessage, setNameErrorMessage] = useState<string>("")
+  const [emailErrorMessage, setEmailErrorMessage] = useState<string>("")
 
   const allowedDomains = useMemo(() => {
     if (!organizationData) return []
     return organizationData.stytchInformation.email_allowed_domains
   }, [organizationData])
 
-  const handleStatusUpdate = () => {
-    let _status = RequestStatus.PENDING
-    let _statusText = PendingStatusText
-
-    if (isLoading) {
-      _status = RequestStatus.PENDING
-      _statusText = PendingStatusText
-    } else if (isSuccess) {
-      _status = RequestStatus.SUCCESS
-      _statusText = SuccessStatusText
-    } else if (isError) {
-      _status = RequestStatus.FAILURE
-      _statusText = FailureStatusText
-    }
-
-    setRequestStatus(_status)
-    setStatusText(_statusText)
-
-    setTimeout(() => {
-      setShowStatusModal(false)
-    }, 3000)
-  }
-
   useEffect(() => {
-    handleStatusUpdate()
-  }, [isSuccess, isError, isLoading])
+    let _statusText = ""
+    if (isError && error.status === 409) {
+      _statusText = "User already exists"
+    }
+    setEmailErrorMessage(_statusText)
+    setIsSubmitting(false)
+  }, [isError, error, isSuccess, email, name])
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    reset()
+    setEmailErrorMessage("")
+    const { value } = e.target
+    setName(value)
+    debouncedHandleValidation()
+  }
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    reset()
     const { value } = e.target
     setEmail(value)
-    debouncedHandleValidation(value)
+    debouncedHandleValidation()
   }
 
-  const handleValidation = (value: string) => {
+  const handleValidation = () => {
+    setNameErrorMessage("")
     setEmailErrorMessage("")
 
     if (!email) return
 
-    const [_, domain] = value.split("@")
-    let _errorMessage = ""
+    const [_, domain] = email.split("@")
+    let _nameErrorMessage = ""
+    let _emailErrorMessage = ""
 
     if (!organizationData) {
-      _errorMessage = "Organization domains not loaded"
+      _emailErrorMessage = "Organization domains not loaded"
+    } else if (!name) {
+      _nameErrorMessage = "Please enter a name"
     } else if (!domain) {
-      _errorMessage = "Please enter a valid email"
+      _emailErrorMessage = "Please enter a valid email"
     } else {
       const isValidDomain = allowedDomains.indexOf(domain.toLowerCase()) > -1
 
       if (isValidDomain) {
-        _errorMessage = ""
+        _emailErrorMessage = ""
       } else {
-        _errorMessage = `Please enter a valid email address from the following domain(s): ${allowedDomains.join(
+        _emailErrorMessage = `Please enter a valid email address from the following domain(s): ${allowedDomains.join(
           ", "
         )}`
       }
     }
 
-    setEmailErrorMessage(_errorMessage)
+    setNameErrorMessage(_nameErrorMessage)
+    setEmailErrorMessage(_emailErrorMessage)
   }
 
-  const debouncedHandleValidation = useDebouncedCallback(handleValidation, 300)
+  const debouncedHandleValidation = useDebouncedCallback(
+    () => handleValidation(),
+    300
+  )
 
   const handleRequest = () => {
     if (sessionToken) {
-      setStatusText(PendingStatusText)
-      setShowStatusModal(true)
-
+      setIsSubmitting(true)
       mutate({
         method: "POST",
         sessionToken,
@@ -112,15 +108,20 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
           roleTitle: "admin",
         }),
       })
-
-      setName("")
-      setEmail("")
     }
   }
 
   return (
     <>
-      <Modal show={show} outsideOnClick={true} closeModal={onClose}>
+      <Modal
+        show={show}
+        outsideOnClick={true}
+        closeModal={() => {
+          setName("")
+          setEmail("")
+          onClose()
+        }}
+      >
         <div className="flex flex-col justify-center items-left bg-gray-8 my-4">
           <p className="font-sans font-medium text-2xl text-gray-1 mb-7">
             Invite User
@@ -132,8 +133,13 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
             <Input
               placeholder="Example Person"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => handleNameChange(e)}
             />
+            {nameErrorMessage && (
+              <p className="font-sans font-medium text-red text-sm mt-2 mb-7">
+                {nameErrorMessage}
+              </p>
+            )}
           </div>
           <div className="flex flex-col justify-center items-left">
             <p className="font-sans font-medium  text-white text-sm mb-2">
@@ -147,23 +153,31 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
               {emailErrorMessage}
             </p>
           </div>
-          <input
-            type="button"
-            disabled={!!emailErrorMessage || !name || !email}
-            onClick={() => {
-              handleRequest()
-              onClose()
-            }}
-            className="text-black font-sans disabled:bg-opacity-60 disabled:cursor-not-allowed font-medium bg-white rounded-lg px-8 py-3.5"
-            value="Invite to project"
-          />
+          {isSubmitting ? (
+            <div className="flex w-full align-middle justify-center">
+              <span className="mr-4">{PendingStatusText}</span>
+              <Spinner className="h-6 w-6 text-blue-neptune" />
+            </div>
+          ) : isSuccess ? (
+            <div className="flex align-middle justify-center">
+              <span className="mr-4 text-green">{SuccessStatusText}</span>
+              <SuccessCheckMark className="h-6 w-6 text-green" />
+            </div>
+          ) : (
+            <input
+              type="button"
+              disabled={
+                !!nameErrorMessage || !!emailErrorMessage || !name || !email
+              }
+              onClick={() => {
+                handleRequest()
+              }}
+              className="text-black font-sans disabled:bg-opacity-60 disabled:cursor-not-allowed font-medium bg-white rounded-lg px-8 py-3.5"
+              value="Invite to organization"
+            />
+          )}
         </div>
       </Modal>
-
-      {/* User addition transaction status */}
-      <StatusModal show={showStatusModal} status={requestStatus}>
-        {statusText}
-      </StatusModal>
     </>
   )
 }

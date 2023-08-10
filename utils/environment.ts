@@ -5,5 +5,7 @@ export const getAuthRedirectURL = () => {
     return `https://${previewURL}/authenticate`
   }
 
-  return process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL
+  return (
+    process.env.NEXT_PUBLIC_AUTH_REDIRECT_URL 
+  )
 }

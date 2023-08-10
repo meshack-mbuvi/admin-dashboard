@@ -91,7 +91,7 @@ export default function EnterCode(props: CodeProps) {
         {(isLoading || verifyLoading) && (
           <div className="absolute flex items-center justify-center w-full space-x-2 text-blue-1 backdrop-blur-sm h-20 -top-1">
             <Spinner className="w-4 animate-spin " />
-            <span>Just a sec</span>
+            <span>Please wait...</span>
           </div>
         )}
 

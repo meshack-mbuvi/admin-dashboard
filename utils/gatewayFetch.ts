@@ -3,6 +3,10 @@ export interface GatewayFetchArgs extends RequestInit {
   sessionToken?: string
 }
 
+export interface ResponseError extends Error {
+  status?: number
+}
+
 export default async function gatewayFetch(args: GatewayFetchArgs) {
   const { endpointPath, sessionToken, ...otherProps } = args
 
@@ -15,7 +19,9 @@ export default async function gatewayFetch(args: GatewayFetchArgs) {
   })
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch ${endpointPath}`)
+    const error: ResponseError = new Error(`Failed to fetch ${endpointPath}`)
+    error.status = res.status
+    throw error
   }
 
   return res

@@ -35,7 +35,7 @@ interface StatusProps {
 }
 
 export const StatusObject: StatusObjStyles = {
-  "In Progress": {
+  InProgress: {
     icon: <Operating className="h-[1.125rem] w-[1.125rem]" />,
     info: "In Progress",
     styleClasses:
@@ -66,7 +66,7 @@ const TransactionStatus = (props: StatusProps) => {
 
     switch (transactionStatus) {
       case RawStatusEnum.PENDING:
-        return StatusEnum["InProgress"]
+        return StatusEnum.InProgress
       case RawStatusEnum.SUBMITTED:
         return StatusEnum.Succeeded
       case RawStatusEnum.CONFIRMED:

@@ -2,7 +2,7 @@
 
 import clsx from "clsx"
 import { useParams } from "next/navigation"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 
 import Add from "@/components/icons/Add"
 import Button, { LightButtonStyles } from "@/components/Buttons"
@@ -20,6 +20,7 @@ import useGetProjectApiKeys from "@/hooks/useGetApiKeys"
 import useGetUser from "@/hooks/useGetUser"
 import { formatDate } from "@/utils/formatDate"
 import { GatewayFetchArgs } from "@/utils/gatewayFetch"
+import { ResponseError } from "@/utils/gatewayFetch"
 
 export default function APIKeys() {
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -38,6 +39,41 @@ export default function APIKeys() {
   )
   const [pendingRequestParams, setPendingRequestParams] =
     useState<GatewayFetchArgs>()
+
+  const authCodeError: boolean = useMemo(() => {
+    const error =
+      (deleteMutation.error as ResponseError) ||
+      (createMutation.error as ResponseError)
+
+    if (!error) return false
+
+    const status: number | undefined = error?.status || error?.status
+    if (status === 403) {
+      return true
+    }
+    return false
+  }, [deleteMutation.error, createMutation.error])
+
+  const statusMessage: string = useMemo(() => {
+    if (deleteMutation.isError) {
+      return "Key not Deleted, something went wrong with your request."
+    }
+    if (deleteMutation.isSuccess) {
+      return "Key Deleted!"
+    }
+    if (createMutation.isError) {
+      return "Key not Created, something went wrong with your request."
+    }
+    if (createMutation.isSuccess) {
+      return "API Key Created!"
+    }
+    return ""
+  }, [
+    deleteMutation.isError,
+    deleteMutation.isSuccess,
+    createMutation.isError,
+    createMutation.isSuccess,
+  ])
 
   const handleCreateAccessKey = () => {
     if (!user?.is2FAEnabled) return setShowNo2FAModal(true)
@@ -176,13 +212,17 @@ export default function APIKeys() {
         show={showModal}
         closeModal={() => setShowModal(false)}
         onAuthCode={complete2FARequest}
-        error={deleteMutation.isError || createMutation.isError}
+        error={
+          (deleteMutation.isError || createMutation.isError) && !authCodeError
+        }
+        authCodeError={authCodeError}
         success={deleteMutation.isSuccess || createMutation.isSuccess}
         loading={deleteMutation.isLoading || createMutation.isLoading}
         reset={() => {
           deleteMutation.reset()
           createMutation.reset()
         }}
+        statusMessage={statusMessage}
       />
       <No2FAModal
         show={showNo2FAModal}

@@ -1,15 +1,12 @@
 "use client"
 
 import { useState } from "react"
-import clsx from "clsx"
 import { useParams } from "next/navigation"
 
 import Text from "@/components/Text"
 import Section from "@/components/Section"
-import Check from "@/components/icons/Check"
 import RightArrow from "@/components/icons/RightArrow"
 import CopyToClipboard from "@/components/CopyToClipboard"
-import Warning from "@/components/icons/Warning"
 import Loading from "@/components/Loading"
 
 import useGetProjectWallets from "@/hooks/useGetProjectWallets"
@@ -40,11 +37,6 @@ export default function Wallets() {
             <div className="flex flex-col w-1/3">
               <p className="text-gray-3 text-sm">Address</p>
             </div>
-            <div className="flex flex-col">
-              <Text className="font-small justify-right text-gray-3 text-sm">
-                Status
-              </Text>
-            </div>
           </div>
         )}
 
@@ -57,7 +49,7 @@ export default function Wallets() {
               </div>
             ))
           ) : wallets && wallets.length > 0 ? (
-            wallets.map(({ walletId, walletAddress, isActive }) => {
+            wallets.map(({ walletId, walletAddress }) => {
               return (
                 <div
                   key={walletId}
@@ -80,24 +72,6 @@ export default function Wallets() {
                           className="ml-4"
                         />
                       )}
-                    </p>
-                  </div>
-
-                  <div
-                    className={clsx(
-                      "flex flex-row py-3 items-center",
-                      isActive ? "text-success" : "text-warning"
-                    )}
-                  >
-                    <span className="flex pr-3">
-                      {isActive ? (
-                        <Check className="w-4 h-4" />
-                      ) : (
-                        <Warning className="w-4 h-4" />
-                      )}
-                    </span>
-                    <p className="font-normal text-base">
-                      {isActive ? "Added" : "Action needed"}
                     </p>
                   </div>
                 </div>

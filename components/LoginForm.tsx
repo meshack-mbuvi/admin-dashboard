@@ -5,10 +5,9 @@ import { useStytchB2BClient } from "@stytch/nextjs/b2b"
 
 import Section from "./Section"
 import Label from "./Label"
-import Input from "./Input"
+import Input from "./inputs/Input"
 
 import { getAuthRedirectURL } from "@/utils/environment"
-import { DOMAIN_CONNECTIONS } from "@/utils/constants"
 
 export default function LoginForm() {
   const [emailAddress, setEmailAddress] = useState<string>("")
@@ -18,21 +17,11 @@ export default function LoginForm() {
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const [_, domain] = emailAddress.split("@")
-    const domainConnection = DOMAIN_CONNECTIONS.find(
-      (o) => o.orgName === domain.toLowerCase()
-    )
-
-    if (!domainConnection) {
-      return alert("Please use a valid email address")
-    }
-
-    stytch.magicLinks.email.loginOrSignup({
+    stytch.magicLinks.email.discovery.send({
       email_address: emailAddress,
-      organization_id: domainConnection?.orgId,
-      // Upon successful login and receiving email invite, redirect the user to the specified URL
-      login_redirect_url: getAuthRedirectURL(),
+      discovery_redirect_url: getAuthRedirectURL(),
     })
+
     setLoginContinued(true)
   }
 
