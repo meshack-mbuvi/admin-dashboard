@@ -1,5 +1,4 @@
 import clsx from "clsx"
-import Link from "next/link"
 import { useParams } from "next/navigation"
 import { useMemo, useState } from "react"
 
@@ -8,12 +7,19 @@ import AddContractModal from "@/components/Contracts/AddContractModal"
 import Button, { LightButtonStyles } from "@/components/Buttons"
 import EmptyState from "@/components/Shared/Empty"
 import ProjectContracts from "@/components/Contracts/ProjectContracts"
+import StatusModal, { RequestStatus } from "@/components/StatusModal"
 import { NetworkId } from "@/utils/getNetwork"
 import useGetProjectById from "@/hooks/useGetProjectById"
+import useDeleteContract from "@/hooks/useDeleteContract"
+import useAuthToken from "@/hooks/useAuthToken"
 
 export default function Contracts() {
-  const [showAddContractModal, setShowAddContractModal] = useState(false)
+  const [showAddContractModal, setShowAddContractModal] =
+    useState<boolean>(false)
+  const [showStatusModal, setShowStatusModal] = useState<boolean>(false)
   const { projectId } = useParams()
+  const sessionToken = useAuthToken()
+  const deleteMutation = useDeleteContract()
   const {
     data: projectData,
     isLoading,
@@ -32,6 +38,18 @@ export default function Contracts() {
     })
     return networkContracts
   }, [projectData?.contracts])
+
+  const handleDeleteContract = (contractId: string) => {
+    const confirm = window.confirm("Are you sure you want to delete contract?")
+    if (confirm && sessionToken) {
+      setShowStatusModal(true)
+      deleteMutation.mutate({
+        sessionToken,
+        method: "DELETE",
+        endpointPath: `/admin/contract/${contractId}`,
+      })
+    }
+  }
 
   return (
     <div className="w-full">
@@ -72,6 +90,7 @@ export default function Contracts() {
                 key={index}
                 networkId={+key as NetworkId}
                 contracts={NetworkContracts[key]}
+                handleDeleteContract={handleDeleteContract}
               />
             )
           })}
@@ -81,6 +100,30 @@ export default function Contracts() {
         show={showAddContractModal}
         closeModal={() => setShowAddContractModal(false)}
       />
+      <StatusModal
+        show={showStatusModal}
+        closeModal={() => {
+          deleteMutation.reset()
+          setShowStatusModal(false)
+        }}
+        status={
+          deleteMutation.isLoading
+            ? RequestStatus.PENDING
+            : deleteMutation.isSuccess
+            ? RequestStatus.SUCCESS
+            : deleteMutation.isError
+            ? RequestStatus.FAILURE
+            : RequestStatus.PENDING
+        }
+      >
+        {deleteMutation.isLoading
+          ? "Deleting contract..."
+          : deleteMutation.isSuccess
+          ? "Contract deleted"
+          : deleteMutation.isError
+          ? "Error deleting contract"
+          : ""}
+      </StatusModal>
     </div>
   )
 }
