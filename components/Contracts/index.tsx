@@ -1,9 +1,10 @@
 import clsx from "clsx"
 import Link from "next/link"
 import { useParams } from "next/navigation"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 
 import Add from "@/components/icons/Add"
+import AddContractModal from "@/components/Contracts/AddContractModal"
 import Button, { LightButtonStyles } from "@/components/Buttons"
 import EmptyState from "@/components/Shared/Empty"
 import ProjectContracts from "@/components/Contracts/ProjectContracts"
@@ -11,6 +12,7 @@ import { NetworkId } from "@/utils/getNetwork"
 import useGetProjectById from "@/hooks/useGetProjectById"
 
 export default function Contracts() {
+  const [showAddContractModal, setShowAddContractModal] = useState(false)
   const { projectId } = useParams()
   const {
     data: projectData,
@@ -37,6 +39,7 @@ export default function Contracts() {
         <div className="text-2xl">Contracts</div>
         <Button
           className={clsx(LightButtonStyles, "flex items-center space-x-2")}
+          onClick={() => setShowAddContractModal(true)}
         >
           <Add className="h-4 w-4" />
           <span className="leading-4 py-1">Add Contract</span>
@@ -74,6 +77,10 @@ export default function Contracts() {
           })}
         </div>
       )}
+      <AddContractModal
+        show={showAddContractModal}
+        closeModal={() => setShowAddContractModal(false)}
+      />
     </div>
   )
 }

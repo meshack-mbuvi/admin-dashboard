@@ -14,6 +14,7 @@
     "@stytch/vanilla-js": "^0.13.3",
     "@tanstack/react-query": "^4.29.7",
     "@tanstack/react-table": "^8.9.2",
+    "abitype": "^0.9.6",
     "clsx": "^1.2.1",
     "date-fns": "^2.30.0",
     "next": "^13.4.5",

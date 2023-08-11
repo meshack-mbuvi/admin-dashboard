@@ -87,7 +87,7 @@ export default function Modal(props: ModalProps): JSX.Element {
           <div
             className={clsx(
               "no-scroll-bar md:my-14 align-middle mx-auto inline-block max-h-screen bg-gray-8 rounded-2xl text-left shadow-xl transform transition-all w-11/12 md:w-1/2 lg:w-2/5 p-2 sm:p-6",
-              overflowYScroll && "overflow-y-scroll"
+              overflowYScroll && "overflow-y-auto"
             )}
             role="dialog"
             aria-modal="true"
