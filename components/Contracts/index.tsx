@@ -19,12 +19,8 @@ export default function Contracts() {
   const [showStatusModal, setShowStatusModal] = useState<boolean>(false)
   const { projectId } = useParams()
   const sessionToken = useAuthToken()
-  const deleteMutation = useDeleteContract()
-  const {
-    data: projectData,
-    isLoading,
-    isFetching,
-  } = useGetProjectById({
+  const { mutate, reset, isLoading, isSuccess, isError } = useDeleteContract()
+  const { data: projectData } = useGetProjectById({
     projectId,
   })
 
@@ -43,10 +39,10 @@ export default function Contracts() {
     const confirm = window.confirm("Are you sure you want to delete contract?")
     if (confirm && sessionToken) {
       setShowStatusModal(true)
-      deleteMutation.mutate({
+      mutate({
         sessionToken,
         method: "DELETE",
-        endpointPath: `/admin/contract/${contractId}`,
+        endpointPath: `/admin/project/${projectId}/contract/${contractId}`,
       })
     }
   }
@@ -103,24 +99,24 @@ export default function Contracts() {
       <StatusModal
         show={showStatusModal}
         closeModal={() => {
-          deleteMutation.reset()
+          reset()
           setShowStatusModal(false)
         }}
         status={
-          deleteMutation.isLoading
+          isLoading
             ? RequestStatus.PENDING
-            : deleteMutation.isSuccess
+            : isSuccess
             ? RequestStatus.SUCCESS
-            : deleteMutation.isError
+            : isError
             ? RequestStatus.FAILURE
             : RequestStatus.PENDING
         }
       >
-        {deleteMutation.isLoading
+        {isLoading
           ? "Deleting contract..."
-          : deleteMutation.isSuccess
+          : isSuccess
           ? "Contract deleted"
-          : deleteMutation.isError
+          : isError
           ? "Error deleting contract"
           : ""}
       </StatusModal>
