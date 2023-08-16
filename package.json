@@ -23,6 +23,7 @@
     "react-click-away-listener": "^2.2.3",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.45.4",
     "react-qr-code": "^2.0.11",
     "react-tooltip": "^5.18.0",
     "server-only": "^0.0.1",

@@ -5,7 +5,7 @@ import useAuthToken from "@/hooks/useAuthToken"
 import useGetOrganization from "@/hooks/useGetOrganization"
 import useCreateProject from "@/hooks/useCreateProject"
 import Input from "./inputs/Input"
-import Select from "./inputs/Select"
+import Select, { SelectOption } from "./inputs/Select"
 import Modal from "./Modal"
 import { Spinner } from "./Spinner"
 import SuccessCheckMark from "./icons/successCheckMark"
@@ -39,10 +39,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
   const [newProjectId, setNewProjectId] = useState<string>("")
 
   const [name, setName] = useState<string>("")
-  const [enviroment, setEnviroment] = useState<{
-    id: number
-    label: string
-  }>()
+  const [enviroment, setEnviroment] = useState<SelectOption | undefined>()
   const [network, setNetwork] = useState<number>(0)
 
   useEffect(() => {
