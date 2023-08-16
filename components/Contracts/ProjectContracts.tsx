@@ -20,6 +20,7 @@ import { iContract } from "@/hooks/useGetProjectById"
 interface ProjectNetworkProps {
   networkId: NetworkId
   contracts: iContract[]
+  handleDeleteContract: (contractId: string) => void
 }
 
 const columnHelper = createColumnHelper<iContract>()
@@ -27,6 +28,7 @@ const columnHelper = createColumnHelper<iContract>()
 export default function ProjectContracts({
   networkId,
   contracts,
+  handleDeleteContract,
 }: ProjectNetworkProps) {
   const [showModal, setShowModal] = useState(false)
   const [selectedContract, setSelectedContract] = useState<iContract | null>(
@@ -91,7 +93,10 @@ export default function ProjectContracts({
       header: () => <span></span>,
       cell: (info) => (
         <span className="text-white">
-          <button className="flex items-center text-gray-4 space-x-2 h-10 hover:text-red">
+          <button
+            className="flex items-center text-gray-4 space-x-2 h-10 hover:text-red"
+            onClick={() => handleDeleteContract(info.getValue())}
+          >
             <Remove className="h-4" />
             <span className="leading-5">Remove</span>
           </button>
