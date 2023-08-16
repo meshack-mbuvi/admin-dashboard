@@ -4,24 +4,29 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import { useParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
+import clsx from "clsx"
+import Link from "next/link"
 
 import Loading from "@/components/Loading"
-import Table from "@/components/Shared/Table"
-import TransactionBlock from "@/components/Transactions/atoms/Block"
 import EmptyState from "@/components/Shared/Empty"
 import Hex from "@/components/Shared/Hex"
+import Table from "@/components/Shared/Table"
+import TransactionBlock from "@/components/Transactions/atoms/Block"
 import TransactionPagination from "@/components/Transactions/atoms/Pagination"
 import TransactionStatus, {
   RawStatusEnum,
 } from "@/components/Transactions/atoms/Status"
 import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
 import CaretDown from "@/components/icons/CaretDown"
+import useGetProjectById from "@/hooks/useGetProjectById"
 import useGetTransactions, {
   TransactionDataType,
 } from "@/hooks/useGetTransactions"
+import CreateContractButton from "../Buttons/CreateContractButton"
 import Text from "../Text"
+import { QueryParams } from "@/types/queryParams"
 
 const columnHelper = createColumnHelper<TransactionDataType>()
 
@@ -97,9 +102,16 @@ const AllTransactions = ({ searchTerm }: { searchTerm: string }) => {
   const [limit] = useState<number>(20)
 
   const { projectId } = useParams()
+  const {
+    data: projectData,
+    isLoading: isProjectLoading,
+  } = useGetProjectById({
+    projectId,
+  })
+  const projectHasContracts = useMemo(() => projectData?.contracts && projectData?.contracts?.length > 0, [projectData?.contracts])
 
   const {
-    isLoading,
+    isLoading: isTransactionsLoading,
     isFetching,
     data: transactionsResp,
     refetch,
@@ -115,6 +127,8 @@ const AllTransactions = ({ searchTerm }: { searchTerm: string }) => {
       RawStatusEnum.CONFIRMED,
     ],
   })
+
+  
 
   const onPageChange = (page: number) => {
     setPage(page)
@@ -135,44 +149,64 @@ const AllTransactions = ({ searchTerm }: { searchTerm: string }) => {
     getCoreRowModel: getCoreRowModel(),
   })
 
-  return (
-    <div>
-      {isLoading ? (
-        [...Array(6)].map((_, i) => (
-          <div className="flex gap-5 py-4" key={i}>
-            <Loading className="w-1/5 h-4" />
-            <Loading className="w-1/5 h-4" />
-            <Loading className="w-1/5 h-4" />
-            <Loading className="w-1/5 h-4" />
-            <Loading className="w-1/5 h-4" />
-          </div>
-        ))
-      ) : !isLoading && transactionsResp?.total ? (
-        <div className="flex flex-col items-center">
-          <Table tableConfig={table} isLoading={isFetching || isPreviousData} />
-          <TransactionPagination
-            page={page}
-            limit={limit}
-            total={transactionsResp.total}
-            onPageChange={onPageChange}
-            isLoading={isFetching || isPreviousData}
-          />
+  if (isTransactionsLoading || isProjectLoading) {
+    return <>
+      {[...Array(6)].map((_, i) => (
+        <div className="flex gap-5 py-4" key={i}>
+          <Loading className="w-1/5 h-4" />
+          <Loading className="w-1/5 h-4" />
+          <Loading className="w-1/5 h-4" />
+          <Loading className="w-1/5 h-4" />
+          <Loading className="w-1/5 h-4" />
         </div>
-      ) : (
-        <EmptyState
-          heading={searchTerm ? "No transactions found" : "No transactions yet"}
-          description={
-            searchTerm ? (
-              <span>Try searching for a different transaction or wallet</span>
-            ) : (
-              <span>
-                When transactions are successfully added to the blockchain they
-                will appear here
-              </span>
-            )
+      ))}
+    </>
+  } else if (!transactionsResp?.total) {
+    const renderHeading = () => {
+      if (searchTerm) {
+        return "No transactions found"
+      } else if (!projectHasContracts) {
+        return "No contracts or transactions yet"
+      } else {
+        return "No transactions yet"
+      }
+    }
+    return (
+      <EmptyState
+        heading={renderHeading()}
+        description={
+          searchTerm ? (
+            <span>Try searching for a different transaction or wallet</span>
+          ) : (
+            <span>
+              When transactions are successfully added to the blockchain they
+              will appear here
+            </span>
+          )
+        }
+      >
+        {!projectHasContracts && <Link href={{
+          pathname: `/dashboard/${projectId}/settings/contracts`,
+          query: {
+            [QueryParams.ShowNewContractModal]: true
           }
-        />
-      )}
+        }}>
+          <CreateContractButton className={clsx("mt-6")}/>
+        </Link>}
+      </EmptyState>
+    )
+  }
+
+  return (
+    <div className="flex flex-col items-center">
+      <Table tableConfig={table} isLoading={isFetching || isPreviousData} />
+      <TransactionPagination
+        page={page}
+        limit={limit}
+        total={transactionsResp.total}
+        onPageChange={onPageChange}
+        isLoading={isFetching || isPreviousData}
+      />
     </div>
   )
 }

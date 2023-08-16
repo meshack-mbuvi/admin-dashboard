@@ -1,21 +1,32 @@
-import clsx from "clsx"
-import { useParams } from "next/navigation"
-import { useMemo, useState } from "react"
+"use client"
+import { useParams, useSearchParams } from "next/navigation"
+import { useEffect, useMemo, useState } from "react"
 
-import Add from "@/components/icons/Add"
 import AddContractModal from "@/components/Contracts/AddContractModal"
-import Button, { LightButtonStyles } from "@/components/Buttons"
-import EmptyState from "@/components/Shared/Empty"
 import ProjectContracts from "@/components/Contracts/ProjectContracts"
 import StatusModal, { RequestStatus } from "@/components/StatusModal"
 import { NetworkId } from "@/utils/getNetwork"
 import useGetProjectById from "@/hooks/useGetProjectById"
 import useDeleteContract from "@/hooks/useDeleteContract"
 import useAuthToken from "@/hooks/useAuthToken"
+import { QueryParams } from "@/types/queryParams"
+import CreateContractButton from "../Buttons/CreateContractButton"
+import EmptyState from "../Shared/Empty"
 
 export default function Contracts() {
   const [showAddContractModal, setShowAddContractModal] =
     useState<boolean>(false)
+  const search = useSearchParams()
+  const showAddContractModalInitial = search.get(QueryParams.ShowNewContractModal)
+
+  // HACK: show animation on intial load
+  // issue below for a better fix using `appear` on the modal Transition
+  // https://github.com/tailwindlabs/headlessui/issues/2526
+  useEffect(() => {
+    if (showAddContractModalInitial === "true") {
+      setShowAddContractModal(true)
+    }
+  }, [])
   const [showStatusModal, setShowStatusModal] = useState<boolean>(false)
   const { projectId } = useParams()
   const sessionToken = useAuthToken()
@@ -51,13 +62,7 @@ export default function Contracts() {
     <div className="w-full">
       <div className="flex justify-between items-center pl-7">
         <div className="text-2xl">Contracts</div>
-        <Button
-          className={clsx(LightButtonStyles, "flex items-center space-x-2")}
-          onClick={() => setShowAddContractModal(true)}
-        >
-          <Add className="h-4 w-4" />
-          <span className="leading-4 py-1">Add Contract</span>
-        </Button>
+        <CreateContractButton onClick={() => setShowAddContractModal(true)}/>
       </div>
       <div className="text-sm text-gray-3 pl-7">
         {!Object.keys(NetworkContracts).length ? (

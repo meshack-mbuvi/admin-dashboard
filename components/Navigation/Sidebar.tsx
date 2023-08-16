@@ -1,8 +1,8 @@
 "use client"
+import { Tooltip } from "react-tooltip"
+
 import RequestsIcon from "@/components/icons/Requests"
 import SettingsIcon from "@/components/icons/Settings"
-
-import { Tooltip } from "react-tooltip"
 import NavLink from "./NavLink"
 
 export default function Sidebar() {
@@ -26,8 +26,10 @@ export default function Sidebar() {
             />
           </span>
         </NavLink>
-
-        <NavLink path={"settings"} page={"settings"}>
+        <NavLink 
+          path="settings/general"
+          page={"settings"}
+        >
           <span
             data-tooltip-id={`t-settings`}
             data-tooltip-content="settings"
