@@ -6,8 +6,12 @@ export const LightButtonStyles =
 export const DarkButtonStyles =
   "py-3 w-fit rounded-full h-fit px-8 bg-gray-8 border-gray-7 border disabled:bg-gray-7 disabled:text-gray-24 text-center hover:opacity-80 disabled:cursor-not-allowed"
 
+export const SubmitButtonStyles = "bg-white rounded-lg w-full py-4 text-black text-base font-semibold hover:opacity-90 disabled:bg-gray-7 hover:disabled:opacity-100"
+
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
 export const Button = (
-  props: React.ButtonHTMLAttributes<HTMLButtonElement>
+  props: ButtonProps
 ) => {
   const {
     onClick,

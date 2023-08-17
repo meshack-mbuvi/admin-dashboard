@@ -3,12 +3,13 @@ import { useQuery } from "@tanstack/react-query"
 import gatewayFetch from "@/utils/gatewayFetch"
 import useAuthToken from "./useAuthToken"
 
-type GetProjectsResponse = {
+export type Project = {
   id: string
   createdAt: string
   updatedAt: string | null
   deletedAt: string | null
   name: string
+  environment: string
   organizationId: string
   tokens: {
     id: string
@@ -21,7 +22,9 @@ type GetProjectsResponse = {
     functionSignatures: []
     projectId: string
   }[]
-}[]
+}
+
+type GetProjectsResponse = Project[]
 
 export default function useGetProjects() {
   const sessionToken = useAuthToken()
