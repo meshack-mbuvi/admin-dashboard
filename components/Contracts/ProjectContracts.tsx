@@ -15,15 +15,15 @@ import Hex from "@/components/Shared/Hex"
 import Table from "@/components/Shared/Table"
 import { getNetworkIcon } from "@/utils/getNetworkIcon"
 import { NetworkId, getNetwork } from "@/utils/getNetwork"
-import { iContract } from "@/hooks/useGetProjectById"
+import { IContract } from "@/hooks/useGetProjectById"
 
 interface ProjectNetworkProps {
   networkId: NetworkId
-  contracts: iContract[]
+  contracts: IContract[]
   handleDeleteContract: (contractId: string) => void
 }
 
-const columnHelper = createColumnHelper<iContract>()
+const columnHelper = createColumnHelper<IContract>()
 
 export default function ProjectContracts({
   networkId,
@@ -31,7 +31,7 @@ export default function ProjectContracts({
   handleDeleteContract,
 }: ProjectNetworkProps) {
   const [showModal, setShowModal] = useState(false)
-  const [selectedContract, setSelectedContract] = useState<iContract | null>(
+  const [selectedContract, setSelectedContract] = useState<IContract | null>(
     null
   )
 

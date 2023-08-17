@@ -8,16 +8,16 @@ interface UseGetProjectByIdArgs {
   projectId: string
 }
 
-export interface iFunctionSignature {
+export interface IFunctionSignature {
   id: string
   signature: string
 }
 
-export interface iContract {
+export interface IContract {
   id: string
   name: string
   address: string
-  functionSignatures: iFunctionSignature[]
+  functionSignatures: IFunctionSignature[]
   createdAt: string
   updatedAt: string
   chainId: NetworkId
@@ -31,7 +31,7 @@ export interface ProjectInterface {
   name: string
   organizationId: string
   tokens: any[]
-  contracts: iContract[]
+  contracts: IContract[]
 }
 
 export default function useGetProjectById(
