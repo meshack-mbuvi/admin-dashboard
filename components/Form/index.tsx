@@ -26,12 +26,11 @@ interface FormControlProps extends PropsWithChildren {
     name: string
     label?: string
     description?: string
-    required?: boolean
     helperText?: string
 }
 
 export function FormControl(props: FormControlProps) {
-    const { label, name, children, description, required, helperText } = props
+    const { label, name, children, description, helperText } = props
     const form = useFormContext()
     const error = form.formState.errors?.[name]
     const hasErrors = !!error
@@ -42,7 +41,7 @@ export function FormControl(props: FormControlProps) {
                 "text-white": !hasErrors
             })}>
                 <span>
-                    {required && "*"}{label}
+                    {label}
                 </span>
                 {helperText && <span
                     data-tooltip-id={`t-tx`}
@@ -83,8 +82,7 @@ export interface BaseFormInputProps<T> extends Pick<FormControlProps, 'name' | '
 export function BaseFormInput<T>(props: BaseFormInputProps<T>) {
     const { name, defaultValue, validate, render, onChange, ...rest } = props
     const { control } = useFormContextSafe()
-    const required = validate && Object.keys(validate).includes('required')
-    return <FormControl name={name} required={required} {...rest}>
+    return <FormControl name={name} {...rest}>
         <Controller
             name={name}
             control={control}
