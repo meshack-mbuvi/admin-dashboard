@@ -1,9 +1,15 @@
+import { useEffect, useState } from "react"
 import { useStytchB2BClient } from "@stytch/nextjs/b2b"
 
 export default function useAuthToken() {
   const stytch = useStytchB2BClient()
+  const [token, setToken] = useState<string | undefined>()
 
-  const tokens = stytch.session.getTokens()
+  useEffect(() => {
+    const tokens = stytch.session.getTokens()
 
-  return tokens?.session_token
+    setToken(tokens?.session_token)
+  }, [stytch.session])
+
+  return token
 }

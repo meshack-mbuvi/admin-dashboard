@@ -47,11 +47,13 @@ export default function Breadcrumbs() {
 
       {projectId && (
         <li className="flex items-center space-x-3 pl-10 py-2.5 active text-base bg-gray-8 text-gray-2">
-          {isProjectDataLoading ? (
-            <Loading className="h-6 w-24" />
-          ) : (
-            projectData?.name
-          )}
+          <Link href={{ pathname: `/dashboard/${projectId}/transactions` }}>
+            {isProjectDataLoading ? (
+              <Loading className="h-6 w-24" />
+            ) : (
+              projectData?.name
+            )}
+          </Link>
         </li>
       )}
     </ul>
