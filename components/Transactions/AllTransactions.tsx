@@ -1,13 +1,14 @@
 import {
+  FiltersTableState,
   createColumnHelper,
   getCoreRowModel,
-  useReactTable,
+  useReactTable
 } from "@tanstack/react-table"
+import clsx from "clsx"
+import Link from "next/link"
 import { useParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
-import clsx from "clsx"
-import Link from "next/link"
 
 import Loading from "@/components/Loading"
 import EmptyState from "@/components/Shared/Empty"
@@ -16,7 +17,7 @@ import Table from "@/components/Shared/Table"
 import TransactionBlock from "@/components/Transactions/atoms/Block"
 import TransactionPagination from "@/components/Transactions/atoms/Pagination"
 import TransactionStatus, {
-  RawStatusEnum,
+  RawStatusEnum, StatusEnum, getRawStatusFromStatus, getStatusLabel,
 } from "@/components/Transactions/atoms/Status"
 import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
 import CaretDown from "@/components/icons/CaretDown"
@@ -24,14 +25,22 @@ import useGetProjectById from "@/hooks/useGetProjectById"
 import useGetTransactions, {
   TransactionDataType,
 } from "@/hooks/useGetTransactions"
+import { QueryParams } from "@/types/queryParams"
 import CreateContractButton from "../Buttons/CreateContractButton"
 import Text from "../Text"
-import { QueryParams } from "@/types/queryParams"
+import TxIdFilter from "./atoms/TxStatusFilter"
+import TableFilterPills from "../Shared/TableFilterPills"
+
 
 const columnHelper = createColumnHelper<TransactionDataType>()
 
 const columns = [
   columnHelper.accessor("transactionId", {
+    size: 400,
+    enableColumnFilter: true,
+    meta: {
+      filterComponent: (setFilterValue, filterValues) => <TxIdFilter setFilter={setFilterValue} filters={filterValues as StatusEnum[] || []}/>
+    },
     header: () => <span className="font-normal">Transaction ID</span>,
     cell: (info) => (
       <span className="text-white flex items-center space-x-3 font-mono">
@@ -40,15 +49,18 @@ const columns = [
           transactionStatus={info.row.original.status}
           reverted={info.row.original.reverted}
         />
-        <span>{info.getValue()}</span>
+        <span className="overflow-x-hidden text-ellipsis">{info.getValue()}</span>
       </span>
     ),
   }),
   columnHelper.accessor("chainId", {
+    size: 80,
+    enableColumnFilter: false,
     header: () => <span>Chain ID</span>,
     cell: (info) => <Text className="text-gray-3">{info.getValue()}</Text>,
   }),
   columnHelper.accessor((row) => row.hash, {
+    enableColumnFilter: false,
     id: "TX Hash",
     cell: (info) => (
       <Hex
@@ -60,6 +72,8 @@ const columns = [
     header: () => <span>TX Hash</span>,
   }),
   columnHelper.accessor("block", {
+    size: 100,
+    enableColumnFilter: false,
     header: () => (
       <span className="flex space-x-[5px] items-center">
         <span>Block </span>
@@ -77,6 +91,7 @@ const columns = [
     ),
   }),
   columnHelper.accessor("blockTimestamp", {
+    enableColumnFilter: false,
     header: () => <span>Block Age</span>,
     cell: (info) => (
       <TransactionTimeStamp
@@ -86,6 +101,7 @@ const columns = [
     ),
   }),
   columnHelper.accessor("walletAddress", {
+    enableColumnFilter: false,
     header: "From",
     cell: (info) => (
       <Hex
@@ -97,11 +113,34 @@ const columns = [
   }),
 ]
 
-const AllTransactions = ({ searchTerm }: { searchTerm: string }) => {
+const defaultStatusFilters = [
+  RawStatusEnum.PENDING,
+  RawStatusEnum.SUBMITTED,
+  RawStatusEnum.CONFIRMED,
+]
+
+const filterTitles = {
+  id: {transactionId: 'Transaction Status'}, 
+  value: Object.values(StatusEnum).reduce((acc, curr) => {
+    acc[curr] = getStatusLabel(curr)
+    return acc
+  }, {} as {[key in StatusEnum]: string})
+}
+
+interface AllTransactionsProps {
+  searchTerm: string;
+  setTxCount: (count?: number) => void;
+}
+
+const AllTransactions = (props: AllTransactionsProps) => {
+  const { searchTerm, setTxCount } = props
+  const { projectId } = useParams()
+  const [columnFilters, setColumnFilters] = useState<FiltersTableState["columnFilters"]>([])
   const [page, setPage] = useState<number>(0)
   const [limit] = useState<number>(20)
+  const [statuses, setStatuses] = useState<RawStatusEnum[]>(defaultStatusFilters)
+  const [reverted, setReverted] = useState<boolean | null>(null)
 
-  const { projectId } = useParams()
   const {
     data: projectData,
     isLoading: isProjectLoading,
@@ -120,15 +159,11 @@ const AllTransactions = ({ searchTerm }: { searchTerm: string }) => {
     projectId,
     page,
     limit,
+    statuses,
+    reverted,
     search: searchTerm,
-    statuses: [
-      RawStatusEnum.PENDING,
-      RawStatusEnum.SUBMITTED,
-      RawStatusEnum.CONFIRMED,
-    ],
   })
 
-  
 
   const onPageChange = (page: number) => {
     setPage(page)
@@ -140,6 +175,10 @@ const AllTransactions = ({ searchTerm }: { searchTerm: string }) => {
   }, 300)
 
   useEffect(() => {
+    setTxCount(transactionsResp?.total)
+  }, [transactionsResp?.total, setTxCount])
+
+  useEffect(() => {
     debouncedFetch()
   }, [searchTerm, debouncedFetch])
 
@@ -147,7 +186,22 @@ const AllTransactions = ({ searchTerm }: { searchTerm: string }) => {
     data: transactionsResp?.transactionAttempts || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
+    manualFiltering: true,
+    enableColumnFilters: true,
+    onColumnFiltersChange: setColumnFilters,
+    state: {
+      columnFilters
+    }
   })
+  
+  useEffect(() => {
+    const filters = columnFilters.find(filter => filter.id === "transactionId")?.value as StatusEnum[] || []
+    const revertedFilter = !!filters.find(item => item === StatusEnum.Failed)
+    const statusFilter = filters.filter(item => item !== StatusEnum.Failed)
+    setPage(0)
+    setReverted(revertedFilter || null)
+    setStatuses(statusFilter.length === 0 ? defaultStatusFilters : statusFilter.map(status => getRawStatusFromStatus(status)) as RawStatusEnum[])
+  }, [columnFilters])
 
   if (isTransactionsLoading || isProjectLoading) {
     return <>
@@ -161,7 +215,7 @@ const AllTransactions = ({ searchTerm }: { searchTerm: string }) => {
         </div>
       ))}
     </>
-  } else if (!transactionsResp?.total) {
+  } else if (!transactionsResp?.total && columnFilters.length === 0) {
     const renderHeading = () => {
       if (searchTerm) {
         return "No transactions found"
@@ -199,11 +253,12 @@ const AllTransactions = ({ searchTerm }: { searchTerm: string }) => {
 
   return (
     <div className="flex flex-col items-center">
-      <Table tableConfig={table} isLoading={isFetching || isPreviousData} />
+      <TableFilterPills tableConfig={table} titles={filterTitles}/>
+      <Table tableConfig={table} isLoading={isFetching || isPreviousData} noDataMessage="No transactions found"/>
       <TransactionPagination
         page={page}
         limit={limit}
-        total={transactionsResp.total}
+        total={transactionsResp?.total || 0}
         onPageChange={onPageChange}
         isLoading={isFetching || isPreviousData}
       />

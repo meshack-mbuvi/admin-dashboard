@@ -13,6 +13,7 @@ interface UseGetTransactionsArgs {
   limit: number
   statuses: RawStatusEnum[]
   search?: string
+  reverted?: boolean | null
 }
 export interface TransactionDataType {
   block: number | null
@@ -28,8 +29,7 @@ export interface TransactionDataType {
 }
 
 export default function useGetTransactions(args: UseGetTransactionsArgs) {
-  const { page, limit, statuses, projectId, search } = args
-
+  const { page, limit, statuses, projectId, search, reverted } = args
   const sessionToken = useAuthToken()
 
   const statusFilters: string = useMemo(() => {
@@ -37,10 +37,17 @@ export default function useGetTransactions(args: UseGetTransactionsArgs) {
   }, [statuses])
 
   return useQuery(
-    ["get-transactions", projectId, page, limit, statusFilters, search],
+    ["get-transactions", projectId, page, limit, statusFilters, search, reverted],
     async () => {
+      let endpointPath: `/${string}` = `/wallet/project/${projectId}/transactions?page=${page}&limit=${limit}&${statusFilters}`
+      if (search) {
+        endpointPath += `&search=${search}`
+      }
+      if (reverted) {
+        endpointPath += `&reverted=${reverted}`
+      }
       const txRes = await gatewayFetch({
-        endpointPath: `/wallet/project/${projectId}/transactions?page=${page}&limit=${limit}&${statusFilters}${search && `&search=${search}`}`,
+        endpointPath: endpointPath as `/${string}`,
         sessionToken,
       })
 

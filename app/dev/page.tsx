@@ -12,6 +12,10 @@ import Section from "@/components/Section"
 import { SelectOption } from "@/components/inputs/Select"
 import { networks } from "@/utils/getNetwork"
 import TextAreaInput from "@/components/Form/TextAreaInput"
+import Checkbox from "@/components/Checkbox"
+import Popover from "@/components/Popover"
+import clsx from "clsx"
+import Button, { LightButtonStyles } from "@/components/Buttons"
 
 const networkSelectOptions = Object.keys(networks).map(id => ({id: Number(id), label: networks[+id as keyof typeof networks].name}))
 
@@ -19,6 +23,27 @@ function Dev() {
     if (process.env.NODE_ENV !== "development") {
         redirect("/")
     }
+    return <div className="flex flex-col justify-center items-center mt-12 gap-8">
+        <FormSection />
+        <PopoverSection />  
+        <CheckboxSection />
+    </div>
+}
+
+interface DevSectionProps {
+    title?: string;
+    className?: string;
+}
+
+function DevSection(props: PropsWithChildren<DevSectionProps>) {
+    const { children, title, className } = props
+    return <Section className={clsx("max-w-lg p-4 bg-gray-8 w-full", className)}>
+        {title && <div className="text-gray-4 text-sm mb-2 text-right">{title}</div>}
+        {children}
+    </Section>
+}
+
+function FormSection() {
     const [abiFnOptions, setAbiFnOptions] = useState<SelectOption[]>([])
     const onAbiChange = (value: string) => {
         try {
@@ -41,7 +66,7 @@ function Dev() {
             }, 1000)
         })
     }
-    return <div className="flex flex-col justify-center items-center mt-12 gap-8">
+    return <>
         <DevSection title="Login">
             <Form onSubmit={onSubmit}>
                 <TextInput 
@@ -97,19 +122,38 @@ function Dev() {
                 <Submit>Add contract to project</Submit>
             </Form>
         </DevSection>
-    </div>
+    </>
 }
 
-interface DevSectionProps {
-    title?: string
+function CheckboxSection() {
+    const [checked1, setChecked1] = useState(false)
+    const [checked2, setChecked2] = useState(true)
+    return <DevSection title="Checkbox" className="flex flex-col gap-y-2">
+        <Checkbox 
+            label="Checkbox"
+            checked={checked1}
+            onChange={setChecked1}
+        />
+        <Checkbox 
+            label="Disabled Checkbox"
+            checked={checked2}
+            onChange={setChecked2}
+            disabled
+        />
+    </DevSection>
 }
 
-const DevSection: React.FC<PropsWithChildren<DevSectionProps>> = (props) => {
-    const { children, title } = props
-    return <Section className="max-w-lg p-4 bg-gray-8 w-full">
-        {title && <div className="text-gray-4 text-sm mb-2 text-right">{title}</div>}
-        {children}
-    </Section>
+function PopoverSection() {
+    return <DevSection title="Popover">
+        <div className="flex items-center justify-between">
+            <Popover label="Click me">
+                <div className="p-4">{"✌️"}</div>
+            </Popover>
+            <Popover button={<Popover.Button className={LightButtonStyles}>Click me</Popover.Button>} label="Click me">
+                <div className="p-4">Nice click</div>
+            </Popover>
+        </div>
+    </DevSection>
 }
 
 export default Dev

@@ -12,6 +12,7 @@ import { useParams } from "next/navigation"
 export default function TransactionTables() {
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   const [searchTerm, setSearchTerm] = useState<string>("")
+  const [txCount, setTxCount] = useState<number>()
 
   const { projectId } = useParams()
 
@@ -22,29 +23,17 @@ export default function TransactionTables() {
     invalid: true,
   })
 
-  const { data: successfulTxResponse } = useGetTransactions({
-    projectId,
-    page: 0,
-    limit: 20,
-    search: searchTerm,
-    statuses: [
-      RawStatusEnum.PENDING,
-      RawStatusEnum.SUBMITTED,
-      RawStatusEnum.CONFIRMED,
-    ],
-  })
-
   const tabHeaders = [`Transactions`, `Failed requests`]
 
   const tabSuffixes = [
-    ` (${successfulTxResponse?.total || 0})`,
-    ` (${failedTxResponse?.total || 0})`,
+    ` (${txCount?.toLocaleString() || 0})`,
+    ` (${failedTxResponse?.total.toLocaleString() || 0})`,
   ]
 
   const tabComponents: {
     [key: string]: JSX.Element
   } = {
-    Transactions: <AllTransactions searchTerm={searchTerm} />,
+    Transactions: <AllTransactions setTxCount={setTxCount} searchTerm={searchTerm}/>,
     "Failed requests": <FailedRequests />,
   }
 

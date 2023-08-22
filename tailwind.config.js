@@ -37,6 +37,7 @@ module.exports = {
           1: "#A4DEFF",
           2: "#1FBBEC",
           neptune: "#4376FF",
+          nasa: "#183AE9",
         },
         green: {
           ...colors.green,
