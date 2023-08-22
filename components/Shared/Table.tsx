@@ -24,7 +24,7 @@ export default function Table<T>(props: TableProps<T>) {
       <table className="w-full table-fixed" align="left">
         <thead>
           {tableConfig.getHeaderGroups().map((headerGroup: HeaderGroup<T>) => (
-            <tr key={headerGroup.id} className="text-gray-3 h-14 bg-black">
+            <tr key={headerGroup.id} className="text-gray-3 h-14">
               {headerGroup.headers.map((header) => (
                 <th key={header.id} style={{width: header.getSize()}} className="text-left font-semibold text-sm">
                   <span className={clsx("w-full", header.column.getCanFilter() && "inline-flex justify-between")}>

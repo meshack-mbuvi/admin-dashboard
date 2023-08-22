@@ -1,11 +1,11 @@
 import { useQuery } from "@tanstack/react-query"
 import { useMemo } from "react"
 
-import gatewayFetch from "@/utils/gatewayFetch"
-import useAuthToken from "./useAuthToken"
-import { NetworkId } from "@/utils/getNetwork"
 import { RawStatusEnum } from "@/components/Transactions/atoms/Status"
+import gatewayFetch from "@/utils/gatewayFetch"
+import { NetworkId } from "@/utils/getNetwork"
 import { formatISO, fromUnixTime } from "date-fns"
+import useAuthToken from "./useAuthToken"
 
 interface UseGetTransactionsArgs {
   projectId: string
@@ -37,7 +37,15 @@ export default function useGetTransactions(args: UseGetTransactionsArgs) {
   }, [statuses])
 
   return useQuery(
-    ["get-transactions", projectId, page, limit, statusFilters, search, reverted],
+    [
+      "get-transactions",
+      projectId,
+      page,
+      limit,
+      statusFilters,
+      search,
+      reverted,
+    ],
     async () => {
       let endpointPath: `/${string}` = `/wallet/project/${projectId}/transactions?page=${page}&limit=${limit}&${statusFilters}`
       if (search) {
@@ -65,8 +73,8 @@ export default function useGetTransactions(args: UseGetTransactionsArgs) {
       const networkId = txData?.transactionAttempts[0].chainId
 
       const blocksParam = blocks?.join(",")
-
       const res = await fetch(`/api/block/${networkId}/${blocksParam}`)
+
       const blocksData = (await res.json()) as {
         data: { block: string; timestamp: string }[]
       }

@@ -2,9 +2,8 @@ import {
   FiltersTableState,
   createColumnHelper,
   getCoreRowModel,
-  useReactTable
+  useReactTable,
 } from "@tanstack/react-table"
-import clsx from "clsx"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
@@ -17,7 +16,10 @@ import Table from "@/components/Shared/Table"
 import TransactionBlock from "@/components/Transactions/atoms/Block"
 import TransactionPagination from "@/components/Transactions/atoms/Pagination"
 import TransactionStatus, {
-  RawStatusEnum, StatusEnum, getRawStatusFromStatus, getStatusLabel,
+  RawStatusEnum,
+  StatusEnum,
+  getRawStatusFromStatus,
+  getStatusLabel,
 } from "@/components/Transactions/atoms/Status"
 import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
 import CaretDown from "@/components/icons/CaretDown"
@@ -27,10 +29,9 @@ import useGetTransactions, {
 } from "@/hooks/useGetTransactions"
 import { QueryParams } from "@/types/queryParams"
 import CreateContractButton from "../Buttons/CreateContractButton"
+import TableFilterPills from "../Shared/TableFilterPills"
 import Text from "../Text"
 import TxIdFilter from "./atoms/TxStatusFilter"
-import TableFilterPills from "../Shared/TableFilterPills"
-
 
 const columnHelper = createColumnHelper<TransactionDataType>()
 
@@ -39,7 +40,12 @@ const columns = [
     size: 400,
     enableColumnFilter: true,
     meta: {
-      filterComponent: (setFilterValue, filterValues) => <TxIdFilter setFilter={setFilterValue} filters={filterValues as StatusEnum[] || []}/>
+      filterComponent: (setFilterValue, filterValues) => (
+        <TxIdFilter
+          setFilter={setFilterValue}
+          filters={(filterValues as StatusEnum[]) || []}
+        />
+      ),
     },
     header: () => <span className="font-normal">Transaction ID</span>,
     cell: (info) => (
@@ -49,7 +55,9 @@ const columns = [
           transactionStatus={info.row.original.status}
           reverted={info.row.original.reverted}
         />
-        <span className="overflow-x-hidden text-ellipsis">{info.getValue()}</span>
+        <span className="overflow-x-hidden text-ellipsis">
+          {info.getValue()}
+        </span>
       </span>
     ),
   }),
@@ -120,34 +128,37 @@ const defaultStatusFilters = [
 ]
 
 const filterTitles = {
-  id: {transactionId: 'Transaction Status'}, 
+  id: { transactionId: "Transaction Status" },
   value: Object.values(StatusEnum).reduce((acc, curr) => {
     acc[curr] = getStatusLabel(curr)
     return acc
-  }, {} as {[key in StatusEnum]: string})
+  }, {} as { [key in StatusEnum]: string }),
 }
 
 interface AllTransactionsProps {
-  searchTerm: string;
-  setTxCount: (count?: number) => void;
+  searchTerm: string
+  setTxCount: (count?: number) => void
 }
 
 const AllTransactions = (props: AllTransactionsProps) => {
   const { searchTerm, setTxCount } = props
   const { projectId } = useParams()
-  const [columnFilters, setColumnFilters] = useState<FiltersTableState["columnFilters"]>([])
+  const [columnFilters, setColumnFilters] = useState<
+    FiltersTableState["columnFilters"]
+  >([])
   const [page, setPage] = useState<number>(0)
   const [limit] = useState<number>(20)
-  const [statuses, setStatuses] = useState<RawStatusEnum[]>(defaultStatusFilters)
+  const [statuses, setStatuses] =
+    useState<RawStatusEnum[]>(defaultStatusFilters)
   const [reverted, setReverted] = useState<boolean | null>(null)
 
-  const {
-    data: projectData,
-    isLoading: isProjectLoading,
-  } = useGetProjectById({
+  const { data: projectData, isLoading: isProjectLoading } = useGetProjectById({
     projectId,
   })
-  const projectHasContracts = useMemo(() => projectData?.contracts && projectData?.contracts?.length > 0, [projectData?.contracts])
+  const projectHasContracts = useMemo(
+    () => projectData?.contracts && projectData?.contracts?.length > 0,
+    [projectData?.contracts]
+  )
 
   const {
     isLoading: isTransactionsLoading,
@@ -163,7 +174,6 @@ const AllTransactions = (props: AllTransactionsProps) => {
     reverted,
     search: searchTerm,
   })
-
 
   const onPageChange = (page: number) => {
     setPage(page)
@@ -190,31 +200,41 @@ const AllTransactions = (props: AllTransactionsProps) => {
     enableColumnFilters: true,
     onColumnFiltersChange: setColumnFilters,
     state: {
-      columnFilters
-    }
+      columnFilters,
+    },
   })
-  
+
   useEffect(() => {
-    const filters = columnFilters.find(filter => filter.id === "transactionId")?.value as StatusEnum[] || []
-    const revertedFilter = !!filters.find(item => item === StatusEnum.Failed)
-    const statusFilter = filters.filter(item => item !== StatusEnum.Failed)
+    const filters =
+      (columnFilters.find((filter) => filter.id === "transactionId")
+        ?.value as StatusEnum[]) || []
+    const revertedFilter = !!filters.find((item) => item === StatusEnum.Failed)
+    const statusFilter = filters.filter((item) => item !== StatusEnum.Failed)
     setPage(0)
     setReverted(revertedFilter || null)
-    setStatuses(statusFilter.length === 0 ? defaultStatusFilters : statusFilter.map(status => getRawStatusFromStatus(status)) as RawStatusEnum[])
+    setStatuses(
+      statusFilter.length === 0
+        ? defaultStatusFilters
+        : (statusFilter.map((status) =>
+            getRawStatusFromStatus(status)
+          ) as RawStatusEnum[])
+    )
   }, [columnFilters])
 
   if (isTransactionsLoading || isProjectLoading) {
-    return <>
-      {[...Array(6)].map((_, i) => (
-        <div className="flex gap-5 py-4" key={i}>
-          <Loading className="w-1/5 h-4" />
-          <Loading className="w-1/5 h-4" />
-          <Loading className="w-1/5 h-4" />
-          <Loading className="w-1/5 h-4" />
-          <Loading className="w-1/5 h-4" />
-        </div>
-      ))}
-    </>
+    return (
+      <>
+        {[...Array(6)].map((_, i) => (
+          <div className="flex gap-5 py-4" key={i}>
+            <Loading className="w-1/5 h-4" />
+            <Loading className="w-1/5 h-4" />
+            <Loading className="w-1/5 h-4" />
+            <Loading className="w-1/5 h-4" />
+            <Loading className="w-1/5 h-4" />
+          </div>
+        ))}
+      </>
+    )
   } else if (!transactionsResp?.total && columnFilters.length === 0) {
     const renderHeading = () => {
       if (searchTerm) {
@@ -239,22 +259,30 @@ const AllTransactions = (props: AllTransactionsProps) => {
           )
         }
       >
-        {!projectHasContracts && <Link href={{
-          pathname: `/dashboard/${projectId}/settings/contracts`,
-          query: {
-            [QueryParams.ShowNewContractModal]: true
-          }
-        }}>
-          <CreateContractButton className={clsx("mt-6")}/>
-        </Link>}
+        {!projectHasContracts && (
+          <Link
+            href={{
+              pathname: `/dashboard/${projectId}/settings/contracts`,
+              query: {
+                [QueryParams.ShowNewContractModal]: true,
+              },
+            }}
+          >
+            <CreateContractButton className="mt-6" />
+          </Link>
+        )}
       </EmptyState>
     )
   }
 
   return (
     <div className="flex flex-col items-center">
-      <TableFilterPills tableConfig={table} titles={filterTitles}/>
-      <Table tableConfig={table} isLoading={isFetching || isPreviousData} noDataMessage="No transactions found"/>
+      <TableFilterPills tableConfig={table} titles={filterTitles} />
+      <Table
+        tableConfig={table}
+        isLoading={isFetching || isPreviousData}
+        noDataMessage="No transactions found"
+      />
       <TransactionPagination
         page={page}
         limit={limit}

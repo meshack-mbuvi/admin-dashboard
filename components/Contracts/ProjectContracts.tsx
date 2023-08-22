@@ -1,21 +1,21 @@
+import { Disclosure } from "@headlessui/react"
 import {
   createColumnHelper,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { Disclosure } from "@headlessui/react"
 import format from "date-fns/format"
 import { useMemo, useState } from "react"
 
-import ChevronDown from "@/components/icons/ChevronDown"
-import ChevronRight from "@/components/icons/ChevronRight"
 import ContractFunctionsModal from "@/components/Contracts/ContractFunctionsModal"
-import Remove from "@/components/icons/Remove"
 import Hex from "@/components/Shared/Hex"
 import Table from "@/components/Shared/Table"
-import { getNetworkIcon } from "@/utils/getNetworkIcon"
-import { NetworkId, getNetwork } from "@/utils/getNetwork"
+import ChevronDown from "@/components/icons/ChevronDown"
+import ChevronRight from "@/components/icons/ChevronRight"
+import Remove from "@/components/icons/Remove"
 import { IContract } from "@/hooks/useGetProjectById"
+import { NetworkId, getNetwork } from "@/utils/getNetwork"
+import { getNetworkIcon } from "@/utils/getNetworkIcon"
 
 interface ProjectNetworkProps {
   networkId: NetworkId
