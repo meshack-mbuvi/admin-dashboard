@@ -4,9 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 
 import AddContractModal from "@/components/Contracts/AddContractModal"
 import ProjectContracts from "@/components/Contracts/ProjectContracts"
-import StatusModal, { RequestStatus } from "@/components/StatusModal"
-import useAuthToken from "@/hooks/useAuthToken"
-import useDeleteContract from "@/hooks/useDeleteContract"
+
 import useGetProjectById from "@/hooks/useGetProjectById"
 import { QueryParams } from "@/types/queryParams"
 import { NetworkId } from "@/utils/getNetwork"
@@ -30,10 +28,7 @@ export default function Contracts() {
       setShowAddContractModal(true)
     }
   }, [])
-  const [showStatusModal, setShowStatusModal] = useState<boolean>(false)
   const { projectId } = useParams()
-  const sessionToken = useAuthToken()
-  const { mutate, reset, isLoading, isSuccess, isError } = useDeleteContract()
   const { data: projectData } = useGetProjectById({
     projectId,
   })
@@ -48,18 +43,6 @@ export default function Contracts() {
     })
     return networkContracts
   }, [projectData?.contracts])
-
-  const handleDeleteContract = (contractId: string) => {
-    const confirm = window.confirm("Are you sure you want to delete contract?")
-    if (confirm && sessionToken) {
-      setShowStatusModal(true)
-      mutate({
-        sessionToken,
-        method: "DELETE",
-        endpointPath: `/admin/project/${projectId}/contract/${contractId}`,
-      })
-    }
-  }
 
   return (
     <Section className="flex flex-col font-sans p-7 rounded-lg mr-10">
@@ -94,7 +77,6 @@ export default function Contracts() {
                 key={index}
                 networkId={+key as NetworkId}
                 contracts={NetworkContracts[key]}
-                handleDeleteContract={handleDeleteContract}
               />
             )
           })}
@@ -104,30 +86,6 @@ export default function Contracts() {
         show={showAddContractModal}
         closeModal={() => setShowAddContractModal(false)}
       />
-      <StatusModal
-        show={showStatusModal}
-        closeModal={() => {
-          reset()
-          setShowStatusModal(false)
-        }}
-        status={
-          isLoading
-            ? RequestStatus.PENDING
-            : isSuccess
-            ? RequestStatus.SUCCESS
-            : isError
-            ? RequestStatus.FAILURE
-            : RequestStatus.PENDING
-        }
-      >
-        {isLoading
-          ? "Deleting contract..."
-          : isSuccess
-          ? "Contract deleted"
-          : isError
-          ? "Error deleting contract"
-          : ""}
-      </StatusModal>
     </Section>
   )
 }

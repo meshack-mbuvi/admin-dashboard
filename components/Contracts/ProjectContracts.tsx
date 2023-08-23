@@ -12,7 +12,6 @@ import Hex from "@/components/Shared/Hex"
 import Table from "@/components/Shared/Table"
 import ChevronDown from "@/components/icons/ChevronDown"
 import ChevronRight from "@/components/icons/ChevronRight"
-import Remove from "@/components/icons/Remove"
 import { IContract } from "@/hooks/useGetProjectById"
 import { NetworkId, getNetwork } from "@/utils/getNetwork"
 import { getNetworkIcon } from "@/utils/getNetworkIcon"
@@ -20,7 +19,6 @@ import { getNetworkIcon } from "@/utils/getNetworkIcon"
 interface ProjectNetworkProps {
   networkId: NetworkId
   contracts: IContract[]
-  handleDeleteContract: (contractId: string) => void
 }
 
 const columnHelper = createColumnHelper<IContract>()
@@ -28,7 +26,6 @@ const columnHelper = createColumnHelper<IContract>()
 export default function ProjectContracts({
   networkId,
   contracts,
-  handleDeleteContract,
 }: ProjectNetworkProps) {
   const [showModal, setShowModal] = useState(false)
   const [selectedContract, setSelectedContract] = useState<IContract | null>(
@@ -52,6 +49,7 @@ export default function ProjectContracts({
         ),
     }),
     columnHelper.accessor("address", {
+      size: 480,
       header: () => <span>Contract Address</span>,
       cell: (info) => (
         <Hex
@@ -87,20 +85,6 @@ export default function ProjectContracts({
       header: () => <span>Date Added</span>,
       cell: (info) => (
         <span> {format(new Date(info.getValue()), "MMMM do yyyy")}</span>
-      ),
-    }),
-    columnHelper.accessor("id", {
-      header: () => <span></span>,
-      cell: (info) => (
-        <span className="text-white">
-          <button
-            className="flex items-center text-gray-4 space-x-2 h-10 hover:text-red"
-            onClick={() => handleDeleteContract(info.getValue())}
-          >
-            <Remove className="h-4" />
-            <span className="leading-5">Remove</span>
-          </button>
-        </span>
       ),
     }),
   ]
