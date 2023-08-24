@@ -22,7 +22,8 @@ interface AddContractModalProps {
 
 const parseABI = (abi: string): AbiFunction[] | null => {
   try {
-    return JSON.parse(abi)
+    const jsonAbi = JSON.parse(abi)
+    return Array.isArray(jsonAbi) ? jsonAbi : null
   } catch (e) {
     return null
   }
