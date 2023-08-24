@@ -6,7 +6,7 @@ interface UseGetProjectWalletsArgs {
   projectId: string
 }
 
-type Wallets = {
+export type Wallets = {
   chainId: number
   createdAt: string
   isActive: boolean
@@ -16,6 +16,7 @@ type Wallets = {
   updatedAt: string
   walletAddress: string
   walletId: string
+  txCount: number
 }
 
 export default function useGetProjectWallets(args: UseGetProjectWalletsArgs) {
@@ -26,7 +27,7 @@ export default function useGetProjectWallets(args: UseGetProjectWalletsArgs) {
     ["get-project-wallets", projectId],
     async () => {
       const res = await gatewayFetch({
-        endpointPath: `/wallet/project/${projectId}/wallets`,
+        endpointPath: `/wallet/project/${projectId}/wallets?withData=true`,
         sessionToken,
       })
 

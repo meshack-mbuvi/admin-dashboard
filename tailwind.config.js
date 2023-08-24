@@ -43,6 +43,10 @@ module.exports = {
           ...colors.green,
           DEFAULT: "#30E696",
         },
+        yellow: {
+          ...colors.yellow,
+          secondary: "#FFD252",
+        },
       },
       height: {
         18: "4.5rem", // 72px

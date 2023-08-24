@@ -1,20 +1,17 @@
-import { Disclosure } from "@headlessui/react"
 import {
   createColumnHelper,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table"
 import format from "date-fns/format"
-import { useMemo, useState } from "react"
+import { useState } from "react"
 
 import ContractFunctionsModal from "@/components/Contracts/ContractFunctionsModal"
 import Hex from "@/components/Shared/Hex"
 import Table from "@/components/Shared/Table"
-import ChevronDown from "@/components/icons/ChevronDown"
-import ChevronRight from "@/components/icons/ChevronRight"
 import { IContract } from "@/hooks/useGetProjectById"
-import { NetworkId, getNetwork } from "@/utils/getNetwork"
-import { getNetworkIcon } from "@/utils/getNetworkIcon"
+import { NetworkId } from "@/utils/getNetwork"
+import DisclosureComponent from "../Shared/Disclosure"
 
 interface ProjectNetworkProps {
   networkId: NetworkId
@@ -31,12 +28,6 @@ export default function ProjectContracts({
   const [selectedContract, setSelectedContract] = useState<IContract | null>(
     null
   )
-
-  const NetworkInfo = useMemo(() => {
-    const network = getNetwork(networkId)
-    const networkIcon = getNetworkIcon(networkId, "w-5 h-5")
-    return { networkIcon, network }
-  }, [networkId])
 
   const columns = [
     columnHelper.accessor("name", {
@@ -97,28 +88,14 @@ export default function ProjectContracts({
 
   return (
     <div className="">
-      <Disclosure as="div" className="pt-6">
-        {({ open }) => (
-          <>
-            <dt>
-              <Disclosure.Button className="flex items-center py-6 pl-7 hover:bg-gray-8  rounded-lg  space-x-2.5 h-full w-full cursor-pointer">
-                {NetworkInfo.networkIcon}
-                <div className="leading-5">
-                  {NetworkInfo.network.name} ({contracts.length} contracts)
-                </div>
-                {open ? (
-                  <ChevronDown className="w-4 h-auto" />
-                ) : (
-                  <ChevronRight className="w-4 h-auto" />
-                )}
-              </Disclosure.Button>
-            </dt>
-            <Disclosure.Panel as="dd" className={"mt-2 pr-12 pl-7"}>
-              <Table tableConfig={table} />
-            </Disclosure.Panel>
-          </>
-        )}
-      </Disclosure>
+      <DisclosureComponent
+        networkId={networkId}
+        disclosureTitle="contracts"
+        itemCount={contracts.length}
+      >
+        <Table tableConfig={table} />
+      </DisclosureComponent>
+
       <ContractFunctionsModal
         show={showModal}
         closeModal={() => setShowModal(false)}
