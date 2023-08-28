@@ -11,9 +11,10 @@ import Table from "@/components/Shared/Table"
 import EmptyState from "@/components/Shared/Empty"
 import TransactionPagination from "@/components/Transactions/atoms/Pagination"
 import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
+import Text from "@/components/Text"
+import ResourceID from "@/components/Shared/ResourceID"
 
 import useGetRequests, { RequestsDataType } from "@/hooks/useGetRequests"
-import Text from "../Text"
 
 const columnHelper = createColumnHelper<RequestsDataType>()
 
@@ -21,7 +22,9 @@ const columns = [
   columnHelper.accessor("transactionId", {
     header: () => "Request ID",
     cell: (info) => (
-      <span className="text-white font-mono">{info.getValue()}</span>
+      <span className="text-white font-mono">
+        <ResourceID ID={info.getValue()} fullView={true} />
+      </span>
     ),
   }),
   columnHelper.accessor("chainId", {

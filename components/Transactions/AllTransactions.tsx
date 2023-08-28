@@ -32,6 +32,7 @@ import CreateContractButton from "../Buttons/CreateContractButton"
 import TableFilterPills from "../Shared/TableFilterPills"
 import Text from "../Text"
 import TxIdFilter from "./atoms/TxStatusFilter"
+import ResourceID from "@/components/Shared/ResourceID"
 
 const columnHelper = createColumnHelper<TransactionDataType>()
 
@@ -55,9 +56,7 @@ const columns = [
           transactionStatus={info.row.original.status}
           reverted={info.row.original.reverted}
         />
-        <span className="overflow-x-hidden text-ellipsis">
-          {info.getValue()}
-        </span>
+        <ResourceID ID={info.getValue()} fullView={true} />
       </span>
     ),
   }),

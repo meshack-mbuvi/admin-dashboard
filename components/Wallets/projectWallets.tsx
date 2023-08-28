@@ -11,6 +11,7 @@ import format from "date-fns/format"
 import Label from "../Label"
 import DisclosureComponent from "../Shared/Disclosure"
 import Hex from "../Shared/Hex"
+import ResourceID from "@/components/Shared/ResourceID"
 
 interface ProjectWalletsProps {
   networkId: NetworkId
@@ -25,6 +26,7 @@ export default function ProjectWallets({
 }: ProjectWalletsProps) {
   const columns = [
     columnHelper.accessor("walletAddress", {
+      size: 500,
       header: () => (
         <Label className="text-gray-3 pl-7 text-sm">Wallet Address</Label>
       ),
@@ -41,6 +43,11 @@ export default function ProjectWallets({
         ) : (
           <span className="text-gray-3 pl-7">--</span>
         ),
+    }),
+    columnHelper.accessor("walletId", {
+      maxSize: 64,
+      header: () => "",
+      cell: (info) => <ResourceID ID={info.getValue()} />,
     }),
     columnHelper.accessor("txCount", {
       header: () => <Label className="text-gray-3 text-sm">Transactions</Label>,
