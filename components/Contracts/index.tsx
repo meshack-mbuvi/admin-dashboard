@@ -1,9 +1,13 @@
 "use client"
+import clsx from "clsx"
 import { useParams, useSearchParams } from "next/navigation"
+import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 
 import AddContractModal from "@/components/Contracts/AddContractModal"
 import ProjectContracts from "@/components/Contracts/ProjectContracts"
+import { DarkButtonStyles } from "@/components/Buttons"
+import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
 
 import useGetProjectById from "@/hooks/useGetProjectById"
 import { QueryParams } from "@/types/queryParams"
@@ -64,9 +68,24 @@ export default function Contracts() {
         <EmptyState
           heading={"No contracts yet"}
           description={
-            <span>
-              {"When contracts are added to your project, they'll appear here"}
-            </span>
+            <>
+              <span>
+                When contracts are added to your project, they&apos;ll appear
+                here
+              </span>
+              <Link
+                // TODO: ADD URL here
+                href="/#"
+                target="_blank"
+                className={clsx(
+                  DarkButtonStyles,
+                  "border-yellow-secondary flex items-baseline text-white mx-auto mt-8"
+                )}
+              >
+                View Guide
+                <ArrowUpperRight className="h-4 w-4 ml-2" />
+              </Link>
+            </>
           }
         />
       ) : (
