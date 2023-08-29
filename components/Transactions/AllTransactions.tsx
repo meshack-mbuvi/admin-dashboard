@@ -12,6 +12,7 @@ import { useDebouncedCallback } from "use-debounce"
 import Loading from "@/components/Loading"
 import EmptyState from "@/components/Shared/Empty"
 import Hex from "@/components/Shared/Hex"
+import ResourceID from "@/components/Shared/ResourceID"
 import Table from "@/components/Shared/Table"
 import TransactionBlock from "@/components/Transactions/atoms/Block"
 import TransactionPagination from "@/components/Transactions/atoms/Pagination"
@@ -28,11 +29,13 @@ import useGetTransactions, {
   TransactionDataType,
 } from "@/hooks/useGetTransactions"
 import { QueryParams } from "@/types/queryParams"
+import clsx from "clsx"
+import { DarkButtonStyles } from "../Buttons"
 import CreateContractButton from "../Buttons/CreateContractButton"
+import ExternalLink from "../Shared/ExternalLink"
 import TableFilterPills from "../Shared/TableFilterPills"
 import Text from "../Text"
 import TxIdFilter from "./atoms/TxStatusFilter"
-import ResourceID from "@/components/Shared/ResourceID"
 
 const columnHelper = createColumnHelper<TransactionDataType>()
 
@@ -251,24 +254,36 @@ const AllTransactions = (props: AllTransactionsProps) => {
           searchTerm ? (
             <span>Try searching for a different transaction or wallet</span>
           ) : (
-            <span>
-              When transactions are successfully added to the blockchain they
-              will appear here
-            </span>
+            <span>When transactions are requested, they’ll appear here</span>
           )
         }
       >
-        {!projectHasContracts && (
-          <Link
-            href={{
-              pathname: `/dashboard/${projectId}/settings/contracts`,
-              query: {
-                [QueryParams.ShowNewContractModal]: true,
-              },
-            }}
-          >
-            <CreateContractButton className="mt-6" />
-          </Link>
+        {!projectHasContracts ? (
+          <>
+            <Link
+              href={{
+                pathname: `/dashboard/${projectId}/contracts`,
+                query: {
+                  [QueryParams.ShowNewContractModal]: true,
+                },
+              }}
+            >
+              <CreateContractButton className="mt-6" />
+            </Link>
+            <ExternalLink
+              href="https://docs.syndicate.io/get-started/introduction"
+              linkText="View Guide"
+            />
+          </>
+        ) : (
+          <ExternalLink
+            href="https://docs.syndicate.io/guides/transactions"
+            className={clsx(
+              DarkButtonStyles,
+              "border-2 border-warning text-white flex space-x-2 py-4 mt-10"
+            )}
+            linkText="Learn how to send your first transaction"
+          />
         )}
       </EmptyState>
     )
