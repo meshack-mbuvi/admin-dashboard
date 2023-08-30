@@ -1,11 +1,16 @@
 import { useState } from "react"
+import clsx from "clsx"
+import Link from "next/link"
+import { useParams } from "next/navigation"
 
 import { Tab } from "@/components/Tab"
 import AllTransactions from "@/components/Transactions/AllTransactions"
 import FailedRequests from "@/components/Transactions/FailedRequests"
 import Search from "@/components/Transactions/atoms/Search"
 import useGetRequests from "@/hooks/useGetRequests"
-import { useParams } from "next/navigation"
+
+import { DarkButtonStyles } from "@/components/Buttons"
+import ArrowUpperRight from "../icons/ArrowUpperRight"
 
 export default function TransactionTables() {
   const [activeTabIndex, setActiveTabIndex] = useState(0)
@@ -48,6 +53,21 @@ export default function TransactionTables() {
         />
         {activeTabIndex === 0 && (
           <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        )}
+
+        {activeTabIndex === 1 && (
+          <Link
+            // TODO: ADD URL here
+            href="/#"
+            target="_blank"
+            className={clsx(
+              DarkButtonStyles,
+              "border-yellow-secondary flex items-baseline"
+            )}
+          >
+            Troubleshoot
+            <ArrowUpperRight className="h-4 w-4 ml-2" />
+          </Link>
         )}
       </div>
       <div className="ml-2">{tabComponents[tabHeaders[activeTabIndex]]}</div>
