@@ -58,7 +58,7 @@ export default function TransactionTables() {
         {activeTabIndex === 1 && (
           <Link
             // TODO: ADD URL here
-            href="/#"
+            href="https://docs.syndicate.io"
             target="_blank"
             className={clsx(
               DarkButtonStyles,
