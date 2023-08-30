@@ -27,7 +27,7 @@ export default function Projects({ onCreateProject }: ProjectsProps) {
           </div>
         )}
 
-        {data && data.length < 0 ? (
+        {data && data.length > 0 ? (
           <>
             {/* Header */}
             <div className="flex">
