@@ -15,16 +15,16 @@ export default function Dashboard() {
   const tabHeaders = ["Projects", "People"]
   const tabButtonText = ["Create project", "Invite user"]
 
-  const tabComponents: {
-    [key: string]: JSX.Element
-  } = {
-    Projects: <Projects />,
-    People: <Users />,
-  }
-
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   const [showAddUserModal, setShowAddUserModal] = useState(false)
   const [showCreateProjectModal, setShowCreateProjectModal] = useState(false)
+
+  const tabComponents: {
+    [key: string]: JSX.Element
+  } = {
+    Projects: <Projects onCreateProject={setShowCreateProjectModal} />,
+    People: <Users />,
+  }
 
   const tabButtonHandler = [
     () => setShowCreateProjectModal(true),

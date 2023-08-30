@@ -47,12 +47,17 @@ module.exports = {
           ...colors.yellow,
           secondary: "#FFD252",
         },
+        lime: {
+          ...colors.lime,
+          1: "#CCFF00",
+        }
       },
       height: {
         18: "4.5rem", // 72px
       },
       width: {
         13: "3.25rem", // 52px
+        88: "22rem", // 352px
       },
       borderRadius: {
         "2lg": "0.625rem", // 10px
