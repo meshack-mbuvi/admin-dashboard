@@ -16,7 +16,7 @@ const FunctionSignature = (props: FunctionSignatureProps) => {
         data-tooltip-content={functionSignature}
         data-tooltip-place="bottom"
       >
-        {functionSignature.split("(")[0]}
+        {functionSignature ? functionSignature.split("(")[0] : "-"}
 
         <Tooltip id={`funcSig-${requestId}`} />
       </span>

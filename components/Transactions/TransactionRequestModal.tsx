@@ -94,7 +94,7 @@ export default function TransactionRequestModal({
               <span className="py-1">
                 {functionArgs.map((arg, i) => (
                   <p key={i}>
-                    {i}: {arg.toString()}
+                    {i}: {arg?.toString() || "error parsing input"}
                   </p>
                 ))}
               </span>
