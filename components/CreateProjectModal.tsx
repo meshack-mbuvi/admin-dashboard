@@ -10,6 +10,7 @@ import { Spinner } from "./Spinner"
 import Input from "./inputs/Input"
 import NetworkDropdown from "./inputs/NetworkDropdown"
 import Select, { SelectOption } from "./inputs/Select"
+import ExternalLink from "./Shared/ExternalLink"
 
 type CreateProjectModalProps = {
   show: boolean
@@ -157,6 +158,12 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                 }}
                 className="text-black font-sans disabled:bg-opacity-60 cursor-pointer disabled:cursor-not-allowed font-medium bg-white rounded-lg px-8 py-3.5"
                 value="Create project"
+              />
+
+              <ExternalLink
+                href="https://docs.syndicate.io"
+                linkText="View Guide"
+                className="mx-auto mt-6 text-yellow-secondary"
               />
             </>
           )}
