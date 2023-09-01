@@ -67,7 +67,12 @@ export default function TransactionRequestModal({
   )
 
   return (
-    <Modal show={showModal} closeModal={onCloseModal} outsideOnClick={true}>
+    <Modal
+      show={showModal}
+      closeModal={onCloseModal}
+      outsideOnClick={true}
+      overflowYScroll
+    >
       <div>
         <div className="text-2xl font-medium mb-5">Transaction Request</div>
         <div className="divide-y divide-gray-6">
