@@ -11,7 +11,7 @@ const FunctionSignature = (props: FunctionSignatureProps) => {
   return (
     <div>
       <span
-        className="overflow-x-hidden text-ellipsis"
+        className="overflow-x-hidden text-ellipsis block"
         data-tooltip-id={`funcSig-${requestId}`}
         data-tooltip-content={functionSignature}
         data-tooltip-place="bottom"

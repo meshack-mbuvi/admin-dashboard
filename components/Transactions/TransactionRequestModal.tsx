@@ -4,13 +4,16 @@ import { useParams } from "next/navigation"
 import clsx from "clsx"
 
 import Modal from "@/components/Modal"
-import { SIMULATION_SUCCESS } from "@/utils/simulateTransaction"
-import useGetProjectWallets from "@/hooks/useGetProjectWallets"
+import StructArg from "./atoms/StructArg"
 import Spinner from "../icons/Spinner"
 import Hex from "../Shared/Hex"
-import { NetworkId } from "@/utils/getNetwork"
 import CopyToClipboard from "../CopyToClipboard"
+import useGetProjectWallets from "@/hooks/useGetProjectWallets"
 import useTransactionSimulation from "@/hooks/useTransactionSimulation"
+import { NetworkId } from "@/utils/getNetwork"
+import { SIMULATION_SUCCESS } from "@/utils/simulateTransaction"
+import { isObject } from "@/utils/isObject"
+import ArrayArg from "./atoms/ArrayArg"
 
 interface TransactionRequestModalProps {
   showModal: boolean
@@ -21,6 +24,7 @@ interface TransactionRequestModalProps {
   calldata?: string
   value?: string
 }
+
 export default function TransactionRequestModal({
   showModal,
   onCloseModal,
@@ -98,12 +102,33 @@ export default function TransactionRequestModal({
               <span className="text-gray-3 font-semibold text-base py-1">
                 Inputs
               </span>
+
               <span className="py-1 text-sm font-mono">
-                {functionArgs.map((arg, i) => (
-                  <p key={i}>
-                    {i}: {arg?.toString() || "error parsing input"}
-                  </p>
-                ))}
+                {functionArgs.map((arg, i) => {
+                  if (isObject(arg)) {
+                    return (
+                      <div className="flex" key={i}>
+                        <div>{i}: </div>
+                        <StructArg struct={arg} />
+                      </div>
+                    )
+                  }
+
+                  if (Array.isArray(arg)) {
+                    return (
+                      <div className="flex" key={i}>
+                        <div>{i}: </div>
+                        <ArrayArg array={arg} />
+                      </div>
+                    )
+                  }
+
+                  return (
+                    <p key={i}>
+                      {i}: {arg?.toString() || "error parsing input"}
+                    </p>
+                  )
+                })}
               </span>
             </div>
           )}
