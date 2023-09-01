@@ -13,17 +13,17 @@ import CopyToClipboard from "../CopyToClipboard"
 import useTransactionSimulation from "@/hooks/useTransactionSimulation"
 
 interface TransactionRequestModalProps {
-  show: boolean
-  closeModal: () => void
-  chainId: number
-  contractAddress: string
-  functionSignature: string
-  calldata: string
-  value: string
+  showModal: boolean
+  onCloseModal: () => void
+  chainId?: number
+  contractAddress?: string
+  functionSignature?: string
+  calldata?: string
+  value?: string
 }
 export default function TransactionRequestModal({
-  show,
-  closeModal,
+  showModal,
+  onCloseModal,
   chainId,
   contractAddress,
   functionSignature,
@@ -36,7 +36,7 @@ export default function TransactionRequestModal({
   })
 
   const functionArgs = useMemo(() => {
-    if (!functionSignature || !calldata) return undefined
+    if (!functionSignature || !calldata) return
 
     const cleanData = calldata.substring(0, calldata.length - 70)
     const abi = [`function ${functionSignature} returns ()`]
@@ -50,48 +50,55 @@ export default function TransactionRequestModal({
 
   const { data: simulationResult } = useTransactionSimulation(
     {
-      chainId,
-      fromAddress: wallets ? (wallets[0].walletAddress as HexType) : "0x",
+      chainId: chainId as NetworkId,
+      fromAddress: wallets?.[0].walletAddress as HexType,
       toAddress: contractAddress as HexType,
-      functionSignature,
+      functionSignature: functionSignature as string,
       args: functionArgs,
       // Syndicate appended data (aka "syn"+uuid)
-      dataSuffix: `0x${calldata.substring(calldata.length - 70)}`,
-      value,
+      dataSuffix: `0x${calldata?.substring(calldata.length - 70)}`,
+      value: value as string,
     },
-    !isLoading && !!wallets && !!functionArgs
+    Boolean(!isLoading && wallets && functionArgs)
   )
 
   return (
-    <Modal show={show} closeModal={closeModal} outsideOnClick={true}>
+    <Modal show={showModal} closeModal={onCloseModal} outsideOnClick={true}>
       <div>
-        <div className={"text-2xl font-medium mb-5"}>Transaction Request</div>
+        <div className="text-2xl font-medium mb-5">Transaction Request</div>
         <div className="divide-y divide-gray-6">
-          <div className="font-mono text-sm py-4 flex flex-col">
-            <span className="text-gray-3 font-semibold text-sm py-1">
-              Contract Address:
-            </span>
-            <Hex
-              hexType="address"
-              hexValue={contractAddress}
-              chainId={chainId as NetworkId}
-              truncate={false}
-            />
-          </div>
-          {functionSignature && (
-            <div className="font-mono text-sm py-4 flex flex-col">
-              <span className="text-gray-3 font-semibold text-sm py-1">
-                Function Signature:
+          {contractAddress && (
+            <div className="py-4 flex flex-col">
+              <span className="text-gray-3 text-base font-semibold py-1">
+                Contract Address
               </span>
-              <span className="py-1">{functionSignature}</span>
+              <Hex
+                hexType="address"
+                hexValue={contractAddress}
+                chainId={chainId as NetworkId}
+                truncate={false}
+                className="text-sm"
+              />
             </div>
           )}
-          {functionArgs && functionArgs.length > 0 && (
-            <div className="font-mono text-sm py-4 flex flex-col">
-              <span className="text-gray-3 font-semibold text-sm py-1">
-                Inputs:
+
+          {functionSignature && (
+            <div className="py-4 flex flex-col">
+              <span className="text-gray-3 font-semibold text-base py-1">
+                Function Signature
               </span>
-              <span className="py-1">
+              <span className="py-1 text-sm font-mono">
+                {functionSignature}
+              </span>
+            </div>
+          )}
+
+          {functionArgs && functionArgs.length > 0 && (
+            <div className="py-4 flex flex-col">
+              <span className="text-gray-3 font-semibold text-base py-1">
+                Inputs
+              </span>
+              <span className="py-1 text-sm font-mono">
                 {functionArgs.map((arg, i) => (
                   <p key={i}>
                     {i}: {arg?.toString() || "error parsing input"}
@@ -100,31 +107,35 @@ export default function TransactionRequestModal({
               </span>
             </div>
           )}
-          <div className="font-mono text-sm py-4 break-words flex flex-col">
-            <span className="text-gray-3 font-semibold text-sm py-1">
-              Calldata:
-            </span>
-            <span className="group">
-              <span className="py-1">{calldata}</span>
-              <CopyToClipboard
-                text={calldata}
-                className="invisible group-hover:visible"
-              />
-            </span>
-          </div>
+
+          {calldata && (
+            <div className="py-4 break-words flex flex-col">
+              <span className="text-gray-3 font-semibold text-base py-1">
+                Calldata
+              </span>
+
+              <span className="py-1 font-mono text-sm group">
+                {calldata}
+                <CopyToClipboard
+                  text={calldata}
+                  className="invisible group-hover:visible"
+                />
+              </span>
+            </div>
+          )}
           {/* TODO: Add value when we allow users to send value with requests */}
-          {/* <div className="font-mono text-sm py-4 flex flex-col">
-            <span className="text-gray-3 font-semibold text-sm py-1">Value:</span>
-            <span className="py-1">{value}</span>
+          {/* <div className="py-4 flex flex-col">
+            <span className="text-gray-3 font-semibold text-base py-1">Value</span>
+            <span className="py-1 font-mono text-sm">{value}</span>
           </div> */}
           {simulationResult ? (
-            <div className="font-mono text-sm py-4 break-words flex flex-col">
-              <span className="text-gray-3 font-semibold text-sm py-1">
-                Failure Reason:
+            <div className="py-4 break-words flex flex-col">
+              <span className="text-gray-3 font-semibold text-base py-1">
+                Failure Reason
               </span>
               <span
                 className={clsx(
-                  "py-1",
+                  "py-1 text-sm font-mono",
                   simulationResult === SIMULATION_SUCCESS
                     ? "text-green"
                     : "text-red"

@@ -9,7 +9,7 @@ const FunctionSignature = (props: FunctionSignatureProps) => {
   const { requestId, functionSignature } = props
 
   return (
-    <div className="">
+    <div>
       <span
         className="overflow-x-hidden text-ellipsis"
         data-tooltip-id={`funcSig-${requestId}`}

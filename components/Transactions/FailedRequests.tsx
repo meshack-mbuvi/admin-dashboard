@@ -116,28 +116,30 @@ export default function FailedRequests() {
           </div>
         ))
       ) : !isLoading && requestsResp?.total ? (
-        <div className="flex flex-col items-center">
-          <Table tableConfig={table} />
-          <TransactionPagination
-            page={page}
-            limit={limit}
-            total={requestsResp.total}
-            onPageChange={onPageChange}
-            isLoading={isFetching || isPreviousData}
-          />
-        </div>
+        <>
+          <div className="flex flex-col items-center">
+            <Table tableConfig={table} />
+            <TransactionPagination
+              page={page}
+              limit={limit}
+              total={requestsResp.total}
+              onPageChange={onPageChange}
+              isLoading={isFetching || isPreviousData}
+            />
+          </div>
+        </>
       ) : (
         <EmptyState heading="No failed requests" description={""} />
       )}
 
       <TransactionRequestModal
-        show={showModal}
-        closeModal={() => setShowModal(false)}
-        chainId={selectedRequest?.chainId || 0}
-        contractAddress={selectedRequest?.contractAddress || ""}
-        functionSignature={selectedRequest?.functionSignature || ""}
-        calldata={selectedRequest?.data || ""}
-        value={selectedRequest?.value || ""}
+        showModal={showModal}
+        onCloseModal={() => setShowModal(false)}
+        chainId={selectedRequest?.chainId}
+        contractAddress={selectedRequest?.contractAddress}
+        functionSignature={selectedRequest?.functionSignature}
+        calldata={selectedRequest?.data}
+        value={selectedRequest?.value}
       />
     </div>
   )

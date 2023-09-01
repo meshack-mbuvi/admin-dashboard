@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { useMemo } from "react"
+import clsx from "clsx"
 
 import CopyToClipboard from "@/components/CopyToClipboard"
 import { formatAddress } from "@/utils/formatAddress"
@@ -10,10 +11,11 @@ interface HexProps {
   hexValue: string
   chainId: NetworkId
   truncate?: boolean
+  className?: string
 }
 
 const Hex = (props: HexProps) => {
-  const { hexType, hexValue, chainId, truncate = true } = props
+  const { hexType, hexValue, chainId, truncate = true, className } = props
 
   const formattedHexValue = useMemo(() => {
     if (!hexValue) return
@@ -33,7 +35,12 @@ const Hex = (props: HexProps) => {
 
   return (
     <div className="flex space-x-5 group">
-      <span className="flex focus:outline-none text-base leading-5.5 group text-white hover:text-blue-1 cursor-pointer font-mono">
+      <span
+        className={clsx(
+          "flex focus:outline-none text-base leading-5.5 group text-white hover:text-blue-1 cursor-pointer font-mono",
+          className
+        )}
+      >
         <Link
           className="hover:text-blue-1 text-white group/link"
           href={{
