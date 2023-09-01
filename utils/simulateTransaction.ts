@@ -14,6 +14,18 @@ export interface SimulateTransaction {
 export const SIMULATION_SUCCESS = "Simulation successful"
 export const SIMULATION_ERROR = "Error simulating transaction"
 
+const decodeErrorAttempt = async (error: string): Promise<string> => {
+  try {
+    const response = await fetch(
+      `https://api.openchain.xyz/signature-database/v1/lookup?function=${error}`
+    )
+    const result = (await response.json()).result.function[error][0].name
+    return `Decoded error: ${result}`
+  } catch (e) {
+    return `Unknown encoded error: ${error}`
+  }
+}
+
 export async function simulateTransaction({
   chainId,
   fromAddress,
@@ -43,8 +55,15 @@ export async function simulateTransaction({
     })
     return SIMULATION_SUCCESS
   } catch (e) {
-    if ((e as Error).message.includes("reverted with the following reason")) {
+    if ((e as Error).toString().includes("ContractFunctionExecutionError")) {
       return (e as Error).message.split("Contract Call:")[0].trim()
+    }
+    if ((e as Error).toString().includes("AbiErrorSignatureNotFoundError")) {
+      const errorCode = (e as Error).message
+        .split(`Encoded error signature "`)[1]
+        .split(`"`)[0]
+
+      return await decodeErrorAttempt(errorCode)
     }
 
     return SIMULATION_ERROR
