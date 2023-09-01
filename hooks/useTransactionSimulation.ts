@@ -9,13 +9,7 @@ export default function useTransactionSimulation(
   input: SimulateTransaction,
   enabled: boolean
 ) {
-  return useQuery(
-    [input.dataSuffix],
-    async () => {
-      return await simulateTransaction(input)
-    },
-    {
-      enabled,
-    }
-  )
+  return useQuery([input.dataSuffix], async () => simulateTransaction(input), {
+    enabled,
+  })
 }
