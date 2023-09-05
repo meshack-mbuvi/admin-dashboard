@@ -273,6 +273,7 @@ const AllTransactions = (props: AllTransactionsProps) => {
             <ExternalLink
               href="https://docs.syndicate.io/get-started/introduction"
               linkText="View Guide"
+              className="my-4 text-yellow-secondary"
             />
           </>
         ) : (
