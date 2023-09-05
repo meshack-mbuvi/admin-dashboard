@@ -15,6 +15,10 @@ export interface RequestsDataType {
   transactionId: string
   updatedAt: string
   chainId: number
+  contractAddress: string
+  functionSignature: string
+  data: string
+  value: string
   transactionAttempts: []
 }
 

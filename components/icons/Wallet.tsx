@@ -16,12 +16,12 @@ export default function WalletIcon(props: SvgProps) {
         x=".6"
         y=".6"
         stroke="currentColor"
-        stroke-width="1.2"
+        strokeWidth="1.2"
         rx="2.4"
       />
       <path
         stroke="currentColor"
-        stroke-width="1.2"
+        strokeWidth="1.2"
         d="M12.6 10A2.4 2.4 0 0 1 15 7.6h3.4v4.8H15a2.4 2.4 0 0 1-2.4-2.4ZM1 4h18"
       />
     </svg>
