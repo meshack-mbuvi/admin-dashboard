@@ -55,11 +55,13 @@ export async function simulateTransaction({
     })
     return SIMULATION_SUCCESS
   } catch (e) {
-    if ((e as Error).toString().includes("ContractFunctionExecutionError")) {
-      return (e as Error).message.split("Contract Call:")[0].trim()
+    if (!(e instanceof Error)) return SIMULATION_ERROR
+
+    if (e.toString().includes("ContractFunctionExecutionError")) {
+      return e.message.split("Contract Call:")[0].trim()
     }
-    if ((e as Error).toString().includes("AbiErrorSignatureNotFoundError")) {
-      const errorCode = (e as Error).message
+    if (e.toString().includes("AbiErrorSignatureNotFoundError")) {
+      const errorCode = e.message
         .split(`Encoded error signature "`)[1]
         .split(`"`)[0]
 
