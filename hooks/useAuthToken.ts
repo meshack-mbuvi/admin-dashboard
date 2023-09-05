@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
 import { useStytchB2BClient } from "@stytch/nextjs/b2b"
+import { useEffect, useState } from "react"
 
 export default function useAuthToken() {
   const stytch = useStytchB2BClient()

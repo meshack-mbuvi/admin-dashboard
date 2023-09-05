@@ -12,6 +12,7 @@ import Input from "@/components/inputs/Input"
 import { Spinner } from "@/components/Spinner"
 import NetworkDropdown from "@/components/inputs/NetworkDropdown"
 import SuccessCheckMark from "@/components/icons/successCheckMark"
+import ExternalLink from "@/components/Shared/ExternalLink"
 import useCreateContract from "@/hooks/useCreateContract"
 import useAuthToken from "@/hooks/useAuthToken"
 
@@ -328,6 +329,12 @@ export default function AddContractModal(props: AddContractModalProps) {
             Add contract to project
           </button>
         )}
+
+        <ExternalLink
+          href="https://docs.syndicate.io"
+          linkText="View Guide"
+          className="mx-auto mt-6 text-yellow-secondary"
+        />
       </div>
     </Modal>
   )

@@ -1,6 +1,7 @@
 import { Route } from "next"
 import Link from "next/link"
 import ArrowUpperRight from "../icons/ArrowUpperRight"
+import clsx from "clsx"
 
 type ExternalLinkProps = {
   href: Route
@@ -9,14 +10,15 @@ type ExternalLinkProps = {
 }
 
 export default function ExternalLink(props: ExternalLinkProps) {
-  const {
-    href,
-    linkText,
-    className = "text-yellow-secondary flex space-x-2 py-4",
-  } = props
+  const { href, linkText, className } = props
 
   return (
-    <Link href={href} target="_blank" rel="noopener" className={className}>
+    <Link
+      href={href}
+      target="_blank"
+      rel="noopener"
+      className={clsx("flex", className)}
+    >
       {linkText} <ArrowUpperRight className="w-4 ml-2" />
     </Link>
   )

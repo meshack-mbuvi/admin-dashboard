@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import React, { useEffect, useState } from "react"
 
 import useAuthToken from "@/hooks/useAuthToken"
-import useGetOrganization from "@/hooks/useGetOrganization"
 import useCreateProject from "@/hooks/useCreateProject"
-import Input from "./inputs/Input"
-import Select, { SelectOption } from "./inputs/Select"
+import useGetOrganization from "@/hooks/useGetOrganization"
 import Modal from "./Modal"
+import StepsModal, { step } from "./Shared/StepsModal"
 import { Spinner } from "./Spinner"
-import SuccessCheckMark from "./icons/successCheckMark"
+import Input from "./inputs/Input"
 import NetworkDropdown from "./inputs/NetworkDropdown"
+import Select, { SelectOption } from "./inputs/Select"
+import ExternalLink from "./Shared/ExternalLink"
 
 type CreateProjectModalProps = {
   show: boolean
@@ -17,10 +18,9 @@ type CreateProjectModalProps = {
 }
 
 const PendingStatusText = "Creating project"
-const SuccessStatusText = "Project created"
 const ErrorStatusText = "Error creating project"
 
-const enviromentOptions = [
+const environmentOptions = [
   { id: 0, label: "Staging" },
   { id: 1, label: "Production" },
 ]
@@ -34,20 +34,20 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
   const { data: organizationData, isLoading: isOrganizationDataLoading } =
     useGetOrganization()
 
-  const { data, isError, isSuccess, mutate, isLoading, reset } =
+  const { data, isError, mutate, isSuccess, isLoading, reset } =
     useCreateProject()
-  const [newProjectId, setNewProjectId] = useState<string>("")
 
   const [name, setName] = useState<string>("")
-  const [enviroment, setEnviroment] = useState<SelectOption | undefined>()
+  const [environment, setEnvironment] = useState<SelectOption | undefined>()
   const [network, setNetwork] = useState<number>(0)
+  const [showStepsModal, setShowStepsModal] = useState(false)
 
   useEffect(() => {
     if (!data) return
     data?.json().then((data) => {
-      setNewProjectId(data.id)
+      router.push(`/dashboard/${data.id}/transactions`)
     })
-  }, [data])
+  }, [data, isSuccess])
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -56,14 +56,16 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
 
   const handleRequest = () => {
     if (sessionToken) {
-      mutate({
+      onClose()
+      setShowStepsModal(true)
+      return mutate({
         method: "POST",
         sessionToken,
         endpointPath: "/admin/project",
         body: JSON.stringify({
           organizationId: organizationData?.organization.id,
           name: name,
-          enviroment: enviroment?.label,
+          enviroment: environment?.label,
           chainId: network,
           numWallets: 1,
         }),
@@ -71,16 +73,33 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
     }
   }
 
+  const steps: step[] = [{ text: "Creating project" }]
+
+  const onComplete = () => {
+    setShowStepsModal(false)
+    onClose()
+  }
+
   return (
     <>
+      <StepsModal
+        title="Creating new project..."
+        steps={steps}
+        show={showStepsModal}
+        onComplete={onComplete}
+        canComplete={isSuccess}
+        handleClose={() => {
+          setShowStepsModal(false)
+          onClose()
+        }}
+      />
+
       <Modal
         show={show}
         outsideOnClick={true}
         closeModal={() => {
           setName("")
-          setEnviroment(undefined)
           setNetwork(0)
-          setNewProjectId("")
           reset()
           onClose()
         }}
@@ -95,23 +114,6 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
             <div className="flex w-full align-middle justify-center">
               <span className="mr-4 text-red">{ErrorStatusText}</span>
             </div>
-          ) : isSuccess ? (
-            <>
-              <div className="flex align-middle justify-center mb-7">
-                <span className="mr-4 text-green">{SuccessStatusText}</span>
-                <SuccessCheckMark className="h-6 w-6 text-green" />
-              </div>
-              {newProjectId && (
-                <input
-                  type="button"
-                  onClick={() => {
-                    router.push(`/dashboard/${newProjectId}/transactions`)
-                  }}
-                  className="text-black font-sans disabled:bg-opacity-60 cursor-pointer font-medium bg-white rounded-lg px-8 py-3.5"
-                  value="Go to project"
-                />
-              )}
-            </>
           ) : (
             <>
               <p className="font-sans font-medium text-2xl text-gray-1 mb-7">
@@ -129,13 +131,13 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
               </div>
               <div className="flex flex-col justify-center items-left mb-7">
                 <p className="font-sans font-medium text-white text-sm mb-2">
-                  Enviroment
+                  Environment
                 </p>
                 <Select
-                  options={enviromentOptions}
-                  placeholder="Select enviroment type"
-                  selected={enviroment}
-                  setSelected={setEnviroment}
+                  options={environmentOptions}
+                  placeholder="Select environment type"
+                  selected={environment}
+                  setSelected={setEnvironment}
                 />
               </div>
               <div className="flex flex-col justify-center items-left mb-7">
@@ -149,13 +151,19 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
               <input
                 type="button"
                 disabled={
-                  !name || !enviroment || !network || isOrganizationDataLoading
+                  !name || !environment || !network || isOrganizationDataLoading
                 }
                 onClick={() => {
                   handleRequest()
                 }}
                 className="text-black font-sans disabled:bg-opacity-60 cursor-pointer disabled:cursor-not-allowed font-medium bg-white rounded-lg px-8 py-3.5"
                 value="Create project"
+              />
+
+              <ExternalLink
+                href="https://docs.syndicate.io"
+                linkText="View Guide"
+                className="mx-auto mt-6 text-yellow-secondary"
               />
             </>
           )}
