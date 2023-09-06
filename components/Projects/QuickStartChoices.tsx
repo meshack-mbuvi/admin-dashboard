@@ -11,7 +11,7 @@ import useAuthToken from "@/hooks/useAuthToken"
 import useCreateProject from "@/hooks/useCreateProject"
 import useGetOrganization from "@/hooks/useGetOrganization"
 
-interface QuickStartOptions {
+interface QuickStartChoicesProps {
   onCreateProject: (arg0: boolean) => void
 }
 
@@ -22,9 +22,9 @@ const steps = [
   "Connecting demo project to blockchain network",
 ]
 
-export default function QuickStartOptions({
+export default function QuickStartChoices({
   onCreateProject,
-}: QuickStartOptions) {
+}: QuickStartChoicesProps) {
   const router = useRouter()
 
   const sessionToken = useAuthToken()
