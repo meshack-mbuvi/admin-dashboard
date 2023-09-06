@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
-import QuickStart from "@/components/Projects/QuickStart"
+import QuickStartChoice from "@/components/Projects/QuickStartChoice"
 import Demo from "@/components/icons/Demo"
 import Guides from "@/components/icons/Guides"
 import Project from "@/components/icons/NewProject"
@@ -61,14 +61,14 @@ export default function QuickStartChoices({
         What would you like to do?
       </div>
       <div className="flex space-x-4 justify-evenly flex-col md:flex-row">
-        <QuickStart
+        <QuickStartChoice
           icon={<Demo className="h-40" />}
           title="Kickoff a demo project"
           description="Try Syndicate's API in less than 3 minutes with a demo project and smart contracts"
           onClick={() => handleCreateDemoProject()}
         />
 
-        <QuickStart
+        <QuickStartChoice
           icon={<Guides className="h-40" />}
           title="View quickstart guides"
           description="Learn how to submit transactions, add smart contracts, create wallets, and more"
@@ -79,7 +79,7 @@ export default function QuickStartChoices({
             )
           }}
         />
-        <QuickStart
+        <QuickStartChoice
           icon={<Project className="h-40" />}
           title="Create your own project"
           description="Start your own project, and use Syndicate’s full range of APIs and infrastructure services"
