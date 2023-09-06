@@ -9,15 +9,15 @@ export default function FreePlanBadge() {
 
   if (!isFreePlan) return null
 
-  // TODO: Add correct link
+  // TODO: Swap to link once docs page is ready
   return (
-    <a
-      href="https://docs.syndicate.io"
-      target="_blank"
-      rel="noopener"
+    <div
+      // href="https://docs.syndicate.io"
+      // target="_blank"
+      // rel="noopener"
       className="bg-blue-secondary rounded-full flex items-center px-3 text-xs h-6 ml-4"
     >
       Free Plan
-    </a>
+    </div>
   )
 }
