@@ -1,23 +1,25 @@
-import QuickStart from "@/components/Projects/quickStart"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+
+import QuickStart from "@/components/Projects/QuickStart"
 import Demo from "@/components/icons/Demo"
 import Guides from "@/components/icons/Guides"
 import Project from "@/components/icons/NewProject"
+import StepsModal from "@/components/Shared/StepsModal"
+
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateProject from "@/hooks/useCreateProject"
 import useGetOrganization from "@/hooks/useGetOrganization"
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import StepsModal from "../Shared/StepsModal"
+
 interface QuickStartOptions {
   onCreateProject: (arg0: boolean) => void
 }
 
-const demoProjectSteps = [
-  { text: "Creating API keys" },
-  { text: "Creating demo project smart contracts" },
-  { text: "Creating secure HSM wallets" },
-  { text: "Adding gas to HSM wallets" },
-  { text: "Connecting demo project to blockchain network" },
+const steps = [
+  "Creating API keys",
+  "Creating demo project smart contracts",
+  "Creating secure HSM wallets",
+  "Connecting demo project to blockchain network",
 ]
 
 export default function QuickStartOptions({
@@ -85,7 +87,7 @@ export default function QuickStartOptions({
         />
       </div>
       <StepsModal
-        steps={demoProjectSteps}
+        steps={steps}
         show={showStepsModal}
         onComplete={handleOnComplete}
         canComplete={isSuccess}

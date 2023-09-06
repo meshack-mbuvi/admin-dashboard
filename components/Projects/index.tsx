@@ -1,6 +1,6 @@
 import ProjectRow from "@/app/dashboard/components/ProjectRow"
 import Loading from "@/components/Loading"
-import QuickStartOptions from "@/components/Projects/quickStartOptions"
+import QuickStartOptions from "@/components/Projects/QuickStartOptions"
 
 import useGetProjects from "@/hooks/useGetProjects"
 

@@ -1,26 +1,26 @@
-import { useState } from "react"
+import { useEffect, useRef } from "react"
 
-type IntervalProps = {
-  callback: () => void
-  delay: number
-}
-export default function useInterval(props: IntervalProps) {
-  const { callback, delay } = props
-  const [intervalId, setIntervalId] = useState<any>(null)
+export default function useInterval(
+  callback: () => void,
+  delay: number | null
+) {
+  const savedCallback = useRef(callback)
 
-  const clear = () => {
-    if (!intervalId) return
-    clearInterval(intervalId)
-    setIntervalId(null)
-  }
+  // Remember the latest callback if it changes.
+  useEffect(() => {
+    savedCallback.current = callback
+  }, [callback])
 
-  const start = () => {
-    if (!intervalId) return
-    const _intervalId = setInterval(() => {
-      callback()
-    }, delay)
-    setIntervalId(_intervalId)
-  }
+  // Set up the interval.
+  useEffect(() => {
+    // Don't schedule if no delay is specified.
+    // Note: 0 is a valid value for delay.
+    if (!delay && delay !== 0) {
+      return
+    }
 
-  return { clear, start, intervalId }
+    const id = setInterval(() => savedCallback.current(), delay)
+
+    return () => clearInterval(id)
+  }, [delay])
 }
