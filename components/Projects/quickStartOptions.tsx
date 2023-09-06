@@ -26,17 +26,15 @@ export default function QuickStartOptions({
   const router = useRouter()
 
   const sessionToken = useAuthToken()
-  const { data, mutate, isSuccess } = useCreateProject()
-  const { data: organizationData, isLoading: isOrganizationDataLoading } =
-    useGetOrganization()
+  const { mutate, isSuccess } = useCreateProject({
+    onSuccess: (data) => {
+      data?.json().then((data) => {
+        router.push(`/dashboard/${data.id}/transactions`)
+      })
+    },
+  })
+  const { data: organizationData } = useGetOrganization()
   const [showStepsModal, setShowStepsModal] = useState(false)
-
-  useEffect(() => {
-    if (!data) return
-    data?.json().then((data) => {
-      router.push(`/dashboard/${data.id}/transactions`)
-    })
-  }, [data, isSuccess])
 
   const handleCreateDemoProject = () => {
     if (sessionToken) {

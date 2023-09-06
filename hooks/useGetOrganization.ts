@@ -20,6 +20,7 @@ export interface Organization {
   }
   stytchInformation: {
     email_allowed_domains: string[]
+    organization_logo_url: string | null
   }
 }
 
