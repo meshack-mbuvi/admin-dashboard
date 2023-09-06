@@ -1,14 +1,7 @@
 import gatewayFetch from "@/utils/gatewayFetch"
 import { useQuery } from "@tanstack/react-query"
 import useAuthToken from "./useAuthToken"
-
-export interface UserDataType {
-  id: string
-  name: string
-  emailAddress: string
-  role: "admin" | "manager" | "read"
-  status: "Active" | "Invited"
-}
+import { UserDataType } from "./useGetUser"
 
 export default function useGetUsers() {
   const sessionToken = useAuthToken()
@@ -23,6 +16,6 @@ export default function useGetUsers() {
 
       return (await usersResponse.json()) as UserDataType[]
     },
-    { enabled: !!sessionToken}
+    { enabled: !!sessionToken }
   )
 }

@@ -1,6 +1,6 @@
 import ProjectRow from "@/app/dashboard/components/ProjectRow"
 import Loading from "@/components/Loading"
-import QuickStartOptions from "@/components/Projects/quickStartOptions"
+import QuickStartChoices from "@/components/Projects/QuickStartChoices"
 
 import useGetProjects from "@/hooks/useGetProjects"
 
@@ -54,7 +54,7 @@ export default function Projects({ onCreateProject }: ProjectsProps) {
             </div>
           </>
         ) : (
-          !isLoading && <QuickStartOptions onCreateProject={onCreateProject} />
+          !isLoading && <QuickStartChoices onCreateProject={onCreateProject} />
         )}
       </div>
     </>

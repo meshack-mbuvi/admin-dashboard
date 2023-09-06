@@ -1,18 +1,18 @@
 import ArrowRight from "@/components/icons/ArrowRight"
 
-export interface QuickStartProps {
+export interface QuickStartChoiceProps {
   icon: any
   title: string
   description: string
   onClick: () => void
 }
 
-export default function QuickStart({
+export default function QuickStartChoice({
   icon,
   title,
   description,
   onClick,
-}: QuickStartProps) {
+}: QuickStartChoiceProps) {
   return (
     <div
       className="w-full md:w-88 group cursor-pointer pb-20"

@@ -1,42 +1,42 @@
-import QuickStart from "@/components/Projects/quickStart"
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+
+import QuickStartChoice from "@/components/Projects/QuickStartChoice"
 import Demo from "@/components/icons/Demo"
 import Guides from "@/components/icons/Guides"
 import Project from "@/components/icons/NewProject"
+import StepsModal from "@/components/Shared/StepsModal"
+
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateProject from "@/hooks/useCreateProject"
 import useGetOrganization from "@/hooks/useGetOrganization"
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import StepsModal from "../Shared/StepsModal"
-interface QuickStartOptions {
+
+interface QuickStartChoicesProps {
   onCreateProject: (arg0: boolean) => void
 }
 
-const demoProjectSteps = [
-  { text: "Creating API keys" },
-  { text: "Creating demo project smart contracts" },
-  { text: "Creating secure HSM wallets" },
-  { text: "Adding gas to HSM wallets" },
-  { text: "Connecting demo project to blockchain network" },
+const steps = [
+  "Creating API keys",
+  "Creating demo project smart contracts",
+  "Creating secure HSM wallets",
+  "Connecting demo project to blockchain network",
 ]
 
-export default function QuickStartOptions({
+export default function QuickStartChoices({
   onCreateProject,
-}: QuickStartOptions) {
+}: QuickStartChoicesProps) {
   const router = useRouter()
 
   const sessionToken = useAuthToken()
-  const { data, mutate, isSuccess } = useCreateProject()
-  const { data: organizationData, isLoading: isOrganizationDataLoading } =
-    useGetOrganization()
+  const { mutate, isSuccess } = useCreateProject({
+    onSuccess: (data) => {
+      data?.json().then((data) => {
+        router.push(`/dashboard/${data.id}/transactions`)
+      })
+    },
+  })
+  const { data: organizationData } = useGetOrganization()
   const [showStepsModal, setShowStepsModal] = useState(false)
-
-  useEffect(() => {
-    if (!data) return
-    data?.json().then((data) => {
-      router.push(`/dashboard/${data.id}/transactions`)
-    })
-  }, [data, isSuccess])
 
   const handleCreateDemoProject = () => {
     if (sessionToken) {
@@ -61,14 +61,14 @@ export default function QuickStartOptions({
         What would you like to do?
       </div>
       <div className="flex space-x-4 justify-evenly flex-col md:flex-row">
-        <QuickStart
+        <QuickStartChoice
           icon={<Demo className="h-40" />}
           title="Kickoff a demo project"
           description="Try Syndicate's API in less than 3 minutes with a demo project and smart contracts"
           onClick={() => handleCreateDemoProject()}
         />
 
-        <QuickStart
+        <QuickStartChoice
           icon={<Guides className="h-40" />}
           title="View quickstart guides"
           description="Learn how to submit transactions, add smart contracts, create wallets, and more"
@@ -79,7 +79,7 @@ export default function QuickStartOptions({
             )
           }}
         />
-        <QuickStart
+        <QuickStartChoice
           icon={<Project className="h-40" />}
           title="Create your own project"
           description="Start your own project, and use Syndicate’s full range of APIs and infrastructure services"
@@ -87,7 +87,7 @@ export default function QuickStartOptions({
         />
       </div>
       <StepsModal
-        steps={demoProjectSteps}
+        steps={steps}
         show={showStepsModal}
         onComplete={handleOnComplete}
         canComplete={isSuccess}

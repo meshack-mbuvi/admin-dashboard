@@ -3,10 +3,11 @@ import { useQuery } from "@tanstack/react-query"
 import useAuthToken from "./useAuthToken"
 
 export interface UserDataType {
-  stytchId: number
+  id: string
+  stytchId: string
   name: string
   emailAddress: string
-  role: "admin" | "viewer"
+  role: "admin" | "manager" | "viewer" | "test-user"
   status: "Active" | "Invited"
   is2FAEnabled: boolean
 }

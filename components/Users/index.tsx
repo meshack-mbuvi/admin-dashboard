@@ -17,8 +17,8 @@ import EmptyState from "../Shared/Empty"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useDeleteUserById from "@/hooks/useDeleteUser"
-import useGetUser from "@/hooks/useGetUser"
-import useGetUsers, { UserDataType } from "@/hooks/useGetUsers"
+import useGetUser, { UserDataType } from "@/hooks/useGetUser"
+import useGetUsers from "@/hooks/useGetUsers"
 import { GatewayFetchArgs, ResponseError } from "@/utils/gatewayFetch"
 
 const columnHelper = createColumnHelper<UserDataType>()

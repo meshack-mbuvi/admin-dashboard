@@ -31,6 +31,8 @@ export default function Contracts() {
     if (showAddContractModalInitial === "true") {
       setShowAddContractModal(true)
     }
+    // Only call on initial load
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const { projectId } = useParams()
   const { data: projectData } = useGetProjectById({

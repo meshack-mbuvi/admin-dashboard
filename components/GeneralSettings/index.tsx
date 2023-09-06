@@ -14,7 +14,7 @@ import useGetProjectById from "@/hooks/useGetProjectById"
 import useUpdateProjectNameMutation from "@/hooks/useUpdateProjectNameMutation"
 import CopyToClipboard from "@/components/CopyToClipboard"
 
-export default function General() {
+export default function GeneralSettings() {
   const { projectId } = useParams()
   const sessionToken = useAuthToken()
 
@@ -98,14 +98,20 @@ export default function General() {
             <div className="flex flex-col">
               <Text className="pb-3">Project ID</Text>
               <div
-                className="inline-flex items-center max-w-fit" 
-                onMouseLeave={() => setHoveredProjectId(false)} 
+                className="inline-flex items-center max-w-fit"
+                onMouseLeave={() => setHoveredProjectId(false)}
                 onMouseEnter={() => setHoveredProjectId(true)}
               >
                 <span>{projectId}</span>
                 <CopyToClipboard
                   text={projectId}
-                  className={clsx({"hidden": !hoveredProjectId, "inline-block": hoveredProjectId}, "ml-4")}
+                  className={clsx(
+                    {
+                      hidden: !hoveredProjectId,
+                      "inline-block": hoveredProjectId,
+                    },
+                    "ml-4"
+                  )}
                 />
               </div>
             </div>

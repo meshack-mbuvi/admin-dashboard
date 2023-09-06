@@ -1,16 +1,17 @@
 import { useRouter } from "next/navigation"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 
-import useAuthToken from "@/hooks/useAuthToken"
-import useCreateProject from "@/hooks/useCreateProject"
-import useGetOrganization from "@/hooks/useGetOrganization"
 import Modal from "./Modal"
-import StepsModal, { step } from "./Shared/StepsModal"
+import StepsModal from "./Shared/StepsModal"
 import { Spinner } from "./Spinner"
 import Input from "./inputs/Input"
 import NetworkDropdown from "./inputs/NetworkDropdown"
 import Select, { SelectOption } from "./inputs/Select"
 import ExternalLink from "./Shared/ExternalLink"
+
+import useAuthToken from "@/hooks/useAuthToken"
+import useCreateProject from "@/hooks/useCreateProject"
+import useGetOrganization from "@/hooks/useGetOrganization"
 
 type CreateProjectModalProps = {
   show: boolean
@@ -34,20 +35,18 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
   const { data: organizationData, isLoading: isOrganizationDataLoading } =
     useGetOrganization()
 
-  const { data, isError, mutate, isSuccess, isLoading, reset } =
-    useCreateProject()
+  const { isError, mutate, isSuccess, isLoading, reset } = useCreateProject({
+    onSuccess: (data) => {
+      data?.json().then((data) => {
+        router.push(`/dashboard/${data.id}/transactions`)
+      })
+    },
+  })
 
   const [name, setName] = useState<string>("")
   const [environment, setEnvironment] = useState<SelectOption | undefined>()
   const [network, setNetwork] = useState<number>(0)
   const [showStepsModal, setShowStepsModal] = useState(false)
-
-  useEffect(() => {
-    if (!data) return
-    data?.json().then((data) => {
-      router.push(`/dashboard/${data.id}/transactions`)
-    })
-  }, [data, isSuccess])
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
@@ -73,7 +72,11 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
     }
   }
 
-  const steps: step[] = [{ text: "Creating project" }]
+  const steps = [
+    "Creating API keys",
+    "Creating secure HSM wallets",
+    "Provisioning project",
+  ]
 
   const onComplete = () => {
     setShowStepsModal(false)

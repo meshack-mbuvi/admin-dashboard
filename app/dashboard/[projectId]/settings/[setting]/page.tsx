@@ -1,5 +1,5 @@
 import APIKeys from "@/components/APIKeys"
-import General from "@/components/General"
+import GeneralSettings from "@/components/GeneralSettings"
 import LinkTabRenderer from "@/components/LinkTabRenderer"
 
 interface SettingsProps {
@@ -14,7 +14,7 @@ export default function SettingsPage(props: SettingsProps) {
   const tabs = {
     general: {
       title: "General",
-      component: <General />,
+      component: <GeneralSettings />,
       href: `/dashboard/${projectId}/settings/general`,
     },
     apiKeys: {
