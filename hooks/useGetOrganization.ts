@@ -1,22 +1,43 @@
-import useAuthToken from "./useAuthToken";
+import useAuthToken from "./useAuthToken"
 import { useQuery } from "@tanstack/react-query"
 import gatewayFetch from "@/utils/gatewayFetch"
+import { Project } from "./useGetProjects"
+import { UserDataType } from "./useGetUser"
 
+export interface Organization {
+  organization: {
+    id: string
+    createdAt: string
+    updatedAt: string
+    deletedAt: string | null
+    name: string
+    contact: string
+    accessKeys: string[] | null
+    projects: Project[]
+    users: UserDataType[]
+    stytchId: string
+    tier: "free" | "premium"
+  }
+  stytchInformation: {
+    email_allowed_domains: string[]
+  }
+}
 
 export default function useGetOrganization() {
-    const sessionToken = useAuthToken()
+  const sessionToken = useAuthToken()
 
-    return useQuery(
-        ["get-organization"],
-        async () => {
-          const res = await gatewayFetch({
-            endpointPath: "/admin/organization",
-            sessionToken,
-          })
-    
-          const data = (await res.json())
-          return data
-        },
-        { enabled: !!sessionToken }
-      )
+  return useQuery(
+    ["get-organization"],
+    async () => {
+      const res = await gatewayFetch({
+        endpointPath: "/admin/organization",
+        sessionToken,
+      })
+
+      const data = (await res.json()) as Organization
+      return data
+    },
+    // DEV: 10 minutes cache time because this data wont change frequently but is used in many places
+    { enabled: !!sessionToken, staleTime: 10 * 60 * 1000 }
+  )
 }

@@ -20,7 +20,6 @@ module.exports = {
         success: "#30E696",
         warning: "#FFA653",
         red: "#F14D4D",
-        ultraviolet: "#627EEA",
         teal: "#01ECDE",
         gray: {
           1: "#F1F3F7",
@@ -51,7 +50,7 @@ module.exports = {
         lime: {
           ...colors.lime,
           1: "#CCFF00",
-        }
+        },
       },
       height: {
         18: "4.5rem", // 72px

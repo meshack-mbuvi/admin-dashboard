@@ -1,7 +1,8 @@
 import UserMenu from "@/components/Navigation/UserMenu"
+import FreePlanBadge from "@/components/Navigation/FreePlanBadge"
+import Breadcrumbs from "@/components/Navigation//Breadcrumbs"
 import Logo from "@/components/icons/Logo"
-import Breadcrumbs from "./Breadcrumbs"
-import Docs from "../icons/Docs"
+import Docs from "@/components/icons/Docs"
 
 export const Header = () => {
   return (
@@ -10,10 +11,12 @@ export const Header = () => {
         <Logo className="w-8" />
       </div>
 
-      <div className="flex w-full justify-between">
+      <div className="flex items-center w-full">
         <Breadcrumbs />
 
-        <div className="flex space-x-2">
+        <FreePlanBadge />
+
+        <div className="flex space-x-2 ml-auto">
           <a
             href="https://docs.syndicate.io"
             target="_blank"

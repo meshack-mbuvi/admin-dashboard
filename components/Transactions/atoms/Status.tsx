@@ -64,7 +64,7 @@ export const StatusObject: StatusObjStyles = {
     icon: <Operating className="h-[1.125rem] w-[1.125rem]" />,
     info: "In Progress",
     styleClasses:
-      "text-ultraviolet border-ultraviolet/[.12] bg-ultraviolet/[.12]",
+      "text-blue-secondary border-blue-secondary/[.12] bg-blue-secondary/[.12]",
   },
   Succeeded: {
     icon: <Check className="h-3.5 w-3.5" />,
