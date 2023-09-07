@@ -1,18 +1,17 @@
 "use client"
 
 import { useParams } from "next/navigation"
-import { useMemo } from "react"
+import clsx from "clsx"
+import Link from "next/link"
 
 import Section from "@/components/Section"
 import Text from "@/components/Text"
+import { DarkButtonStyles } from "@/components/Buttons"
+import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
+import NetworkWallets from "./NetworkWallets"
 
 import useGetProjectWallets, { Wallets } from "@/hooks/useGetProjectWallets"
 import { NetworkId } from "@/utils/getNetwork"
-import clsx from "clsx"
-import Link from "next/link"
-import { DarkButtonStyles } from "../Buttons"
-import ArrowUpperRight from "../icons/ArrowUpperRight"
-import ProjectWallets from "./projectWallets"
 
 export default function Wallets() {
   const { projectId } = useParams()
@@ -20,24 +19,19 @@ export default function Wallets() {
     projectId,
   })
 
-  const networkWallets = useMemo(() => {
-    const networkWallets: { [key: number]: Wallets[] } = {}
-
-    wallets?.forEach((wallet) => {
-      if (!networkWallets[wallet.chainId]) {
-        networkWallets[wallet.chainId] = []
-      }
-      networkWallets[wallet.chainId].push(wallet)
-    })
-
-    return networkWallets
-  }, [wallets])
+  const networkWallets = wallets?.reduce((acc, wallet) => {
+    if (!acc[wallet.chainId]) {
+      acc[wallet.chainId] = []
+    }
+    acc[wallet.chainId].push(wallet)
+    return acc
+  }, {} as { [key: number]: Wallets[] })
 
   return (
     <Section className="flex flex-col p-10 rounded-lg mr-10">
       <Text className="text-2xl pb-2">Secure Transaction Wallets</Text>
       <div className="flex flex-row pb-7 items-baseline justify-between">
-        <p className="font-small text-gray-4 text-sm pr-2">
+        <p className="font-small text-gray-4 text-sm pr-2 max-w-prose">
           These wallets will be used to perform programmatic actions on your
           contract. Please add them as an allowed operator.
         </p>
@@ -47,7 +41,7 @@ export default function Wallets() {
           target="_blank"
           className={clsx(
             DarkButtonStyles,
-            "border-yellow-secondary flex items-baseline"
+            "border-yellow-secondary flex items-baseline shrink-0"
           )}
         >
           View Guide
@@ -55,17 +49,20 @@ export default function Wallets() {
         </Link>
       </div>
 
-      <div>
-        {Object.keys(networkWallets).map((key, index) => {
-          return (
-            <ProjectWallets
-              key={index}
-              networkId={+key as NetworkId}
-              wallets={networkWallets[+key] || []}
-            />
-          )
-        })}
-      </div>
+      {networkWallets && (
+        <div>
+          {Object.keys(networkWallets).map((key, index) => {
+            const chainId = +key as NetworkId
+            return (
+              <NetworkWallets
+                key={index}
+                networkId={chainId}
+                wallets={networkWallets[chainId]}
+              />
+            )
+          })}
+        </div>
+      )}
     </Section>
   )
 }
