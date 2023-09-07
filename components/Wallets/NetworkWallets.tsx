@@ -13,17 +13,17 @@ import DisclosureComponent from "../Shared/Disclosure"
 import Hex from "../Shared/Hex"
 import ResourceID from "@/components/Shared/ResourceID"
 
-interface ProjectWalletsProps {
+interface NetworkWalletsProps {
   networkId: NetworkId
   wallets: Wallets[]
 }
 
 const columnHelper = createColumnHelper<Wallets>()
 
-export default function ProjectWallets({
+export default function NetworkWallets({
   networkId,
   wallets,
-}: ProjectWalletsProps) {
+}: NetworkWalletsProps) {
   const columns = [
     columnHelper.accessor("walletAddress", {
       size: 500,
