@@ -28,8 +28,7 @@ const DuplicationStatusText = "User already added"
 
 const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
   const sessionToken = useAuthToken()
-  const { isError, isLoading, isSuccess, mutate, error, reset } =
-    useCreateUser()
+  const { isError, isLoading, isSuccess, mutate, error } = useCreateUser()
   const { data: organizationData } = useGetOrganization()
 
   const allowedDomains = useMemo(() => {
@@ -62,7 +61,6 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
         method: "POST",
         sessionToken,
         endpointPath: "/admin/user",
-        // Set Role to "admin" for now
         body: JSON.stringify({
           ...values,
           roleTitle: "admin",
