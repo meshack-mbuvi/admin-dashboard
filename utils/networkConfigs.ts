@@ -1,4 +1,10 @@
-import { goerli, mainnet, polygon, polygonMumbai } from "viem/chains"
+import {
+  goerli,
+  mainnet,
+  polygon,
+  polygonMumbai,
+  polygonZkEvmTestnet,
+} from "viem/chains"
 
 export function getNetworkConfig(networkId: string) {
   switch (networkId) {
@@ -18,6 +24,12 @@ export function getNetworkConfig(networkId: string) {
       return {
         chain: polygon,
         rpcUrl: process.env.NEXT_PUBLIC_ALCHEMY_POLYGON_URL,
+      }
+
+    case "1442":
+      return {
+        chain: polygonZkEvmTestnet,
+        rpcUrl: process.env.NEXT_PUBLIC_ALCHEMY_ZKEVM_TESTNET_URL,
       }
 
     case "80001":
