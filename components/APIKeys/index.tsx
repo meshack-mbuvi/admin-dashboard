@@ -142,7 +142,7 @@ export default function APIKeys() {
 
   return (
     <div>
-      <div className="flex flex-col p-10 border-1 bg-gray-8 rounded-lg mb-10 mr-10">
+      <div className="flex flex-col p-10 border border-gray-8 bg-gray-9 rounded-2lg mb-10 mr-10">
         <div className="flex justify-between">
           <Text className="font-medium text-2xl pb-5">Secret keys</Text>
           <Button
@@ -188,12 +188,10 @@ export default function APIKeys() {
                 >
                   <div className="col-span-2 lg:grid grid-cols-2 gap-x-8 items-center">
                     <BlurredView>
-                      <div className="flex">
-                        <Text className="font-mono">{AccessKey?.key}</Text>
-                        <CopyToClipboard
-                          text={AccessKey?.key}
-                          className="ml-auto"
-                        />
+                      <div className="flex space-x-4 justify-between">
+                        <span className=""></span>
+                        <Text className="font-mono grow">{AccessKey?.key}</Text>
+                        <CopyToClipboard text={AccessKey?.key} />
                       </div>
                     </BlurredView>
 
