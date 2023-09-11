@@ -10,6 +10,8 @@ export const getNetworkIcon = (networkId: number, className?: string) => {
       return <Ethereum className={className} />
     // Polygon Mainnet
     case 137:
+    // Polygon zkEVM Testnet
+    case 1442:
     // Polygon Mumbai
     case 80001:
       return <Polygon className={className} />

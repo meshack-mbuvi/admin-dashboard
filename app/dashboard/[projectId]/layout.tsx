@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation"
 
-import Sidebar from "@/components/Navigation/Sidebar"
+import TopBarNav from "@/components/Navigation/TopBarNav"
 import gatewayFetch from "@/utils/gatewayFetch"
 import getAuthToken from "@/utils/getAuthToken"
 
@@ -56,9 +56,9 @@ export default async function ProjectLayout(props: ProjectLayoutProps) {
   }
 
   return (
-    <>
-      <Sidebar />
+    <div className="flex flex-col space-y-10">
+      <TopBarNav />
       {children}
-    </>
+    </div>
   )
 }

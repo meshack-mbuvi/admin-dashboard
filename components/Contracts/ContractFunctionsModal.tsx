@@ -1,13 +1,13 @@
 import Modal from "@/components/Modal"
 import { formatAddress } from "@/utils/formatAddress"
-import { iFunctionSignature } from "@/hooks/useGetProjectById"
+import { IFunctionSignature } from "@/hooks/useGetProjectById"
 
 interface ContractFunctionsModalProps {
   show: boolean
   closeModal: () => void
   contractAddress: string
   contractName: string
-  allowedFunctions: iFunctionSignature[]
+  allowedFunctions: IFunctionSignature[]
 }
 export default function ContractFunctionsModal(
   props: ContractFunctionsModalProps

@@ -11,39 +11,74 @@ import Table from "@/components/Shared/Table"
 import EmptyState from "@/components/Shared/Empty"
 import TransactionPagination from "@/components/Transactions/atoms/Pagination"
 import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
+import Text from "@/components/Text"
+import ResourceID from "@/components/Shared/ResourceID"
 
 import useGetRequests, { RequestsDataType } from "@/hooks/useGetRequests"
-import Text from "../Text"
+import TransactionRequestModal from "./TransactionRequestModal"
+import FunctionSignature from "./atoms/FunctionSignature"
 
 const columnHelper = createColumnHelper<RequestsDataType>()
-
-const columns = [
-  columnHelper.accessor("transactionId", {
-    header: () => "Request ID",
-    cell: (info) => (
-      <span className="text-white font-mono">{info.getValue()}</span>
-    ),
-  }),
-  columnHelper.accessor("chainId", {
-    header: () => <span>Chain ID</span>,
-    cell: (info) => <Text className="text-gray-3">{info.getValue()}</Text>,
-  }),
-  columnHelper.accessor("updatedAt", {
-    header: () => <span>Request Age</span>,
-    cell: (info) => (
-      <TransactionTimeStamp
-        timeStamp={info.getValue()}
-        transactionId={info.row.original.transactionId}
-      />
-    ),
-  }),
-]
 
 export default function FailedRequests() {
   const [page, setPage] = useState<number>(0)
   const [limit] = useState<number>(20)
 
+  const [showModal, setShowModal] = useState(false)
+  const [selectedRequest, setSelectedRequest] =
+    useState<RequestsDataType | null>(null)
+
   const { projectId } = useParams()
+
+  const columns = [
+    columnHelper.accessor("transactionId", {
+      size: 300,
+      header: () => "Request ID",
+      cell: (info) => (
+        <span className="text-white font-mono">
+          <ResourceID ID={info.getValue()} fullView={true} />
+        </span>
+      ),
+    }),
+    columnHelper.accessor("functionSignature", {
+      header: () => "Function",
+      cell: (info) => (
+        <FunctionSignature
+          requestId={info.row.original.transactionId}
+          functionSignature={info.getValue()}
+        />
+      ),
+    }),
+    columnHelper.accessor("data", {
+      header: () => "Request Details",
+      cell: (info) => (
+        <span className="text-gray-4">
+          <button
+            className="text-blue-1"
+            onClick={() => {
+              setSelectedRequest(info.row.original)
+              setShowModal(true)
+            }}
+          >
+            view
+          </button>
+        </span>
+      ),
+    }),
+    columnHelper.accessor("chainId", {
+      header: () => <span>Chain ID</span>,
+      cell: (info) => <Text className="text-gray-3">{info.getValue()}</Text>,
+    }),
+    columnHelper.accessor("updatedAt", {
+      header: () => <span>Request Age</span>,
+      cell: (info) => (
+        <TransactionTimeStamp
+          timeStamp={info.getValue()}
+          transactionId={info.row.original.transactionId}
+        />
+      ),
+    }),
+  ]
 
   const {
     isLoading,
@@ -81,19 +116,31 @@ export default function FailedRequests() {
           </div>
         ))
       ) : !isLoading && requestsResp?.total ? (
-        <div className="flex flex-col items-center">
-          <Table tableConfig={table} />
-          <TransactionPagination
-            page={page}
-            limit={limit}
-            total={requestsResp.total}
-            onPageChange={onPageChange}
-            isLoading={isFetching || isPreviousData}
-          />
-        </div>
+        <>
+          <div className="flex flex-col items-center">
+            <Table tableConfig={table} />
+            <TransactionPagination
+              page={page}
+              limit={limit}
+              total={requestsResp.total}
+              onPageChange={onPageChange}
+              isLoading={isFetching || isPreviousData}
+            />
+          </div>
+        </>
       ) : (
         <EmptyState heading="No failed requests" description={""} />
       )}
+
+      <TransactionRequestModal
+        showModal={showModal}
+        onCloseModal={() => setShowModal(false)}
+        chainId={selectedRequest?.chainId}
+        contractAddress={selectedRequest?.contractAddress}
+        functionSignature={selectedRequest?.functionSignature}
+        calldata={selectedRequest?.data}
+        value={selectedRequest?.value}
+      />
     </div>
   )
 }

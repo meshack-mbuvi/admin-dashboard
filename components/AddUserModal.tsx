@@ -1,12 +1,14 @@
+import Form from "@/components/Form"
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateUser from "@/hooks/useCreateUser"
 import useGetOrganization from "@/hooks/useGetOrganization"
-import { ResponseError } from "@/utils/gatewayFetch"
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useMemo } from "react"
 import { useDebouncedCallback } from "use-debounce"
-import Input from "./inputs/Input"
+import Submit from "./Form/Submit"
+import TextInput from "./Form/TextInput"
 import Modal from "./Modal"
 import { Spinner } from "./Spinner"
+import FailureIcon from "./icons/failureIcon"
 import SuccessCheckMark from "./icons/successCheckMark"
 
 type AddUserModalProps = {
@@ -14,97 +16,53 @@ type AddUserModalProps = {
   onClose: () => void
 }
 
+type NewUserInfo = {
+  email: string
+  name: string
+}
+
 const PendingStatusText = "Inviting user"
 const SuccessStatusText = "User invitation sent"
+const FailedStatusText = "User invitation failed"
+const DuplicationStatusText = "User already added"
 
 const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
   const sessionToken = useAuthToken()
-  const { isError, isSuccess, mutate, error, reset } = useCreateUser()
+  const { isError, isLoading, isSuccess, mutate, error } = useCreateUser()
   const { data: organizationData } = useGetOrganization()
-  const [isSubmitting, setIsSubmitting] = useState(false)
-
-  const [name, setName] = useState<string>("")
-  const [email, setEmail] = useState<string>("")
-  const [nameErrorMessage, setNameErrorMessage] = useState<string>("")
-  const [emailErrorMessage, setEmailErrorMessage] = useState<string>("")
 
   const allowedDomains = useMemo(() => {
     if (!organizationData) return []
     return organizationData.stytchInformation.email_allowed_domains
   }, [organizationData])
 
-  useEffect(() => {
-    let _statusText = ""
-    if (isError && error.status === 409) {
-      _statusText = "User already exists"
-    }
-    setEmailErrorMessage(_statusText)
-    setIsSubmitting(false)
-  }, [isError, error, isSuccess, email, name])
+  const handleValidation = (value: string) => {
+    const [_, domain] = value.split("@")
 
-  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    reset()
-    setEmailErrorMessage("")
-    const { value } = e.target
-    setName(value)
-    debouncedHandleValidation()
-  }
+    if (!domain) return "Please enter a valid email address"
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    reset()
-    const { value } = e.target
-    setEmail(value)
-    debouncedHandleValidation()
-  }
+    const isValidDomain = allowedDomains.indexOf(domain.toLowerCase()) > -1
 
-  const handleValidation = () => {
-    setNameErrorMessage("")
-    setEmailErrorMessage("")
+    if (isValidDomain) return
 
-    if (!email) return
-
-    const [_, domain] = email.split("@")
-    let _nameErrorMessage = ""
-    let _emailErrorMessage = ""
-
-    if (!organizationData) {
-      _emailErrorMessage = "Organization domains not loaded"
-    } else if (!name) {
-      _nameErrorMessage = "Please enter a name"
-    } else if (!domain) {
-      _emailErrorMessage = "Please enter a valid email"
-    } else {
-      const isValidDomain = allowedDomains.indexOf(domain.toLowerCase()) > -1
-
-      if (isValidDomain) {
-        _emailErrorMessage = ""
-      } else {
-        _emailErrorMessage = `Please enter a valid email address from the following domain(s): ${allowedDomains.join(
-          ", "
-        )}`
-      }
-    }
-
-    setNameErrorMessage(_nameErrorMessage)
-    setEmailErrorMessage(_emailErrorMessage)
+    return `Please enter a valid email address from the following domain(s): ${allowedDomains.join(
+      ", "
+    )}`
   }
 
   const debouncedHandleValidation = useDebouncedCallback(
-    () => handleValidation(),
+    (value) => handleValidation(value),
     300
   )
 
-  const handleRequest = () => {
+  const onSubmit = (values: NewUserInfo) => {
     if (sessionToken) {
-      setIsSubmitting(true)
       mutate({
         method: "POST",
         sessionToken,
         endpointPath: "/admin/user",
-        // Set Role to "admin" for now
         body: JSON.stringify({
-          email: email,
-          name: name,
+          ...values,
           roleTitle: "admin",
         }),
       })
@@ -117,66 +75,59 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
         show={show}
         outsideOnClick={true}
         closeModal={() => {
-          setName("")
-          setEmail("")
           onClose()
         }}
       >
-        <div className="flex flex-col justify-center items-left bg-gray-8 my-4">
-          <p className="font-sans font-medium text-2xl text-gray-1 mb-7">
-            Invite User
-          </p>
-          <div className="flex flex-col justify-center items-left mb-7">
-            <p className="font-sans font-medium text-white text-sm mb-2 bg-dark">
-              Name
+        <Form onSubmit={onSubmit}>
+          <div className="flex flex-col space-y-8 justify-center items-left bg-gray-8 my-4">
+            <p className="font-sans font-medium text-2xl text-gray-1 mb-7">
+              Invite User
             </p>
-            <Input
+
+            <TextInput
+              label="Name"
+              name="name"
               placeholder="Example Person"
-              value={name}
-              onChange={(e) => handleNameChange(e)}
+              validate={{
+                required: "Please enter a name",
+              }}
             />
-            {nameErrorMessage && (
-              <p className="font-sans font-medium text-red text-sm mt-2 mb-7">
-                {nameErrorMessage}
-              </p>
+
+            <TextInput
+              label="Email Address"
+              type="email"
+              name="email"
+              placeholder="example@example.com"
+              validate={{
+                required: "Email address is required",
+                validate: { debouncedHandleValidation },
+              }}
+            />
+
+            {isLoading ? (
+              <div className="flex w-full align-middle justify-center">
+                <Spinner className="h-6 w-6 text-blue-neptune" />
+                <span className="ml-4">{PendingStatusText}</span>
+              </div>
+            ) : isSuccess ? (
+              <div className="flex align-middle justify-center">
+                <SuccessCheckMark className="h-6 w-6 text-green" />
+                <span className="ml-4 text-green">{SuccessStatusText}</span>
+              </div>
+            ) : isError ? (
+              <div className="flex align-middle justify-center">
+                <FailureIcon className="h-6 w-6 text-red" />
+                <span className="ml-4 text-red">
+                  {error?.status === 409
+                    ? DuplicationStatusText
+                    : FailedStatusText}
+                </span>
+              </div>
+            ) : (
+              <Submit>Invite to organization</Submit>
             )}
           </div>
-          <div className="flex flex-col justify-center items-left">
-            <p className="font-sans font-medium  text-white text-sm mb-2">
-              Email Address
-            </p>
-            <Input
-              placeholder="example@example.com"
-              onChange={(e) => handleEmailChange(e)}
-            />
-            <p className="font-sans font-medium text-red text-sm mt-2 mb-7">
-              {emailErrorMessage}
-            </p>
-          </div>
-          {isSubmitting ? (
-            <div className="flex w-full align-middle justify-center">
-              <span className="mr-4">{PendingStatusText}</span>
-              <Spinner className="h-6 w-6 text-blue-neptune" />
-            </div>
-          ) : isSuccess ? (
-            <div className="flex align-middle justify-center">
-              <span className="mr-4 text-green">{SuccessStatusText}</span>
-              <SuccessCheckMark className="h-6 w-6 text-green" />
-            </div>
-          ) : (
-            <input
-              type="button"
-              disabled={
-                !!nameErrorMessage || !!emailErrorMessage || !name || !email
-              }
-              onClick={() => {
-                handleRequest()
-              }}
-              className="text-black font-sans disabled:bg-opacity-60 disabled:cursor-not-allowed font-medium bg-white rounded-lg px-8 py-3.5"
-              value="Invite to organization"
-            />
-          )}
-        </div>
+        </Form>
       </Modal>
     </>
   )

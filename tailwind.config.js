@@ -20,7 +20,6 @@ module.exports = {
         success: "#30E696",
         warning: "#FFA653",
         red: "#F14D4D",
-        ultraviolet: "#627EEA",
         teal: "#01ECDE",
         gray: {
           1: "#F1F3F7",
@@ -37,10 +36,20 @@ module.exports = {
           1: "#A4DEFF",
           2: "#1FBBEC",
           neptune: "#4376FF",
+          nasa: "#183AE9",
+          secondary: "#5551FF",
         },
         green: {
           ...colors.green,
           DEFAULT: "#30E696",
+        },
+        yellow: {
+          ...colors.yellow,
+          secondary: "#FFD252",
+        },
+        lime: {
+          ...colors.lime,
+          1: "#CCFF00",
         },
       },
       height: {
@@ -48,6 +57,7 @@ module.exports = {
       },
       width: {
         13: "3.25rem", // 52px
+        88: "22rem", // 352px
       },
       borderRadius: {
         "2lg": "0.625rem", // 10px

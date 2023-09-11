@@ -1,23 +1,28 @@
 "use client"
+import clsx from "clsx"
 import { useParams, useSearchParams } from "next/navigation"
+import Link from "next/link"
 import { useEffect, useMemo, useState } from "react"
 
 import AddContractModal from "@/components/Contracts/AddContractModal"
 import ProjectContracts from "@/components/Contracts/ProjectContracts"
-import StatusModal, { RequestStatus } from "@/components/StatusModal"
-import { NetworkId } from "@/utils/getNetwork"
+import { DarkButtonStyles } from "@/components/Buttons"
+import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
+
 import useGetProjectById from "@/hooks/useGetProjectById"
-import useDeleteContract from "@/hooks/useDeleteContract"
-import useAuthToken from "@/hooks/useAuthToken"
 import { QueryParams } from "@/types/queryParams"
+import { NetworkId } from "@/utils/getNetwork"
 import CreateContractButton from "../Buttons/CreateContractButton"
+import Section from "../Section"
 import EmptyState from "../Shared/Empty"
 
 export default function Contracts() {
   const [showAddContractModal, setShowAddContractModal] =
     useState<boolean>(false)
   const search = useSearchParams()
-  const showAddContractModalInitial = search.get(QueryParams.ShowNewContractModal)
+  const showAddContractModalInitial = search.get(
+    QueryParams.ShowNewContractModal
+  )
 
   // HACK: show animation on intial load
   // issue below for a better fix using `appear` on the modal Transition
@@ -26,11 +31,10 @@ export default function Contracts() {
     if (showAddContractModalInitial === "true") {
       setShowAddContractModal(true)
     }
+    // Only call on initial load
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
-  const [showStatusModal, setShowStatusModal] = useState<boolean>(false)
   const { projectId } = useParams()
-  const sessionToken = useAuthToken()
-  const { mutate, reset, isLoading, isSuccess, isError } = useDeleteContract()
   const { data: projectData } = useGetProjectById({
     projectId,
   })
@@ -46,23 +50,11 @@ export default function Contracts() {
     return networkContracts
   }, [projectData?.contracts])
 
-  const handleDeleteContract = (contractId: string) => {
-    const confirm = window.confirm("Are you sure you want to delete contract?")
-    if (confirm && sessionToken) {
-      setShowStatusModal(true)
-      mutate({
-        sessionToken,
-        method: "DELETE",
-        endpointPath: `/admin/project/${projectId}/contract/${contractId}`,
-      })
-    }
-  }
-
   return (
-    <div className="w-full">
-      <div className="flex justify-between items-center pl-7">
-        <div className="text-2xl">Contracts</div>
-        <CreateContractButton onClick={() => setShowAddContractModal(true)}/>
+    <Section className="flex flex-col font-sans p-7 rounded-lg mr-10">
+      <div className="flex justify-between items-center">
+        <div className="text-2xl pl-7">Contracts</div>
+        <CreateContractButton onClick={() => setShowAddContractModal(true)} />
       </div>
       <div className="text-sm text-gray-3 pl-7">
         {!Object.keys(NetworkContracts).length ? (
@@ -78,9 +70,24 @@ export default function Contracts() {
         <EmptyState
           heading={"No contracts yet"}
           description={
-            <span>
-              {"When contracts are added to your project, they'll appear here"}
-            </span>
+            <>
+              <span>
+                When contracts are added to your project, they&apos;ll appear
+                here
+              </span>
+              <Link
+                // TODO: ADD URL here
+                href="https://docs.syndicate.io"
+                target="_blank"
+                className={clsx(
+                  DarkButtonStyles,
+                  "border-yellow-secondary flex items-baseline text-white mx-auto mt-8"
+                )}
+              >
+                View Guide
+                <ArrowUpperRight className="h-4 w-4 ml-2" />
+              </Link>
+            </>
           }
         />
       ) : (
@@ -91,7 +98,6 @@ export default function Contracts() {
                 key={index}
                 networkId={+key as NetworkId}
                 contracts={NetworkContracts[key]}
-                handleDeleteContract={handleDeleteContract}
               />
             )
           })}
@@ -101,30 +107,6 @@ export default function Contracts() {
         show={showAddContractModal}
         closeModal={() => setShowAddContractModal(false)}
       />
-      <StatusModal
-        show={showStatusModal}
-        closeModal={() => {
-          reset()
-          setShowStatusModal(false)
-        }}
-        status={
-          isLoading
-            ? RequestStatus.PENDING
-            : isSuccess
-            ? RequestStatus.SUCCESS
-            : isError
-            ? RequestStatus.FAILURE
-            : RequestStatus.PENDING
-        }
-      >
-        {isLoading
-          ? "Deleting contract..."
-          : isSuccess
-          ? "Contract deleted"
-          : isError
-          ? "Error deleting contract"
-          : ""}
-      </StatusModal>
-    </div>
+    </Section>
   )
 }

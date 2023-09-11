@@ -1,13 +1,28 @@
 import { MouseEvent, useEffect, useState } from "react"
-import { Tooltip } from "react-tooltip"
+import { PlacesType, Tooltip } from "react-tooltip"
 
 import Clipboard from "@/components/icons/Clipboard"
 
-export default function CopyToClipboard(props: {
+export interface CopyToClipboardProps {
   text: string
+  children?: React.ReactNode
   className?: string
-}) {
-  const { text, className } = props
+  tooltipCopyText?: string
+  tooltipCopiedText?: string
+  tooltipPosition?: PlacesType
+  copyId?: string
+}
+
+export default function CopyToClipboard(props: CopyToClipboardProps) {
+  const {
+    text,
+    children,
+    className,
+    tooltipCopyText,
+    tooltipCopiedText,
+    tooltipPosition,
+    copyId = text.substring(0, 6), // default to first 6 characters of text
+  } = props
 
   const [copied, setCopied] = useState<boolean>(false)
 
@@ -35,14 +50,16 @@ export default function CopyToClipboard(props: {
     <span className={className}>
       <button className="relative flex align-center py-1" onClick={copyContent}>
         <span
-          data-tooltip-id="copy"
-          data-tooltip-content={copied ? "Copied" : ""}
-          data-tooltip-place="top"
+          data-tooltip-id={"copy-" + copyId}
+          data-tooltip-content={
+            copied ? tooltipCopiedText || "Copied" : tooltipCopyText
+          }
+          data-tooltip-place={tooltipPosition || "top"}
         >
-          <Clipboard className="cursor-pointer w-4" />
+          {children ? children : <Clipboard className="cursor-pointer w-4" />}
         </span>
       </button>
-      <Tooltip id="copy" />
+      <Tooltip id={"copy-" + copyId} />
     </span>
   )
 }

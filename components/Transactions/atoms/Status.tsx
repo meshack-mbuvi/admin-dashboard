@@ -20,6 +20,31 @@ export enum RawStatusEnum {
   "CONFIRMED" = "CONFIRMED",
 }
 
+export function getRawStatusFromStatus(status: StatusEnum) {
+  if (status === StatusEnum.Failed) {
+    return null
+  } else if (status === StatusEnum.InProgress) {
+    return RawStatusEnum.PENDING
+  } else if (status === StatusEnum.Succeeded) {
+    return RawStatusEnum.SUBMITTED
+  } else if (status === StatusEnum.Finalized) {
+    return RawStatusEnum.CONFIRMED
+  }
+}
+
+export function getStatusLabel(status: StatusEnum) {
+  switch (status) {
+    case StatusEnum.Failed:
+      return "Reverted"
+    case StatusEnum.InProgress:
+      return "Pending"
+    case StatusEnum.Succeeded:
+      return "Submitted"
+    case StatusEnum.Finalized:
+      return "Confirmed"
+  }
+}
+
 interface StatusObjStyles {
   [key: string]: {
     icon: JSX.Element
@@ -39,7 +64,7 @@ export const StatusObject: StatusObjStyles = {
     icon: <Operating className="h-[1.125rem] w-[1.125rem]" />,
     info: "In Progress",
     styleClasses:
-      "text-ultraviolet border-ultraviolet/[.12] bg-ultraviolet/[.12]",
+      "text-blue-secondary border-blue-secondary/[.12] bg-blue-secondary/[.12]",
   },
   Succeeded: {
     icon: <Check className="h-3.5 w-3.5" />,

@@ -4,36 +4,55 @@ import clsx from "clsx"
 import { useState } from "react"
 
 import AddUserModal from "@/components/AddUserModal"
-import CreateProjectModal from "@/components/CreateProjectModal"
 import Button, { LightButtonStyles } from "@/components/Buttons"
+import CreateProjectModal from "@/components/CreateProjectModal"
 import Projects from "@/components/Projects"
+import UpgradeRequiredModal from "@/components/Shared/UpgradeRequiredModal"
 import { Tab } from "@/components/Tab"
 import Users from "@/components/Users"
 import Add from "@/components/icons/Add"
+import useGetProjects from "@/hooks/useGetProjects"
+import useTestUser from "@/hooks/useTestUser"
 
 export default function Dashboard() {
   const tabHeaders = ["Projects", "People"]
   const tabButtonText = ["Create project", "Invite user"]
 
-  const tabComponents: {
-    [key: string]: JSX.Element
-  } = {
-    Projects: <Projects />,
-    People: <Users />,
-  }
-
   const [activeTabIndex, setActiveTabIndex] = useState(0)
   const [showAddUserModal, setShowAddUserModal] = useState(false)
   const [showCreateProjectModal, setShowCreateProjectModal] = useState(false)
+  const [showLimitedAccessModal, setShowLimitedAccessModal] = useState(false)
+  const isTestUser = useTestUser()
+  const { data } = useGetProjects()
+
+  const tabComponents: {
+    [key: string]: JSX.Element
+  } = {
+    Projects: <Projects onCreateProject={setShowCreateProjectModal} />,
+    People: <Users />,
+  }
 
   const tabButtonHandler = [
-    () => setShowCreateProjectModal(true),
-    () => setShowAddUserModal(true),
+    () => {
+      // DEV: we only show upgrade modal for a test user who has at least one project
+      if (isTestUser && data?.length) {
+        setShowLimitedAccessModal(true)
+        return
+      }
+      setShowCreateProjectModal(true)
+    },
+    () => {
+      if (isTestUser && data?.length) {
+        setShowLimitedAccessModal(true)
+        return
+      }
+      setShowAddUserModal(true)
+    },
   ]
 
   return (
     <div className="flex flex-col">
-      <div className="flex ml-2 justify-between">
+      <div className="flex justify-between">
         <Tab
           headers={tabHeaders}
           activeIndex={activeTabIndex}
@@ -55,6 +74,11 @@ export default function Dashboard() {
         <CreateProjectModal
           show={showCreateProjectModal}
           onClose={() => setShowCreateProjectModal(false)}
+        />
+
+        <UpgradeRequiredModal
+          show={showLimitedAccessModal}
+          handleClose={() => setShowLimitedAccessModal(false)}
         />
       </div>
       <div className="ml-2">{tabComponents[tabHeaders[activeTabIndex]]}</div>

@@ -1,98 +1,68 @@
 "use client"
 
-import { useState } from "react"
 import { useParams } from "next/navigation"
+import clsx from "clsx"
+import Link from "next/link"
 
-import Text from "@/components/Text"
 import Section from "@/components/Section"
-import RightArrow from "@/components/icons/RightArrow"
-import CopyToClipboard from "@/components/CopyToClipboard"
-import Loading from "@/components/Loading"
+import Text from "@/components/Text"
+import { DarkButtonStyles } from "@/components/Buttons"
+import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
+import NetworkWallets from "./NetworkWallets"
 
-import useGetProjectWallets from "@/hooks/useGetProjectWallets"
+import useGetProjectWallets, { Wallets } from "@/hooks/useGetProjectWallets"
+import { NetworkId } from "@/utils/getNetwork"
 
 export default function Wallets() {
-  const [hoveredWalletAddress, setHoveredWalletAddress] = useState<
-    string | null
-  >(null)
-
   const { projectId } = useParams()
-  const { data: wallets, isLoading } = useGetProjectWallets({
+  const { data: wallets } = useGetProjectWallets({
     projectId,
   })
 
+  const networkWallets = wallets?.reduce((acc, wallet) => {
+    if (!acc[wallet.chainId]) {
+      acc[wallet.chainId] = []
+    }
+    acc[wallet.chainId].push(wallet)
+    return acc
+  }, {} as { [key: number]: Wallets[] })
+
   return (
-    <Section className="flex flex-col font-sans p-10 rounded-lg mr-10">
-      <Text className="font-medium text-2xl pb-2">Wallets</Text>
-      <div className="flex flex-row pb-7">
-        <p className="font-small text-gray-4 text-sm pr-2">
-          These wallets will be used to perform actions on your contract. Please
-          add them as an allowed operator.
+    <Section className="flex flex-col p-10 rounded-lg mr-10">
+      <Text className="text-2xl pb-2">Secure Transaction Wallets</Text>
+      <div className="flex flex-row pb-7 items-baseline justify-between">
+        <p className="font-small text-gray-4 text-sm pr-2 max-w-prose">
+          These wallets will be used to perform programmatic actions on your
+          contract. Please add them as an allowed operator.
         </p>
-      </div>
-
-      <div className="flex flex-col">
-        {wallets && wallets.length > 0 && (
-          <div className="flex w-full space-x-48 mb-5">
-            <div className="flex flex-col w-1/3">
-              <p className="text-gray-3 text-sm">Address</p>
-            </div>
-          </div>
-        )}
-
-        <div className="w-full flex-col flex py-3">
-          {isLoading ? (
-            [...Array(3)].map((_, i) => (
-              <div className="flex space-x-48 py-3" key={i}>
-                <Loading className="w-1/3 h-4" />
-                <Loading className="w-32 h-4" />
-              </div>
-            ))
-          ) : wallets && wallets.length > 0 ? (
-            wallets.map(({ walletId, walletAddress }) => {
-              return (
-                <div
-                  key={walletId}
-                  className="flex space-x-48 border-b last:border-none border-gray-7"
-                >
-                  <div className="flex w-1/3">
-                    <p
-                      key={walletId}
-                      className="flex font-mono space-x-4 text-base py-3"
-                      onMouseEnter={() =>
-                        setHoveredWalletAddress(walletAddress)
-                      }
-                      onMouseLeave={() => setHoveredWalletAddress(null)}
-                    >
-                      <span className="text-gray-3">0x</span>
-                      {walletAddress.substring(2)}
-                      {hoveredWalletAddress === walletAddress && (
-                        <CopyToClipboard
-                          text={walletAddress}
-                          className="ml-4"
-                        />
-                      )}
-                    </p>
-                  </div>
-                </div>
-              )
-            })
-          ) : (
-            <p className="text-lg pb-5">
-              There are currently no wallets for this project
-            </p>
+        <Link
+          // TODO: ADD URL here
+          href="https://docs.syndicate.io/"
+          target="_blank"
+          className={clsx(
+            DarkButtonStyles,
+            "border-yellow-secondary flex items-baseline shrink-0"
           )}
-        </div>
-      </div>
-      <div className="flex flex-row items-center mt-8 text-blue-1">
-        <a
-          href="mailto:support@syndicate.io"
-          className="font-medium text-normal pr-1"
         >
-          Need more wallets? Contact us
-        </a>
-        <RightArrow className="w-4 h-3" />
+          View Guide
+          <ArrowUpperRight className="h-4 w-4 ml-2" />
+        </Link>
       </div>
+
+      {networkWallets && (
+        <div>
+          {Object.keys(networkWallets).map((key, index) => {
+            const chainId = +key as NetworkId
+            return (
+              <NetworkWallets
+                key={index}
+                networkId={chainId}
+                wallets={networkWallets[chainId]}
+              />
+            )
+          })}
+        </div>
+      )}
     </Section>
   )
 }

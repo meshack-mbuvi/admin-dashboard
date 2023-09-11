@@ -1,5 +1,6 @@
 "use client"
 
+import clsx from "clsx"
 import Link from "next/link"
 import { useParams, useSelectedLayoutSegment } from "next/navigation"
 
@@ -7,9 +8,10 @@ interface NavLinkProps {
   path: string
   page: string | null
   children: React.ReactNode
+  className?: string
 }
 const NavLink = (props: NavLinkProps) => {
-  const { path, page, children } = props
+  const { path, page, children, className } = props
   const { projectId } = useParams()
 
   const segment = useSelectedLayoutSegment()
@@ -23,7 +25,12 @@ const NavLink = (props: NavLinkProps) => {
       href={{
         pathname: `/dashboard/${projectId}/${path}`,
       }}
-      className={isActive() ? "" : "opacity-40"}
+      className={clsx(
+        className,
+        isActive()
+          ? "bg-white text-black"
+          : "text-gray-3 hover:bg-gray-8"
+      )}
     >
       {children}
     </Link>

@@ -4,23 +4,24 @@ import clsx from "clsx"
 import { useParams } from "next/navigation"
 import { useMemo, useState } from "react"
 
-import Add from "@/components/icons/Add"
+import Verify2FAModal from "@/components/2fa/VerifyModal"
+import No2FAModal from "@/components/2fa/no2FAModal"
 import Button, { LightButtonStyles } from "@/components/Buttons"
 import CopyToClipboard from "@/components/CopyToClipboard"
 import Loading from "@/components/Loading"
-import No2FAModal from "@/components/2fa/no2FAModal"
+import UpgradeRequiredModal from "@/components/Shared/UpgradeRequiredModal"
 import Text from "@/components/Text"
+import Add from "@/components/icons/Add"
 import Trash from "@/components/icons/Trash"
-import Verify2FAModal from "@/components/2fa/VerifyModal"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateApiKey from "@/hooks/useCreateApiKey"
 import useDeleteApiKey from "@/hooks/useDeleteApiKey"
 import useGetProjectApiKeys from "@/hooks/useGetApiKeys"
 import useGetUser from "@/hooks/useGetUser"
+import useTestUser from "@/hooks/useTestUser"
 import { formatDate } from "@/utils/formatDate"
-import { GatewayFetchArgs } from "@/utils/gatewayFetch"
-import { ResponseError } from "@/utils/gatewayFetch"
+import { GatewayFetchArgs, ResponseError } from "@/utils/gatewayFetch"
 
 export default function APIKeys() {
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -33,6 +34,9 @@ export default function APIKeys() {
   const sessionToken = useAuthToken()
   const createMutation = useCreateApiKey(projectId)
   const deleteMutation = useDeleteApiKey(projectId)
+  const [showLimitedAccessModal, setShowLimitedAccessModal] = useState(false)
+
+  const isTestUser = useTestUser()
 
   const [pendingRequest, setPendingRequest] = useState<string>(
     "create" || "delete"
@@ -76,6 +80,8 @@ export default function APIKeys() {
   ])
 
   const handleCreateAccessKey = () => {
+    if (isTestUser) return setShowLimitedAccessModal(true)
+
     if (!user?.is2FAEnabled) return setShowNo2FAModal(true)
     if (sessionToken) {
       setPendingRequest("create")
@@ -93,6 +99,8 @@ export default function APIKeys() {
   }
 
   const handleDeleteAccessKey = (keyId: string) => {
+    if (isTestUser) return setShowLimitedAccessModal(true)
+
     if (!user?.is2FAEnabled) return setShowNo2FAModal(true)
     const confirm = window.confirm("Are you sure you want to delete")
 
@@ -134,7 +142,7 @@ export default function APIKeys() {
 
   return (
     <div>
-      <div className="flex flex-col p-10 border-1 bg-gray-8 rounded-lg mb-10 mr-10">
+      <div className="flex flex-col p-10 border border-gray-8 bg-gray-9 rounded-2lg mb-10 mr-10">
         <div className="flex justify-between">
           <Text className="font-medium text-2xl pb-5">Secret keys</Text>
           <Button
@@ -180,12 +188,10 @@ export default function APIKeys() {
                 >
                   <div className="col-span-2 lg:grid grid-cols-2 gap-x-8 items-center">
                     <BlurredView>
-                      <div className="flex">
-                        <Text className="font-mono">{AccessKey?.key}</Text>
-                        <CopyToClipboard
-                          text={AccessKey?.key}
-                          className="ml-auto"
-                        />
+                      <div className="flex space-x-4 justify-between">
+                        <span className=""></span>
+                        <Text className="font-mono grow">{AccessKey?.key}</Text>
+                        <CopyToClipboard text={AccessKey?.key} />
                       </div>
                     </BlurredView>
 
@@ -227,6 +233,11 @@ export default function APIKeys() {
       <No2FAModal
         show={showNo2FAModal}
         closeModal={() => setShowNo2FAModal(false)}
+      />
+
+      <UpgradeRequiredModal
+        show={showLimitedAccessModal}
+        handleClose={() => setShowLimitedAccessModal(false)}
       />
     </div>
   )
