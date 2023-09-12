@@ -15,6 +15,7 @@ import ExternalLink from "@/components/Shared/ExternalLink"
 import ResourceID from "@/components/Shared/ResourceID"
 import Loading from "@/components/Loading"
 import useGetIpRanges, { IPsDataType } from "@/hooks/useGetIpRanges"
+import getFirstOrString from "@/utils/getFirstOrString"
 
 const columnHelper = createColumnHelper<IPsDataType>()
 
@@ -40,7 +41,7 @@ const columns = [
 
 export default function IpRanges() {
   const { projectId } = useParams()
-  const projectIdString = Array.isArray(projectId) ? projectId[0] : projectId
+  const projectIdString = getFirstOrString(projectId)
 
   const {
     data: IPsData,
