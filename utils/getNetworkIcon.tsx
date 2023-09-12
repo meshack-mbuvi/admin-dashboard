@@ -3,17 +3,13 @@ import Polygon from "@/components/icons/Polygon"
 
 export const getNetworkIcon = (networkId: number, className?: string) => {
   switch (networkId) {
-    // Ethereum Mainnet
-    case 1:
-    // Goerli
-    case 5:
+    case 1: // Ethereum Mainnet
+    case 5: // Goerli
       return <Ethereum className={className} />
-    // Polygon Mainnet
-    case 137:
-    // Polygon zkEVM Testnet
-    case 1442:
-    // Polygon Mumbai
-    case 80001:
+
+    case 137: // Polygon Mainnet
+    case 1442: // Polygon zkEVM Testnet
+    case 80001: // Polygon Mumbai
       return <Polygon className={className} />
     default:
       return null

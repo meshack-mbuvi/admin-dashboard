@@ -8,13 +8,14 @@ import AddContractModal from "@/components/Contracts/AddContractModal"
 import ProjectContracts from "@/components/Contracts/ProjectContracts"
 import { DarkButtonStyles } from "@/components/Buttons"
 import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
+import CreateContractButton from "@/components/Buttons/CreateContractButton"
+import Section from "@/components/Section"
+import EmptyState from "@/components/Shared/Empty"
 
 import useGetProjectById from "@/hooks/useGetProjectById"
 import { QueryParams } from "@/types/queryParams"
-import { NetworkId } from "@/utils/getNetwork"
-import CreateContractButton from "../Buttons/CreateContractButton"
-import Section from "../Section"
-import EmptyState from "../Shared/Empty"
+import { NetworkId } from "@/utils/network"
+import getFirstOrString from "@/utils/getFirstOrString"
 
 export default function Contracts() {
   const [showAddContractModal, setShowAddContractModal] =
@@ -36,7 +37,7 @@ export default function Contracts() {
   }, [])
   const { projectId } = useParams()
   const { data: projectData } = useGetProjectById({
-    projectId,
+    projectId: getFirstOrString(projectId),
   })
 
   const NetworkContracts = useMemo(() => {

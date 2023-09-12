@@ -2,7 +2,7 @@ import { UseQueryOptions, useQuery } from "@tanstack/react-query"
 
 import gatewayFetch from "@/utils/gatewayFetch"
 import useAuthToken from "./useAuthToken"
-import { NetworkId } from "@/utils/getNetwork"
+import { NetworkId } from "@/utils/network"
 
 interface UseGetProjectByIdArgs {
   projectId: string

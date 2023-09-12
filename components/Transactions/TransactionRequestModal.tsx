@@ -10,10 +10,11 @@ import Hex from "../Shared/Hex"
 import CopyToClipboard from "../CopyToClipboard"
 import useGetProjectWallets from "@/hooks/useGetProjectWallets"
 import useTransactionSimulation from "@/hooks/useTransactionSimulation"
-import { NetworkId } from "@/utils/getNetwork"
+import { NetworkId } from "@/utils/network"
 import { SIMULATION_SUCCESS } from "@/utils/simulateTransaction"
 import { isObject } from "@/utils/isObject"
 import ArrayArg from "./atoms/ArrayArg"
+import getFirstOrString from "@/utils/getFirstOrString"
 
 interface TransactionRequestModalProps {
   showModal: boolean
@@ -36,7 +37,7 @@ export default function TransactionRequestModal({
 }: TransactionRequestModalProps) {
   const { projectId } = useParams()
   const { data: wallets, isLoading } = useGetProjectWallets({
-    projectId,
+    projectId: getFirstOrString(projectId),
   })
 
   const functionArgs = useMemo(() => {

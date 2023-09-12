@@ -3,7 +3,7 @@ import { useMemo } from "react"
 
 import { RawStatusEnum } from "@/components/Transactions/atoms/Status"
 import gatewayFetch from "@/utils/gatewayFetch"
-import { NetworkId } from "@/utils/getNetwork"
+import { NetworkId } from "@/utils/network"
 import { formatISO, fromUnixTime } from "date-fns"
 import useAuthToken from "./useAuthToken"
 

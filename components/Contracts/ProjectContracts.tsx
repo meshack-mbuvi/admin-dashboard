@@ -11,7 +11,7 @@ import Hex from "@/components/Shared/Hex"
 import Table from "@/components/Shared/Table"
 import ResourceID from "@/components/Shared/ResourceID"
 import { IContract } from "@/hooks/useGetProjectById"
-import { NetworkId } from "@/utils/getNetwork"
+import { NetworkId } from "@/utils/network"
 import DisclosureComponent from "../Shared/Disclosure"
 
 interface ProjectNetworkProps {

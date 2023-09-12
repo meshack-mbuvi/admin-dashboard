@@ -1,5 +1,5 @@
 import { Hex, createPublicClient, http, parseAbi } from "viem"
-import { getNetworkConfig } from "./networkConfigs"
+import { getNetwork, getNetworkRPC } from "./network"
 
 export interface SimulateTransaction {
   chainId: number
@@ -34,13 +34,14 @@ export async function simulateTransaction({
   args,
   dataSuffix,
 }: SimulateTransaction) {
-  const networkConfig = getNetworkConfig(chainId.toString())
+  const networkConfig = getNetwork(chainId)
+  const rpcUrl = getNetworkRPC(chainId)
 
-  if (!networkConfig) throw new Error("Invalid Network ID provided")
+  if (!networkConfig || !rpcUrl) throw new Error("Invalid Network ID provided")
 
   const client = createPublicClient({
-    chain: networkConfig.chain,
-    transport: http(networkConfig.rpcUrl, { batch: true }),
+    chain: networkConfig,
+    transport: http(rpcUrl, { batch: true }),
   })
 
   const abi = [`function ${functionSignature} returns ()`]

@@ -1,5 +1,4 @@
 "use client"
-import clsx from "clsx"
 import { useParams } from "next/navigation"
 import { ChangeEvent, useEffect, useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
@@ -14,9 +13,12 @@ import useAuthToken from "@/hooks/useAuthToken"
 import useGetProjectById from "@/hooks/useGetProjectById"
 import useUpdateProjectNameMutation from "@/hooks/useUpdateProjectNameMutation"
 
+import getFirstOrString from "@/utils/getFirstOrString"
+
 export default function GeneralSettings() {
   const { projectId } = useParams()
   const sessionToken = useAuthToken()
+  const projectIdString = getFirstOrString(projectId)
 
   const [saved, setSaved] = useState(false)
   const [showError, setShowError] = useState(false)
@@ -25,7 +27,7 @@ export default function GeneralSettings() {
   }, 300)
 
   const updateProjectNameMutation = useUpdateProjectNameMutation({
-    projectId,
+    projectId: projectIdString,
     onSuccess: () => {
       setSaved(true)
     },
@@ -41,7 +43,7 @@ export default function GeneralSettings() {
   }, [saved])
 
   const { data, isLoading } = useGetProjectById({
-    projectId,
+    projectId: projectIdString,
   })
 
   const handleUpdateProjectName = (e: ChangeEvent<HTMLInputElement>) => {
@@ -96,7 +98,11 @@ export default function GeneralSettings() {
             </div>
             <div className="flex flex-col">
               <Text className="pb-3">Project ID</Text>
-              <ResourceID id={projectId} fullView={true} copyIcon={true} />
+              <ResourceID
+                id={projectIdString}
+                fullView={true}
+                copyIcon={true}
+              />
             </div>
           </div>
         </Section>

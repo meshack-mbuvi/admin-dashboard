@@ -4,7 +4,7 @@ import clsx from "clsx"
 
 import CopyToClipboard from "@/components/CopyToClipboard"
 import { formatAddress } from "@/utils/formatAddress"
-import { getNetwork, NetworkId } from "@/utils/getNetwork"
+import { getNetwork, NetworkId } from "@/utils/network"
 
 interface HexProps {
   hexType: "address" | "tx"
@@ -14,8 +14,16 @@ interface HexProps {
   className?: string
 }
 
-const Hex = (props: HexProps) => {
+interface MaybeLinkProps {
+  children: React.ReactNode
+  isLink: boolean
+  href: string
+}
+
+export default function Hex(props: HexProps) {
   const { hexType, hexValue, chainId, truncate = true, className } = props
+
+  const networkConfig = getNetwork(chainId)
 
   const formattedHexValue = useMemo(() => {
     if (!hexValue) return
@@ -29,9 +37,7 @@ const Hex = (props: HexProps) => {
     }
   }, [hexValue, hexType, truncate])
 
-  const linkAddress = `${
-    getNetwork(chainId).blockExplorers?.default.url
-  }/${hexType}/${hexValue}`
+  const linkAddress = `${networkConfig?.blockExplorers?.default.url}/${hexType}/${hexValue}`
 
   return (
     <div className="flex space-x-5 group">
@@ -41,18 +47,12 @@ const Hex = (props: HexProps) => {
           className
         )}
       >
-        <Link
-          className="hover:text-blue-1 text-white group/link"
-          href={{
-            pathname: linkAddress,
-          }}
-          target="_blank"
-        >
+        <MaybeLink href={linkAddress} isLink={Boolean(networkConfig)}>
           <span className="text-gray-3 group-hover/link:text-blue-1">
             {formattedHexValue?.slice(0, 2)}
           </span>
           {formattedHexValue?.slice(2)}
-        </Link>
+        </MaybeLink>
         <CopyToClipboard
           text={hexValue}
           className="ml-4 invisible group-hover:visible"
@@ -61,4 +61,24 @@ const Hex = (props: HexProps) => {
     </div>
   )
 }
-export default Hex
+
+function MaybeLink(props: MaybeLinkProps) {
+  const { children, isLink, href } = props
+  if (!isLink) {
+    return (
+      <span className="cursor-default text-white group/link">{children}</span>
+    )
+  }
+
+  return (
+    <Link
+      className="hover:text-blue-1 text-white group/link"
+      href={{
+        pathname: href,
+      }}
+      target="_blank"
+    >
+      {children}
+    </Link>
+  )
+}

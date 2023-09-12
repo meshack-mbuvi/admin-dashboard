@@ -6,14 +6,16 @@ import Image from "next/image"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 import Loading from "../Loading"
+import getFirstOrString from "@/utils/getFirstOrString"
 
 export default function Breadcrumbs() {
   const { projectId } = useParams()
+  const projectIdString = getFirstOrString(projectId)
   const { data: organizationData, isLoading: isOrganizationDataLoading } =
     useGetOrganization()
   const { data: projectData, isLoading: isProjectDataLoading } =
     useGetProjectById({
-      projectId,
+      projectId: projectIdString,
     })
 
   return (

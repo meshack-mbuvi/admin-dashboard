@@ -40,13 +40,15 @@ const columns = [
 
 export default function IpRanges() {
   const { projectId } = useParams()
+  const projectIdString = Array.isArray(projectId) ? projectId[0] : projectId
+
   const {
     data: IPsData,
     isLoading: isIpsLoading,
     isFetching,
     isPreviousData,
   } = useGetIpRanges({
-    projectId,
+    projectId: projectIdString,
   })
 
   const table = useReactTable({
