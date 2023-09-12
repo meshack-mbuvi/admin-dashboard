@@ -16,6 +16,7 @@ import useGetProjectById from "@/hooks/useGetProjectById"
 import { QueryParams } from "@/types/queryParams"
 import { NetworkId } from "@/utils/network"
 import getFirstOrString from "@/utils/getFirstOrString"
+import Loading from "../Loading"
 
 export default function Contracts() {
   const [showAddContractModal, setShowAddContractModal] =
@@ -36,11 +37,11 @@ export default function Contracts() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const { projectId } = useParams()
-  const { data: projectData } = useGetProjectById({
+  const { data: projectData, isLoading } = useGetProjectById({
     projectId: getFirstOrString(projectId),
   })
 
-  const NetworkContracts = useMemo(() => {
+  const networkContracts = useMemo(() => {
     const networkContracts: any = {}
     projectData?.contracts?.forEach((contract) => {
       if (!networkContracts[contract.chainId]) {
@@ -58,7 +59,7 @@ export default function Contracts() {
         <CreateContractButton onClick={() => setShowAddContractModal(true)} />
       </div>
       <div className="text-sm text-gray-3 pl-7">
-        {!Object.keys(NetworkContracts).length ? (
+        {!isLoading && !Object.keys(networkContracts).length ? (
           "No contracts have been added to your project yet."
         ) : (
           <span>
@@ -67,7 +68,15 @@ export default function Contracts() {
           </span>
         )}
       </div>
-      {!Object.keys(NetworkContracts).length ? (
+
+      {isLoading && (
+        <div className="px-7 mt-6">
+          <Loading className="h-8 my-4" />
+          <Loading className="h-8 my-4" />
+          <Loading className="h-8" />
+        </div>
+      )}
+      {!isLoading && !Object.keys(networkContracts).length ? (
         <EmptyState
           heading={"No contracts yet"}
           description={
@@ -93,12 +102,12 @@ export default function Contracts() {
         />
       ) : (
         <div className="mt-5">
-          {Object.keys(NetworkContracts).map((key, index) => {
+          {Object.keys(networkContracts).map((key, index) => {
             return (
               <ProjectContracts
                 key={index}
-                networkId={+key as NetworkId}
-                contracts={NetworkContracts[key]}
+                networkId={Number(key) as NetworkId}
+                contracts={networkContracts[key]}
               />
             )
           })}
