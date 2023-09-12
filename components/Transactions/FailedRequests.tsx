@@ -17,6 +17,7 @@ import ResourceID from "@/components/Shared/ResourceID"
 import useGetRequests, { RequestsDataType } from "@/hooks/useGetRequests"
 import TransactionRequestModal from "./TransactionRequestModal"
 import FunctionSignature from "./atoms/FunctionSignature"
+import getFirstOrString from "@/utils/getFirstOrString"
 
 const columnHelper = createColumnHelper<RequestsDataType>()
 
@@ -29,6 +30,7 @@ export default function FailedRequests() {
     useState<RequestsDataType | null>(null)
 
   const { projectId } = useParams()
+  const projectIdString = getFirstOrString(projectId)
 
   const columns = [
     columnHelper.accessor("transactionId", {
@@ -87,7 +89,7 @@ export default function FailedRequests() {
     refetch,
     isPreviousData,
   } = useGetRequests({
-    projectId,
+    projectId: projectIdString,
     page,
     limit,
     invalid: true,

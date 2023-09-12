@@ -11,12 +11,13 @@ import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
 import NetworkWallets from "./NetworkWallets"
 
 import useGetProjectWallets, { Wallets } from "@/hooks/useGetProjectWallets"
-import { NetworkId } from "@/utils/getNetwork"
+import { NetworkId } from "@/utils/network"
+import getFirstOrString from "@/utils/getFirstOrString"
 
 export default function Wallets() {
   const { projectId } = useParams()
   const { data: wallets } = useGetProjectWallets({
-    projectId,
+    projectId: getFirstOrString(projectId),
   })
 
   const networkWallets = wallets?.reduce((acc, wallet) => {

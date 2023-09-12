@@ -19,18 +19,15 @@ export default function Authenticate() {
   const [discoveredOrganizations, setDiscoveredOrganizations] = useState<
     DiscoveredOrganization[]
   >([])
-  const [intermediateSessionToken, setIntermediateSessionToken] =
-    useState<string>("")
 
   const handleBackToLogin = () => {
     router.push("/")
   }
 
   const handleLogin = useCallback(
-    async (organizationId: string, intermediateSessionToken: string) => {
+    async (organizationId: string) => {
       try {
         await stytch.discovery.intermediateSessions.exchange({
-          intermediate_session_token: intermediateSessionToken,
           organization_id: organizationId,
           session_duration_minutes: 10080,
         })
@@ -75,20 +72,16 @@ export default function Authenticate() {
         }
 
         // authenticates discovery
-        const { intermediate_session_token, discovered_organizations } =
+        // DEV: the intermediate session token is stored as a temporary cookie by the SDK and used in the exchange step in handleLogin
+        const { discovered_organizations } =
           await stytch.magicLinks.discovery.authenticate({
             discovery_magic_links_token: token,
           })
 
         setDiscoveredOrganizations(discovered_organizations)
-        // intermediate_session_toke lasts 10 minutes
-        setIntermediateSessionToken(intermediate_session_token)
 
         if (discovered_organizations.length === 1) {
-          handleLogin(
-            discovered_organizations[0].organization.organization_id,
-            intermediate_session_token
-          )
+          handleLogin(discovered_organizations[0].organization.organization_id)
         }
       } catch (error) {
         if (
@@ -142,12 +135,7 @@ export default function Authenticate() {
               <button
                 className="font-normal text-lg border border-gray-8 w-80 rounded-md px-4 py-2 hover:bg-gray-8 mb-4"
                 key={index}
-                onClick={() =>
-                  handleLogin(
-                    org.organization.organization_id,
-                    intermediateSessionToken
-                  )
-                }
+                onClick={() => handleLogin(org.organization.organization_id)}
               >
                 {org.organization.organization_name}
               </button>

@@ -1,7 +1,7 @@
 import Link from "next/link"
 
 import CopyToClipboard from "@/components/CopyToClipboard"
-import { getNetwork, NetworkId } from "@/utils/getNetwork"
+import { getNetwork, NetworkId } from "@/utils/network"
 
 interface BlockProps {
   viewType: "block" | "timeStamp"
@@ -9,24 +9,28 @@ interface BlockProps {
   chainId: NetworkId
 }
 
-const TransactionBlock = (props: BlockProps) => {
+export default function Block(props: BlockProps) {
   const { viewType, blockValue, chainId } = props
 
+  const networkConfig = getNetwork(chainId)
+
   return (
-    <div className="">
+    <div>
       {!blockValue && <span className="text-gray-6 font-mono">•••</span>}
       {!!(viewType === "block" && blockValue) && (
         <span className="hover:text-blue-1 text-gray-3 group flex cursor-pointer">
-          <Link
-            href={{
-              pathname: `${
-                getNetwork(chainId).blockExplorers?.default.url
-              }/block/${blockValue}`,
-            }}
-            target="_blank"
-          >
-            {blockValue}
-          </Link>
+          {networkConfig ? (
+            <Link
+              href={{
+                pathname: `${networkConfig.blockExplorers?.default.url}/block/${blockValue}`,
+              }}
+              target="_blank"
+            >
+              {blockValue}
+            </Link>
+          ) : (
+            <span className="text-gray-3 cursor-default">{blockValue}</span>
+          )}
 
           <CopyToClipboard
             text={blockValue.toString()}
@@ -37,5 +41,3 @@ const TransactionBlock = (props: BlockProps) => {
     </div>
   )
 }
-
-export default TransactionBlock

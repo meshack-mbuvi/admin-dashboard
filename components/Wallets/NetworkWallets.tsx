@@ -6,7 +6,7 @@ import {
 
 import Table from "@/components/Shared/Table"
 import { Wallets } from "@/hooks/useGetProjectWallets"
-import { NetworkId } from "@/utils/getNetwork"
+import { NetworkId } from "@/utils/network"
 import format from "date-fns/format"
 import Label from "../Label"
 import DisclosureComponent from "../Shared/Disclosure"
@@ -68,7 +68,7 @@ export default function NetworkWallets({
   })
 
   return (
-    <div className="">
+    <div>
       <DisclosureComponent
         networkId={networkId}
         disclosureTitle="wallets"

@@ -22,18 +22,21 @@ import useGetUser from "@/hooks/useGetUser"
 import useTestUser from "@/hooks/useTestUser"
 import { formatDate } from "@/utils/formatDate"
 import { GatewayFetchArgs, ResponseError } from "@/utils/gatewayFetch"
+import getFirstOrString from "@/utils/getFirstOrString"
 
 export default function APIKeys() {
   const [showModal, setShowModal] = useState<boolean>(false)
   const [showNo2FAModal, setShowNo2FAModal] = useState<boolean>(false)
   const { projectId } = useParams()
+
+  const projectIdString = getFirstOrString(projectId)
   const { data, isLoading } = useGetProjectApiKeys({
-    projectId,
+    projectId: projectIdString,
   })
   const { data: user } = useGetUser()
   const sessionToken = useAuthToken()
-  const createMutation = useCreateApiKey(projectId)
-  const deleteMutation = useDeleteApiKey(projectId)
+  const createMutation = useCreateApiKey(projectIdString)
+  const deleteMutation = useDeleteApiKey(projectIdString)
   const [showLimitedAccessModal, setShowLimitedAccessModal] = useState(false)
 
   const isTestUser = useTestUser()

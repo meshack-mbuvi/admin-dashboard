@@ -36,6 +36,8 @@ import ExternalLink from "../Shared/ExternalLink"
 import TableFilterPills from "../Shared/TableFilterPills"
 import Text from "../Text"
 import TxIdFilter from "./atoms/TxStatusFilter"
+import { get } from "http"
+import getFirstOrString from "@/utils/getFirstOrString"
 
 const columnHelper = createColumnHelper<TransactionDataType>()
 
@@ -145,6 +147,7 @@ interface AllTransactionsProps {
 const AllTransactions = (props: AllTransactionsProps) => {
   const { searchTerm, setTxCount } = props
   const { projectId } = useParams()
+  const projectIdString = getFirstOrString(projectId)
   const [columnFilters, setColumnFilters] = useState<
     FiltersTableState["columnFilters"]
   >([])
@@ -155,7 +158,7 @@ const AllTransactions = (props: AllTransactionsProps) => {
   const [reverted, setReverted] = useState<boolean | null>(null)
 
   const { data: projectData, isLoading: isProjectLoading } = useGetProjectById({
-    projectId,
+    projectId: projectIdString,
   })
   const projectHasContracts = useMemo(
     () => projectData?.contracts && projectData?.contracts?.length > 0,
@@ -169,7 +172,7 @@ const AllTransactions = (props: AllTransactionsProps) => {
     refetch,
     isPreviousData,
   } = useGetTransactions({
-    projectId,
+    projectId: projectIdString,
     page,
     limit,
     statuses,

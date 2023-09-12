@@ -3,12 +3,13 @@
 import { MouseEvent, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import clsx from "clsx"
+import { Chain } from "viem"
 
 import ArrowRight from "@/components/icons/ArrowRight"
 import { Project } from "@/hooks/useGetProjects"
 import useGetProjectWallets from "@/hooks/useGetProjectWallets"
 import { getNetworkIcon } from "@/utils/getNetworkIcon"
-import { NetworkId, getNetwork } from "@/utils/getNetwork"
+import { getNetwork } from "@/utils/network"
 import useGetProjectTransactionStats from "@/hooks/useGetProjectTransactionStats"
 import ResourceID from "@/components/Shared/ResourceID"
 
@@ -20,20 +21,18 @@ const formatEnvironment = (str: string) => {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-const formatNetworks = (networks: number[]) => {
+const formatNetworks = (networks: Chain[]) => {
   switch (networks.length) {
     case 0:
       return ""
     case 1:
-      return getNetwork(networks[0] as NetworkId).name
+      return networks[0].name
     case 2:
-      return `${getNetwork(networks[0] as NetworkId).name}, ${
-        getNetwork(networks[1] as NetworkId).name
-      }`
+      return `${networks[0].name}, ${networks[1].name}`
     default:
-      return `${getNetwork(networks[0] as NetworkId).name}, ${
-        getNetwork(networks[1] as NetworkId).name
-      } +${networks.length - 2} more`
+      return `${networks[0].name}, ${networks[1].name} +${
+        networks.length - 2
+      } more`
   }
 }
 
@@ -53,8 +52,13 @@ export default function ProjectRow(props: ProjectRowProps) {
     wallets?.forEach((contract) => {
       networks.add(contract.chainId)
     })
-    return Array.from(networks).sort(function (a, b) {
-      return a - b
+
+    const networksArray = Array.from(networks)
+      .map((n) => getNetwork(n))
+      .filter((n) => n !== null) as Chain[]
+
+    return networksArray.sort(function (a, b) {
+      return a.id - b.id
     })
   }, [wallets])
 
@@ -89,8 +93,12 @@ export default function ProjectRow(props: ProjectRowProps) {
           {stats?.numberOfFailedTransactions ?? 0}
         </div>
         <div className="flex w-1/6 gap-2 text-left text-base text-gray-1 leading-5">
-          {getNetworkIcon(networks[0], "w-5 h-5")}
-          {formatNetworks(networks)}
+          {networks?.length > 0 && (
+            <>
+              {getNetworkIcon(networks[0].id, "w-5 h-5")}
+              {formatNetworks(networks)}
+            </>
+          )}
         </div>
 
         <div className="flex flex-1 justify-between text-gray-2 space-x-4">

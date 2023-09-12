@@ -11,7 +11,6 @@ export type Wallets = {
   createdAt: string
   isActive: boolean
   nonce: number
-  organizationId: string
   projectId: string
   updatedAt: string
   walletAddress: string
