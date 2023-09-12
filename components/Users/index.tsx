@@ -14,6 +14,7 @@ import Text from "@/components/Text"
 import RemoveIcon from "@/components/icons/Remove"
 import EmptyState from "../Shared/Empty"
 import { ColumnHeader } from "./atoms/columnHeader"
+import ResourceID from "@/components/Shared/ResourceID"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useDeleteUserById from "@/hooks/useDeleteUser"
@@ -78,8 +79,14 @@ export default function Users() {
 
   const columns = [
     columnHelper.accessor("name", {
+      size: 250,
       header: () => <ColumnHeader>Name</ColumnHeader>,
-      cell: (info) => <Text>{info.getValue()}</Text>,
+      cell: (info) => (
+        <div className="flex justify-between space-x-3 pr-6 lg:pr-10 xl:pr-24">
+          <Text>{info.getValue()}</Text>
+          <ResourceID id={info.row.original.id} />
+        </div>
+      ),
     }),
     columnHelper.accessor("emailAddress", {
       header: () => <ColumnHeader>Email</ColumnHeader>,

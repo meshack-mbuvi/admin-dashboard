@@ -59,7 +59,7 @@ const columns = [
           transactionStatus={info.row.original.status}
           reverted={info.row.original.reverted}
         />
-        <ResourceID ID={info.getValue()} fullView={true} />
+        <ResourceID id={info.getValue()} fullView={true} />
       </span>
     ),
   }),

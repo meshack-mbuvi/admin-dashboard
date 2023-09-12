@@ -36,7 +36,7 @@ export default function FailedRequests() {
       header: () => "Request ID",
       cell: (info) => (
         <span className="text-white font-mono">
-          <ResourceID ID={info.getValue()} fullView={true} />
+          <ResourceID id={info.getValue()} fullView={true} />
         </span>
       ),
     }),

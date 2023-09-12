@@ -10,6 +10,7 @@ import useGetProjectWallets from "@/hooks/useGetProjectWallets"
 import { getNetworkIcon } from "@/utils/getNetworkIcon"
 import { NetworkId, getNetwork } from "@/utils/getNetwork"
 import useGetProjectTransactionStats from "@/hooks/useGetProjectTransactionStats"
+import ResourceID from "@/components/Shared/ResourceID"
 
 interface ProjectRowProps {
   project: Project
@@ -69,7 +70,10 @@ export default function ProjectRow(props: ProjectRowProps) {
       className="project-item group cursor-pointer px-8 transform rounded-lg transition ease-in-out hover:bg-gray-8 hover:-translate-y-1 drop-shadow-2xl"
     >
       <div className="flex w-full py-7 border-b border-gray-7 group-hover:border-transparent">
-        <div className="w-1/3 text-left text-xl text-gray-1">{name}</div>
+        <div className="flex justify-between w-1/3 text-left text-xl text-gray-1 pr-10 lg:pr-32 space-x-3">
+          <span>{name}</span>
+          <ResourceID id={projectId} />
+        </div>
         <div
           className={clsx(
             environment === "production" ? "text-blue-1" : "text-gray-1",

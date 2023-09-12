@@ -8,17 +8,16 @@ import Input from "@/components/inputs/Input"
 import Loading from "@/components/Loading"
 import Section from "@/components/Section"
 import Text from "@/components/Text"
+import ResourceID from "@/components/Shared/ResourceID"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useGetProjectById from "@/hooks/useGetProjectById"
 import useUpdateProjectNameMutation from "@/hooks/useUpdateProjectNameMutation"
-import CopyToClipboard from "@/components/CopyToClipboard"
 
 export default function GeneralSettings() {
   const { projectId } = useParams()
   const sessionToken = useAuthToken()
 
-  const [hoveredProjectId, setHoveredProjectId] = useState(false)
   const [saved, setSaved] = useState(false)
   const [showError, setShowError] = useState(false)
   const debounced = useDebouncedCallback((value) => {
@@ -97,23 +96,7 @@ export default function GeneralSettings() {
             </div>
             <div className="flex flex-col">
               <Text className="pb-3">Project ID</Text>
-              <div
-                className="inline-flex items-center max-w-fit"
-                onMouseLeave={() => setHoveredProjectId(false)}
-                onMouseEnter={() => setHoveredProjectId(true)}
-              >
-                <span>{projectId}</span>
-                <CopyToClipboard
-                  text={projectId}
-                  className={clsx(
-                    {
-                      hidden: !hoveredProjectId,
-                      "inline-block": hoveredProjectId,
-                    },
-                    "ml-4"
-                  )}
-                />
-              </div>
+              <ResourceID id={projectId} fullView={true} copyIcon={true} />
             </div>
           </div>
         </Section>
