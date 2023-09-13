@@ -26,8 +26,7 @@ export default function Projects({ onCreateProject }: ProjectsProps) {
             <div className="border-b border-gray-7 my-6" />
           </div>
         )}
-
-        {data && data.length > 0 ? (
+        {(data && data.length > 0) ? (
           <>
             {/* Header */}
             <div className="flex">

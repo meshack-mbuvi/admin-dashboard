@@ -8,7 +8,7 @@ import clsx from "clsx"
 import { format } from "date-fns"
 import { useParams } from "next/navigation"
 
-import Table from "@/components/Shared/Table"
+import Table from "@/components/Table/Table"
 import Text from "@/components/Text"
 import { DarkButtonStyles } from "@/components/Buttons"
 import ExternalLink from "@/components/Shared/ExternalLink"

@@ -4,7 +4,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 
-import Table from "@/components/Shared/Table"
+import Table from "@/components/Table/Table"
 import { Wallets } from "@/hooks/useGetProjectWallets"
 import { NetworkId } from "@/utils/network"
 import format from "date-fns/format"

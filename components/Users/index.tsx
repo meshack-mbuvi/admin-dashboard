@@ -9,18 +9,17 @@ import Verify2FAModal from "@/components/2fa/VerifyModal"
 import No2FAModal from "@/components/2fa/no2FAModal"
 import Button from "@/components/Buttons"
 import Loading from "@/components/Loading"
-import Table from "@/components/Shared/Table"
 import Text from "@/components/Text"
 import RemoveIcon from "@/components/icons/Remove"
-import EmptyState from "../Shared/Empty"
-import { ColumnHeader } from "./atoms/columnHeader"
 import ResourceID from "@/components/Shared/ResourceID"
-
 import useAuthToken from "@/hooks/useAuthToken"
 import useDeleteUserById from "@/hooks/useDeleteUser"
 import useGetUser, { UserDataType } from "@/hooks/useGetUser"
 import useGetUsers from "@/hooks/useGetUsers"
 import { GatewayFetchArgs, ResponseError } from "@/utils/gatewayFetch"
+import EmptyState from "../Shared/Empty"
+import Table from "../Table/Table"
+import { ColumnHeader } from "./atoms/columnHeader"
 
 const columnHelper = createColumnHelper<UserDataType>()
 
