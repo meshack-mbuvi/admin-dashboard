@@ -18,7 +18,7 @@ type OrganizationFields = {
 }
 
 export default function CreateOrganization() {
-  const { mutate } = useCreateOrganization()
+  const { mutateAsync, isError } = useCreateOrganization()
   const [loginContinued, setLoginContinued] = useState<boolean>(false)
   const stytch = useStytchB2BClient()
 
@@ -68,15 +68,15 @@ export default function CreateOrganization() {
 
   const onSubmit = async (values: OrganizationFields) => {
     if (isOrganizationNameAvailable) {
-      await mutate({
+      mutateAsync({
         method: "POST",
         endpointPath: "/public/createOrganization",
         body: JSON.stringify({
           ...values,
         }),
+      }).then(() => {
+        handleLogin(values)
       })
-
-      handleLogin(values)
     }
   }
 
@@ -141,6 +141,12 @@ export default function CreateOrganization() {
                 placeholder="Enter your name"
               />
               <Submit>Create organization</Submit>
+
+              {isError && (
+                <p className="text-warning text-sm text-center">
+                  Something went wrong, please try again
+                </p>
+              )}
             </Form>
           </div>
         </>
