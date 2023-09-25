@@ -8,7 +8,7 @@ import { DiscoveredOrganization } from "@stytch/vanilla-js"
 import Button from "@/components/Buttons"
 import Logo from "@/components/icons/Logo"
 
-type ErrorType = "expiredLink" | "generic"
+type ErrorType = "expiredLink" | "generic" | "noOrgs"
 
 // DEV: This page is configured as the login callback url from Stytch
 export default function Authenticate() {
@@ -78,6 +78,10 @@ export default function Authenticate() {
             discovery_magic_links_token: token,
           })
 
+        if (discovered_organizations.length === 0) {
+          return setError("noOrgs")
+        }
+
         setDiscoveredOrganizations(discovered_organizations)
 
         if (discovered_organizations.length === 1) {
@@ -104,6 +108,20 @@ export default function Authenticate() {
         <Logo className="w-16 mx-auto mb-8" />
         <p className="text-gray-2 text-2xl mb-6">
           This link is expired or has already been used, try logging in again
+        </p>
+
+        <Button onClick={handleBackToLogin}>Back to Login</Button>
+      </div>
+    )
+  }
+
+  if (error === "noOrgs") {
+    return (
+      <div className="text-center w-full mt-24">
+        <Logo className="w-16 mx-auto mb-8" />
+        <p className="text-gray-2 text-2xl mb-6 max-w-2xl mx-auto">
+          You have not been invited to any organizations, check your email
+          address and try again
         </p>
 
         <Button onClick={handleBackToLogin}>Back to Login</Button>
