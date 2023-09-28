@@ -5,7 +5,7 @@ import SettingsIcon from "@/components/icons/Settings"
 import ContractIcon from "../icons/Contract"
 import WalletIcon from "../icons/Wallet"
 import NavLink from "./NavLink"
-import FileIcon from "../icons/File"
+import MetadataIcon from "../icons/Metadata"
 
 export default function TopBarNav() {
   const linkStyles = "text-sm rounded-full"
@@ -25,17 +25,17 @@ export default function TopBarNav() {
         </p>
       </NavLink>
 
-      <NavLink path="metadata" page="metadata" className={linkStyles}>
-        <p className="flex space-x-2 px-6 py-2">
-          <FileIcon className="w-4" />
-          <span>Metadata</span>
-        </p>
-      </NavLink>
-
       <NavLink path="wallets" page="wallets" className={linkStyles}>
         <p className="flex space-x-2 px-6 py-2">
           <WalletIcon className="w-5" />
           <span>Wallets</span>
+        </p>
+      </NavLink>
+
+      <NavLink path="metadata" page="metadata" className={linkStyles}>
+        <p className="flex space-x-2 px-6 py-2">
+          <MetadataIcon className="w-5" />
+          <span>Metadata</span>
         </p>
       </NavLink>
 
