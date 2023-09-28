@@ -4,9 +4,9 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 
-import Table from "@/components/Shared/Table"
+import Table from "@/components/Table/Table"
 import { Wallets } from "@/hooks/useGetProjectWallets"
-import { NetworkId } from "@/utils/getNetwork"
+import { NetworkId } from "@/utils/network"
 import format from "date-fns/format"
 import Label from "../Label"
 import DisclosureComponent from "../Shared/Disclosure"
@@ -47,7 +47,7 @@ export default function NetworkWallets({
     columnHelper.accessor("walletId", {
       maxSize: 64,
       header: () => "",
-      cell: (info) => <ResourceID ID={info.getValue()} />,
+      cell: (info) => <ResourceID id={info.getValue()} />,
     }),
     columnHelper.accessor("txCount", {
       header: () => <Label className="text-gray-3 text-sm">Transactions</Label>,
@@ -68,7 +68,7 @@ export default function NetworkWallets({
   })
 
   return (
-    <div className="">
+    <div>
       <DisclosureComponent
         networkId={networkId}
         disclosureTitle="wallets"

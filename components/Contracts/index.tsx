@@ -8,13 +8,15 @@ import AddContractModal from "@/components/Contracts/AddContractModal"
 import ProjectContracts from "@/components/Contracts/ProjectContracts"
 import { DarkButtonStyles } from "@/components/Buttons"
 import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
+import CreateContractButton from "@/components/Buttons/CreateContractButton"
+import Section from "@/components/Section"
+import EmptyState from "@/components/Shared/Empty"
 
 import useGetProjectById from "@/hooks/useGetProjectById"
 import { QueryParams } from "@/types/queryParams"
-import { NetworkId } from "@/utils/getNetwork"
-import CreateContractButton from "../Buttons/CreateContractButton"
-import Section from "../Section"
-import EmptyState from "../Shared/Empty"
+import { NetworkId } from "@/utils/network"
+import getFirstOrString from "@/utils/getFirstOrString"
+import Loading from "../Loading"
 
 export default function Contracts() {
   const [showAddContractModal, setShowAddContractModal] =
@@ -35,11 +37,11 @@ export default function Contracts() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const { projectId } = useParams()
-  const { data: projectData } = useGetProjectById({
-    projectId,
+  const { data: projectData, isLoading } = useGetProjectById({
+    projectId: getFirstOrString(projectId),
   })
 
-  const NetworkContracts = useMemo(() => {
+  const networkContracts = useMemo(() => {
     const networkContracts: any = {}
     projectData?.contracts?.forEach((contract) => {
       if (!networkContracts[contract.chainId]) {
@@ -57,7 +59,7 @@ export default function Contracts() {
         <CreateContractButton onClick={() => setShowAddContractModal(true)} />
       </div>
       <div className="text-sm text-gray-3 pl-7">
-        {!Object.keys(NetworkContracts).length ? (
+        {!isLoading && !Object.keys(networkContracts).length ? (
           "No contracts have been added to your project yet."
         ) : (
           <span>
@@ -66,7 +68,15 @@ export default function Contracts() {
           </span>
         )}
       </div>
-      {!Object.keys(NetworkContracts).length ? (
+
+      {isLoading && (
+        <div className="px-7 mt-6">
+          <Loading className="h-8 my-4" />
+          <Loading className="h-8 my-4" />
+          <Loading className="h-8" />
+        </div>
+      )}
+      {!isLoading && !Object.keys(networkContracts).length ? (
         <EmptyState
           heading={"No contracts yet"}
           description={
@@ -92,12 +102,12 @@ export default function Contracts() {
         />
       ) : (
         <div className="mt-5">
-          {Object.keys(NetworkContracts).map((key, index) => {
+          {Object.keys(networkContracts).map((key, index) => {
             return (
               <ProjectContracts
                 key={index}
-                networkId={+key as NetworkId}
-                contracts={NetworkContracts[key]}
+                networkId={Number(key) as NetworkId}
+                contracts={networkContracts[key]}
               />
             )
           })}

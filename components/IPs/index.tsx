@@ -8,13 +8,14 @@ import clsx from "clsx"
 import { format } from "date-fns"
 import { useParams } from "next/navigation"
 
-import Table from "@/components/Shared/Table"
+import Table from "@/components/Table/Table"
 import Text from "@/components/Text"
 import { DarkButtonStyles } from "@/components/Buttons"
 import ExternalLink from "@/components/Shared/ExternalLink"
 import ResourceID from "@/components/Shared/ResourceID"
 import Loading from "@/components/Loading"
 import useGetIpRanges, { IPsDataType } from "@/hooks/useGetIpRanges"
+import getFirstOrString from "@/utils/getFirstOrString"
 
 const columnHelper = createColumnHelper<IPsDataType>()
 
@@ -25,7 +26,7 @@ const columns = [
     cell: (info) => (
       <div className="flex space-x-8">
         <span className="font-mono">{info.getValue()}</span>
-        <ResourceID ID={info.getValue()} />
+        <ResourceID id={info.row.original.id} />
       </div>
     ),
   }),
@@ -40,13 +41,15 @@ const columns = [
 
 export default function IpRanges() {
   const { projectId } = useParams()
+  const projectIdString = getFirstOrString(projectId)
+
   const {
     data: IPsData,
     isLoading: isIpsLoading,
     isFetching,
     isPreviousData,
   } = useGetIpRanges({
-    projectId,
+    projectId: projectIdString,
   })
 
   const table = useReactTable({

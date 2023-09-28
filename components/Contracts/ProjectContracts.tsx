@@ -8,10 +8,10 @@ import { useState } from "react"
 
 import ContractFunctionsModal from "@/components/Contracts/ContractFunctionsModal"
 import Hex from "@/components/Shared/Hex"
-import Table from "@/components/Shared/Table"
+import Table from "@/components/Table/Table"
 import ResourceID from "@/components/Shared/ResourceID"
 import { IContract } from "@/hooks/useGetProjectById"
-import { NetworkId } from "@/utils/getNetwork"
+import { NetworkId } from "@/utils/network"
 import DisclosureComponent from "../Shared/Disclosure"
 
 interface ProjectNetworkProps {
@@ -43,7 +43,7 @@ export default function ProjectContracts({
     columnHelper.accessor("id", {
       size: 64,
       header: () => "",
-      cell: (info) => <ResourceID ID={info.getValue()} />,
+      cell: (info) => <ResourceID id={info.getValue()} />,
     }),
     columnHelper.accessor("address", {
       size: 480,

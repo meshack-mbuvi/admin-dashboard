@@ -2,13 +2,13 @@ import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict"
 import format from "date-fns/format"
 import { Tooltip } from "react-tooltip"
 
-interface TimestampProps {
-  transactionId: string
+interface TableTimeStampCellProps {
+  id: string
   timeStamp: string | null
 }
 
-const TransactionTimeStamp = (props: TimestampProps) => {
-  const { timeStamp, transactionId } = props
+const TableTimeStampCell = (props: TableTimeStampCellProps) => {
+  const { timeStamp, id } = props
 
   return (
     <div>
@@ -17,14 +17,14 @@ const TransactionTimeStamp = (props: TimestampProps) => {
       ) : (
         <span
           className="text-gray-3"
-          data-tooltip-id={`timeTooltip-${transactionId}`}
+          data-tooltip-id={`timeTooltip-${id}`}
           data-tooltip-content={format(
             new Date(timeStamp),
             "MMMM do yyyy, h:mm:ss a"
           )}
           data-tooltip-place="bottom"
         >
-          <Tooltip id={`timeTooltip-${transactionId}`} />
+          <Tooltip id={`timeTooltip-${id}`} />
           {formatDistanceToNowStrict(new Date(timeStamp), {
             addSuffix: true,
           })}
@@ -34,4 +34,4 @@ const TransactionTimeStamp = (props: TimestampProps) => {
   )
 }
 
-export default TransactionTimeStamp
+export default TableTimeStampCell

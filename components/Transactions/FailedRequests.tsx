@@ -7,16 +7,16 @@ import { useParams } from "next/navigation"
 import { useState } from "react"
 
 import Loading from "@/components/Loading"
-import Table from "@/components/Shared/Table"
 import EmptyState from "@/components/Shared/Empty"
-import TransactionPagination from "@/components/Transactions/atoms/Pagination"
-import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
-import Text from "@/components/Text"
 import ResourceID from "@/components/Shared/ResourceID"
-
+import Table from "@/components/Table/Table"
+import TablePagination from "@/components/Table/TablePagination"
+import TableTimeStampCell from "@/components/Table/TableTimeStampCell"
+import Text from "@/components/Text"
 import useGetRequests, { RequestsDataType } from "@/hooks/useGetRequests"
 import TransactionRequestModal from "./TransactionRequestModal"
 import FunctionSignature from "./atoms/FunctionSignature"
+import getFirstOrString from "@/utils/getFirstOrString"
 
 const columnHelper = createColumnHelper<RequestsDataType>()
 
@@ -29,6 +29,7 @@ export default function FailedRequests() {
     useState<RequestsDataType | null>(null)
 
   const { projectId } = useParams()
+  const projectIdString = getFirstOrString(projectId)
 
   const columns = [
     columnHelper.accessor("transactionId", {
@@ -36,7 +37,7 @@ export default function FailedRequests() {
       header: () => "Request ID",
       cell: (info) => (
         <span className="text-white font-mono">
-          <ResourceID ID={info.getValue()} fullView={true} />
+          <ResourceID id={info.getValue()} fullView={true} />
         </span>
       ),
     }),
@@ -72,9 +73,9 @@ export default function FailedRequests() {
     columnHelper.accessor("updatedAt", {
       header: () => <span>Request Age</span>,
       cell: (info) => (
-        <TransactionTimeStamp
+        <TableTimeStampCell
+          id={info.row.original.transactionId}
           timeStamp={info.getValue()}
-          transactionId={info.row.original.transactionId}
         />
       ),
     }),
@@ -87,7 +88,7 @@ export default function FailedRequests() {
     refetch,
     isPreviousData,
   } = useGetRequests({
-    projectId,
+    projectId: projectIdString,
     page,
     limit,
     invalid: true,
@@ -116,18 +117,16 @@ export default function FailedRequests() {
           </div>
         ))
       ) : !isLoading && requestsResp?.total ? (
-        <>
-          <div className="flex flex-col items-center">
-            <Table tableConfig={table} />
-            <TransactionPagination
-              page={page}
-              limit={limit}
-              total={requestsResp.total}
-              onPageChange={onPageChange}
-              isLoading={isFetching || isPreviousData}
-            />
-          </div>
-        </>
+        <div className="flex flex-col items-center">
+          <Table tableConfig={table} />
+          <TablePagination
+            page={page}
+            limit={limit}
+            total={requestsResp.total}
+            onPageChange={onPageChange}
+            isLoading={isFetching || isPreviousData}
+          />
+        </div>
       ) : (
         <EmptyState heading="No failed requests" description={""} />
       )}

@@ -3,7 +3,7 @@ import { Listbox, Transition } from "@headlessui/react"
 import clsx from "clsx"
 
 import { getNetworkIcon } from "@/utils/getNetworkIcon"
-import { networks } from "@/utils/getNetwork"
+import { networks } from "@/utils/network"
 
 type NetworkDropdownProps = {
   currentNetwork: number

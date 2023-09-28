@@ -3,7 +3,7 @@ import { useMemo } from "react"
 
 import ChevronDown from "@/components/icons/ChevronDown"
 import ChevronRight from "@/components/icons/ChevronRight"
-import { NetworkId, getNetwork } from "@/utils/getNetwork"
+import { NetworkId, getNetwork } from "@/utils/network"
 import { getNetworkIcon } from "@/utils/getNetworkIcon"
 import clsx from "clsx"
 
@@ -22,14 +22,14 @@ export default function DisclosureComponent({
   disclosureTitle,
   className,
 }: DisclosureComponentProps) {
-  const NetworkInfo = useMemo(() => {
+  const networkInfo = useMemo(() => {
     const network = getNetwork(networkId)
     const networkIcon = getNetworkIcon(networkId, "w-5 h-5")
     return { networkIcon, network }
   }, [networkId])
 
   return (
-    <div className="">
+    <div>
       <Disclosure as="div" className="pt-6">
         {({ open }) => (
           <>
@@ -40,10 +40,21 @@ export default function DisclosureComponent({
                   className
                 )}
               >
-                {NetworkInfo.networkIcon}
+                {networkInfo.networkIcon}
                 <div className="leading-5">
-                  {NetworkInfo.network.name.replace(" ", " - ")} (
-                  {itemCount.toLocaleString()} {disclosureTitle})
+                  {networkInfo.network && (
+                    <>
+                      {networkInfo.network.name.replace(" ", " - ")} (
+                      {itemCount.toLocaleString()} {disclosureTitle})
+                    </>
+                  )}
+
+                  {!networkInfo.network && (
+                    <>
+                      Chain ID: {networkId} ({itemCount.toLocaleString()}{" "}
+                      {disclosureTitle})
+                    </>
+                  )}
                 </div>
                 {open ? (
                   <ChevronDown className="w-4 h-auto" />

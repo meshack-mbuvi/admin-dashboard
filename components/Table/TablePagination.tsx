@@ -3,7 +3,9 @@ import clsx from "clsx"
 import ArrowLeft from "@/components/icons/ArrowLeft"
 import ArrowRight from "@/components/icons/ArrowRight"
 
-interface PaginationProps {
+export const DEFAULT_TABLE_LIMIT = 20
+
+interface TablePaginationProps {
   page: number
   limit: number
   total: number
@@ -11,7 +13,7 @@ interface PaginationProps {
   isLoading: boolean
 }
 
-const TransactionPagination = (props: PaginationProps) => {
+const TablePagination = (props: TablePaginationProps) => {
   const { page, total, limit, onPageChange, isLoading } = props
 
   // use loading to limit request spamming
@@ -62,4 +64,4 @@ const TransactionPagination = (props: PaginationProps) => {
   )
 }
 
-export default TransactionPagination
+export default TablePagination

@@ -5,23 +5,23 @@ import Clipboard from "@/components/icons/Clipboard"
 import CopyToClipboard from "@/components/CopyToClipboard"
 
 export default function ResourceID(props: {
-  ID: string
+  id: string
   className?: string
   fullView?: boolean // allow displaying either the placeholder icon or the full ID
   copyIcon?: boolean
 }) {
-  const { ID, className, fullView, copyIcon = true } = props
+  const { id, className, fullView, copyIcon } = props
 
   return (
     <span className={clsx(className, copyIcon && "flex space-x-4 group")}>
       {copyIcon && fullView && (
-        <span className="overflow-x-hidden text-ellipsis">{ID}</span>
+        <span className="overflow-x-hidden text-ellipsis">{id}</span>
       )}
-      <CopyToClipboard text={ID} copyId={ID} tooltipCopiedText="ID Copied">
+      <CopyToClipboard text={id} copyId={id} tooltipCopiedText="ID Copied">
         {copyIcon && fullView ? (
           <Clipboard className="cursor-pointer w-4 invisible group-hover:visible" />
         ) : fullView ? (
-          <span className="overflow-x-hidden text-ellipsis">{ID}</span>
+          <span className="overflow-x-hidden text-ellipsis">{id}</span>
         ) : (
           <IdIcon className="cursor-pointer w-5" />
         )}

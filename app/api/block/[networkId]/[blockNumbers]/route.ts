@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { createPublicClient, http } from "viem"
 
-import { getNetworkConfig } from "@/utils/networkConfigs"
+import { getNetworkRPC, getNetwork } from "@/utils/network"
 
 export async function GET(
   _: Request,
@@ -9,17 +9,18 @@ export async function GET(
 ) {
   const blockNumbers = params.blockNumbers.split(",")
 
-  const config = getNetworkConfig(params.networkId)
+  const config = getNetwork(Number(params.networkId))
+  const rpcUrl = getNetworkRPC(Number(params.networkId))
 
-  if (!config)
+  if (!config || !rpcUrl)
     return NextResponse.json(
       { error: "Invalid Network ID provided" },
       { status: 400 }
     )
 
   const client = createPublicClient({
-    chain: config.chain,
-    transport: http(config.rpcUrl, { batch: true }),
+    chain: config,
+    transport: http(rpcUrl, { batch: true }),
   })
 
   const data = await Promise.all(

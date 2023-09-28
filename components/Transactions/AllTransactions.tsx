@@ -8,34 +8,36 @@ import Link from "next/link"
 import { useParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
+import clsx from "clsx"
 
 import Loading from "@/components/Loading"
 import EmptyState from "@/components/Shared/Empty"
 import Hex from "@/components/Shared/Hex"
 import ResourceID from "@/components/Shared/ResourceID"
-import Table from "@/components/Shared/Table"
+import Table from "@/components/Table/Table"
+import TablePagination, { DEFAULT_TABLE_LIMIT } from "@/components/Table/TablePagination"
+import TableTimeStampCell from "@/components/Table/TableTimeStampCell"
 import TransactionBlock from "@/components/Transactions/atoms/Block"
-import TransactionPagination from "@/components/Transactions/atoms/Pagination"
 import TransactionStatus, {
   RawStatusEnum,
   StatusEnum,
   getRawStatusFromStatus,
   getStatusLabel,
 } from "@/components/Transactions/atoms/Status"
-import TransactionTimeStamp from "@/components/Transactions/atoms/TimeStamp"
 import CaretDown from "@/components/icons/CaretDown"
 import useGetProjectById from "@/hooks/useGetProjectById"
 import useGetTransactions, {
   TransactionDataType,
 } from "@/hooks/useGetTransactions"
 import { QueryParams } from "@/types/queryParams"
-import clsx from "clsx"
 import { DarkButtonStyles } from "../Buttons"
 import CreateContractButton from "../Buttons/CreateContractButton"
 import ExternalLink from "../Shared/ExternalLink"
-import TableFilterPills from "../Shared/TableFilterPills"
+import TableFilterPills from "../Table/TableFilterPills"
 import Text from "../Text"
 import TxIdFilter from "./atoms/TxStatusFilter"
+import { get } from "http"
+import getFirstOrString from "@/utils/getFirstOrString"
 
 const columnHelper = createColumnHelper<TransactionDataType>()
 
@@ -59,7 +61,7 @@ const columns = [
           transactionStatus={info.row.original.status}
           reverted={info.row.original.reverted}
         />
-        <ResourceID ID={info.getValue()} fullView={true} />
+        <ResourceID id={info.getValue()} fullView={true} />
       </span>
     ),
   }),
@@ -104,8 +106,8 @@ const columns = [
     enableColumnFilter: false,
     header: () => <span>Block Age</span>,
     cell: (info) => (
-      <TransactionTimeStamp
-        transactionId={info.row.original.transactionId}
+      <TableTimeStampCell
+        id={info.row.original.transactionId}
         timeStamp={info.getValue()}
       />
     ),
@@ -145,17 +147,18 @@ interface AllTransactionsProps {
 const AllTransactions = (props: AllTransactionsProps) => {
   const { searchTerm, setTxCount } = props
   const { projectId } = useParams()
+  const projectIdString = getFirstOrString(projectId)
   const [columnFilters, setColumnFilters] = useState<
     FiltersTableState["columnFilters"]
   >([])
   const [page, setPage] = useState<number>(0)
-  const [limit] = useState<number>(20)
+  const [limit] = useState<number>(DEFAULT_TABLE_LIMIT)
   const [statuses, setStatuses] =
     useState<RawStatusEnum[]>(defaultStatusFilters)
   const [reverted, setReverted] = useState<boolean | null>(null)
 
   const { data: projectData, isLoading: isProjectLoading } = useGetProjectById({
-    projectId,
+    projectId: projectIdString,
   })
   const projectHasContracts = useMemo(
     () => projectData?.contracts && projectData?.contracts?.length > 0,
@@ -169,7 +172,7 @@ const AllTransactions = (props: AllTransactionsProps) => {
     refetch,
     isPreviousData,
   } = useGetTransactions({
-    projectId,
+    projectId: projectIdString,
     page,
     limit,
     statuses,
@@ -298,7 +301,7 @@ const AllTransactions = (props: AllTransactionsProps) => {
         isLoading={isFetching || isPreviousData}
         noDataMessage="No transactions found"
       />
-      <TransactionPagination
+      <TablePagination
         page={page}
         limit={limit}
         total={transactionsResp?.total || 0}

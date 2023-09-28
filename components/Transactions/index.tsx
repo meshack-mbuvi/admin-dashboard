@@ -11,6 +11,7 @@ import useGetRequests from "@/hooks/useGetRequests"
 
 import { DarkButtonStyles } from "@/components/Buttons"
 import ArrowUpperRight from "../icons/ArrowUpperRight"
+import getFirstOrString from "@/utils/getFirstOrString"
 
 export default function TransactionTables() {
   const [activeTabIndex, setActiveTabIndex] = useState(0)
@@ -18,9 +19,10 @@ export default function TransactionTables() {
   const [txCount, setTxCount] = useState<number>()
 
   const { projectId } = useParams()
+  const projectIdString = getFirstOrString(projectId)
 
   const { data: failedTxResponse } = useGetRequests({
-    projectId,
+    projectId: projectIdString,
     page: 0,
     limit: 20,
     invalid: true,
