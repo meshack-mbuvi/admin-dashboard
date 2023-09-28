@@ -8,8 +8,6 @@ import TextInput from "@/components/Form/TextInput"
 import Text from "@/components/Text"
 import Logo from "@/components/icons/Logo"
 import useCreateOrganization from "@/hooks/useCreateOrganization"
-import { getAuthRedirectURL } from "@/utils/environment"
-import { useStytchB2BClient } from "@stytch/nextjs/b2b"
 
 type OrganizationFields = {
   organizationName: string
@@ -20,7 +18,6 @@ type OrganizationFields = {
 export default function CreateOrganization() {
   const { mutateAsync, isError } = useCreateOrganization()
   const [loginContinued, setLoginContinued] = useState<boolean>(false)
-  const stytch = useStytchB2BClient()
 
   const [isOrganizationNameAvailable, setIsOrganizationNameAvailable] =
     useState(true)
@@ -51,21 +48,6 @@ export default function CreateOrganization() {
     return true
   }
 
-  const handleLogin = (values: Pick<OrganizationFields, "emailAddress">) => {
-    return stytch.magicLinks.email.discovery
-      .send({
-        email_address: values.emailAddress,
-        discovery_redirect_url: getAuthRedirectURL(),
-      })
-      .then(() => {
-        setLoginContinued(true)
-      })
-      .catch((e) => {
-        console.error(e?.message)
-        return e
-      })
-  }
-
   const onSubmit = async (values: OrganizationFields) => {
     if (isOrganizationNameAvailable) {
       mutateAsync({
@@ -75,7 +57,7 @@ export default function CreateOrganization() {
           ...values,
         }),
       }).then(() => {
-        handleLogin(values)
+        setLoginContinued(true)
       })
     }
   }
