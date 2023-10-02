@@ -1,11 +1,16 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import clsx from "clsx"
 
 import QuickStartChoice from "@/components/Projects/QuickStartChoice"
 import Demo from "@/components/icons/Demo"
 import Guides from "@/components/icons/Guides"
 import Project from "@/components/icons/NewProject"
 import StepsModal from "@/components/Shared/StepsModal"
+import { DarkButtonStyles } from "@/components/Buttons"
+import useTestUser from "@/hooks/useTestUser"
+import UpgradeRequiredModal from "@/components/Shared/UpgradeRequiredModal"
+import ExternalLink from "@/components/Shared/ExternalLink"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateProject from "@/hooks/useCreateProject"
@@ -26,6 +31,10 @@ export default function QuickStartChoices({
   onCreateProject,
 }: QuickStartChoicesProps) {
   const router = useRouter()
+  const isTestUser = useTestUser()
+
+  const [showUpgradeRequiredModal, setShowUpgradeRequiredModal] =
+    useState<boolean>(false)
 
   const sessionToken = useAuthToken()
   const { mutate, isSuccess } = useCreateProject({
@@ -67,23 +76,31 @@ export default function QuickStartChoices({
           description="Try Syndicate's API in less than 3 minutes with a demo project and smart contracts"
           onClick={() => handleCreateDemoProject()}
         />
-
-        <QuickStartChoice
-          icon={<Guides className="h-40" />}
-          title="View quickstart guides"
-          description="Learn how to submit transactions, add smart contracts, create wallets, and more"
-          onClick={() => {
-            window.open(
-              "https://docs.syndicate.io/get-started/quickstart",
-              "_blank"
-            )
-          }}
-        />
         <QuickStartChoice
           icon={<Project className="h-40" />}
           title="Create your own project"
           description="Start your own project, and use Syndicate’s full range of APIs and infrastructure services"
-          onClick={() => onCreateProject(true)}
+          onClick={() =>
+            isTestUser
+              ? setShowUpgradeRequiredModal(true)
+              : onCreateProject(true)
+          }
+          premium={isTestUser}
+        />
+      </div>
+      <div className="flex justify-center space-x-5 items-center">
+        <Guides className="h-12 text-gray-4" />
+        <div className="max-w-[18rem] text-sm text-gray-4">
+          Learn how to submit transactions, add smart contracts, create wallets,
+          and more
+        </div>
+        <ExternalLink
+          href="https://docs.syndicate.io/get-started/quickstart"
+          className={clsx(
+            DarkButtonStyles,
+            "border-2 border-warning text-white flex space-x-2 py-4 "
+          )}
+          linkText="View Quickstart Guides"
         />
       </div>
       <StepsModal
@@ -93,6 +110,10 @@ export default function QuickStartChoices({
         canComplete={isSuccess}
         title={"Creating demo project..."}
         handleClose={() => setShowStepsModal(false)}
+      />
+      <UpgradeRequiredModal
+        show={showUpgradeRequiredModal}
+        handleClose={() => setShowUpgradeRequiredModal(false)}
       />
     </div>
   )
