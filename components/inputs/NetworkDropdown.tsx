@@ -1,6 +1,6 @@
-import { Fragment, useState } from "react"
 import { Listbox, Transition } from "@headlessui/react"
 import clsx from "clsx"
+import { Fragment, useState } from "react"
 
 import { getNetworkIcon } from "@/utils/getNetworkIcon"
 import { networks } from "@/utils/network"
@@ -10,6 +10,7 @@ type NetworkDropdownProps = {
   setCurrentNetwork: (network: number) => void
   placeholder?: string
   above?: boolean
+  disabled?: boolean
 }
 
 const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
@@ -17,6 +18,7 @@ const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
   setCurrentNetwork,
   placeholder = "Select network",
   above = false,
+  disabled = false,
 }) => {
   const [selected, setSelected] = useState(currentNetwork)
 
@@ -26,7 +28,7 @@ const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
   }
 
   return (
-    <Listbox value={selected} onChange={onChange}>
+    <Listbox value={selected} onChange={onChange} disabled={disabled}>
       {({ open }) => (
         <>
           <Listbox.Label className="font-sans font-medium text-white text-sm mb-2 bg-dark">
@@ -36,7 +38,7 @@ const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
             <Listbox.Button
               className={clsx(
                 !selected && "text-gray-4",
-                "flex gap-4 border bg-gray-8 outline-none border-gray-7 rounded-lg px-4 py-4 w-full text-left"
+                "flex gap-4 border bg-gray-8 outline-none border-gray-7 rounded-lg px-4 py-4 w-full text-left disabled:cursor-not-allowed"
               )}
             >
               {!!selected && getNetworkIcon(selected, "w-5 h-5")}
