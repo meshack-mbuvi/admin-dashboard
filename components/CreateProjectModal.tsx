@@ -2,16 +2,18 @@ import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 
 import Modal from "./Modal"
+import ExternalLink from "./Shared/ExternalLink"
 import StepsModal from "./Shared/StepsModal"
 import { Spinner } from "./Spinner"
 import Input from "./inputs/Input"
 import NetworkDropdown from "./inputs/NetworkDropdown"
 import Select, { SelectOption } from "./inputs/Select"
-import ExternalLink from "./Shared/ExternalLink"
 
+import ArrowRight from "@/components/icons/ArrowRight"
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateProject from "@/hooks/useCreateProject"
 import useGetOrganization from "@/hooks/useGetOrganization"
+import useTestUser from "@/hooks/useTestUser"
 
 type CreateProjectModalProps = {
   show: boolean
@@ -34,6 +36,8 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
   const sessionToken = useAuthToken()
   const { data: organizationData, isLoading: isOrganizationDataLoading } =
     useGetOrganization()
+
+  const isTestUser = useTestUser()
 
   const { isError, mutate, isSuccess, isLoading, reset } = useCreateProject({
     onSuccess: (data) => {
@@ -108,6 +112,13 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
         }}
       >
         <div className="flex flex-col justify-center items-left bg-gray-8 my-4">
+          {isTestUser && (
+            <p className="flex text-blue-secondary items-center mb-7">
+              Contact us to upgrade your account and access this feature{" "}
+              <ArrowRight className="h-4 ml-[6px]" />
+            </p>
+          )}
+
           {isLoading ? (
             <div className="flex w-full align-middle justify-center">
               <span className="mr-4">{PendingStatusText}</span>
@@ -130,6 +141,8 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                   placeholder="My Project XYZ"
                   value={name}
                   onChange={(e) => handleNameChange(e)}
+                  disabled={isTestUser}
+                  className="disabled:cursor-not-allowed"
                 />
               </div>
               <div className="flex flex-col justify-center items-left mb-7">
@@ -141,6 +154,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                   placeholder="Select environment type"
                   selected={environment}
                   setSelected={setEnvironment}
+                  disabled={isTestUser}
                 />
               </div>
               <div className="flex flex-col justify-center items-left mb-7">
@@ -149,12 +163,20 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                   setCurrentNetwork={setNetwork}
                   placeholder="Select preliminary network"
                   above={true}
+                  disabled={isTestUser}
                 />
+                <p className="text-gray-3 mt-2">
+                  You can add more networks anytime
+                </p>
               </div>
               <input
                 type="button"
                 disabled={
-                  !name || !environment || !network || isOrganizationDataLoading
+                  !name ||
+                  !environment ||
+                  !network ||
+                  isOrganizationDataLoading ||
+                  isTestUser
                 }
                 onClick={() => {
                   handleRequest()

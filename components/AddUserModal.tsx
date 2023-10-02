@@ -1,7 +1,9 @@
 import Form from "@/components/Form"
+import ArrowRight from "@/components/icons/ArrowRight"
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateUser from "@/hooks/useCreateUser"
 import useGetOrganization from "@/hooks/useGetOrganization"
+import useTestUser from "@/hooks/useTestUser"
 import React, { useMemo } from "react"
 import { useDebouncedCallback } from "use-debounce"
 import Submit from "./Form/Submit"
@@ -30,6 +32,8 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
   const sessionToken = useAuthToken()
   const { isError, isLoading, isSuccess, mutate, error } = useCreateUser()
   const { data: organizationData } = useGetOrganization()
+
+  const isTestUser = useTestUser()
 
   const allowedDomains = useMemo(() => {
     if (!organizationData) return []
@@ -80,6 +84,12 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
       >
         <Form onSubmit={onSubmit}>
           <div className="flex flex-col space-y-8 justify-center items-left bg-gray-8 my-4">
+            {isTestUser && (
+              <p className="flex text-blue-secondary items-center">
+                Contact us to upgrade your account and access this feature{" "}
+                <ArrowRight className="h-4 ml-[6px]" />
+              </p>
+            )}
             <p className="font-sans font-medium text-2xl text-gray-1 mb-7">
               Invite User
             </p>
@@ -91,12 +101,14 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
               validate={{
                 required: "Please enter a name",
               }}
+              disabled={isTestUser}
             />
 
             <TextInput
               label="Email Address"
               type="email"
               name="email"
+              disabled={isTestUser}
               placeholder="example@example.com"
               validate={{
                 required: "Email address is required",
@@ -124,7 +136,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
                 </span>
               </div>
             ) : (
-              <Submit>Invite to organization</Submit>
+              <Submit disabled={isTestUser}>Invite to organization</Submit>
             )}
           </div>
         </Form>
