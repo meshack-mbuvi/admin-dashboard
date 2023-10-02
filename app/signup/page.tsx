@@ -111,9 +111,9 @@ export default function CreateOrganization() {
               <TextInput
                 name="emailAddress"
                 validate={{ required: "Email Address must be provided" }}
-                label="Your Email"
+                label="Work Email"
                 type="email"
-                placeholder="Enter your email address"
+                placeholder="Enter work email address"
               />
               <TextInput
                 name="userName"
