@@ -8,12 +8,14 @@ import clsx from "clsx"
 import { format } from "date-fns"
 import { useParams } from "next/navigation"
 
+import { DarkButtonStyles } from "@/components/Buttons"
+import Loading from "@/components/Loading"
+import ExternalLink from "@/components/Shared/ExternalLink"
+import PremiumPill from "@/components/Shared/PremiumPill"
+import ResourceID from "@/components/Shared/ResourceID"
 import Table from "@/components/Table/Table"
 import Text from "@/components/Text"
-import { DarkButtonStyles } from "@/components/Buttons"
-import ExternalLink from "@/components/Shared/ExternalLink"
-import ResourceID from "@/components/Shared/ResourceID"
-import Loading from "@/components/Loading"
+import useFreePlan from "@/hooks/useFreeplan"
 import useGetIpRanges, { IPsDataType } from "@/hooks/useGetIpRanges"
 import getFirstOrString from "@/utils/getFirstOrString"
 
@@ -42,6 +44,7 @@ const columns = [
 export default function IpRanges() {
   const { projectId } = useParams()
   const projectIdString = getFirstOrString(projectId)
+  const isFreePlan = useFreePlan()
 
   const {
     data: IPsData,
@@ -68,14 +71,18 @@ export default function IpRanges() {
               These IP ranges will be allowed at access the API
             </p>
           </div>
-          <ExternalLink
-            href="https://docs.syndicate.io/guides/ip-range"
-            className={clsx(
-              DarkButtonStyles,
-              "border-2 border-warning text-white flex space-x-2 py-3"
-            )}
-            linkText="View Guide"
-          />
+          <div className="flex space-x-7">
+            {isFreePlan && <PremiumPill />}
+
+            <ExternalLink
+              href="https://docs.syndicate.io/guides/ip-range"
+              className={clsx(
+                DarkButtonStyles,
+                "border-2 border-warning text-white flex space-x-2 py-3"
+              )}
+              linkText="View Guide"
+            />
+          </div>
         </div>
 
         <div className="pb-5 overflow-x-auto mt-16">

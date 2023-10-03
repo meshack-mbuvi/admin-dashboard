@@ -1,24 +1,28 @@
 "use client"
 
-import { useParams } from "next/navigation"
 import clsx from "clsx"
 import Link from "next/link"
+import { useParams } from "next/navigation"
 
+import { DarkButtonStyles } from "@/components/Buttons"
 import Section from "@/components/Section"
 import Text from "@/components/Text"
-import { DarkButtonStyles } from "@/components/Buttons"
 import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
 import NetworkWallets from "./NetworkWallets"
 
+import PremiumPill from "@/components/Shared/PremiumPill"
+import useFreePlan from "@/hooks/useFreeplan"
 import useGetProjectWallets, { Wallets } from "@/hooks/useGetProjectWallets"
-import { NetworkId } from "@/utils/network"
 import getFirstOrString from "@/utils/getFirstOrString"
+import { NetworkId } from "@/utils/network"
 
 export default function Wallets() {
   const { projectId } = useParams()
   const { data: wallets } = useGetProjectWallets({
     projectId: getFirstOrString(projectId),
   })
+
+  const isFreePlan = useFreePlan()
 
   const networkWallets = wallets?.reduce((acc, wallet) => {
     if (!acc[wallet.chainId]) {
@@ -36,18 +40,23 @@ export default function Wallets() {
           These wallets will be used to perform programmatic actions on your
           contract. Please add them as an allowed operator.
         </p>
-        <Link
-          // TODO: ADD URL here
-          href="https://docs.syndicate.io/"
-          target="_blank"
-          className={clsx(
-            DarkButtonStyles,
-            "border-yellow-secondary flex items-baseline shrink-0"
-          )}
-        >
-          View Guide
-          <ArrowUpperRight className="h-4 w-4 ml-2" />
-        </Link>
+
+        <div className="flex space-x-7">
+          {isFreePlan && <PremiumPill />}
+
+          <Link
+            // TODO: ADD URL here
+            href="https://docs.syndicate.io/"
+            target="_blank"
+            className={clsx(
+              DarkButtonStyles,
+              "border-yellow-secondary flex items-baseline shrink-0"
+            )}
+          >
+            View Guide
+            <ArrowUpperRight className="h-4 w-4 ml-2" />
+          </Link>
+        </div>
       </div>
 
       {networkWallets && (
