@@ -30,7 +30,8 @@
     "server-only": "^0.0.1",
     "stytch": "^8.4.0",
     "use-debounce": "^9.0.4",
-    "viem": "^1.10.9"
+    "viem": "^1.10.9",
+    "zustand": "^4.4.2"
   },
   "devDependencies": {
     "@types/node": "^20.6.0",

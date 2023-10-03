@@ -5,7 +5,7 @@ export interface QuickStartChoiceProps {
   title: string
   description: string
   onClick: () => void
-  premium?: boolean
+  showPremium?: boolean
 }
 
 export default function QuickStartChoice({
@@ -13,7 +13,7 @@ export default function QuickStartChoice({
   title,
   description,
   onClick,
-  premium,
+  showPremium,
 }: QuickStartChoiceProps) {
   return (
     <div
@@ -27,7 +27,7 @@ export default function QuickStartChoice({
         <span>{title}</span> <ArrowRight className="h-4" />
       </div>
       <div className="text-gray-4 pt-2">{description}</div>
-      {premium && (
+      {showPremium && (
         <div className="bg-blue-nasa w-fit py-2.5 px-6 rounded-3xl mt-8">
           Premium Feature
         </div>

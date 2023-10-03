@@ -17,7 +17,7 @@ export default function Guides(props: SvgProps) {
         height="36.5148"
         rx="3.625"
         stroke="currentColor"
-        stroke-width="0.75"
+        strokeWidth="0.75"
       />
       <rect
         x="28.5076"
@@ -27,7 +27,7 @@ export default function Guides(props: SvgProps) {
         rx="3.625"
         transform="rotate(15.3327 28.5076 1.98034)"
         stroke="currentColor"
-        stroke-width="0.75"
+        strokeWidth="0.75"
       />
       <rect
         x="1.68707"
@@ -36,7 +36,7 @@ export default function Guides(props: SvgProps) {
         height="36.5148"
         rx="3.625"
         stroke="currentColor"
-        stroke-width="0.75"
+        strokeWidth="0.75"
       />
       <rect
         x="30.2618"
@@ -46,7 +46,7 @@ export default function Guides(props: SvgProps) {
         rx="3.625"
         transform="rotate(15.3327 30.2618 0.792842)"
         stroke="currentColor"
-        stroke-width="0.75"
+        strokeWidth="0.75"
       />
       <rect
         x="6.67328"
@@ -55,7 +55,7 @@ export default function Guides(props: SvgProps) {
         height="0.824569"
         rx="0.412284"
         stroke="currentColor"
-        stroke-width="0.75"
+        strokeWidth="0.75"
       />
       <rect
         x="32.6057"
@@ -65,7 +65,7 @@ export default function Guides(props: SvgProps) {
         rx="0.428929"
         transform="rotate(15.3327 32.6057 10.4882)"
         stroke="currentColor"
-        stroke-width="0.75"
+        strokeWidth="0.75"
       />
       <rect
         x="6.67328"
@@ -74,7 +74,7 @@ export default function Guides(props: SvgProps) {
         height="0.824569"
         rx="0.412284"
         stroke="currentColor"
-        stroke-width="0.75"
+        strokeWidth="0.75"
       />
       <rect
         x="30.9659"
@@ -84,7 +84,7 @@ export default function Guides(props: SvgProps) {
         rx="0.428929"
         transform="rotate(15.3327 30.9659 16.4608)"
         stroke="currentColor"
-        stroke-width="0.75"
+        strokeWidth="0.75"
       />
       <rect
         x="6.67328"
@@ -93,7 +93,7 @@ export default function Guides(props: SvgProps) {
         height="1.087"
         rx="0.543498"
         stroke="currentColor"
-        stroke-width="0.75"
+        strokeWidth="0.75"
       />
       <rect
         x="29.3866"
@@ -103,7 +103,7 @@ export default function Guides(props: SvgProps) {
         rx="0.428929"
         transform="rotate(15.3327 29.3866 22.2225)"
         stroke="currentColor"
-        stroke-width="0.75"
+        strokeWidth="0.75"
       />
     </svg>
   )

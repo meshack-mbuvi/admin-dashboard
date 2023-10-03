@@ -8,13 +8,13 @@ import Guides from "@/components/icons/Guides"
 import Project from "@/components/icons/NewProject"
 import StepsModal from "@/components/Shared/StepsModal"
 import { DarkButtonStyles } from "@/components/Buttons"
-import useTestUser from "@/hooks/useTestUser"
-import UpgradeRequiredModal from "@/components/Shared/UpgradeRequiredModal"
 import ExternalLink from "@/components/Shared/ExternalLink"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateProject from "@/hooks/useCreateProject"
 import useGetOrganization from "@/hooks/useGetOrganization"
+import useFreePlan from "@/hooks/useFreePlan"
+import { useUpgradeModalStore } from "@/store/useUpgradeModalStore"
 
 interface QuickStartChoicesProps {
   onCreateProject: (arg0: boolean) => void
@@ -31,10 +31,8 @@ export default function QuickStartChoices({
   onCreateProject,
 }: QuickStartChoicesProps) {
   const router = useRouter()
-  const isTestUser = useTestUser()
-
-  const [showUpgradeRequiredModal, setShowUpgradeRequiredModal] =
-    useState<boolean>(false)
+  const isFreePlan = useFreePlan()
+  const { toggle } = useUpgradeModalStore()
 
   const sessionToken = useAuthToken()
   const { mutate, isSuccess } = useCreateProject({
@@ -80,12 +78,8 @@ export default function QuickStartChoices({
           icon={<Project className="h-40" />}
           title="Create your own project"
           description="Start your own project, and use Syndicate’s full range of APIs and infrastructure services"
-          onClick={() =>
-            isTestUser
-              ? setShowUpgradeRequiredModal(true)
-              : onCreateProject(true)
-          }
-          premium={isTestUser}
+          onClick={() => (isFreePlan ? toggle(true) : onCreateProject(true))}
+          showPremium={isFreePlan}
         />
       </div>
       <div className="flex justify-center space-x-5 items-center">
@@ -110,10 +104,6 @@ export default function QuickStartChoices({
         canComplete={isSuccess}
         title={"Creating demo project..."}
         handleClose={() => setShowStepsModal(false)}
-      />
-      <UpgradeRequiredModal
-        show={showUpgradeRequiredModal}
-        handleClose={() => setShowUpgradeRequiredModal(false)}
       />
     </div>
   )

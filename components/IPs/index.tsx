@@ -15,7 +15,7 @@ import PremiumPill from "@/components/Shared/PremiumPill"
 import ResourceID from "@/components/Shared/ResourceID"
 import Table from "@/components/Table/Table"
 import Text from "@/components/Text"
-import useFreePlan from "@/hooks/useFreeplan"
+import useFreePlan from "@/hooks/useFreePlan"
 import useGetIpRanges, { IPsDataType } from "@/hooks/useGetIpRanges"
 import getFirstOrString from "@/utils/getFirstOrString"
 

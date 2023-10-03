@@ -1,5 +1,4 @@
 import clsx from "clsx"
-import { ReactComponentElement } from "react"
 
 import Modal from "@/components/Modal"
 import Check from "@/components/icons/Check"
@@ -9,7 +8,7 @@ type UpgradeRequiredModalProps = {
   show: boolean
   handleClose: () => void
 }
-type UpgradePerkProps = {
+type PerkProps = {
   text: string
 }
 
@@ -44,8 +43,8 @@ export default function UpgradeRequiredModalModal(
           Upgrade to access premium features
         </p>
         <div className="space-y-4">
-          {UpgradePerks.map((perk) => {
-            return upgradePerkComponent({ text: perk })
+          {UpgradePerks.map((perk, index) => {
+            return <Perk text={perk} key={index} />
           })}
         </div>
         <button className={clsx(LightButtonStyles, "rounded-lg w-full")}>
@@ -56,13 +55,9 @@ export default function UpgradeRequiredModalModal(
   )
 }
 
-function upgradePerkComponent(props: UpgradePerkProps) {
-  const { text } = props
-
-  return (
-    <div className="flex space-x-3.5 items-center">
-      <Check className="h-3.5 text-teal" />
-      <div>{text}</div>
-    </div>
-  )
-}
+const Perk = ({ text }: PerkProps) => (
+  <div className="flex space-x-3.5 items-center">
+    <Check className="h-3.5 text-teal" />
+    <div>{text}</div>
+  </div>
+)

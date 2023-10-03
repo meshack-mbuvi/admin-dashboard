@@ -11,7 +11,7 @@ import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
 import NetworkWallets from "./NetworkWallets"
 
 import PremiumPill from "@/components/Shared/PremiumPill"
-import useFreePlan from "@/hooks/useFreeplan"
+import useFreePlan from "@/hooks/useFreePlan"
 import useGetProjectWallets, { Wallets } from "@/hooks/useGetProjectWallets"
 import getFirstOrString from "@/utils/getFirstOrString"
 import { NetworkId } from "@/utils/network"
