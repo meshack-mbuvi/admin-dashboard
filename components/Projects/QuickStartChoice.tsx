@@ -1,4 +1,5 @@
 import ArrowRight from "@/components/icons/ArrowRight"
+import PremiumPill from "@/components/Shared/PremiumPill"
 
 export interface QuickStartChoiceProps {
   icon: any
@@ -27,11 +28,7 @@ export default function QuickStartChoice({
         <span>{title}</span> <ArrowRight className="h-4" />
       </div>
       <div className="text-gray-4 pt-2">{description}</div>
-      {showPremium && (
-        <div className="bg-blue-nasa w-fit py-2.5 px-6 rounded-3xl mt-8">
-          Premium Feature
-        </div>
-      )}
+      {showPremium && <PremiumPill className="mt-8" />}
     </div>
   )
 }
