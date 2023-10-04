@@ -10,6 +10,7 @@ import { LightButtonStyles } from "@/components/Buttons"
 
 import useContactSales from "@/hooks/useContactSales"
 import useGetUser from "@/hooks/useGetUser"
+import Spinner from "../icons/Spinner"
 
 type UpgradeRequiredModalProps = {
   show: boolean
@@ -90,12 +91,20 @@ export default function UpgradeRequiredModalModal(
               return <Perk text={perk} key={index} />
             })}
           </div>
+
           <button
-            className={clsx(LightButtonStyles, "rounded-lg w-full")}
+            className={clsx(LightButtonStyles, "rounded-lg w-full relative")}
             onClick={handleUpgradeClick}
             disabled={isLoading}
           >
-            Contact us to upgrade your account
+            {isLoading ? (
+              <span className="flex justify-center gap-3">
+                <Spinner className="h-6 w-6 text-blue-neptune animate-spin" />
+                Submitting...
+              </span>
+            ) : (
+              "Contact us to upgrade your account"
+            )}
           </button>
         </div>
       )}
