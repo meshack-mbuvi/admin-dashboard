@@ -53,24 +53,32 @@ export default function UpgradeRequiredModalModal(
     })
   }
 
+  const handleCloseClick = () => {
+    handleClose()
+    setHasSubmitted(false)
+  }
+
   return (
-    <Modal
-      show={show}
-      outsideOnClick
-      closeModal={() => {
-        handleClose()
-        setHasSubmitted(false)
-      }}
-    >
+    <Modal show={show} outsideOnClick closeModal={handleCloseClick}>
       {hasSubmitted ? (
         <div className="flex flex-col space-y-8">
           <p className="font-sans font-medium text-2xl text-gray-1">
-            Request sent
+            Thank you for sharing your interest! 🎉
           </p>
           <p>
-            Thank you for expressing an interest, someone from the team will
-            email you as soon as possible.
+            Our team has been notified. Someone will email you in the next
+            business day. If you have any questions, please email us at{" "}
+            <a href="mailto:sales@syndicate.io" className="text-blue-2">
+              sales@syndicate.io
+            </a>
           </p>
+
+          <button
+            className={clsx(LightButtonStyles, "rounded-lg w-full")}
+            onClick={handleCloseClick}
+          >
+            Go back to dashboard
+          </button>
         </div>
       ) : (
         <div className="flex flex-col space-y-8">
