@@ -24,13 +24,14 @@
     "react-click-away-listener": "^2.2.3",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.46.1",
+    "react-hook-form": "^7.47.0",
     "react-qr-code": "^2.0.12",
     "react-tooltip": "^5.21.3",
     "server-only": "^0.0.1",
     "stytch": "^8.4.0",
     "use-debounce": "^9.0.4",
     "viem": "^1.10.9",
+    "zod": "^3.22.3",
     "zustand": "^4.4.2"
   },
   "devDependencies": {

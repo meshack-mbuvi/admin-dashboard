@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { usePathname } from "next/navigation"
 
 import Form from "@/components/Form"
 import Submit from "@/components/Form/Submit"
@@ -18,6 +19,7 @@ type OrganizationFields = {
 export default function CreateOrganization() {
   const { mutateAsync, isError } = useCreateOrganization()
   const [loginContinued, setLoginContinued] = useState<boolean>(false)
+  const pathname = usePathname()
 
   const [isOrganizationNameAvailable, setIsOrganizationNameAvailable] =
     useState(true)
@@ -56,9 +58,25 @@ export default function CreateOrganization() {
         body: JSON.stringify({
           ...values,
         }),
-      }).then(() => {
-        setLoginContinued(true)
       })
+        .then(async () => {
+          return fetch("/api/signup", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+
+            body: JSON.stringify({
+              email: values.emailAddress,
+              company: values.organizationName,
+              name: values.userName,
+              referrer: pathname,
+            }),
+          })
+        })
+        .then(() => {
+          setLoginContinued(true)
+        })
     }
   }
 
