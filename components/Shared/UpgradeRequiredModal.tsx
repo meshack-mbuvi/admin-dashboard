@@ -1,8 +1,16 @@
+"use client"
+
 import clsx from "clsx"
+import { useState } from "react"
+import { usePathname } from "next/navigation"
 
 import Modal from "@/components/Modal"
 import Check from "@/components/icons/Check"
 import { LightButtonStyles } from "@/components/Buttons"
+
+import useContactSales from "@/hooks/useContactSales"
+import useGetUser from "@/hooks/useGetUser"
+import Spinner from "../icons/Spinner"
 
 type UpgradeRequiredModalProps = {
   show: boolean
@@ -29,28 +37,77 @@ export default function UpgradeRequiredModalModal(
   props: UpgradeRequiredModalProps
 ) {
   const { show, handleClose } = props
+  const pathname = usePathname()
+
+  const { data, isLoading } = useGetUser()
+  const { mutateAsync } = useContactSales()
+  const [hasSubmitted, setHasSubmitted] = useState(false)
+
+  const handleUpgradeClick = async () => {
+    if (!data) return
+
+    mutateAsync({
+      email: data?.emailAddress,
+      referrer: pathname,
+    }).then(() => {
+      setHasSubmitted(true)
+    })
+  }
+
+  const handleCloseClick = () => {
+    handleClose()
+    setHasSubmitted(false)
+  }
 
   return (
-    <Modal
-      show={show}
-      outsideOnClick
-      closeModal={() => {
-        handleClose()
-      }}
-    >
-      <div className="flex flex-col space-y-14">
-        <p className="font-sans font-medium text-2xl text-gray-1">
-          Upgrade to access premium features
-        </p>
-        <div className="space-y-4">
-          {UpgradePerks.map((perk, index) => {
-            return <Perk text={perk} key={index} />
-          })}
+    <Modal show={show} outsideOnClick closeModal={handleCloseClick}>
+      {hasSubmitted ? (
+        <div className="flex flex-col space-y-8">
+          <p className="font-sans font-medium text-2xl text-gray-1">
+            Thank you for sharing your interest! 🎉
+          </p>
+          <p>
+            Our team has been notified. Someone will email you in the next
+            business day. If you have any questions, please email us at{" "}
+            <a href="mailto:sales@syndicate.io" className="text-blue-2">
+              sales@syndicate.io
+            </a>
+          </p>
+
+          <button
+            className={clsx(LightButtonStyles, "rounded-lg w-full")}
+            onClick={handleCloseClick}
+          >
+            Go back to dashboard
+          </button>
         </div>
-        <button className={clsx(LightButtonStyles, "rounded-lg w-full")}>
-          Contact us to upgrade your account
-        </button>
-      </div>
+      ) : (
+        <div className="flex flex-col space-y-8">
+          <p className="font-sans font-medium text-2xl text-gray-1">
+            Upgrade to access premium features
+          </p>
+          <div className="space-y-4">
+            {UpgradePerks.map((perk, index) => {
+              return <Perk text={perk} key={index} />
+            })}
+          </div>
+
+          <button
+            className={clsx(LightButtonStyles, "rounded-lg w-full relative")}
+            onClick={handleUpgradeClick}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <span className="flex justify-center gap-3">
+                <Spinner className="h-6 w-6 text-blue-neptune animate-spin" />
+                Submitting...
+              </span>
+            ) : (
+              "Contact us to upgrade your account"
+            )}
+          </button>
+        </div>
+      )}
     </Modal>
   )
 }
@@ -58,6 +115,6 @@ export default function UpgradeRequiredModalModal(
 const Perk = ({ text }: PerkProps) => (
   <div className="flex space-x-3.5 items-center">
     <Check className="h-3.5 text-teal" />
-    <div>{text}</div>
+    <div className="text-sm">{text}</div>
   </div>
 )
