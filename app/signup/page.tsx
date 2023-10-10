@@ -152,7 +152,7 @@ export default function CreateOrganization() {
           </div>
         </>
       )}
-      <div className="text-xs text-gray-4 max-w-xs flex-grow pb-12">
+      <div className="text-xs text-gray-4 max-w-xs">
         <span>By signing in and using Syndicate, you agree to the </span>
         <Link
           href="https://syndicate.io/terms"
@@ -170,6 +170,13 @@ export default function CreateOrganization() {
           Privacy Policy
         </Link>
       </div>
+
+      <p className="border-t border-gray-7 pt-10 w-[500px] text-gray-4">
+        or{" "}
+        <Link href="/" className="underline">
+          Log in
+        </Link>
+      </p>
     </div>
   )
 }
