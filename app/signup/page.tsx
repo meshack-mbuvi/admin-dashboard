@@ -174,7 +174,7 @@ export default function CreateOrganization() {
       <p className="border-t border-gray-7 pt-10 w-[500px] text-gray-4">
         or{" "}
         <Link href="/" className="underline">
-          Login
+          Log in
         </Link>
       </p>
     </div>
