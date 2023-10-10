@@ -9,11 +9,12 @@ import Input from "./inputs/Input"
 import NetworkDropdown from "./inputs/NetworkDropdown"
 import Select, { SelectOption } from "./inputs/Select"
 
-import ArrowRight from "@/components/icons/ArrowRight"
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateProject from "@/hooks/useCreateProject"
+import useFreePlan from "@/hooks/useFreePlan"
 import useGetOrganization from "@/hooks/useGetOrganization"
-import useTestUser from "@/hooks/useTestUser"
+import AppreciationContent from "./Shared/AppreciationContent"
+import ContactUsToUpgrade from "./Shared/ContactUsToUpgrade"
 
 type CreateProjectModalProps = {
   show: boolean
@@ -37,7 +38,9 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
   const { data: organizationData, isLoading: isOrganizationDataLoading } =
     useGetOrganization()
 
-  const isTestUser = useTestUser()
+  const isFreePlan = useFreePlan()
+
+  const [hasSubmitted, setHasSubmitted] = useState(false)
 
   const { isError, mutate, isSuccess, isLoading, reset } = useCreateProject({
     onSuccess: (data) => {
@@ -87,6 +90,15 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
     onClose()
   }
 
+  const onSuccess = () => {
+    setHasSubmitted(true)
+  }
+
+  const handleCloseClick = () => {
+    onClose()
+    setHasSubmitted(false)
+  }
+
   return (
     <>
       <StepsModal
@@ -109,90 +121,90 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
           setNetwork(0)
           reset()
           onClose()
+          setHasSubmitted(false)
         }}
       >
-        <div className="flex flex-col justify-center items-left bg-gray-8 my-4">
-          {isTestUser && (
-            <p className="flex text-blue-secondary items-center mb-7">
-              Contact us to upgrade your account and access this feature{" "}
-              <ArrowRight className="h-4 ml-[6px]" />
-            </p>
-          )}
+        {hasSubmitted ? (
+          <AppreciationContent handleCloseClick={handleCloseClick} />
+        ) : (
+          <div className="flex flex-col justify-center items-left bg-gray-8 my-4">
+            {isFreePlan && <ContactUsToUpgrade onSuccess={onSuccess} />}
 
-          {isLoading ? (
-            <div className="flex w-full align-middle justify-center">
-              <span className="mr-4">{PendingStatusText}</span>
-              <Spinner className="h-6 w-6 text-blue-neptune" />
-            </div>
-          ) : isError ? (
-            <div className="flex w-full align-middle justify-center">
-              <span className="mr-4 text-red">{ErrorStatusText}</span>
-            </div>
-          ) : (
-            <>
-              <p className="font-sans font-medium text-2xl text-gray-1 mb-7">
-                New Project
-              </p>
-              <div className="flex flex-col justify-center items-left mb-7">
-                <p className="font-sans font-medium text-white text-sm mb-2 bg-dark">
-                  Name
-                </p>
-                <Input
-                  placeholder="My Project XYZ"
-                  value={name}
-                  onChange={(e) => handleNameChange(e)}
-                  disabled={isTestUser}
-                  className="disabled:cursor-not-allowed"
-                />
+            {isLoading ? (
+              <div className="flex w-full align-middle justify-center">
+                <span className="mr-4">{PendingStatusText}</span>
+                <Spinner className="h-6 w-6 text-blue-neptune" />
               </div>
-              <div className="flex flex-col justify-center items-left mb-7">
-                <p className="font-sans font-medium text-white text-sm mb-2">
-                  Environment
-                </p>
-                <Select
-                  options={environmentOptions}
-                  placeholder="Select environment type"
-                  selected={environment}
-                  setSelected={setEnvironment}
-                  disabled={isTestUser}
-                />
+            ) : isError ? (
+              <div className="flex w-full align-middle justify-center">
+                <span className="mr-4 text-red">{ErrorStatusText}</span>
               </div>
-              <div className="flex flex-col justify-center items-left mb-7">
-                <NetworkDropdown
-                  currentNetwork={network}
-                  setCurrentNetwork={setNetwork}
-                  placeholder="Select preliminary network"
-                  above={true}
-                  disabled={isTestUser}
-                />
-                <p className="text-gray-3 mt-2">
-                  You can add more networks anytime
+            ) : (
+              <>
+                <p className="font-sans font-medium text-2xl text-gray-1 mb-7">
+                  New Project
                 </p>
-              </div>
-              <input
-                type="button"
-                disabled={
-                  !name ||
-                  !environment ||
-                  !network ||
-                  isOrganizationDataLoading ||
-                  isTestUser
-                }
-                onClick={() => {
-                  handleRequest()
-                }}
-                className="text-black font-sans disabled:bg-opacity-60 cursor-pointer disabled:cursor-not-allowed font-medium bg-white rounded-lg px-8 py-3.5"
-                value="Create project"
-              />
+                <div className="flex flex-col justify-center items-left mb-7">
+                  <p className="font-sans font-medium text-white text-sm mb-2 bg-dark">
+                    Name
+                  </p>
+                  <Input
+                    placeholder="My Project XYZ"
+                    value={name}
+                    onChange={(e) => handleNameChange(e)}
+                    disabled={isFreePlan}
+                    className="disabled:cursor-not-allowed"
+                  />
+                </div>
+                <div className="flex flex-col justify-center items-left mb-7">
+                  <p className="font-sans font-medium text-white text-sm mb-2">
+                    Environment
+                  </p>
+                  <Select
+                    options={environmentOptions}
+                    placeholder="Select environment type"
+                    selected={environment}
+                    setSelected={setEnvironment}
+                    disabled={isFreePlan}
+                  />
+                </div>
+                <div className="flex flex-col justify-center items-left mb-7">
+                  <NetworkDropdown
+                    currentNetwork={network}
+                    setCurrentNetwork={setNetwork}
+                    placeholder="Select preliminary network"
+                    above={true}
+                    disabled={isFreePlan}
+                  />
+                  <p className="text-gray-3 mt-2">
+                    You can add more networks anytime
+                  </p>
+                </div>
+                <input
+                  type="button"
+                  disabled={
+                    !name ||
+                    !environment ||
+                    !network ||
+                    isOrganizationDataLoading ||
+                    isFreePlan
+                  }
+                  onClick={() => {
+                    handleRequest()
+                  }}
+                  className="text-black font-sans disabled:bg-opacity-60 cursor-pointer disabled:cursor-not-allowed font-medium bg-white rounded-lg px-8 py-3.5"
+                  value="Create project"
+                />
 
-              <ExternalLink
-                href="https://docs.syndicate.io"
-                linkText="View Guide"
-                className="mx-auto mt-6 text-yellow-secondary"
-              />
-            </>
-          )}
-        </div>
+                <ExternalLink
+                  href="https://docs.syndicate.io"
+                  linkText="View Guide"
+                  className="mx-auto mt-6 text-yellow-secondary"
+                />
+              </>
+            )}
+          </div>
+        )}
       </Modal>
     </>
   )

@@ -1,16 +1,17 @@
 "use client"
 
 import clsx from "clsx"
-import { useState } from "react"
 import { usePathname } from "next/navigation"
+import { useState } from "react"
 
+import { LightButtonStyles } from "@/components/Buttons"
 import Modal from "@/components/Modal"
 import Check from "@/components/icons/Check"
-import { LightButtonStyles } from "@/components/Buttons"
 
 import useContactSales from "@/hooks/useContactSales"
 import useGetUser from "@/hooks/useGetUser"
 import Spinner from "../icons/Spinner"
+import AppreciationContent from "./AppreciationContent"
 
 type UpgradeRequiredModalProps = {
   show: boolean
@@ -39,8 +40,8 @@ export default function UpgradeRequiredModalModal(
   const { show, handleClose } = props
   const pathname = usePathname()
 
-  const { data, isLoading } = useGetUser()
-  const { mutateAsync } = useContactSales()
+  const { data } = useGetUser()
+  const { mutateAsync, isLoading } = useContactSales()
   const [hasSubmitted, setHasSubmitted] = useState(false)
 
   const handleUpgradeClick = async () => {
@@ -62,25 +63,7 @@ export default function UpgradeRequiredModalModal(
   return (
     <Modal show={show} outsideOnClick closeModal={handleCloseClick}>
       {hasSubmitted ? (
-        <div className="flex flex-col space-y-8">
-          <p className="font-sans font-medium text-2xl text-gray-1">
-            Thank you for sharing your interest! 🎉
-          </p>
-          <p>
-            Our team has been notified. Someone will email you in the next
-            business day. If you have any questions, please email us at{" "}
-            <a href="mailto:sales@syndicate.io" className="text-blue-2">
-              sales@syndicate.io
-            </a>
-          </p>
-
-          <button
-            className={clsx(LightButtonStyles, "rounded-lg w-full")}
-            onClick={handleCloseClick}
-          >
-            Go back to dashboard
-          </button>
-        </div>
+        <AppreciationContent handleCloseClick={handleCloseClick} />
       ) : (
         <div className="flex flex-col space-y-8">
           <p className="font-sans font-medium text-2xl text-gray-1">

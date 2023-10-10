@@ -1,21 +1,23 @@
 "use client"
 import clsx from "clsx"
-import { useParams, useSearchParams } from "next/navigation"
 import Link from "next/link"
+import { useParams, useSearchParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 
+import { DarkButtonStyles } from "@/components/Buttons"
+import CreateContractButton from "@/components/Buttons/CreateContractButton"
 import AddContractModal from "@/components/Contracts/AddContractModal"
 import ProjectContracts from "@/components/Contracts/ProjectContracts"
-import { DarkButtonStyles } from "@/components/Buttons"
-import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
-import CreateContractButton from "@/components/Buttons/CreateContractButton"
 import Section from "@/components/Section"
 import EmptyState from "@/components/Shared/Empty"
+import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
 
+import PremiumPill from "@/components/Shared/PremiumPill"
+import useFreePlan from "@/hooks/useFreePlan"
 import useGetProjectById from "@/hooks/useGetProjectById"
 import { QueryParams } from "@/types/queryParams"
-import { NetworkId } from "@/utils/network"
 import getFirstOrString from "@/utils/getFirstOrString"
+import { NetworkId } from "@/utils/network"
 import Loading from "../Loading"
 
 export default function Contracts() {
@@ -25,6 +27,8 @@ export default function Contracts() {
   const showAddContractModalInitial = search.get(
     QueryParams.ShowNewContractModal
   )
+
+  const isFreePlan = useFreePlan()
 
   // HACK: show animation on intial load
   // issue below for a better fix using `appear` on the modal Transition
@@ -56,7 +60,12 @@ export default function Contracts() {
     <Section className="flex flex-col font-sans p-7 rounded-lg mr-10">
       <div className="flex justify-between items-center">
         <div className="text-2xl pl-7">Contracts</div>
-        <CreateContractButton onClick={() => setShowAddContractModal(true)} />
+
+        <div className="flex space-x-7">
+          {isFreePlan && <PremiumPill />}
+
+          <CreateContractButton onClick={() => setShowAddContractModal(true)} />
+        </div>
       </div>
       <div className="text-sm text-gray-3 pl-7">
         {!isLoading && !Object.keys(networkContracts).length ? (
