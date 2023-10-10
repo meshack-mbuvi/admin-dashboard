@@ -136,10 +136,10 @@ export default function CreateOrganization() {
               />
               <TextInput
                 name="userName"
-                validate={{ required: "Name must be provided" }}
-                label="Your Name"
+                validate={{ required: "Full name must be provided" }}
+                label="Full Name"
                 type="text"
-                placeholder="Enter your name"
+                placeholder="Enter your full name"
               />
               <Submit>Create organization</Submit>
 
