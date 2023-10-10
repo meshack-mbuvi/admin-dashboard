@@ -9,6 +9,7 @@ import TextInput from "@/components/Form/TextInput"
 import Text from "@/components/Text"
 import Logo from "@/components/icons/Logo"
 import useCreateOrganization from "@/hooks/useCreateOrganization"
+import Link from "next/link"
 
 type OrganizationFields = {
   organizationName: string
@@ -81,7 +82,7 @@ export default function CreateOrganization() {
   }
 
   return (
-    <div className="flex flex-col space-y-10 justify-center mx-auto text-center mt-24">
+    <div className="flex flex-col space-y-10 items-center mx-auto text-center pt-24 h-screen">
       {loginContinued ? (
         <>
           <div className="flex mx-auto justify-center">
@@ -151,6 +152,24 @@ export default function CreateOrganization() {
           </div>
         </>
       )}
+      <div className="text-xs text-gray-4 max-w-xs flex-grow pb-12">
+        <span>By signing in and using Syndicate, you agree to the </span>
+        <Link
+          href="https://syndicate.io/terms"
+          target="_blank"
+          className="underline inline"
+        >
+          Terms of Service
+        </Link>
+        <span> and </span>
+        <Link
+          href="https://syndicate.io/privacy-policy"
+          target="_blank"
+          className="underline inline"
+        >
+          Privacy Policy
+        </Link>
+      </div>
     </div>
   )
 }
