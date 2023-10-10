@@ -2,7 +2,6 @@ import localFont from "next/font/local"
 import { ReactNode } from "react"
 
 import Providers from "@/components/Providers"
-import Footer from "@/components/Footer"
 
 import "react-tooltip/dist/react-tooltip.css"
 import "styles/globals.css"
@@ -29,8 +28,6 @@ export default function RootLayout(props: RootLayoutProps) {
         className={`${slussenFont.variable} ${slussenMono.variable} font-sans bg-black text-white`}
       >
         <Providers>{children}</Providers>
-
-        <Footer />
       </body>
     </html>
   )
