@@ -45,7 +45,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
   const { isError, mutate, isSuccess, isLoading, reset } = useCreateProject({
     onSuccess: (data) => {
       data?.json().then((data) => {
-        router.push(`/dashboard/${data.id}/transactions`)
+        router.push(`/projects/${data.id}/transactions`)
       })
     },
   })
