@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { usePathname } from "next/navigation"
 
 import Form from "@/components/Form"
 import Submit from "@/components/Form/Submit"
@@ -8,6 +9,7 @@ import TextInput from "@/components/Form/TextInput"
 import Text from "@/components/Text"
 import Logo from "@/components/icons/Logo"
 import useCreateOrganization from "@/hooks/useCreateOrganization"
+import Link from "next/link"
 
 type OrganizationFields = {
   organizationName: string
@@ -18,6 +20,7 @@ type OrganizationFields = {
 export default function CreateOrganization() {
   const { mutateAsync, isError } = useCreateOrganization()
   const [loginContinued, setLoginContinued] = useState<boolean>(false)
+  const pathname = usePathname()
 
   const [isOrganizationNameAvailable, setIsOrganizationNameAvailable] =
     useState(true)
@@ -56,14 +59,30 @@ export default function CreateOrganization() {
         body: JSON.stringify({
           ...values,
         }),
-      }).then(() => {
-        setLoginContinued(true)
       })
+        .then(async () => {
+          return fetch("/api/signup", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+
+            body: JSON.stringify({
+              email: values.emailAddress,
+              company: values.organizationName,
+              name: values.userName,
+              referrer: pathname,
+            }),
+          })
+        })
+        .then(() => {
+          setLoginContinued(true)
+        })
     }
   }
 
   return (
-    <div className="flex flex-col space-y-10 justify-center mx-auto text-center mt-24">
+    <div className="flex flex-col space-y-10 items-center mx-auto text-center pt-24 h-screen">
       {loginContinued ? (
         <>
           <div className="flex mx-auto justify-center">
@@ -111,16 +130,16 @@ export default function CreateOrganization() {
               <TextInput
                 name="emailAddress"
                 validate={{ required: "Email Address must be provided" }}
-                label="Your Email"
+                label="Work Email"
                 type="email"
-                placeholder="Enter your email address"
+                placeholder="Enter work email address"
               />
               <TextInput
                 name="userName"
-                validate={{ required: "Name must be provided" }}
-                label="Your Name"
+                validate={{ required: "Full name must be provided" }}
+                label="Full Name"
                 type="text"
-                placeholder="Enter your name"
+                placeholder="Enter your full name"
               />
               <Submit>Create organization</Submit>
 
@@ -133,6 +152,31 @@ export default function CreateOrganization() {
           </div>
         </>
       )}
+      <div className="text-xs text-gray-4 max-w-xs">
+        <span>By signing in and using Syndicate, you agree to the </span>
+        <Link
+          href="https://syndicate.io/terms"
+          target="_blank"
+          className="underline inline"
+        >
+          Terms of Service
+        </Link>
+        <span> and </span>
+        <Link
+          href="https://syndicate.io/privacy-policy"
+          target="_blank"
+          className="underline inline"
+        >
+          Privacy Policy
+        </Link>
+      </div>
+
+      <p className="border-t border-gray-7 pt-10 w-[500px] text-gray-4">
+        or{" "}
+        <Link href="/" className="underline">
+          Log in
+        </Link>
+      </p>
     </div>
   )
 }

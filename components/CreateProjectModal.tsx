@@ -2,16 +2,19 @@ import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 
 import Modal from "./Modal"
+import ExternalLink from "./Shared/ExternalLink"
 import StepsModal from "./Shared/StepsModal"
 import { Spinner } from "./Spinner"
 import Input from "./inputs/Input"
 import NetworkDropdown from "./inputs/NetworkDropdown"
 import Select, { SelectOption } from "./inputs/Select"
-import ExternalLink from "./Shared/ExternalLink"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateProject from "@/hooks/useCreateProject"
+import useFreePlan from "@/hooks/useFreePlan"
 import useGetOrganization from "@/hooks/useGetOrganization"
+import AppreciationContent from "./Shared/AppreciationContent"
+import ContactUsToUpgrade from "./Shared/ContactUsToUpgrade"
 
 type CreateProjectModalProps = {
   show: boolean
@@ -34,6 +37,10 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
   const sessionToken = useAuthToken()
   const { data: organizationData, isLoading: isOrganizationDataLoading } =
     useGetOrganization()
+
+  const isFreePlan = useFreePlan()
+
+  const [hasSubmitted, setHasSubmitted] = useState(false)
 
   const { isError, mutate, isSuccess, isLoading, reset } = useCreateProject({
     onSuccess: (data) => {
@@ -83,6 +90,15 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
     onClose()
   }
 
+  const onSuccess = () => {
+    setHasSubmitted(true)
+  }
+
+  const handleCloseClick = () => {
+    onClose()
+    setHasSubmitted(false)
+  }
+
   return (
     <>
       <StepsModal
@@ -105,72 +121,90 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
           setNetwork(0)
           reset()
           onClose()
+          setHasSubmitted(false)
         }}
       >
-        <div className="flex flex-col justify-center items-left bg-gray-8 my-4">
-          {isLoading ? (
-            <div className="flex w-full align-middle justify-center">
-              <span className="mr-4">{PendingStatusText}</span>
-              <Spinner className="h-6 w-6 text-blue-neptune" />
-            </div>
-          ) : isError ? (
-            <div className="flex w-full align-middle justify-center">
-              <span className="mr-4 text-red">{ErrorStatusText}</span>
-            </div>
-          ) : (
-            <>
-              <p className="font-sans font-medium text-2xl text-gray-1 mb-7">
-                New Project
-              </p>
-              <div className="flex flex-col justify-center items-left mb-7">
-                <p className="font-sans font-medium text-white text-sm mb-2 bg-dark">
-                  Name
-                </p>
-                <Input
-                  placeholder="My Project XYZ"
-                  value={name}
-                  onChange={(e) => handleNameChange(e)}
-                />
-              </div>
-              <div className="flex flex-col justify-center items-left mb-7">
-                <p className="font-sans font-medium text-white text-sm mb-2">
-                  Environment
-                </p>
-                <Select
-                  options={environmentOptions}
-                  placeholder="Select environment type"
-                  selected={environment}
-                  setSelected={setEnvironment}
-                />
-              </div>
-              <div className="flex flex-col justify-center items-left mb-7">
-                <NetworkDropdown
-                  currentNetwork={network}
-                  setCurrentNetwork={setNetwork}
-                  placeholder="Select preliminary network"
-                  above={true}
-                />
-              </div>
-              <input
-                type="button"
-                disabled={
-                  !name || !environment || !network || isOrganizationDataLoading
-                }
-                onClick={() => {
-                  handleRequest()
-                }}
-                className="text-black font-sans disabled:bg-opacity-60 cursor-pointer disabled:cursor-not-allowed font-medium bg-white rounded-lg px-8 py-3.5"
-                value="Create project"
-              />
+        {hasSubmitted ? (
+          <AppreciationContent handleCloseClick={handleCloseClick} />
+        ) : (
+          <div className="flex flex-col justify-center items-left bg-gray-8 my-4">
+            {isFreePlan && <ContactUsToUpgrade onSuccess={onSuccess} />}
 
-              <ExternalLink
-                href="https://docs.syndicate.io"
-                linkText="View Guide"
-                className="mx-auto mt-6 text-yellow-secondary"
-              />
-            </>
-          )}
-        </div>
+            {isLoading ? (
+              <div className="flex w-full align-middle justify-center">
+                <span className="mr-4">{PendingStatusText}</span>
+                <Spinner className="h-6 w-6 text-blue-neptune" />
+              </div>
+            ) : isError ? (
+              <div className="flex w-full align-middle justify-center">
+                <span className="mr-4 text-red">{ErrorStatusText}</span>
+              </div>
+            ) : (
+              <>
+                <p className="font-sans font-medium text-2xl text-gray-1 mb-7">
+                  New Project
+                </p>
+                <div className="flex flex-col justify-center items-left mb-7">
+                  <p className="font-sans font-medium text-white text-sm mb-2 bg-dark">
+                    Name
+                  </p>
+                  <Input
+                    placeholder="My Project XYZ"
+                    value={name}
+                    onChange={(e) => handleNameChange(e)}
+                    disabled={isFreePlan}
+                    className="disabled:cursor-not-allowed"
+                  />
+                </div>
+                <div className="flex flex-col justify-center items-left mb-7">
+                  <p className="font-sans font-medium text-white text-sm mb-2">
+                    Environment
+                  </p>
+                  <Select
+                    options={environmentOptions}
+                    placeholder="Select environment type"
+                    selected={environment}
+                    setSelected={setEnvironment}
+                    disabled={isFreePlan}
+                  />
+                </div>
+                <div className="flex flex-col justify-center items-left mb-7">
+                  <NetworkDropdown
+                    currentNetwork={network}
+                    setCurrentNetwork={setNetwork}
+                    placeholder="Select preliminary network"
+                    above={true}
+                    disabled={isFreePlan}
+                  />
+                  <p className="text-gray-3 mt-2">
+                    You can add more networks anytime
+                  </p>
+                </div>
+                <input
+                  type="button"
+                  disabled={
+                    !name ||
+                    !environment ||
+                    !network ||
+                    isOrganizationDataLoading ||
+                    isFreePlan
+                  }
+                  onClick={() => {
+                    handleRequest()
+                  }}
+                  className="text-black font-sans disabled:bg-opacity-60 cursor-pointer disabled:cursor-not-allowed font-medium bg-white rounded-lg px-8 py-3.5"
+                  value="Create project"
+                />
+
+                <ExternalLink
+                  href="https://docs.syndicate.io"
+                  linkText="View Guide"
+                  className="mx-auto mt-6 text-yellow-secondary"
+                />
+              </>
+            )}
+          </div>
+        )}
       </Modal>
     </>
   )

@@ -2,6 +2,8 @@ import { ReactNode } from "react"
 import { redirect } from "next/navigation"
 
 import Header from "@/components/Navigation/Header"
+import Footer from "@/components/Footer"
+import Modals from "@/components/Modal/Modals"
 
 import getAuthToken from "@/utils/getAuthToken"
 
@@ -22,6 +24,8 @@ export default function DashboardLayout(props: LayoutProps) {
     <div>
       <Header />
       <div className="ml-28 mr-10">{children}</div>
+      <Footer />
+      <Modals />
     </div>
   )
 }

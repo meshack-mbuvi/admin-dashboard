@@ -1,15 +1,18 @@
 import Form from "@/components/Form"
+import FailureIcon from "@/components/icons/failureIcon"
+import SuccessCheckMark from "@/components/icons/successCheckMark"
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateUser from "@/hooks/useCreateUser"
+import useFreePlan from "@/hooks/useFreePlan"
 import useGetOrganization from "@/hooks/useGetOrganization"
-import React, { useMemo } from "react"
+import React, { useMemo, useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
 import Submit from "./Form/Submit"
 import TextInput from "./Form/TextInput"
 import Modal from "./Modal"
+import AppreciationContent from "./Shared/AppreciationContent"
+import ContactUsToUpgrade from "./Shared/ContactUsToUpgrade"
 import { Spinner } from "./Spinner"
-import FailureIcon from "./icons/failureIcon"
-import SuccessCheckMark from "./icons/successCheckMark"
 
 type AddUserModalProps = {
   show: boolean
@@ -31,10 +34,14 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
   const { isError, isLoading, isSuccess, mutate, error } = useCreateUser()
   const { data: organizationData } = useGetOrganization()
 
+  const isFreePlan = useFreePlan()
+
   const allowedDomains = useMemo(() => {
     if (!organizationData) return []
     return organizationData.stytchInformation.email_allowed_domains
   }, [organizationData])
+
+  const [hasSubmitted, setHasSubmitted] = useState(false)
 
   const handleValidation = (value: string) => {
     const [_, domain] = value.split("@")
@@ -69,17 +76,30 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
     }
   }
 
+  const onSuccess = () => {
+    setHasSubmitted(true)
+  }
+
+  const handleCloseClick = () => {
+    onClose()
+    setHasSubmitted(false)
+  }
+
   return (
-    <>
-      <Modal
-        show={show}
-        outsideOnClick={true}
-        closeModal={() => {
-          onClose()
-        }}
-      >
+    <Modal
+      show={show}
+      outsideOnClick={true}
+      closeModal={() => {
+        onClose()
+        setHasSubmitted(false)
+      }}
+    >
+      {hasSubmitted ? (
+        <AppreciationContent handleCloseClick={handleCloseClick} />
+      ) : (
         <Form onSubmit={onSubmit}>
           <div className="flex flex-col space-y-8 justify-center items-left bg-gray-8 my-4">
+            {isFreePlan && <ContactUsToUpgrade onSuccess={onSuccess} />}
             <p className="font-sans font-medium text-2xl text-gray-1 mb-7">
               Invite User
             </p>
@@ -91,12 +111,14 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
               validate={{
                 required: "Please enter a name",
               }}
+              disabled={isFreePlan}
             />
 
             <TextInput
               label="Email Address"
               type="email"
               name="email"
+              disabled={isFreePlan}
               placeholder="example@example.com"
               validate={{
                 required: "Email address is required",
@@ -124,12 +146,12 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
                 </span>
               </div>
             ) : (
-              <Submit>Invite to organization</Submit>
+              <Submit disabled={isFreePlan}>Invite to organization</Submit>
             )}
           </div>
         </Form>
-      </Modal>
-    </>
+      )}
+    </Modal>
   )
 }
 

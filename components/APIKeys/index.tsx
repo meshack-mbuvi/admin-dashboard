@@ -17,12 +17,13 @@ import Trash from "@/components/icons/Trash"
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateApiKey from "@/hooks/useCreateApiKey"
 import useDeleteApiKey from "@/hooks/useDeleteApiKey"
+import useFreePlan from "@/hooks/useFreePlan"
 import useGetProjectApiKeys from "@/hooks/useGetApiKeys"
 import useGetUser from "@/hooks/useGetUser"
-import useTestUser from "@/hooks/useTestUser"
 import { formatDate } from "@/utils/formatDate"
 import { GatewayFetchArgs, ResponseError } from "@/utils/gatewayFetch"
 import getFirstOrString from "@/utils/getFirstOrString"
+import PremiumPill from "../Shared/PremiumPill"
 
 export default function APIKeys() {
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -39,8 +40,7 @@ export default function APIKeys() {
   const deleteMutation = useDeleteApiKey(projectIdString)
   const [showLimitedAccessModal, setShowLimitedAccessModal] = useState(false)
 
-  const isTestUser = useTestUser()
-
+  const isFreePlan = useFreePlan()
   const [pendingRequest, setPendingRequest] = useState<string>(
     "create" || "delete"
   )
@@ -83,7 +83,7 @@ export default function APIKeys() {
   ])
 
   const handleCreateAccessKey = () => {
-    if (isTestUser) return setShowLimitedAccessModal(true)
+    if (isFreePlan) return setShowLimitedAccessModal(true)
 
     if (!user?.is2FAEnabled) return setShowNo2FAModal(true)
     if (sessionToken) {
@@ -102,7 +102,7 @@ export default function APIKeys() {
   }
 
   const handleDeleteAccessKey = (keyId: string) => {
-    if (isTestUser) return setShowLimitedAccessModal(true)
+    if (isFreePlan) return setShowLimitedAccessModal(true)
 
     if (!user?.is2FAEnabled) return setShowNo2FAModal(true)
     const confirm = window.confirm("Are you sure you want to delete")
@@ -148,13 +148,17 @@ export default function APIKeys() {
       <div className="flex flex-col p-10 border border-gray-8 bg-gray-9 rounded-2lg mb-10 mr-10">
         <div className="flex justify-between">
           <Text className="font-medium text-2xl pb-5">Secret keys</Text>
-          <Button
-            className={clsx(LightButtonStyles, "flex items-center")}
-            onClick={handleCreateAccessKey}
-          >
-            <Add className="h-4 w-4 mr-4" />
-            Create a new key
-          </Button>
+          <div className="flex space-x-7">
+            {isFreePlan && <PremiumPill />}
+
+            <Button
+              className={clsx(LightButtonStyles, "flex items-center")}
+              onClick={handleCreateAccessKey}
+            >
+              <Add className="h-4 w-4 mr-4" />
+              Create a new key
+            </Button>
+          </div>
         </div>
         <p className="font-small text-gray-3 text-sm pb-7">
           Secret keys are used for API endpoint authentication.

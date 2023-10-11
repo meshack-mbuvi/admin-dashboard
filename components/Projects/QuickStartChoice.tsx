@@ -1,10 +1,12 @@
 import ArrowRight from "@/components/icons/ArrowRight"
+import PremiumPill from "@/components/Shared/PremiumPill"
 
 export interface QuickStartChoiceProps {
   icon: any
   title: string
   description: string
   onClick: () => void
+  showPremium?: boolean
 }
 
 export default function QuickStartChoice({
@@ -12,6 +14,7 @@ export default function QuickStartChoice({
   title,
   description,
   onClick,
+  showPremium,
 }: QuickStartChoiceProps) {
   return (
     <div
@@ -25,6 +28,7 @@ export default function QuickStartChoice({
         <span>{title}</span> <ArrowRight className="h-4" />
       </div>
       <div className="text-gray-4 pt-2">{description}</div>
+      {showPremium && <PremiumPill className="mt-8" />}
     </div>
   )
 }

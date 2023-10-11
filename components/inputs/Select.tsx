@@ -1,6 +1,6 @@
+import { Listbox, Transition } from "@headlessui/react"
 import clsx from "clsx"
 import { Fragment } from "react"
-import { Listbox, Transition } from "@headlessui/react"
 
 import Check from "../icons/Check"
 
@@ -55,11 +55,11 @@ const Select: React.FC<SelectProps> = ({
   }
 
   return (
-    <Listbox 
-      multiple={multiple} 
-      disabled={disabled} 
-      value={selected} 
-      onChange={setSelected} 
+    <Listbox
+      multiple={multiple}
+      disabled={disabled}
+      value={selected}
+      onChange={setSelected}
       name={name}
       by="id"
     >
@@ -69,12 +69,10 @@ const Select: React.FC<SelectProps> = ({
             <Listbox.Button
               className={clsx(
                 !isSelected && "text-gray-4",
-                "flex gap-4 border bg-gray-8 outline-none border-gray-7 rounded-lg px-4 py-4 w-full text-left"
+                "flex gap-4 border bg-gray-8 outline-none disabled:cursor-not-allowed border-gray-7 rounded-lg px-4 py-4 w-full text-left"
               )}
             >
-              <span className="block truncate">
-                {label}
-              </span>
+              <span className="block truncate">{label}</span>
             </Listbox.Button>
 
             <Transition
@@ -102,9 +100,13 @@ const Select: React.FC<SelectProps> = ({
                     value={option}
                   >
                     <span className="block truncate">{option.label}</span>
-                    {selected && multiple && selected.find(item => item.id === option.id) && <span>
-                      <Check className="h-3 w-3" aria-hidden="true" />
-                    </span>}
+                    {selected &&
+                      multiple &&
+                      selected.find((item) => item.id === option.id) && (
+                        <span>
+                          <Check className="h-3 w-3" aria-hidden="true" />
+                        </span>
+                      )}
                   </Listbox.Option>
                 ))}
               </Listbox.Options>
