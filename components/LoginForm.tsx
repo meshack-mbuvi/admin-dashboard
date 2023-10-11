@@ -2,13 +2,14 @@
 
 import { useStytchB2BClient } from "@stytch/nextjs/b2b"
 import { useState } from "react"
+import Link from "next/link"
 
 import Section from "./Section"
-
-import { getAuthRedirectURL } from "@/utils/environment"
 import Form from "./Form"
 import Submit from "./Form/Submit"
 import TextInput from "./Form/TextInput"
+
+import { getAuthRedirectURL } from "@/utils/environment"
 
 export default function LoginForm() {
   const [loginContinued, setLoginContinued] = useState<boolean>(false)
@@ -49,6 +50,13 @@ export default function LoginForm() {
           <Submit>Continue</Submit>
         </Form>
       </Section>
+
+      <p className="mt-10 border-t border-gray-7 pt-10 w-[500px] text-center text-gray-4">
+        or{" "}
+        <Link href="/signup" className="underline">
+          Sign up
+        </Link>
+      </p>
     </>
   )
 }

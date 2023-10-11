@@ -150,33 +150,34 @@ export default function CreateOrganization() {
               )}
             </Form>
           </div>
+
+          <div className="text-xs text-gray-4 max-w-xs">
+            <span>By signing in and using Syndicate, you agree to the </span>
+            <Link
+              href="https://syndicate.io/terms"
+              target="_blank"
+              className="underline inline"
+            >
+              Terms of Service
+            </Link>
+            <span> and </span>
+            <Link
+              href="https://syndicate.io/privacy-policy"
+              target="_blank"
+              className="underline inline"
+            >
+              Privacy Policy
+            </Link>
+          </div>
+
+          <p className="border-t border-gray-7 pt-10 w-[500px] text-gray-4">
+            or{" "}
+            <Link href="/" className="underline">
+              Log in
+            </Link>
+          </p>
         </>
       )}
-      <div className="text-xs text-gray-4 max-w-xs">
-        <span>By signing in and using Syndicate, you agree to the </span>
-        <Link
-          href="https://syndicate.io/terms"
-          target="_blank"
-          className="underline inline"
-        >
-          Terms of Service
-        </Link>
-        <span> and </span>
-        <Link
-          href="https://syndicate.io/privacy-policy"
-          target="_blank"
-          className="underline inline"
-        >
-          Privacy Policy
-        </Link>
-      </div>
-
-      <p className="border-t border-gray-7 pt-10 w-[500px] text-gray-4">
-        or{" "}
-        <Link href="/" className="underline">
-          Log in
-        </Link>
-      </p>
     </div>
   )
 }
