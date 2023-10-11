@@ -1,19 +1,17 @@
 import { redirect } from "next/navigation"
+import Link from "next/link"
 
 import Logo from "@/components/icons/Logo"
 import LoginForm from "@/components/LoginForm"
 
 import getAuthToken from "@/utils/getAuthToken"
-import Link from "next/link"
-import clsx from "clsx"
-import { DarkButtonStyles, LightButtonStyles } from "@/components/Buttons"
 
 export default function Login() {
   const authToken = getAuthToken()
 
   // DEV: If a user is already logged in take them to the dashboard page
   if (authToken) {
-    redirect("/dashboard")
+    redirect("/projects")
   }
 
   return (

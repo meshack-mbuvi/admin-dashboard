@@ -31,7 +31,7 @@ export default function Authenticate() {
           organization_id: organizationId,
           session_duration_minutes: 10080,
         })
-        router.push("/dashboard")
+        router.push("/projects")
       } catch (error) {
         return setError("generic")
       }
@@ -43,7 +43,7 @@ export default function Authenticate() {
     const authenticate = async () => {
       // If a session is found redirect to the dashboard page
       if (session) {
-        router.push("/dashboard")
+        router.push("/projects")
         return
       }
 
@@ -67,7 +67,7 @@ export default function Authenticate() {
             session_duration_minutes: 10080,
           })
 
-          router.push("/dashboard")
+          router.push("/projects")
           return
         }
 

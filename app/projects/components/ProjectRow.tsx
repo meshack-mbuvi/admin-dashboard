@@ -64,7 +64,7 @@ export default function ProjectRow(props: ProjectRowProps) {
 
   const handleProjectClick = (e: MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
-    router.push(`/dashboard/${projectId}/transactions`)
+    router.push(`/projects/${projectId}/transactions`)
   }
 
   return (

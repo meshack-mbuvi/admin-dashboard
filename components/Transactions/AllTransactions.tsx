@@ -15,7 +15,9 @@ import EmptyState from "@/components/Shared/Empty"
 import Hex from "@/components/Shared/Hex"
 import ResourceID from "@/components/Shared/ResourceID"
 import Table from "@/components/Table/Table"
-import TablePagination, { DEFAULT_TABLE_LIMIT } from "@/components/Table/TablePagination"
+import TablePagination, {
+  DEFAULT_TABLE_LIMIT,
+} from "@/components/Table/TablePagination"
 import TableTimeStampCell from "@/components/Table/TableTimeStampCell"
 import TransactionBlock from "@/components/Transactions/atoms/Block"
 import TransactionStatus, {
@@ -265,7 +267,7 @@ const AllTransactions = (props: AllTransactionsProps) => {
           <>
             <Link
               href={{
-                pathname: `/dashboard/${projectId}/contracts`,
+                pathname: `/projects/${projectId}/contracts`,
                 query: {
                   [QueryParams.ShowNewContractModal]: true,
                 },
