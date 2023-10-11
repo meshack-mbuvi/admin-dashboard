@@ -1,5 +1,6 @@
 import { ReactNode } from "react"
 import { redirect } from "next/navigation"
+import { Analytics } from "@vercel/analytics/react"
 
 import Header from "@/components/Navigation/Header"
 import Footer from "@/components/Footer"
@@ -26,6 +27,7 @@ export default function DashboardLayout(props: LayoutProps) {
       <div className="ml-28 mr-10">{children}</div>
       <Footer />
       <Modals />
+      <Analytics />
     </div>
   )
 }
