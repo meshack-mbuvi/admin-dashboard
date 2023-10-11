@@ -25,6 +25,7 @@ export default function useGetUser() {
 
       return (await usersResponse.json()) as UserDataType
     },
-    { enabled: !!sessionToken }
+    // DEV: 10 minutes cache time because this data wont change frequently but is used in many places
+    { enabled: !!sessionToken, staleTime: 10 * 60 * 1000 }
   )
 }

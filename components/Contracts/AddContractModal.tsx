@@ -7,7 +7,6 @@ import { useDebouncedCallback } from "use-debounce"
 import { isAddress } from "viem"
 
 import Modal from "@/components/Modal"
-import ExternalLink from "@/components/Shared/ExternalLink"
 import { Spinner } from "@/components/Spinner"
 import Check from "@/components/icons/Check"
 import SuccessCheckMark from "@/components/icons/successCheckMark"
@@ -362,12 +361,6 @@ export default function AddContractModal(props: AddContractModalProps) {
                 Add contract to project
               </button>
             )}
-
-            <ExternalLink
-              href="https://docs.syndicate.io"
-              linkText="View Guide"
-              className="mx-auto mt-6 text-yellow-secondary"
-            />
           </div>
         )}
       </Modal>
