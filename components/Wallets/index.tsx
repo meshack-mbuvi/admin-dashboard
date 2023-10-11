@@ -45,8 +45,7 @@ export default function Wallets() {
           {isFreePlan && <PremiumPill />}
 
           <Link
-            // TODO: ADD URL here
-            href="https://docs.syndicate.io/"
+            href="https://docs.syndicate.io/features/transaction-broadcasting"
             target="_blank"
             className={clsx(
               DarkButtonStyles,

@@ -89,24 +89,9 @@ export default function Contracts() {
         <EmptyState
           heading={"No contracts yet"}
           description={
-            <>
-              <span>
-                When contracts are added to your project, they&apos;ll appear
-                here
-              </span>
-              <Link
-                // TODO: ADD URL here
-                href="https://docs.syndicate.io"
-                target="_blank"
-                className={clsx(
-                  DarkButtonStyles,
-                  "border-yellow-secondary flex items-baseline text-white mx-auto mt-8"
-                )}
-              >
-                View Guide
-                <ArrowUpperRight className="h-4 w-4 ml-2" />
-              </Link>
-            </>
+            <span>
+              When contracts are added to your project, they&apos;ll appear here
+            </span>
           }
         />
       ) : (

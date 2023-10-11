@@ -45,14 +45,14 @@ export default async function ProjectLayout(props: ProjectLayoutProps) {
   const { children, params } = props
   const authToken = getAuthToken()
 
-  // DEV: Redirect to /dashboard if project does not exist
+  // DEV: Redirect to /projects if project does not exist
   try {
     await getProjectById({
       projectId: params.projectId,
       sessionToken: authToken,
     })
   } catch (error) {
-    redirect("/dashboard")
+    redirect("/projects")
   }
 
   return (

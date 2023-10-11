@@ -23,13 +23,11 @@ const NavLink = (props: NavLinkProps) => {
   return (
     <Link
       href={{
-        pathname: `/dashboard/${projectId}/${path}`,
+        pathname: `/projects/${projectId}/${path}`,
       }}
       className={clsx(
         className,
-        isActive()
-          ? "bg-white text-black"
-          : "text-gray-3 hover:bg-gray-8"
+        isActive() ? "bg-white text-black" : "text-gray-3 hover:bg-gray-8"
       )}
     >
       {children}

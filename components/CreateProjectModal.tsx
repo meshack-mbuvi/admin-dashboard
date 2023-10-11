@@ -2,7 +2,6 @@ import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 
 import Modal from "./Modal"
-import ExternalLink from "./Shared/ExternalLink"
 import StepsModal from "./Shared/StepsModal"
 import { Spinner } from "./Spinner"
 import Input from "./inputs/Input"
@@ -45,7 +44,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
   const { isError, mutate, isSuccess, isLoading, reset } = useCreateProject({
     onSuccess: (data) => {
       data?.json().then((data) => {
-        router.push(`/dashboard/${data.id}/transactions`)
+        router.push(`/projects/${data.id}/transactions`)
       })
     },
   })
@@ -194,12 +193,6 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                   }}
                   className="text-black font-sans disabled:bg-opacity-60 cursor-pointer disabled:cursor-not-allowed font-medium bg-white rounded-lg px-8 py-3.5"
                   value="Create project"
-                />
-
-                <ExternalLink
-                  href="https://docs.syndicate.io"
-                  linkText="View Guide"
-                  className="mx-auto mt-6 text-yellow-secondary"
                 />
               </>
             )}
