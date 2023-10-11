@@ -12,14 +12,18 @@ import Loading from "@/components/Loading"
 import Text from "@/components/Text"
 import RemoveIcon from "@/components/icons/Remove"
 import ResourceID from "@/components/Shared/ResourceID"
-import useAuthToken from "@/hooks/useAuthToken"
-import useDeleteUserById from "@/hooks/useDeleteUser"
-import useGetUser, { UserDataType } from "@/hooks/useGetUser"
-import useGetUsers from "@/hooks/useGetUsers"
-import { GatewayFetchArgs, ResponseError } from "@/utils/gatewayFetch"
 import EmptyState from "../Shared/Empty"
 import Table from "../Table/Table"
 import { ColumnHeader } from "./atoms/columnHeader"
+
+import { GatewayFetchArgs, ResponseError } from "@/utils/gatewayFetch"
+
+import useIsTestUser from "@/hooks/useIsTestUser"
+import useIsViewerUser from "@/hooks/useIsViewerUser"
+import useGetUser, { UserDataType } from "@/hooks/useGetUser"
+import useGetUsers from "@/hooks/useGetUsers"
+import useAuthToken from "@/hooks/useAuthToken"
+import useDeleteUserById from "@/hooks/useDeleteUser"
 
 const columnHelper = createColumnHelper<UserDataType>()
 
@@ -30,6 +34,8 @@ export default function Users() {
   const sessionToken = useAuthToken()
   const deleteMutation = useDeleteUserById()
   const { data: user } = useGetUser()
+  const isTestUser = useIsTestUser()
+  const isViewerUser = useIsViewerUser()
   const [pendingRequestParams, setPendingRequestParams] =
     useState<GatewayFetchArgs>()
 
@@ -102,14 +108,21 @@ export default function Users() {
 
     columnHelper.accessor("id", {
       header: () => <></>,
-      cell: (info) => (
-        <Button
-          className="flex items-center text-red text-sm "
-          onClick={() => handleDeleteUser(info.row.original.id)}
-        >
-          <RemoveIcon className="w-4 h-4 mr-2" /> Remove
-        </Button>
-      ),
+      cell: (info) => {
+        const canRemove =
+          (!isTestUser || !isViewerUser) && info.row.original.id !== user?.id
+
+        if (!canRemove) return null
+
+        return (
+          <Button
+            className="flex items-center text-red text-sm "
+            onClick={() => handleDeleteUser(info.row.original.id)}
+          >
+            <RemoveIcon className="w-4 h-4 mr-2" /> Remove
+          </Button>
+        )
+      },
     }),
   ]
 
