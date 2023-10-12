@@ -86,7 +86,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
     setHasSubmitted(false)
   }
 
-  // If form responds with an error or succwss wait 1s then reset
+  // If form responds with an error or success wait 1s then reset
   useTimeout(reset, isSuccess || isError ? 1000 : null)
 
   return (
