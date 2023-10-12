@@ -32,9 +32,9 @@ export default function Breadcrumbs() {
                     src={
                       organizationData?.stytchInformation.organization_logo_url
                     }
-                    alt=""
-                    object-fit="contain"
-                    fill={true}
+                    alt="Organization Logo"
+                    width={24}
+                    height={24}
                   />
                 </span>
               )}

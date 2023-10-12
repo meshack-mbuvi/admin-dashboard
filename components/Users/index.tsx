@@ -74,7 +74,7 @@ export default function Users() {
       endpointPath: `/admin/user/${id}`,
     })
 
-    if (!user?.is2FAEnabled) return setShowNo2FAModal(true)
+    if (!user?.is2FaEnabled) return setShowNo2FAModal(true)
 
     const confirm = window.confirm("Are you sure you want to delete this user?")
     if (sessionToken && confirm) {

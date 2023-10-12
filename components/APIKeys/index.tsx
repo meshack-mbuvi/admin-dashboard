@@ -85,7 +85,7 @@ export default function APIKeys() {
   const handleCreateAccessKey = () => {
     if (isFreePlan) return setShowLimitedAccessModal(true)
 
-    if (!user?.is2FAEnabled) return setShowNo2FAModal(true)
+    if (!user?.is2FaEnabled) return setShowNo2FAModal(true)
     if (sessionToken) {
       setPendingRequest("create")
       setPendingRequestParams({
@@ -104,7 +104,7 @@ export default function APIKeys() {
   const handleDeleteAccessKey = (keyId: string) => {
     if (isFreePlan) return setShowLimitedAccessModal(true)
 
-    if (!user?.is2FAEnabled) return setShowNo2FAModal(true)
+    if (!user?.is2FaEnabled) return setShowNo2FAModal(true)
     const confirm = window.confirm("Are you sure you want to delete")
 
     if (confirm && sessionToken) {

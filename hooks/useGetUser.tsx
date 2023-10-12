@@ -9,7 +9,7 @@ export interface UserDataType {
   emailAddress: string
   role: "admin" | "manager" | "viewer" | "test-user"
   status: "Active" | "Invited"
-  is2FAEnabled: boolean
+  is2FaEnabled: boolean
 }
 
 export default function useGetUser() {
