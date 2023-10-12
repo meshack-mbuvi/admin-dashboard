@@ -5,7 +5,7 @@ import { Fragment } from "react"
 import Check from "../icons/Check"
 
 export type SelectOption = {
-  id: number
+  id: number | string
   label: string
 }
 

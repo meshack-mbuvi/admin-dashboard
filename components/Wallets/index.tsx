@@ -12,7 +12,7 @@ import NetworkWallets from "./NetworkWallets"
 
 import PremiumPill from "@/components/Shared/PremiumPill"
 import useFreePlan from "@/hooks/useFreePlan"
-import useGetProjectWallets, { Wallets } from "@/hooks/useGetProjectWallets"
+import useGetProjectWallets, { Wallet } from "@/hooks/useGetProjectWallets"
 import getFirstOrString from "@/utils/getFirstOrString"
 import { NetworkId } from "@/utils/network"
 
@@ -20,6 +20,7 @@ export default function Wallets() {
   const { projectId } = useParams()
   const { data: wallets } = useGetProjectWallets({
     projectId: getFirstOrString(projectId),
+    withOnchainData: true,
   })
 
   const isFreePlan = useFreePlan()
@@ -28,9 +29,9 @@ export default function Wallets() {
     if (!acc[wallet.chainId]) {
       acc[wallet.chainId] = []
     }
-    acc[wallet.chainId].push(wallet)
+    acc[wallet.chainId].push(wallet as Wallet)
     return acc
-  }, {} as { [key: number]: Wallets[] })
+  }, {} as { [key: number]: Wallet[] })
 
   return (
     <Section className="flex flex-col p-10 rounded-lg mr-10">
