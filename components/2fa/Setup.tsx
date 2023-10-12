@@ -34,8 +34,6 @@ export default function Setup() {
     return () => {}
   }, [sessionToken, Set2FAMutation])
 
-  console.log(secret)
-
   return (
     <div className="flex flex-col items-center">
       <div className="text-2xl">
