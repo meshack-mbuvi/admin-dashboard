@@ -29,6 +29,8 @@ export default function UserMenu() {
     router.push("/")
   }
 
+  console.log(user)
+
   return (
     <div className="relative">
       <div
@@ -47,7 +49,7 @@ export default function UserMenu() {
             <p className="text-xl mb-1">{member?.name}</p>
             <p className="text-gray-4 mb-4">{member?.email_address}</p>
             <div className="mb-4 text-blue-1 align-middle">
-              {user?.is2FAEnabled ? (
+              {user?.is2FaEnabled ? (
                 <div className="text-success flex items-center space-x-2">
                   <CheckCircle className="h-4 w-4" />{" "}
                   <div className="leading-4 py-1">2FA enabled</div>
