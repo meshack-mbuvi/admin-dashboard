@@ -5,7 +5,7 @@ import {
 } from "@tanstack/react-table"
 
 import Table from "@/components/Table/Table"
-import { Wallets } from "@/hooks/useGetProjectWallets"
+import { Wallet } from "@/hooks/useGetProjectWallets"
 import { NetworkId } from "@/utils/network"
 import format from "date-fns/format"
 import Label from "../Label"
@@ -15,10 +15,10 @@ import ResourceID from "@/components/Shared/ResourceID"
 
 interface NetworkWalletsProps {
   networkId: NetworkId
-  wallets: Wallets[]
+  wallets: Wallet[]
 }
 
-const columnHelper = createColumnHelper<Wallets>()
+const columnHelper = createColumnHelper<Wallet>()
 
 export default function NetworkWallets({
   networkId,

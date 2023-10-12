@@ -1,12 +1,13 @@
 import gatewayFetch from "@/utils/gatewayFetch"
-import { useQuery } from "@tanstack/react-query"
+import { UseQueryResult, useQuery } from "@tanstack/react-query"
 import useAuthToken from "./useAuthToken"
 
 interface UseGetProjectWalletsArgs {
   projectId: string
+  withOnchainData?: boolean
 }
 
-export type Wallets = {
+export type Wallet = {
   chainId: number
   createdAt: string
   isActive: boolean
@@ -18,19 +19,36 @@ export type Wallets = {
   txCount: number
 }
 
+export type WalletNoData = Omit<Wallet, "txCount">
+
+export function useGetProjectWallets(
+  args: UseGetProjectWalletsArgs & { withOnchainData: true }
+): UseQueryResult<Wallet[], unknown>
+export function useGetProjectWallets(
+  args: UseGetProjectWalletsArgs & { withOnchainData: false }
+): UseQueryResult<WalletNoData[], unknown>
+export function useGetProjectWallets(
+  args: UseGetProjectWalletsArgs
+): UseQueryResult<Wallet[] | WalletNoData[], unknown>
+
 export default function useGetProjectWallets(args: UseGetProjectWalletsArgs) {
-  const { projectId } = args
+  const { projectId, withOnchainData = false } = args
   const sessionToken = useAuthToken()
 
+  const searchParams = {
+    ...(withOnchainData && { withData: "true" }),
+  }
+  const searchQuery = new URLSearchParams(searchParams)
+
   return useQuery(
-    ["get-project-wallets", projectId],
+    ["get-project-wallets", projectId, withOnchainData],
     async () => {
       const res = await gatewayFetch({
-        endpointPath: `/wallet/project/${projectId}/wallets?withData=true`,
+        endpointPath: `/wallet/project/${projectId}/wallets?${searchQuery.toString()}`,
         sessionToken,
       })
 
-      const data = (await res.json()) as Wallets[]
+      const data = (await res.json()) as Wallet[] | WalletNoData[]
 
       return data
     },

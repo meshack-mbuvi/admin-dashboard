@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react"
+import React, { useState } from "react"
 import clsx from "clsx"
 
 import Form, { useFormContextSafe } from "@/components/Form"
@@ -15,7 +15,7 @@ import { LightButtonStyles } from "./Buttons"
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateUser from "@/hooks/useCreateUser"
 import useFreePlan from "@/hooks/useFreePlan"
-import useGetOrganization from "@/hooks/useGetOrganization"
+import useGetUsers from "@/hooks/useGetUsers"
 
 type AddUserModalProps = {
   show: boolean
@@ -36,32 +36,18 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
   const sessionToken = useAuthToken()
   const { isError, isLoading, isSuccess, mutate, error, reset } =
     useCreateUser()
-  const { data: organizationData } = useGetOrganization()
+  const { data: usersData } = useGetUsers()
 
   const isFreePlan = useFreePlan()
 
-  const allowedDomains = useMemo(() => {
-    if (!organizationData) return []
-    return organizationData.stytchInformation.email_allowed_domains
-  }, [organizationData])
-
   const [hasSubmitted, setHasSubmitted] = useState(false)
 
-  const handleValidation = async (value: string) => {
-    // Wait for 300ms to prevent spamming the validation
-    await new Promise((resolve) => setTimeout(resolve, 300))
+  const validateUserExists = (value: string) => {
+    if (!usersData) return
 
-    const [_, domain] = value.split("@")
+    const userExists = usersData.some((user) => user.emailAddress === value)
 
-    if (!domain) return "Please enter a valid email address"
-
-    const isValidDomain = allowedDomains.indexOf(domain.toLowerCase()) > -1
-
-    if (isValidDomain) return
-
-    return `Please enter a valid email address from the following domain(s): ${allowedDomains.join(
-      ", "
-    )}`
+    if (userExists) return "User already exists"
   }
 
   const onSubmit = (values: NewUserInfo) => {
@@ -85,21 +71,15 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
   const handleCloseClick = () => {
     onClose()
     setHasSubmitted(false)
+    reset()
   }
 
   return (
-    <Modal
-      show={show}
-      outsideOnClick={true}
-      closeModal={() => {
-        onClose()
-        setHasSubmitted(false)
-      }}
-    >
+    <Modal show={show} outsideOnClick={true} closeModal={handleCloseClick}>
       {hasSubmitted ? (
         <AppreciationContent handleCloseClick={handleCloseClick} />
       ) : (
-        <Form onSubmit={onSubmit} mode="onChange">
+        <Form onSubmit={onSubmit}>
           <div className="flex flex-col space-y-8 justify-center items-left bg-gray-8 my-4">
             {isFreePlan && <ContactUsToUpgrade onSuccess={onSuccess} />}
             <p className="font-sans font-medium text-2xl text-gray-1 mb-7">
@@ -124,7 +104,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
               placeholder="example@example.com"
               validate={{
                 required: "Email address is required",
-                validate: handleValidation,
+                validate: { validateUserExists },
               }}
             />
 
@@ -139,7 +119,6 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
                   <SuccessCheckMark className="h-6 w-6 text-green" />
                   <span className="ml-4 text-green">{SuccessStatusText}</span>
                 </div>
-                <AddAnotherUserButton reset={reset} />
                 <div className="text-center">
                   <button
                     type="button"
@@ -169,29 +148,6 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
         </Form>
       )}
     </Modal>
-  )
-}
-
-interface AddAnotherUserButtonProps {
-  reset: () => void
-}
-
-function AddAnotherUserButton(props: AddAnotherUserButtonProps) {
-  const { reset } = props
-  const methods = useFormContextSafe()
-  const handleFormReset = () => {
-    reset()
-    methods.reset()
-  }
-
-  return (
-    <button
-      type="button"
-      className={clsx(LightButtonStyles, "mb-6 mx-auto")}
-      onClick={handleFormReset}
-    >
-      Add another user
-    </button>
   )
 }
 
