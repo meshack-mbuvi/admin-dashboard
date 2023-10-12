@@ -4,6 +4,7 @@ import useAuthToken from "./useAuthToken"
 
 interface UseGetProjectWalletsArgs {
   projectId: string
+  withBalanceData?: boolean
 }
 
 export type Wallets = {
@@ -19,14 +20,19 @@ export type Wallets = {
 }
 
 export default function useGetProjectWallets(args: UseGetProjectWalletsArgs) {
-  const { projectId } = args
+  const { projectId, withBalanceData } = args
   const sessionToken = useAuthToken()
 
+  const searchParams = {
+    ...(withBalanceData && { withData: "true" }),
+  }
+  const searchQuery = new URLSearchParams(searchParams)
+
   return useQuery(
-    ["get-project-wallets", projectId],
+    ["get-project-wallets", projectId, withBalanceData],
     async () => {
       const res = await gatewayFetch({
-        endpointPath: `/wallet/project/${projectId}/wallets?withData=true`,
+        endpointPath: `/wallet/project/${projectId}/wallets?${searchQuery.toString()}`,
         sessionToken,
       })
 
