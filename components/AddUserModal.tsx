@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react"
+import clsx from "clsx"
 
-import Form from "@/components/Form"
+import Form, { useFormContextSafe } from "@/components/Form"
 import FailureIcon from "@/components/icons/failureIcon"
 import SuccessCheckMark from "@/components/icons/successCheckMark"
 import Submit from "./Form/Submit"
@@ -9,12 +10,12 @@ import Modal from "./Modal"
 import AppreciationContent from "./Shared/AppreciationContent"
 import ContactUsToUpgrade from "./Shared/ContactUsToUpgrade"
 import { Spinner } from "./Spinner"
+import { LightButtonStyles } from "./Buttons"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateUser from "@/hooks/useCreateUser"
 import useFreePlan from "@/hooks/useFreePlan"
 import useGetOrganization from "@/hooks/useGetOrganization"
-import { useTimeout } from "@/hooks/useTimeout"
 
 type AddUserModalProps = {
   show: boolean
@@ -86,9 +87,6 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
     setHasSubmitted(false)
   }
 
-  // If form responds with an error or success wait 1s then reset
-  useTimeout(reset, isSuccess || isError ? 1000 : null)
-
   return (
     <Modal
       show={show}
@@ -136,18 +134,33 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
                 <span className="ml-4">{PendingStatusText}</span>
               </div>
             ) : isSuccess ? (
-              <div className="flex align-middle justify-center">
-                <SuccessCheckMark className="h-6 w-6 text-green" />
-                <span className="ml-4 text-green">{SuccessStatusText}</span>
+              <div className="flex flex-col">
+                <div className="flex align-middle justify-center mb-4">
+                  <SuccessCheckMark className="h-6 w-6 text-green" />
+                  <span className="ml-4 text-green">{SuccessStatusText}</span>
+                </div>
+                <AddAnotherUserButton reset={reset} />
+                <div className="text-center">
+                  <button
+                    type="button"
+                    className="appearance-none outline-none focus:outline-none text-white rounded-none"
+                    onClick={handleCloseClick}
+                  >
+                    close
+                  </button>
+                </div>
               </div>
             ) : isError ? (
-              <div className="flex align-middle justify-center">
-                <FailureIcon className="h-6 w-6 text-red" />
-                <span className="ml-4 text-red">
-                  {error?.status === 409
-                    ? DuplicationStatusText
-                    : FailedStatusText}
-                </span>
+              <div className="flex flex-col">
+                <div className="flex align-middle justify-center mb-4">
+                  <FailureIcon className="h-6 w-6 text-red" />
+                  <span className="ml-4 text-red">
+                    {error?.status === 409
+                      ? DuplicationStatusText
+                      : FailedStatusText}
+                  </span>
+                </div>
+                <TryAgainButton reset={reset} />
               </div>
             ) : (
               <Submit disabled={isFreePlan}>Invite to organization</Submit>
@@ -156,6 +169,52 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
         </Form>
       )}
     </Modal>
+  )
+}
+
+interface AddAnotherUserButtonProps {
+  reset: () => void
+}
+
+function AddAnotherUserButton(props: AddAnotherUserButtonProps) {
+  const { reset } = props
+  const methods = useFormContextSafe()
+  const handleFormReset = () => {
+    reset()
+    methods.reset()
+  }
+
+  return (
+    <button
+      type="button"
+      className={clsx(LightButtonStyles, "mb-6 mx-auto")}
+      onClick={handleFormReset}
+    >
+      Add another user
+    </button>
+  )
+}
+
+interface TryAgainButtonProps {
+  reset: () => void
+}
+
+function TryAgainButton(props: TryAgainButtonProps) {
+  const { reset } = props
+  const methods = useFormContextSafe()
+  const handleFormReset = () => {
+    reset()
+    methods.reset()
+  }
+
+  return (
+    <button
+      type="button"
+      className={clsx(LightButtonStyles, "mx-auto")}
+      onClick={handleFormReset}
+    >
+      Try again
+    </button>
   )
 }
 
