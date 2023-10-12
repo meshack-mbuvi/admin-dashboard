@@ -133,7 +133,7 @@ export default function Users() {
   })
   return (
     <div>
-      {isLoading ? (
+      {/* {isLoading ? (
         [...Array(6)].map((_, i) => (
           <div className="flex gap-10 py-4" key={i}>
             <Loading className="w-1/5 h-4" />
@@ -155,7 +155,7 @@ export default function Users() {
             />
           )}
         </div>
-      )}
+      )} */}
 
       <Verify2FAModal
         show={showModal}
