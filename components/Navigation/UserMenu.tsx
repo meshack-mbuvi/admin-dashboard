@@ -29,8 +29,6 @@ export default function UserMenu() {
     router.push("/")
   }
 
-  console.log(user)
-
   return (
     <div className="relative">
       <div
