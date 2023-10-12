@@ -1,7 +1,6 @@
 "use client"
 
 import clsx from "clsx"
-import Link from "next/link"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 
@@ -37,7 +36,7 @@ export default function TwoFactorAuth() {
   }
 
   useEffect(() => {
-    if (!isLoading && user?.is2FAEnabled) {
+    if (!isLoading && user?.is2FaEnabled) {
       router.back()
     }
   }, [isLoading, user, router])

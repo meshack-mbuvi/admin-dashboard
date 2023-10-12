@@ -1,18 +1,21 @@
-import Form from "@/components/Form"
+import React, { useMemo, useState } from "react"
+import clsx from "clsx"
+
+import Form, { useFormContextSafe } from "@/components/Form"
 import FailureIcon from "@/components/icons/failureIcon"
 import SuccessCheckMark from "@/components/icons/successCheckMark"
-import useAuthToken from "@/hooks/useAuthToken"
-import useCreateUser from "@/hooks/useCreateUser"
-import useFreePlan from "@/hooks/useFreePlan"
-import useGetOrganization from "@/hooks/useGetOrganization"
-import React, { useMemo, useState } from "react"
-import { useDebouncedCallback } from "use-debounce"
 import Submit from "./Form/Submit"
 import TextInput from "./Form/TextInput"
 import Modal from "./Modal"
 import AppreciationContent from "./Shared/AppreciationContent"
 import ContactUsToUpgrade from "./Shared/ContactUsToUpgrade"
 import { Spinner } from "./Spinner"
+import { LightButtonStyles } from "./Buttons"
+
+import useAuthToken from "@/hooks/useAuthToken"
+import useCreateUser from "@/hooks/useCreateUser"
+import useFreePlan from "@/hooks/useFreePlan"
+import useGetOrganization from "@/hooks/useGetOrganization"
 
 type AddUserModalProps = {
   show: boolean
@@ -31,7 +34,8 @@ const DuplicationStatusText = "User already added"
 
 const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
   const sessionToken = useAuthToken()
-  const { isError, isLoading, isSuccess, mutate, error } = useCreateUser()
+  const { isError, isLoading, isSuccess, mutate, error, reset } =
+    useCreateUser()
   const { data: organizationData } = useGetOrganization()
 
   const isFreePlan = useFreePlan()
@@ -43,7 +47,10 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
 
   const [hasSubmitted, setHasSubmitted] = useState(false)
 
-  const handleValidation = (value: string) => {
+  const handleValidation = async (value: string) => {
+    // Wait for 300ms to prevent spamming the validation
+    await new Promise((resolve) => setTimeout(resolve, 300))
+
     const [_, domain] = value.split("@")
 
     if (!domain) return "Please enter a valid email address"
@@ -56,11 +63,6 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
       ", "
     )}`
   }
-
-  const debouncedHandleValidation = useDebouncedCallback(
-    (value) => handleValidation(value),
-    300
-  )
 
   const onSubmit = (values: NewUserInfo) => {
     if (sessionToken) {
@@ -97,7 +99,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
       {hasSubmitted ? (
         <AppreciationContent handleCloseClick={handleCloseClick} />
       ) : (
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={onSubmit} mode="onChange">
           <div className="flex flex-col space-y-8 justify-center items-left bg-gray-8 my-4">
             {isFreePlan && <ContactUsToUpgrade onSuccess={onSuccess} />}
             <p className="font-sans font-medium text-2xl text-gray-1 mb-7">
@@ -122,7 +124,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
               placeholder="example@example.com"
               validate={{
                 required: "Email address is required",
-                validate: { debouncedHandleValidation },
+                validate: handleValidation,
               }}
             />
 
@@ -132,18 +134,33 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
                 <span className="ml-4">{PendingStatusText}</span>
               </div>
             ) : isSuccess ? (
-              <div className="flex align-middle justify-center">
-                <SuccessCheckMark className="h-6 w-6 text-green" />
-                <span className="ml-4 text-green">{SuccessStatusText}</span>
+              <div className="flex flex-col">
+                <div className="flex align-middle justify-center mb-4">
+                  <SuccessCheckMark className="h-6 w-6 text-green" />
+                  <span className="ml-4 text-green">{SuccessStatusText}</span>
+                </div>
+                <AddAnotherUserButton reset={reset} />
+                <div className="text-center">
+                  <button
+                    type="button"
+                    className="appearance-none outline-none focus:outline-none text-white rounded-none"
+                    onClick={handleCloseClick}
+                  >
+                    close
+                  </button>
+                </div>
               </div>
             ) : isError ? (
-              <div className="flex align-middle justify-center">
-                <FailureIcon className="h-6 w-6 text-red" />
-                <span className="ml-4 text-red">
-                  {error?.status === 409
-                    ? DuplicationStatusText
-                    : FailedStatusText}
-                </span>
+              <div className="flex flex-col">
+                <div className="flex align-middle justify-center mb-4">
+                  <FailureIcon className="h-6 w-6 text-red" />
+                  <span className="ml-4 text-red">
+                    {error?.status === 409
+                      ? DuplicationStatusText
+                      : FailedStatusText}
+                  </span>
+                </div>
+                <TryAgainButton reset={reset} />
               </div>
             ) : (
               <Submit disabled={isFreePlan}>Invite to organization</Submit>
@@ -152,6 +169,52 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
         </Form>
       )}
     </Modal>
+  )
+}
+
+interface AddAnotherUserButtonProps {
+  reset: () => void
+}
+
+function AddAnotherUserButton(props: AddAnotherUserButtonProps) {
+  const { reset } = props
+  const methods = useFormContextSafe()
+  const handleFormReset = () => {
+    reset()
+    methods.reset()
+  }
+
+  return (
+    <button
+      type="button"
+      className={clsx(LightButtonStyles, "mb-6 mx-auto")}
+      onClick={handleFormReset}
+    >
+      Add another user
+    </button>
+  )
+}
+
+interface TryAgainButtonProps {
+  reset: () => void
+}
+
+function TryAgainButton(props: TryAgainButtonProps) {
+  const { reset } = props
+  const methods = useFormContextSafe()
+  const handleFormReset = () => {
+    reset()
+    methods.reset()
+  }
+
+  return (
+    <button
+      type="button"
+      className={clsx(LightButtonStyles, "mx-auto")}
+      onClick={handleFormReset}
+    >
+      Try again
+    </button>
   )
 }
 
