@@ -1,18 +1,20 @@
+import React, { useMemo, useState } from "react"
+
 import Form from "@/components/Form"
 import FailureIcon from "@/components/icons/failureIcon"
 import SuccessCheckMark from "@/components/icons/successCheckMark"
-import useAuthToken from "@/hooks/useAuthToken"
-import useCreateUser from "@/hooks/useCreateUser"
-import useFreePlan from "@/hooks/useFreePlan"
-import useGetOrganization from "@/hooks/useGetOrganization"
-import React, { useMemo, useState } from "react"
-import { useDebouncedCallback } from "use-debounce"
 import Submit from "./Form/Submit"
 import TextInput from "./Form/TextInput"
 import Modal from "./Modal"
 import AppreciationContent from "./Shared/AppreciationContent"
 import ContactUsToUpgrade from "./Shared/ContactUsToUpgrade"
 import { Spinner } from "./Spinner"
+
+import useAuthToken from "@/hooks/useAuthToken"
+import useCreateUser from "@/hooks/useCreateUser"
+import useFreePlan from "@/hooks/useFreePlan"
+import useGetOrganization from "@/hooks/useGetOrganization"
+import { useTimeout } from "@/hooks/useTimeout"
 
 type AddUserModalProps = {
   show: boolean
@@ -31,7 +33,8 @@ const DuplicationStatusText = "User already added"
 
 const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
   const sessionToken = useAuthToken()
-  const { isError, isLoading, isSuccess, mutate, error } = useCreateUser()
+  const { isError, isLoading, isSuccess, mutate, error, reset } =
+    useCreateUser()
   const { data: organizationData } = useGetOrganization()
 
   const isFreePlan = useFreePlan()
@@ -43,7 +46,10 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
 
   const [hasSubmitted, setHasSubmitted] = useState(false)
 
-  const handleValidation = (value: string) => {
+  const handleValidation = async (value: string) => {
+    // Wait for 300ms to prevent spamming the validation
+    await new Promise((resolve) => setTimeout(resolve, 300))
+
     const [_, domain] = value.split("@")
 
     if (!domain) return "Please enter a valid email address"
@@ -56,11 +62,6 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
       ", "
     )}`
   }
-
-  const debouncedHandleValidation = useDebouncedCallback(
-    (value) => handleValidation(value),
-    300
-  )
 
   const onSubmit = (values: NewUserInfo) => {
     if (sessionToken) {
@@ -85,6 +86,9 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
     setHasSubmitted(false)
   }
 
+  // If form responds with an error or succwss wait 1s then reset
+  useTimeout(reset, isSuccess || isError ? 1000 : null)
+
   return (
     <Modal
       show={show}
@@ -97,7 +101,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
       {hasSubmitted ? (
         <AppreciationContent handleCloseClick={handleCloseClick} />
       ) : (
-        <Form onSubmit={onSubmit}>
+        <Form onSubmit={onSubmit} mode="onChange">
           <div className="flex flex-col space-y-8 justify-center items-left bg-gray-8 my-4">
             {isFreePlan && <ContactUsToUpgrade onSuccess={onSuccess} />}
             <p className="font-sans font-medium text-2xl text-gray-1 mb-7">
@@ -122,7 +126,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
               placeholder="example@example.com"
               validate={{
                 required: "Email address is required",
-                validate: { debouncedHandleValidation },
+                validate: handleValidation,
               }}
             />
 
