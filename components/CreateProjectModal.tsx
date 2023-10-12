@@ -24,8 +24,8 @@ const PendingStatusText = "Creating project"
 const ErrorStatusText = "Error creating project"
 
 const environmentOptions = [
-  { id: 0, label: "Staging" },
-  { id: 1, label: "Production" },
+  { id: "staging", label: "Staging" },
+  { id: "production", label: "Production" },
 ]
 
 const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
@@ -70,7 +70,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
         body: JSON.stringify({
           organizationId: organizationData?.organization.id,
           name: name,
-          enviroment: environment?.label,
+          environment: environment?.id,
           chainId: network,
           numWallets: 1,
         }),
