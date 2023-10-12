@@ -7,6 +7,7 @@ import {
   DefaultValues,
   FieldValues,
   FormProvider,
+  Mode,
   RegisterOptions,
   SubmitErrorHandler,
   SubmitHandler,
@@ -23,11 +24,12 @@ interface FormProps<T extends FieldValues> extends PropsWithChildren {
   onSubmit: SubmitHandler<T>
   onValidationError?: SubmitErrorHandler<T>
   defaultValues?: DefaultValues<T>
+  mode?: Mode
 }
 
 function Form<T extends FieldValues>(props: PropsWithChildren<FormProps<T>>) {
-  const { onSubmit, onValidationError, defaultValues, children } = props
-  const methods = useForm<T>({ defaultValues })
+  const { onSubmit, onValidationError, defaultValues, mode, children } = props
+  const methods = useForm<T>({ defaultValues, mode })
   return (
     <FormProvider {...methods}>
       <form
@@ -130,6 +132,7 @@ export interface BaseFormInputProps<T>
 export function BaseFormInput<T>(props: BaseFormInputProps<T>) {
   const { name, defaultValue, validate, render, onChange, ...rest } = props
   const { control } = useFormContextSafe()
+
   return (
     <FormControl name={name} {...rest}>
       <Controller
