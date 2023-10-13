@@ -1,6 +1,7 @@
 import useContactSales from "@/hooks/useContactSales"
 import useGetUser from "@/hooks/useGetUser"
 import { usePathname } from "next/navigation"
+import { FormEvent } from "react"
 import ArrowRight from "../icons/ArrowRight"
 import Spinner from "../icons/Spinner"
 
@@ -13,7 +14,8 @@ export default function ContactUsToUpgrade(props: ContactUsToUpgradeProps) {
   const { mutateAsync, isLoading } = useContactSales()
   const pathname = usePathname()
 
-  const handleUpgradeClick = async () => {
+  const handleUpgradeClick = async (e: FormEvent) => {
+    e.preventDefault()
     if (!data) return
 
     mutateAsync({

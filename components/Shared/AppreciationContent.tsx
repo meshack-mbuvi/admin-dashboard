@@ -14,11 +14,12 @@ export default function AppreciationContent(props: AppreciationModalProps) {
         Thank you for sharing your interest! 🎉
       </p>
       <p>
-        Our team has been notified. Someone will email you in the next business
-        day. If you have any questions, please email us at{" "}
+        Someone from our team will email you soon. If you have any questions in
+        the meantime, please email us at{" "}
         <a href="mailto:sales@syndicate.io" className="text-blue-2">
           sales@syndicate.io
         </a>
+        .
       </p>
 
       <button

@@ -1,24 +1,21 @@
 "use client"
-import clsx from "clsx"
-import Link from "next/link"
 import { useParams, useSearchParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 
-import { DarkButtonStyles } from "@/components/Buttons"
-import CreateContractButton from "@/components/Buttons/CreateContractButton"
 import AddContractModal from "@/components/Contracts/AddContractModal"
 import ProjectContracts from "@/components/Contracts/ProjectContracts"
 import Section from "@/components/Section"
 import EmptyState from "@/components/Shared/Empty"
-import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
 
-import PremiumPill from "@/components/Shared/PremiumPill"
+import Text from "@/components/Text"
 import useFreePlan from "@/hooks/useFreePlan"
 import useGetProjectById from "@/hooks/useGetProjectById"
 import { QueryParams } from "@/types/queryParams"
 import getFirstOrString from "@/utils/getFirstOrString"
 import { NetworkId } from "@/utils/network"
+import CreateContractButton from "../Buttons/CreateContractButton"
 import Loading from "../Loading"
+import PremiumPill from "../Shared/PremiumPill"
 
 export default function Contracts() {
   const [showAddContractModal, setShowAddContractModal] =
@@ -57,25 +54,21 @@ export default function Contracts() {
   }, [projectData?.contracts])
 
   return (
-    <Section className="flex flex-col font-sans p-7 rounded-lg mr-10">
-      <div className="flex justify-between items-center">
-        <div className="text-2xl pl-7">Contracts</div>
+    <Section className="flex flex-col p-10 rounded-lg mr-10">
+      <Text className="text-2xl pb-2">Contracts</Text>
 
-        <div className="flex space-x-7">
+      <div className="flex flex-row pb-7 items-baseline justify-between">
+        <p className="font-small text-gray-3 text-sm pr-2 max-w-prose">
+          {!isLoading && !Object.keys(networkContracts).length
+            ? "No contracts have been added to your project yet."
+            : "These contracts have been added to your project. Please add your wallets to them as an allowed operator."}
+        </p>
+
+        <div className="flex space-x-7 items-center">
           {isFreePlan && <PremiumPill />}
 
           <CreateContractButton onClick={() => setShowAddContractModal(true)} />
         </div>
-      </div>
-      <div className="text-sm text-gray-3 pl-7">
-        {!isLoading && !Object.keys(networkContracts).length ? (
-          "No contracts have been added to your project yet."
-        ) : (
-          <span>
-            These contracts have been added to your project. Please add your
-            wallets to them as an allowed operator.
-          </span>
-        )}
       </div>
 
       {isLoading && (
