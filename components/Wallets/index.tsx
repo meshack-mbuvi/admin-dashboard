@@ -42,7 +42,7 @@ export default function Wallets() {
           contract. Please add them as an allowed operator.
         </p>
 
-        <div className="flex space-x-7">
+        <div className="flex space-x-7 items-center">
           {isFreePlan && <PremiumPill />}
 
           <Link
