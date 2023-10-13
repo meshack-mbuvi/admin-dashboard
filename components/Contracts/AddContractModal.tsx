@@ -123,7 +123,7 @@ export default function AddContractModal(props: AddContractModalProps) {
       mutate({
         method: "POST",
         sessionToken,
-        endpointPath: "/admin/contract/createWithFunctionSignatures",
+        endpointPath: "/admin/contract/authorizeWithFunctionSignatures",
         headers: {
           "Content-Type": "application/json",
         },
