@@ -286,7 +286,7 @@ const AllTransactions = (props: AllTransactionsProps) => {
             href="https://docs.syndicate.io/guides/transactions"
             className={clsx(
               DarkButtonStyles,
-              "border-2 border-warning text-white flex space-x-2 py-4 mt-10"
+              "border-2 border-yellow-secondary text-white flex space-x-2 py-4 mt-10"
             )}
             linkText="Learn how to send your first transaction"
           />
