@@ -2,7 +2,6 @@
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    appDir: true,
     typedRoutes: true,
   },
   images: {
@@ -15,6 +14,7 @@ const nextConfig = {
     ],
   },
   // https://github.com/vercel/next.js/issues/44273
+  // Applies to Viem as well
   webpack: (config) => {
     config.externals.push({
       "utf-8-validate": "commonjs utf-8-validate",
