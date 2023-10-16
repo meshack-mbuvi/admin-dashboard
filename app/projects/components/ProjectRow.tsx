@@ -73,8 +73,8 @@ export default function ProjectRow(props: ProjectRowProps) {
       rel="noopener noreferrer"
       className="project-item group cursor-pointer px-8 transform rounded-lg transition ease-in-out hover:bg-gray-8 hover:-translate-y-1 drop-shadow-2xl"
     >
-      <div className="flex w-full py-7 border-b border-gray-7 group-hover:border-transparent">
-        <div className="flex justify-between w-1/3 text-left text-xl text-gray-1 pr-10 lg:pr-32 space-x-3">
+      <div className="flex items-center w-full py-7 border-b border-gray-7 group-hover:border-transparent">
+        <div className="flex justify-between items-center w-1/3 text-left text-base text-gray-1 pr-10 lg:pr-32 space-x-3">
           <span>{name}</span>
           <ResourceID id={projectId} />
         </div>
@@ -92,7 +92,7 @@ export default function ProjectRow(props: ProjectRowProps) {
         <div className="w-1/6 text-left text-base text-gray-1 font-mono">
           {stats?.numberOfFailedTransactions ?? 0}
         </div>
-        <div className="flex w-1/6 gap-2 text-left text-base text-gray-1 leading-5">
+        <div className="flex w-1/6 gap-2 text-left text-base text-gray-1">
           {networks?.length > 0 && (
             <>
               {getNetworkIcon(networks[0].id, "w-5 h-5")}
