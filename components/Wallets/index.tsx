@@ -9,8 +9,9 @@ import Section from "@/components/Section"
 import Text from "@/components/Text"
 import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
 import NetworkWallets from "./NetworkWallets"
-
+import Loading from "@/components/Loading"
 import PremiumPill from "@/components/Shared/PremiumPill"
+
 import useFreePlan from "@/hooks/useFreePlan"
 import useGetProjectWallets, { Wallet } from "@/hooks/useGetProjectWallets"
 import getFirstOrString from "@/utils/getFirstOrString"
@@ -18,7 +19,7 @@ import { NetworkId } from "@/utils/network"
 
 export default function Wallets() {
   const { projectId } = useParams()
-  const { data: wallets } = useGetProjectWallets({
+  const { data: wallets, isLoading } = useGetProjectWallets({
     projectId: getFirstOrString(projectId),
     withOnchainData: true,
   })
@@ -37,7 +38,7 @@ export default function Wallets() {
     <Section className="flex flex-col p-10 rounded-lg mr-10">
       <Text className="text-2xl pb-2">Secure Transaction Wallets</Text>
       <div className="flex flex-row pb-7 items-baseline justify-between">
-        <p className="font-small text-gray-4 text-sm pr-2 max-w-prose">
+        <p className="font-small text-gray-3 text-sm pr-2 max-w-prose">
           These wallets will be used to perform programmatic actions on your
           contract. Please add them as an allowed operator.
         </p>
@@ -58,6 +59,14 @@ export default function Wallets() {
           </Link>
         </div>
       </div>
+
+      {isLoading && (
+        <div className="px-7 mt-6">
+          <Loading className="h-8 my-4" />
+          <Loading className="h-8 my-4" />
+          <Loading className="h-8" />
+        </div>
+      )}
 
       {networkWallets && (
         <div>
