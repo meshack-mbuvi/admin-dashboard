@@ -13,7 +13,7 @@ export default function PremiumPill(props: PremiumPillProps) {
     <div
       onClick={() => toggle(true)}
       className={clsx(
-        "bg-blue-nasa w-fit px-6 py-2.5 rounded-full items-center justify-center flex font-medium cursor-pointer",
+        "bg-blue-nasa w-fit px-6 py-2.5 rounded-full items-center justify-center flex cursor-pointer",
         className
       )}
     >
