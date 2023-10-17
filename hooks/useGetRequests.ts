@@ -20,6 +20,7 @@ export interface RequestsDataType {
   data: string
   value: string
   transactionAttempts: []
+  decodedData: Record<string, string | boolean | object | unknown[]>
 }
 
 export default function useGetRequests(args: UseGetRequestsArgs) {
