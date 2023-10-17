@@ -73,7 +73,7 @@ export default function NetworkWallets({
         networkId={networkId}
         disclosureTitle="wallets"
         itemCount={wallets.length}
-        className="text-gray-3"
+        className="text-white"
       >
         <Table tableConfig={table} />
       </DisclosureComponent>

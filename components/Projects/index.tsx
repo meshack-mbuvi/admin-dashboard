@@ -41,7 +41,7 @@ export default function Projects({ onCreateProject }: ProjectsProps) {
                 Failed Requests (24hrs)
               </div>
               <div className="w-1/6 text-left text-sm text-gray-3">
-                Network(s)
+                Networks
               </div>
               <div className="flex w-5"></div>
             </div>
