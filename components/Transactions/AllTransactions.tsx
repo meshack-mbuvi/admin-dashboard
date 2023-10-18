@@ -38,7 +38,6 @@ import ExternalLink from "../Shared/ExternalLink"
 import TableFilterPills from "../Table/TableFilterPills"
 import Text from "../Text"
 import TxIdFilter from "./atoms/TxStatusFilter"
-import { get } from "http"
 import getFirstOrString from "@/utils/getFirstOrString"
 
 const columnHelper = createColumnHelper<TransactionDataType>()
@@ -63,7 +62,11 @@ const columns = [
           transactionStatus={info.row.original.status}
           reverted={info.row.original.reverted}
         />
-        <ResourceID id={info.getValue()} fullView={true} />
+        <ResourceID
+          id={info.getValue()}
+          fullView={true}
+          className="grow-0 overflow-x-hidden"
+        />
       </span>
     ),
   }),

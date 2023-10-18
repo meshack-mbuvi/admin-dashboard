@@ -8,6 +8,7 @@ interface UseGetRequestsArgs {
   page: number
   limit: number
   invalid: boolean
+  search?: string
 }
 export interface RequestsDataType {
   createdAt: string
@@ -24,15 +25,21 @@ export interface RequestsDataType {
 }
 
 export default function useGetRequests(args: UseGetRequestsArgs) {
-  const { page, limit, invalid, projectId } = args
+  const { page, limit, invalid, projectId, search } = args
 
   const sessionToken = useAuthToken()
 
   return useQuery(
-    ["get-requests", projectId, page, limit, invalid],
+    ["get-requests", projectId, page, limit, invalid, search],
     async () => {
+      let endpointPath = `/wallet/project/${projectId}/requests?invalid=${invalid}&page=${page}&limit=${limit}`
+
+      if (search) {
+        endpointPath += `&search=${search}`
+      }
+
       const res = await gatewayFetch({
-        endpointPath: `/wallet/project/${projectId}/requests?invalid=${invalid}&page=${page}&limit=${limit}`,
+        endpointPath: endpointPath as `/${string}`,
         sessionToken,
       })
 

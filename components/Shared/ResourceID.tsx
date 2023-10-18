@@ -21,7 +21,7 @@ export default function ResourceID(props: {
         {copyIcon && fullView ? (
           <Clipboard className="cursor-pointer w-4 invisible group-hover:visible" />
         ) : fullView ? (
-          <span className="overflow-x-hidden text-ellipsis">{id}</span>
+          <span className="overflow-x-hidden text-ellipsis block">{id}</span>
         ) : (
           <IdIcon className="cursor-pointer w-5" />
         )}
