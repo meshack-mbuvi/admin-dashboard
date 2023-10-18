@@ -134,11 +134,7 @@ export default function FailedRequests() {
       <TransactionRequestModal
         showModal={showModal}
         onCloseModal={() => setShowModal(false)}
-        chainId={selectedRequest?.chainId}
-        contractAddress={selectedRequest?.contractAddress}
-        functionSignature={selectedRequest?.functionSignature}
-        calldata={selectedRequest?.data}
-        value={selectedRequest?.value}
+        request={selectedRequest}
       />
     </div>
   )

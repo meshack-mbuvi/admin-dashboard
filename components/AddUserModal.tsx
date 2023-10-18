@@ -75,7 +75,12 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
   }
 
   return (
-    <Modal show={show} outsideOnClick={true} closeModal={handleCloseClick}>
+    <Modal
+      show={show}
+      outsideOnClick={true}
+      overflowYScroll={true}
+      closeModal={handleCloseClick}
+    >
       {hasSubmitted ? (
         <AppreciationContent handleCloseClick={handleCloseClick} />
       ) : (

@@ -1,5 +1,4 @@
-import { useMemo } from "react"
-import { Hex as HexType, decodeFunctionData, parseAbi } from "viem"
+import { Hex as HexType } from "viem"
 import { useParams } from "next/navigation"
 import clsx from "clsx"
 
@@ -15,43 +14,22 @@ import { SIMULATION_SUCCESS } from "@/utils/simulateTransaction"
 import { isObject } from "@/utils/isObject"
 import ArrayArg from "./atoms/ArrayArg"
 import getFirstOrString from "@/utils/getFirstOrString"
+import { RequestsDataType } from "@/hooks/useGetRequests"
 
 interface TransactionRequestModalProps {
   showModal: boolean
   onCloseModal: () => void
-  chainId?: number
-  contractAddress?: string
-  functionSignature?: string
-  calldata?: string
-  value?: string
+  request: RequestsDataType | null
 }
 
-export default function TransactionRequestModal({
-  showModal,
-  onCloseModal,
-  chainId,
-  contractAddress,
-  functionSignature,
-  calldata,
-  value,
-}: TransactionRequestModalProps) {
+export default function TransactionRequestModal(props: TransactionRequestModalProps) {
+  const { showModal, onCloseModal, request } = props
+  const { contractAddress, functionSignature, value, chainId, data: calldata, decodedData: functionArgs } = request || {}
   const { projectId } = useParams()
   const { data: wallets, isLoading } = useGetProjectWallets({
     projectId: getFirstOrString(projectId),
   })
-
-  const functionArgs = useMemo(() => {
-    if (!functionSignature || !calldata) return
-
-    const cleanData = calldata.substring(0, calldata.length - 70)
-    const abi = [`function ${functionSignature} returns ()`]
-    const { args } = decodeFunctionData({
-      abi: parseAbi(abi),
-      data: cleanData as HexType,
-    })
-
-    return args || []
-  }, [functionSignature, calldata])
+  const functionArgKeys = Object.keys(functionArgs || {});
 
   const { data: simulationResult } = useTransactionSimulation(
     {
@@ -59,7 +37,8 @@ export default function TransactionRequestModal({
       fromAddress: wallets?.[0].walletAddress as HexType,
       toAddress: contractAddress as HexType,
       functionSignature: functionSignature as string,
-      args: functionArgs,
+      // Arguments are returned from the server as an object with names or indices as keys
+      args: functionArgKeys.map(key => functionArgs?.[key]),
       // Syndicate appended data (aka "syn"+uuid)
       dataSuffix: `0x${calldata?.substring(calldata.length - 70)}`,
       value: value as string,
@@ -103,35 +82,37 @@ export default function TransactionRequestModal({
             </div>
           )}
 
-          {functionArgs && functionArgs.length > 0 && (
+          {functionArgs && functionArgKeys.length > 0 && (
             <div className="py-4 flex flex-col">
               <span className="text-gray-3 font-semibold text-base py-1">
                 Inputs
               </span>
 
               <span className="py-1 text-sm font-mono">
-                {functionArgs.map((arg, i) => {
-                  if (isObject(arg)) {
+                {functionArgKeys.map((name, index) => {
+                  const value = functionArgs[name];
+                  const key = `${name}-${index}`
+                  if (isObject(value)) {
                     return (
-                      <div className="flex" key={i}>
-                        <div>{i}: </div>
-                        <StructArg struct={arg} />
+                      <div className="flex" key={key}>
+                        <div>{name}: </div>
+                        <StructArg struct={value} />
                       </div>
                     )
                   }
 
-                  if (Array.isArray(arg)) {
+                  if (Array.isArray(value)) {
                     return (
-                      <div className="flex" key={i}>
-                        <div>{i}: </div>
-                        <ArrayArg array={arg} />
+                      <div className="flex" key={key}>
+                        <div>{name}: </div>
+                        <ArrayArg array={value} />
                       </div>
                     )
                   }
 
                   return (
-                    <p key={i}>
-                      {i}: {arg?.toString() || "error parsing input"}
+                    <p key={key}>
+                      {name}: {value.toString() || "error parsing input"}
                     </p>
                   )
                 })}
