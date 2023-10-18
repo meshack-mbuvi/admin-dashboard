@@ -13,12 +13,13 @@ export default function use2FA(args: UseSet2FAArgs) {
   return useMutation(gatewayFetch, {
     onSuccess: async (resp: Response) => {
       if (args.requestType === "setup2FA") {
-        queryClient.invalidateQueries({
-          queryKey: ["get-user"],
-        })
         const authString = await resp.json()
-        args.onSuccess(authString)
+        return args.onSuccess(authString)
       }
+
+      queryClient.invalidateQueries({
+        queryKey: ["get-user"],
+      })
       args.onSuccess()
     },
     onError: async (resp: Response) => {
