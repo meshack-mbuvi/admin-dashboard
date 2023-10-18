@@ -8,6 +8,9 @@ export default function useCreateApiKey(projectId: string) {
       queryClient.invalidateQueries({
         queryKey: ["get-project-api-keys", projectId],
       })
+      queryClient.invalidateQueries({
+        queryKey: ["get-user"],
+      })
     },
   })
 }
