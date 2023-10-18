@@ -115,6 +115,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
       <Modal
         show={show}
         outsideOnClick={true}
+        overflowYScroll={true}
         closeModal={() => {
           setName("")
           setNetwork(0)
