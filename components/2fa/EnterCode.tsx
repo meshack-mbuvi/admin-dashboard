@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
 import AuthCode from "react-auth-code-input"
 import clsx from "clsx"
+import { useQueryClient } from "@tanstack/react-query"
 
 import CheckCircle from "../icons/CheckCircle"
 import Spinner from "../icons/Spinner"
 import use2FA from "@/hooks/use2FA"
 import useAuthToken from "@/hooks/useAuthToken"
+import { UserDataType } from "@/hooks/useGetUser"
 
 interface CodeProps {
   onSetupVerified?: (next: boolean) => void
@@ -30,8 +32,17 @@ export default function EnterCode(props: CodeProps) {
   const [error, setError] = useState<boolean>(false)
 
   const sessionToken = useAuthToken()
+  const queryClient = useQueryClient()
 
   const completeVerification = () => {
+    queryClient.setQueryData<UserDataType>(["get-user"], (old) => {
+      if (!old) return old
+      return {
+        ...old,
+        is2FaEnabled: true,
+      }
+    })
+
     setSuccess(true)
     setTimeout(() => {
       onSetupVerified?.(true)
