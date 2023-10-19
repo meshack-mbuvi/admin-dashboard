@@ -17,6 +17,7 @@ import useCreateContract from "@/hooks/useCreateContract"
 import useFreePlan from "@/hooks/useFreePlan"
 import AppreciationContent from "../Shared/AppreciationContent"
 import ContactUsToUpgrade from "../Shared/ContactUsToUpgrade"
+import { InsufficientPermissionsText } from "../Shared/constants"
 
 interface AddContractModalProps {
   show: boolean
@@ -140,8 +141,12 @@ export default function AddContractModal(props: AddContractModalProps) {
 
   useEffect(() => {
     let _statusText = ""
-    if (isError && error.status === 409) {
-      _statusText = "Contract already exists"
+    if (isError) {
+      if (error.status === 409) {
+        _statusText = "Contract already exists"
+      } else if (error.status === 403) {
+        _statusText = InsufficientPermissionsText
+      }
     }
     if (isSuccess) {
       setTimeout(() => {

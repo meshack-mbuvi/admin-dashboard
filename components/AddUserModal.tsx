@@ -1,21 +1,22 @@
-import React, { useState } from "react"
 import clsx from "clsx"
+import React, { useState } from "react"
 
 import Form, { useFormContextSafe } from "@/components/Form"
 import FailureIcon from "@/components/icons/failureIcon"
 import SuccessCheckMark from "@/components/icons/successCheckMark"
+import { LightButtonStyles } from "./Buttons"
 import Submit from "./Form/Submit"
 import TextInput from "./Form/TextInput"
 import Modal from "./Modal"
 import AppreciationContent from "./Shared/AppreciationContent"
 import ContactUsToUpgrade from "./Shared/ContactUsToUpgrade"
 import { Spinner } from "./Spinner"
-import { LightButtonStyles } from "./Buttons"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateUser from "@/hooks/useCreateUser"
 import useFreePlan from "@/hooks/useFreePlan"
 import useGetUsers from "@/hooks/useGetUsers"
+import { InsufficientPermissionsText } from "./Shared/constants"
 
 type AddUserModalProps = {
   show: boolean
@@ -31,7 +32,6 @@ const PendingStatusText = "Inviting user"
 const SuccessStatusText = "User invitation sent"
 const FailedStatusText = "User invitation failed"
 const DuplicationStatusText = "User already added"
-
 const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
   const sessionToken = useAuthToken()
   const { isError, isLoading, isSuccess, mutate, error, reset } =
@@ -139,7 +139,9 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
                 <div className="flex align-middle justify-center mb-4">
                   <FailureIcon className="h-6 w-6 text-red" />
                   <span className="ml-4 text-red">
-                    {error?.status === 409
+                    {error?.status === 403
+                      ? InsufficientPermissionsText
+                      : error?.status === 409
                       ? DuplicationStatusText
                       : FailedStatusText}
                   </span>

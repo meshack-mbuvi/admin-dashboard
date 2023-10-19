@@ -14,6 +14,7 @@ import useFreePlan from "@/hooks/useFreePlan"
 import useGetOrganization from "@/hooks/useGetOrganization"
 import AppreciationContent from "./Shared/AppreciationContent"
 import ContactUsToUpgrade from "./Shared/ContactUsToUpgrade"
+import { InsufficientPermissionsText } from "./Shared/constants"
 
 type CreateProjectModalProps = {
   show: boolean
@@ -41,13 +42,14 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
 
   const [hasSubmitted, setHasSubmitted] = useState(false)
 
-  const { isError, mutate, isSuccess, isLoading, reset } = useCreateProject({
-    onSuccess: (data) => {
-      data?.json().then((data) => {
-        router.push(`/projects/${data.id}/transactions`)
-      })
-    },
-  })
+  const { isError, mutate, isSuccess, isLoading, reset, error } =
+    useCreateProject({
+      onSuccess: (data) => {
+        data?.json().then((data) => {
+          router.push(`/projects/${data.id}/transactions`)
+        })
+      },
+    })
 
   const [name, setName] = useState<string>("")
   const [environment, setEnvironment] = useState<SelectOption | undefined>()
@@ -137,7 +139,11 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
               </div>
             ) : isError ? (
               <div className="flex w-full align-middle justify-center">
-                <span className="mr-4 text-red">{ErrorStatusText}</span>
+                <span className="mr-4 text-red">
+                  {error?.status === 403
+                    ? InsufficientPermissionsText
+                    : ErrorStatusText}
+                </span>
               </div>
             ) : (
               <>

@@ -24,6 +24,7 @@ import { formatDate } from "@/utils/formatDate"
 import { GatewayFetchArgs, ResponseError } from "@/utils/gatewayFetch"
 import getFirstOrString from "@/utils/getFirstOrString"
 import PremiumPill from "../Shared/PremiumPill"
+import { InsufficientPermissionsText } from "../Shared/constants"
 
 export default function APIKeys() {
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -63,12 +64,20 @@ export default function APIKeys() {
 
   const statusMessage: string = useMemo(() => {
     if (deleteMutation.isError) {
+      const error = deleteMutation.error as ResponseError
+      if (error.status === 403) {
+        return InsufficientPermissionsText
+      }
       return "Key not Deleted, something went wrong with your request."
     }
     if (deleteMutation.isSuccess) {
       return "Key Deleted!"
     }
     if (createMutation.isError) {
+      const error = createMutation.error as ResponseError
+      if (error.status === 403) {
+        return InsufficientPermissionsText
+      }
       return "Key not Created, something went wrong with your request."
     }
     if (createMutation.isSuccess) {

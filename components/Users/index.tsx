@@ -9,21 +9,22 @@ import Verify2FAModal from "@/components/2fa/VerifyModal"
 import No2FAModal from "@/components/2fa/no2FAModal"
 import Button from "@/components/Buttons"
 import Loading from "@/components/Loading"
+import ResourceID from "@/components/Shared/ResourceID"
 import Text from "@/components/Text"
 import RemoveIcon from "@/components/icons/Remove"
-import ResourceID from "@/components/Shared/ResourceID"
 import EmptyState from "../Shared/Empty"
 import Table from "../Table/Table"
 import { ColumnHeader } from "./atoms/columnHeader"
 
 import { GatewayFetchArgs, ResponseError } from "@/utils/gatewayFetch"
 
-import useIsTestUser from "@/hooks/useIsTestUser"
-import useIsViewerUser from "@/hooks/useIsViewerUser"
-import useGetUser, { UserDataType } from "@/hooks/useGetUser"
-import useGetUsers from "@/hooks/useGetUsers"
 import useAuthToken from "@/hooks/useAuthToken"
 import useDeleteUserById from "@/hooks/useDeleteUser"
+import useGetUser, { UserDataType } from "@/hooks/useGetUser"
+import useGetUsers from "@/hooks/useGetUsers"
+import useIsTestUser from "@/hooks/useIsTestUser"
+import useIsViewerUser from "@/hooks/useIsViewerUser"
+import { InsufficientPermissionsText } from "../Shared/constants"
 
 const columnHelper = createColumnHelper<UserDataType>()
 
@@ -50,13 +51,16 @@ export default function Users() {
 
   const statusMessage: string = useMemo(() => {
     if (deleteMutation.isError) {
+      const error = deleteMutation.error as ResponseError
+      if (error.status === 403) return InsufficientPermissionsText
+
       return "User not removed, something went wrong with your request."
     }
     if (deleteMutation.isSuccess) {
       return "User Removed!"
     }
     return ""
-  }, [deleteMutation.isError, deleteMutation.isSuccess])
+  }, [deleteMutation.error, deleteMutation.isError, deleteMutation.isSuccess])
 
   const complete2FARequest = (authCode: string) => {
     const params = {
