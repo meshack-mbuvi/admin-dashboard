@@ -61,7 +61,12 @@ export default function UpgradeRequiredModalModal(
   }
 
   return (
-    <Modal show={show} outsideOnClick closeModal={handleCloseClick}>
+    <Modal
+      show={show}
+      outsideOnClick
+      overflowYScroll={true}
+      closeModal={handleCloseClick}
+    >
       {hasSubmitted ? (
         <AppreciationContent handleCloseClick={handleCloseClick} />
       ) : (

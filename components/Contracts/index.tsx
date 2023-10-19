@@ -88,7 +88,7 @@ export default function Contracts() {
           }
         />
       ) : (
-        <div className="mt-5">
+        <div>
           {Object.keys(networkContracts).map((key, index) => {
             return (
               <ProjectContracts

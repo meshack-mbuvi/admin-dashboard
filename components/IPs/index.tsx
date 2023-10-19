@@ -18,6 +18,9 @@ import Text from "@/components/Text"
 import useFreePlan from "@/hooks/useFreePlan"
 import useGetIpRanges, { IPsDataType } from "@/hooks/useGetIpRanges"
 import getFirstOrString from "@/utils/getFirstOrString"
+import EmptyState from "../Shared/Empty"
+import Link from "next/link"
+import ArrowUpperRight from "../icons/ArrowUpperRight"
 
 const columnHelper = createColumnHelper<IPsDataType>()
 
@@ -96,11 +99,18 @@ export default function IpRanges() {
                 </div>
               ))}
             </>
-          ) : (
+          ) : IPsData?.length !== 0 ? (
             <Table
               tableConfig={table}
               isLoading={isFetching || isPreviousData}
             />
+          ) : (
+            <div className="mt-16">
+              <EmptyState
+                heading={"No IP ranges yet"}
+                description={<span>View the guide to add IP ranges.</span>}
+              ></EmptyState>
+            </div>
           )}
         </div>
       </div>

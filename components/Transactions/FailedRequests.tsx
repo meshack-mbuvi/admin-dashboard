@@ -4,7 +4,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import { useParams } from "next/navigation"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { useDebouncedCallback } from "use-debounce"
 
 import Loading from "@/components/Loading"
 import EmptyState from "@/components/Shared/Empty"
@@ -20,7 +21,12 @@ import getFirstOrString from "@/utils/getFirstOrString"
 
 const columnHelper = createColumnHelper<RequestsDataType>()
 
-export default function FailedRequests() {
+interface FailedRequestsProps {
+  searchTerm: string
+}
+
+export default function FailedRequests(props: FailedRequestsProps) {
+  const { searchTerm } = props
   const [page, setPage] = useState<number>(0)
   const [limit] = useState<number>(20)
 
@@ -36,9 +42,11 @@ export default function FailedRequests() {
       size: 300,
       header: () => "Request ID",
       cell: (info) => (
-        <span className="text-white font-mono">
-          <ResourceID id={info.getValue()} fullView={true} />
-        </span>
+        <ResourceID
+          id={info.getValue()}
+          fullView={true}
+          className="text-white font-mono overflow-x-hidden text-ellipsis block"
+        />
       ),
     }),
     columnHelper.accessor("functionSignature", {
@@ -92,12 +100,21 @@ export default function FailedRequests() {
     page,
     limit,
     invalid: true,
+    search: searchTerm,
   })
 
   const onPageChange = (page: number) => {
     setPage(page)
     refetch?.()
   }
+
+  const debouncedFetch = useDebouncedCallback(() => {
+    refetch?.()
+  }, 300)
+
+  useEffect(() => {
+    debouncedFetch()
+  }, [searchTerm, debouncedFetch])
 
   const table = useReactTable({
     data: requestsResp?.transactionRequests || [],
@@ -134,11 +151,7 @@ export default function FailedRequests() {
       <TransactionRequestModal
         showModal={showModal}
         onCloseModal={() => setShowModal(false)}
-        chainId={selectedRequest?.chainId}
-        contractAddress={selectedRequest?.contractAddress}
-        functionSignature={selectedRequest?.functionSignature}
-        calldata={selectedRequest?.data}
-        value={selectedRequest?.value}
+        request={selectedRequest}
       />
     </div>
   )

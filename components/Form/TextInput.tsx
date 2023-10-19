@@ -25,7 +25,7 @@ export default function TextInput(props: TextInputProps) {
               onChange && onChange(value)
               field.onChange(e)
             }}
-            className="w-full disabled:cursor-not-allowed"
+            className="w-full disabled:cursor-not-allowed disabled:bg-gray-7 disabled:placeholder:text-gray-6"
           />
         )
       }}

@@ -38,7 +38,6 @@ import ExternalLink from "../Shared/ExternalLink"
 import TableFilterPills from "../Table/TableFilterPills"
 import Text from "../Text"
 import TxIdFilter from "./atoms/TxStatusFilter"
-import { get } from "http"
 import getFirstOrString from "@/utils/getFirstOrString"
 
 const columnHelper = createColumnHelper<TransactionDataType>()
@@ -63,7 +62,11 @@ const columns = [
           transactionStatus={info.row.original.status}
           reverted={info.row.original.reverted}
         />
-        <ResourceID id={info.getValue()} fullView={true} />
+        <ResourceID
+          id={info.getValue()}
+          fullView={true}
+          className="grow-0 overflow-x-hidden"
+        />
       </span>
     ),
   }),
@@ -286,7 +289,7 @@ const AllTransactions = (props: AllTransactionsProps) => {
             href="https://docs.syndicate.io/guides/transactions"
             className={clsx(
               DarkButtonStyles,
-              "border-2 border-warning text-white flex space-x-2 py-4 mt-10"
+              "border-2 border-yellow-secondary text-white flex space-x-2 py-4 mt-10"
             )}
             linkText="Learn how to send your first transaction"
           />

@@ -48,13 +48,17 @@ export default function CopyToClipboard(props: CopyToClipboardProps) {
 
   return (
     <span className={className}>
-      <button className="relative flex align-center py-1" onClick={copyContent}>
+      <button
+        className="relative flex align-center py-1 w-full"
+        onClick={copyContent}
+      >
         <span
           data-tooltip-id={"copy-" + copyId}
           data-tooltip-content={
             copied ? tooltipCopiedText || "Copied" : tooltipCopyText
           }
           data-tooltip-place={tooltipPosition || "top"}
+          className="w-full"
         >
           {children ? children : <Clipboard className="cursor-pointer w-4" />}
         </span>
