@@ -4,10 +4,11 @@ import SearchIcon from "@/components/icons/Search"
 interface SearchProps {
   searchTerm: string
   setSearchTerm: (searchTerm: string) => void
+  placeholder: string
 }
 
 const Search = (props: SearchProps) => {
-  const { searchTerm, setSearchTerm } = props
+  const { searchTerm, setSearchTerm, placeholder } = props
 
   const clearInputField = (): void => {
     setSearchTerm("")
@@ -24,7 +25,7 @@ const Search = (props: SearchProps) => {
           name="search"
           id="search-transactions"
           className="block w-full rounded-md border-0 py-1.5 pl-10 pr-8 text-white bg-black outline-none focus:ring-gray-4 placeholder:text-gray-400 sm:leading-6 "
-          placeholder="Search transactions"
+          placeholder={placeholder}
           onChange={(e): void => setSearchTerm(e.target.value)}
           value={searchTerm}
         />

@@ -15,7 +15,8 @@ import getFirstOrString from "@/utils/getFirstOrString"
 
 export default function TransactionTables() {
   const [activeTabIndex, setActiveTabIndex] = useState(0)
-  const [searchTerm, setSearchTerm] = useState<string>("")
+  const [searchTxsTerm, setSearchTxsTerm] = useState<string>("")
+  const [searchReqsTerm, setSearchReqsTerm] = useState<string>("")
   const [txCount, setTxCount] = useState<number>()
 
   const { projectId } = useParams()
@@ -39,9 +40,9 @@ export default function TransactionTables() {
     [key: string]: JSX.Element
   } = {
     Transactions: (
-      <AllTransactions setTxCount={setTxCount} searchTerm={searchTerm} />
+      <AllTransactions setTxCount={setTxCount} searchTerm={searchTxsTerm} />
     ),
-    "Failed requests": <FailedRequests />,
+    "Failed requests": <FailedRequests searchTerm={searchReqsTerm} />,
   }
 
   return (
@@ -53,22 +54,34 @@ export default function TransactionTables() {
           setActiveIndex={setActiveTabIndex}
           tabSuffixes={tabSuffixes}
         />
-        {activeTabIndex === 0 && (
-          <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+        {activeTabIndex === 1 && (
+          <div className="flex">
+            <Link
+              href="https://docs.syndicate.io/guides/transactions"
+              target="_blank"
+              className={clsx(
+                DarkButtonStyles,
+                "border-yellow-secondary flex items-baseline mr-4"
+              )}
+            >
+              Troubleshoot
+              <ArrowUpperRight className="h-4 w-4 ml-2" />
+            </Link>
+
+            <Search
+              searchTerm={searchReqsTerm}
+              setSearchTerm={setSearchReqsTerm}
+              placeholder="Search requests"
+            />
+          </div>
         )}
 
-        {activeTabIndex === 1 && (
-          <Link
-            href="https://docs.syndicate.io/guides/transactions"
-            target="_blank"
-            className={clsx(
-              DarkButtonStyles,
-              "border-yellow-secondary flex items-baseline"
-            )}
-          >
-            Troubleshoot
-            <ArrowUpperRight className="h-4 w-4 ml-2" />
-          </Link>
+        {activeTabIndex === 0 && (
+          <Search
+            searchTerm={searchTxsTerm}
+            setSearchTerm={setSearchTxsTerm}
+            placeholder="Search transactions"
+          />
         )}
       </div>
       <div className="ml-2">{tabComponents[tabHeaders[activeTabIndex]]}</div>
