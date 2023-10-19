@@ -69,7 +69,9 @@ export default function useGetTransactions(args: UseGetTransactionsArgs) {
         return txData
       }
 
-      const blocks = txData?.transactionAttempts.map((tx) => tx.block)
+      const blocks = txData?.transactionAttempts
+        .map((tx) => tx.block)
+        .filter((block) => block !== 0)
       const networkId = txData?.transactionAttempts[0].chainId
 
       const blocksParam = blocks?.join(",")
