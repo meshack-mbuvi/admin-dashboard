@@ -1,11 +1,10 @@
 import { Disclosure } from "@headlessui/react"
-import { useMemo } from "react"
 
 import ChevronDown from "@/components/icons/ChevronDown"
 import ChevronRight from "@/components/icons/ChevronRight"
-import { NetworkId, getNetwork } from "@/utils/network"
-import { getNetworkIcon } from "@/utils/getNetworkIcon"
+import { NetworkId } from "@/utils/network"
 import clsx from "clsx"
+import { useNetworkInfo } from "@/hooks/useNetworkInfo"
 
 interface DisclosureComponentProps {
   networkId: NetworkId
@@ -22,12 +21,7 @@ export default function DisclosureComponent({
   disclosureTitle,
   className,
 }: DisclosureComponentProps) {
-  const networkInfo = useMemo(() => {
-    const network = getNetwork(networkId)
-    const networkIcon = getNetworkIcon(networkId, "w-5 h-5")
-    return { networkIcon, network }
-  }, [networkId])
-
+  const networkInfo = useNetworkInfo(networkId)
   return (
     <div>
       <Disclosure as="div" className="pt-6">

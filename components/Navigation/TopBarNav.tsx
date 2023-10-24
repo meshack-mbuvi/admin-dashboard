@@ -28,7 +28,7 @@ export default function TopBarNav() {
       <NavLink path="wallets" page="wallets" className={linkStyles}>
         <p className="flex space-x-2 px-6 py-2">
           <WalletIcon className="w-5" />
-          <span>Wallets</span>
+          <span>Wallets & Gas</span>
         </p>
       </NavLink>
 
