@@ -19,8 +19,6 @@ import useFreePlan from "@/hooks/useFreePlan"
 import useGetIpRanges, { IPsDataType } from "@/hooks/useGetIpRanges"
 import getFirstOrString from "@/utils/getFirstOrString"
 import EmptyState from "../Shared/Empty"
-import Link from "next/link"
-import ArrowUpperRight from "../icons/ArrowUpperRight"
 
 const columnHelper = createColumnHelper<IPsDataType>()
 
@@ -34,6 +32,12 @@ const columns = [
         <ResourceID id={info.row.original.id} />
       </div>
     ),
+  }),
+
+  columnHelper.accessor("note", {
+    size: 250,
+    header: () => <span>Note</span>,
+    cell: (info) => <span className="font-mono">{info.getValue()}</span>,
   }),
 
   columnHelper.accessor("createdAt", {
