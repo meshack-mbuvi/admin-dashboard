@@ -18,8 +18,7 @@ export function ManagedGas() {
   return <WalletSection
     title="Managed Gas"
     description="This is the total amount of gas that has been automatically funded to this project's wallets to perform transactions since inception. Data may differ from final billing amount."
-    // @note This may need to be updated when this guide is published
-    helperLink="https://docs.syndicate.io/guides/managed-gas"
+    helperLink="https://docs.syndicate.io/features/managed-gas"
     helperText="Learn More"      
     isLoading={isLoading}
   >
