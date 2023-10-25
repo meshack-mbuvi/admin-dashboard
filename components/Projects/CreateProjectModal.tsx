@@ -1,20 +1,20 @@
 import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 
-import Modal from "./Modal"
-import StepsModal from "./Shared/StepsModal"
-import { Spinner } from "./Spinner"
-import Input from "./inputs/Input"
-import NetworkDropdown from "./inputs/NetworkDropdown"
-import Select, { SelectOption } from "./inputs/Select"
+import Modal from "@/components/Modal"
+import StepsModal from "@/components/Shared/StepsModal"
+import { Spinner } from "@/components/Spinner"
+import Input from "@/components/inputs/Input"
+import NetworkDropdown from "@/components/inputs/NetworkDropdown"
+import Select, { SelectOption } from "@/components/inputs/Select"
+import AppreciationContent from "@/components/Shared/AppreciationContent"
+import ContactUsToUpgrade from "@/components/Shared/ContactUsToUpgrade"
+import { InsufficientPermissionsText } from "@/components/Shared/constants"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateProject from "@/hooks/useCreateProject"
 import useFreePlan from "@/hooks/useFreePlan"
 import useGetOrganization from "@/hooks/useGetOrganization"
-import AppreciationContent from "./Shared/AppreciationContent"
-import ContactUsToUpgrade from "./Shared/ContactUsToUpgrade"
-import { InsufficientPermissionsText } from "./Shared/constants"
 
 type CreateProjectModalProps = {
   show: boolean
