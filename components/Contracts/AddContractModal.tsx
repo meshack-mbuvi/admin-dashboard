@@ -15,6 +15,8 @@ import NetworkDropdown from "@/components/inputs/NetworkDropdown"
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateContract from "@/hooks/useCreateContract"
 import useFreePlan from "@/hooks/useFreePlan"
+import useGetProjectWallets from "@/hooks/useGetProjectWallets"
+import getFirstOrString from "@/utils/getFirstOrString"
 import AppreciationContent from "../Shared/AppreciationContent"
 import ContactUsToUpgrade from "../Shared/ContactUsToUpgrade"
 import { InsufficientPermissionsText } from "../Shared/constants"
@@ -63,6 +65,14 @@ export default function AddContractModal(props: AddContractModalProps) {
     useCreateContract()
   const sessionToken = useAuthToken()
   const { projectId } = useParams()
+
+  const { data: wallets } = useGetProjectWallets({
+    projectId: getFirstOrString(projectId),
+  })
+
+  useEffect(() => {
+    setNetworkId(wallets?.[0].chainId || 0)
+  }, [wallets])
 
   const parsedABI = useMemo(() => {
     return parseABI(contractABI)
