@@ -8,8 +8,8 @@ import { useState } from "react"
 
 import ContractFunctionsModal from "@/components/Contracts/ContractFunctionsModal"
 import Hex from "@/components/Shared/Hex"
-import Table from "@/components/Table/Table"
 import ResourceID from "@/components/Shared/ResourceID"
+import Table from "@/components/Table/Table"
 import { IContract } from "@/hooks/useGetProjectById"
 import { NetworkId } from "@/utils/network"
 import DisclosureComponent from "../Shared/Disclosure"
@@ -98,6 +98,7 @@ export default function ProjectContracts({
         networkId={networkId}
         disclosureTitle="contracts"
         itemCount={contracts.length}
+        defaultOpen={true}
       >
         <Table tableConfig={table} />
       </DisclosureComponent>
