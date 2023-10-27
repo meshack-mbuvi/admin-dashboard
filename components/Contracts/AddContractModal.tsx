@@ -13,6 +13,7 @@ import SuccessCheckMark from "@/components/icons/successCheckMark"
 import Input from "@/components/inputs/Input"
 import NetworkDropdown from "@/components/inputs/NetworkDropdown"
 import useAuthToken from "@/hooks/useAuthToken"
+import useContractABI from "@/hooks/useContractAbi"
 import useCreateContract from "@/hooks/useCreateContract"
 import useFreePlan from "@/hooks/useFreePlan"
 import useGetProjectWallets from "@/hooks/useGetProjectWallets"
@@ -54,12 +55,13 @@ export default function AddContractModal(props: AddContractModalProps) {
   const [contractAddress, setContractAddress] = useState<string>("")
   const [contractABI, setContractABI] = useState<string>("")
   const [allowedFunctions, setAllowedFunctions] = useState<AbiFunction[]>([])
-  const [networkId, setNetworkId] = useState<number>(0)
+  const [networkId, setNetworkId] = useState<number | null>(null)
   const [nameErrorMessage, setNameErrorMessage] = useState<string>("")
   const [contractAddressErrorMessage, setContractAddressErrorMessage] =
     useState<string>("")
 
   const isFreePlan = useFreePlan()
+  const { data: preLoadedAbi } = useContractABI(contractAddress, networkId)
 
   const { isError, isSuccess, mutate, error, reset, isLoading } =
     useCreateContract()
@@ -71,12 +73,18 @@ export default function AddContractModal(props: AddContractModalProps) {
   })
 
   useEffect(() => {
-    setNetworkId(wallets?.[0].chainId || 0)
+    setNetworkId(wallets?.[0].chainId ?? null)
   }, [wallets])
 
   const parsedABI = useMemo(() => {
     return parseABI(contractABI)
   }, [contractABI])
+
+  useEffect(() => {
+    if (preLoadedAbi) {
+      setContractABI(JSON.stringify(preLoadedAbi))
+    }
+  }, [preLoadedAbi])
 
   const abiFunctions = useMemo(() => {
     return parsedABI?.filter(
@@ -130,7 +138,7 @@ export default function AddContractModal(props: AddContractModalProps) {
   )
 
   const handleRequest = () => {
-    if (sessionToken) {
+    if (sessionToken && networkId) {
       mutate({
         method: "POST",
         sessionToken,
@@ -197,6 +205,19 @@ export default function AddContractModal(props: AddContractModalProps) {
             <p className="font-sans font-medium text-2xl text-gray-1 mb-7">
               Add contract
             </p>
+
+            {networkId && (
+              <div className="flex flex-col justify-center items-left mb-7">
+                <NetworkDropdown
+                  currentNetwork={networkId}
+                  setCurrentNetwork={setNetworkId}
+                  placeholder="Select preliminary network"
+                  above={true}
+                  disabled={isFreePlan}
+                />
+              </div>
+            )}
+
             <div className="flex flex-col justify-center items-left mb-7">
               <p className="font-sans font-medium text-white text-sm mb-2 bg-dark">
                 Name
@@ -223,7 +244,7 @@ export default function AddContractModal(props: AddContractModalProps) {
                 placeholder="0x...."
                 value={contractAddress}
                 onChange={(e) => handleContractAddressChange(e)}
-                disabled={isFreePlan}
+                disabled={isFreePlan || !networkId}
               />
               {contractAddressErrorMessage && (
                 <p className="font-sans font-medium text-red text-sm mt-2">
@@ -254,7 +275,7 @@ export default function AddContractModal(props: AddContractModalProps) {
                   setAllowedFunctions([])
                 }}
                 value={contractABI}
-                disabled={isFreePlan}
+                disabled={isFreePlan || !networkId}
               />
               {!parsedABI && contractABI.length > 0 && (
                 <p className="text-red mt-3">Error parsing ABI</p>
@@ -347,15 +368,6 @@ export default function AddContractModal(props: AddContractModalProps) {
               </Listbox>
             </div>
 
-            <div className="flex flex-col justify-center items-left mb-7">
-              <NetworkDropdown
-                currentNetwork={networkId}
-                setCurrentNetwork={setNetworkId}
-                placeholder="Select preliminary network"
-                above={true}
-                disabled={isFreePlan}
-              />
-            </div>
             {isLoading ? (
               <div className="flex w-full align-middle justify-center">
                 <span className="mr-4">Adding contract</span>
