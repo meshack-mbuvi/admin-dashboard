@@ -45,6 +45,7 @@ export default function FailedRequests(props: FailedRequestsProps) {
         <ResourceID
           id={info.getValue()}
           fullView={true}
+          context="Request"
           className="text-white font-mono overflow-x-hidden text-ellipsis block"
         />
       ),

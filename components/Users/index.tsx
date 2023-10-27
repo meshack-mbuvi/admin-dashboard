@@ -93,7 +93,7 @@ export default function Users() {
       cell: (info) => (
         <div className="flex justify-between space-x-3 pr-6 lg:pr-10 xl:pr-24">
           <Text>{info.getValue()}</Text>
-          <ResourceID id={info.row.original.id} />
+          <ResourceID id={info.row.original.id} context="user" />
         </div>
       ),
     }),

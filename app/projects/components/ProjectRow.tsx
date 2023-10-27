@@ -76,7 +76,7 @@ export default function ProjectRow(props: ProjectRowProps) {
       <div className="flex items-center w-full py-7 border-b border-gray-7 group-hover:border-transparent">
         <div className="flex justify-between items-center w-1/3 text-left text-base text-gray-1 pr-10 lg:pr-32 space-x-3">
           <span>{name}</span>
-          <ResourceID id={projectId} />
+          <ResourceID id={projectId} context="project" />
         </div>
         <div
           className={clsx(

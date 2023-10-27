@@ -47,7 +47,7 @@ export default function NetworkWallets({
     columnHelper.accessor("walletId", {
       maxSize: 64,
       header: () => "",
-      cell: (info) => <ResourceID id={info.getValue()} />,
+      cell: (info) => <ResourceID id={info.getValue()} context="wallet" />,
     }),
     columnHelper.accessor("txCount", {
       header: () => <Label className="text-gray-3 text-sm">Transactions</Label>,

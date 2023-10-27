@@ -43,7 +43,7 @@ export default function ProjectContracts({
     columnHelper.accessor("id", {
       size: 64,
       header: () => "",
-      cell: (info) => <ResourceID id={info.getValue()} />,
+      cell: (info) => <ResourceID id={info.getValue()} context="contract" />,
     }),
     columnHelper.accessor("address", {
       size: 480,

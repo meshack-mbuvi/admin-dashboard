@@ -29,7 +29,7 @@ const columns = [
     cell: (info) => (
       <div className="flex space-x-8">
         <span className="font-mono">{info.getValue()}</span>
-        <ResourceID id={info.row.original.id} />
+        <ResourceID id={info.row.original.id} context="Ip" />
       </div>
     ),
   }),
