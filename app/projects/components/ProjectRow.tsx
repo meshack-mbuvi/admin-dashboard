@@ -47,7 +47,7 @@ export default function ProjectRow(props: ProjectRowProps) {
   })
   const { data: stats } = useGetProjectTransactionStats({ projectId })
 
-  const noOfTransactions =
+  const totalTransactions =
     (stats?.numberOfConfirmedTransactions ?? 0) +
     (stats?.numberOfSubmittedTransactions ?? 0) +
     (stats?.numberOfPendingTransactions ?? 0)
@@ -92,7 +92,7 @@ export default function ProjectRow(props: ProjectRowProps) {
           {formatEnvironment(environment)}
         </div>
         <div className="w-1/6 text-left text-base text-gray-1 font-mono">
-          {noOfTransactions}
+          {totalTransactions}
         </div>
         <div className="w-1/6 text-left text-base text-gray-1 font-mono">
           {stats?.numberOfFailedTransactions ?? 0}
