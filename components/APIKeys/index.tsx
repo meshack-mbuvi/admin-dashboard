@@ -20,9 +20,9 @@ import useDeleteApiKey from "@/hooks/useDeleteApiKey"
 import useFreePlan from "@/hooks/useFreePlan"
 import useGetProjectApiKeys from "@/hooks/useGetApiKeys"
 import useGetUser from "@/hooks/useGetUser"
-import { formatDate } from "@/utils/formatDate"
 import { GatewayFetchArgs, ResponseError } from "@/utils/gatewayFetch"
 import getFirstOrString from "@/utils/getFirstOrString"
+import DateTimestamp from "../Shared/Datestamp"
 import PremiumPill from "../Shared/PremiumPill"
 import { InsufficientPermissionsText } from "../Shared/constants"
 
@@ -212,7 +212,10 @@ export default function APIKeys() {
                     </BlurredView>
 
                     <Text className="flex font-mono flex-shrink-0 whitespace-nowrap">
-                      {formatDate(AccessKey?.createdAt)}
+                      <DateTimestamp
+                        date={AccessKey?.createdAt}
+                        showTime={true}
+                      />
                     </Text>
                   </div>
                   <div

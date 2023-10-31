@@ -5,7 +5,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import clsx from "clsx"
-import { format } from "date-fns"
 import { useParams } from "next/navigation"
 
 import { DarkButtonStyles } from "@/components/Buttons"
@@ -18,6 +17,7 @@ import Text from "@/components/Text"
 import useFreePlan from "@/hooks/useFreePlan"
 import useGetIpRanges, { IPsDataType } from "@/hooks/useGetIpRanges"
 import getFirstOrString from "@/utils/getFirstOrString"
+import DateTimestamp from "../Shared/Datestamp"
 import EmptyState from "../Shared/Empty"
 
 const columnHelper = createColumnHelper<IPsDataType>()
@@ -42,9 +42,7 @@ const columns = [
 
   columnHelper.accessor("createdAt", {
     header: () => <span>Date Added</span>,
-    cell: (info) => (
-      <span> {format(new Date(info.getValue()), "do MMM yyyy")}</span>
-    ),
+    cell: (info) => <DateTimestamp date={info.getValue()} showTime={true} />,
   }),
 ]
 

@@ -3,7 +3,6 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import format from "date-fns/format"
 import { useState } from "react"
 
 import ContractFunctionsModal from "@/components/Contracts/ContractFunctionsModal"
@@ -12,6 +11,7 @@ import ResourceID from "@/components/Shared/ResourceID"
 import Table from "@/components/Table/Table"
 import { IContract } from "@/hooks/useGetProjectById"
 import { NetworkId } from "@/utils/network"
+import DateTimestamp from "../Shared/Datestamp"
 import DisclosureComponent from "../Shared/Disclosure"
 
 interface ProjectNetworkProps {
@@ -80,9 +80,7 @@ export default function ProjectContracts({
 
     columnHelper.accessor("createdAt", {
       header: () => <span>Date Added</span>,
-      cell: (info) => (
-        <span> {format(new Date(info.getValue()), "MMMM do yyyy")}</span>
-      ),
+      cell: (info) => <DateTimestamp date={info.getValue()} showTime={true} />,
     }),
   ]
 
