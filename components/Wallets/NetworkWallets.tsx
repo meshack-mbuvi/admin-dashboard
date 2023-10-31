@@ -4,14 +4,14 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 
+import ResourceID from "@/components/Shared/ResourceID"
 import Table from "@/components/Table/Table"
 import { Wallet } from "@/hooks/useGetProjectWallets"
 import { NetworkId } from "@/utils/network"
-import format from "date-fns/format"
 import Label from "../Label"
+import DateTimestamp from "../Shared/Datestamp"
 import DisclosureComponent from "../Shared/Disclosure"
 import Hex from "../Shared/Hex"
-import ResourceID from "@/components/Shared/ResourceID"
 
 interface NetworkWalletsProps {
   networkId: NetworkId
@@ -47,7 +47,7 @@ export default function NetworkWallets({
     columnHelper.accessor("walletId", {
       maxSize: 64,
       header: () => "",
-      cell: (info) => <ResourceID id={info.getValue()} />,
+      cell: (info) => <ResourceID id={info.getValue()} context="wallet" />,
     }),
     columnHelper.accessor("txCount", {
       header: () => <Label className="text-gray-3 text-sm">Transactions</Label>,
@@ -55,9 +55,7 @@ export default function NetworkWallets({
     }),
     columnHelper.accessor("createdAt", {
       header: () => <Label className="text-gray-3 text-sm">Date Added</Label>,
-      cell: (info) => (
-        <span> {format(new Date(info.getValue()), "yyyy-MM-dd")}</span>
-      ),
+      cell: (info) => <DateTimestamp date={info.getValue()} showTime={true} />,
     }),
   ]
 

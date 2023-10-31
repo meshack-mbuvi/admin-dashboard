@@ -47,6 +47,11 @@ export default function ProjectRow(props: ProjectRowProps) {
   })
   const { data: stats } = useGetProjectTransactionStats({ projectId })
 
+  const totalTransactions =
+    (stats?.numberOfConfirmedTransactions ?? 0) +
+    (stats?.numberOfSubmittedTransactions ?? 0) +
+    (stats?.numberOfPendingTransactions ?? 0)
+
   const networks = useMemo(() => {
     const networks = new Set<number>()
     wallets?.forEach((contract) => {
@@ -76,7 +81,7 @@ export default function ProjectRow(props: ProjectRowProps) {
       <div className="flex items-center w-full py-7 border-b border-gray-7 group-hover:border-transparent">
         <div className="flex justify-between items-center w-1/3 text-left text-base text-gray-1 pr-10 lg:pr-32 space-x-3">
           <span>{name}</span>
-          <ResourceID id={projectId} />
+          <ResourceID id={projectId} context="project" />
         </div>
         <div
           className={clsx(
@@ -87,7 +92,7 @@ export default function ProjectRow(props: ProjectRowProps) {
           {formatEnvironment(environment)}
         </div>
         <div className="w-1/6 text-left text-base text-gray-1 font-mono">
-          {stats?.numberOfTransactions ?? 0}
+          {totalTransactions}
         </div>
         <div className="w-1/6 text-left text-base text-gray-1 font-mono">
           {stats?.numberOfFailedTransactions ?? 0}

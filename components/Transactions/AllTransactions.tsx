@@ -65,6 +65,7 @@ const columns = [
         <ResourceID
           id={info.getValue()}
           fullView={true}
+          context="transaction"
           className="grow-0 overflow-x-hidden"
         />
       </span>

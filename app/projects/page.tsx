@@ -3,9 +3,9 @@
 import clsx from "clsx"
 import { useState } from "react"
 
-import AddUserModal from "@/components/AddUserModal"
+import AddUserModal from "@/components/Users/AddUserModal"
 import Button, { LightButtonStyles } from "@/components/Buttons"
-import CreateProjectModal from "@/components/CreateProjectModal"
+import CreateProjectModal from "@/components/Projects/CreateProjectModal"
 import Projects from "@/components/Projects"
 import { Tab } from "@/components/Tab"
 import Users from "@/components/Users"

@@ -5,7 +5,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table"
 import clsx from "clsx"
-import { format } from "date-fns"
 import { useParams } from "next/navigation"
 
 import { DarkButtonStyles } from "@/components/Buttons"
@@ -18,9 +17,8 @@ import Text from "@/components/Text"
 import useFreePlan from "@/hooks/useFreePlan"
 import useGetIpRanges, { IPsDataType } from "@/hooks/useGetIpRanges"
 import getFirstOrString from "@/utils/getFirstOrString"
+import DateTimestamp from "../Shared/Datestamp"
 import EmptyState from "../Shared/Empty"
-import Link from "next/link"
-import ArrowUpperRight from "../icons/ArrowUpperRight"
 
 const columnHelper = createColumnHelper<IPsDataType>()
 
@@ -31,16 +29,20 @@ const columns = [
     cell: (info) => (
       <div className="flex space-x-8">
         <span className="font-mono">{info.getValue()}</span>
-        <ResourceID id={info.row.original.id} />
+        <ResourceID id={info.row.original.id} context="Ip" />
       </div>
     ),
   }),
 
+  columnHelper.accessor("note", {
+    size: 250,
+    header: () => <span>Note</span>,
+    cell: (info) => <span className="font-mono">{info.getValue()}</span>,
+  }),
+
   columnHelper.accessor("createdAt", {
     header: () => <span>Date Added</span>,
-    cell: (info) => (
-      <span> {format(new Date(info.getValue()), "do MMM yyyy")}</span>
-    ),
+    cell: (info) => <DateTimestamp date={info.getValue()} showTime={true} />,
   }),
 ]
 

@@ -102,6 +102,7 @@ export default function GeneralSettings() {
                 id={projectIdString}
                 fullView={true}
                 copyIcon={true}
+                context="project"
               />
             </div>
           </div>
