@@ -11,6 +11,8 @@ interface ProjectsProps {
 export default function Projects({ onCreateProject }: ProjectsProps) {
   const { data, isLoading } = useGetProjects()
 
+  console.log(data)
+
   return (
     <>
       <div className="flex flex-col space-y-5">
