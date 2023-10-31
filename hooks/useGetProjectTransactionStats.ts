@@ -8,7 +8,9 @@ interface UseGetProjectTransactionStatsArgs {
 }
 
 type ProjectTransactionStats = {
-  numberOfTransactions: number
+  numberOfConfirmedTransactions: number
+  numberOfSubmittedTransactions: number
+  numberOfPendingTransactions: number
   numberOfFailedTransactions: number
 }
 
