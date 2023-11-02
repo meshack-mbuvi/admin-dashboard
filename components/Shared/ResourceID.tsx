@@ -1,8 +1,8 @@
 import clsx from "clsx"
 
-import IdIcon from "@/components/icons/ID"
-import Clipboard from "@/components/icons/Clipboard"
 import CopyToClipboard from "@/components/CopyToClipboard"
+import Clipboard from "@/components/icons/Clipboard"
+import IdIcon from "@/components/icons/ID"
 
 export default function ResourceID(props: {
   id: string
@@ -13,10 +13,12 @@ export default function ResourceID(props: {
 }) {
   const { id, className, fullView, copyIcon, context = "project" } = props
 
-  const tooltipCopyText = fullView ? "Click to copy ID" : `Click to copy ${id}`
+  const tooltipCopyText = fullView
+    ? "Click to copy ID"
+    : `Click to copy <br/> ${id}`
   const tooltipCopiedText = fullView
     ? "ID Copied"
-    : `Copied ${context} ID ${id}`
+    : `Copied ${context} ID <br/> ${id}`
 
   return (
     <span className={clsx(className, copyIcon && "flex space-x-4 group")}>

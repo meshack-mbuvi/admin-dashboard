@@ -54,7 +54,7 @@ export default function CopyToClipboard(props: CopyToClipboardProps) {
       >
         <span
           data-tooltip-id={"copy-" + copyId}
-          data-tooltip-content={
+          data-tooltip-html={
             copied ? tooltipCopiedText || "Copied" : tooltipCopyText
           }
           data-tooltip-place={tooltipPosition || "top"}
@@ -63,7 +63,7 @@ export default function CopyToClipboard(props: CopyToClipboardProps) {
           {children ? children : <Clipboard className="cursor-pointer w-4" />}
         </span>
       </button>
-      <Tooltip id={"copy-" + copyId} />
+      <Tooltip id={"copy-" + copyId} className="text-center" />
     </span>
   )
 }
