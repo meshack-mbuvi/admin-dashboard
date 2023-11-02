@@ -20,6 +20,7 @@ import useGetUser from "@/hooks/useGetUser"
 
 export default function TwoFactorAuth() {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0)
+  const [setupInProgress, setSetupInProgress] = useState<boolean>(false)
   const router = useRouter()
 
   const { data: user, isLoading } = useGetUser()
@@ -36,10 +37,14 @@ export default function TwoFactorAuth() {
   }
 
   useEffect(() => {
-    if (!isLoading && user?.is2FaEnabled) {
+    if (isLoading) return
+    if (!user?.is2FaEnabled) {
+      return setSetupInProgress(true)
+    }
+    if (!isLoading && user?.is2FaEnabled && !setupInProgress) {
       router.back()
     }
-  }, [isLoading, user, router])
+  }, [isLoading, user, router, setupInProgress])
 
   const tabHeaders = ["Start", "GetApp", "Setup", "EnterCode"]
 

@@ -35,7 +35,7 @@ export default function EnterCode(props: CodeProps) {
     setSuccess(true)
     setTimeout(() => {
       onSetupVerified?.(true)
-    }, 2000)
+    }, 3000)
   }
 
   const handleError = () => {
