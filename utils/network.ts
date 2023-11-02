@@ -45,6 +45,6 @@ export function getNetworkRPC(networkId: NetworkId | number) {
       return process.env.NEXT_PUBLIC_ALCHEMY_MUMBAI_URL
 
     default:
-      return null
+      return
   }
 }
