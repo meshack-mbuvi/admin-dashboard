@@ -10,7 +10,6 @@ import CopyToClipboard from "../CopyToClipboard"
 import useGetProjectWallets from "@/hooks/useGetProjectWallets"
 import useTransactionSimulation from "@/hooks/useTransactionSimulation"
 import { NetworkId } from "@/utils/network"
-import { SIMULATION_SUCCESS } from "@/utils/simulateTransaction"
 import { isObject } from "@/utils/isObject"
 import ArrayArg from "./atoms/ArrayArg"
 import getFirstOrString from "@/utils/getFirstOrString"
@@ -54,6 +53,8 @@ export default function TransactionRequestModal(
     },
     Boolean(!isLoading && wallets && functionArgs)
   )
+
+  const isSuccess = simulationResult?.success
 
   return (
     <Modal
@@ -163,12 +164,10 @@ export default function TransactionRequestModal(
               <span
                 className={clsx(
                   "py-1 text-sm font-mono",
-                  simulationResult === SIMULATION_SUCCESS
-                    ? "text-green"
-                    : "text-red"
+                  isSuccess ? "text-green" : "text-red"
                 )}
               >
-                {simulationResult}
+                {simulationResult?.message}
               </span>
             </div>
           ) : (
