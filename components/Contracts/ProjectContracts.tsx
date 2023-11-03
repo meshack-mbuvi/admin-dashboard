@@ -94,7 +94,7 @@ export default function ProjectContracts({
     <div className="">
       <DisclosureComponent
         networkId={networkId}
-        disclosureTitle="contracts"
+        disclosureTitle=""
         itemCount={contracts.length}
         defaultOpen={true}
       >
