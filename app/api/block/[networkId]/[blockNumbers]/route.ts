@@ -12,7 +12,7 @@ export async function GET(
   const config = getNetwork(Number(params.networkId))
   const rpcUrl = getNetworkRPC(Number(params.networkId))
 
-  if (!config || !rpcUrl)
+  if (!config)
     return NextResponse.json(
       { error: "Invalid Network ID provided" },
       { status: 400 }

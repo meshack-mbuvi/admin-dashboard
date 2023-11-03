@@ -37,7 +37,7 @@ export async function simulateTransaction({
   const networkConfig = getNetwork(chainId)
   const rpcUrl = getNetworkRPC(chainId)
 
-  if (!networkConfig || !rpcUrl) throw new Error("Invalid Network ID provided")
+  if (!networkConfig) throw new Error("Invalid Network ID provided")
 
   const client = createPublicClient({
     chain: networkConfig,

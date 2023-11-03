@@ -28,12 +28,7 @@ interface TableProps<T> {
 export default function Table<T>(props: TableProps<T>) {
   const { tableConfig, isLoading, noDataMessage } = props
   return (
-    <div
-      className={clsx(
-        "w-full overflow-x-auto min-h-[300px]",
-        isLoading && "opacity-70"
-      )}
-    >
+    <div className={clsx("w-full overflow-x-auto", isLoading && "opacity-70")}>
       <table className="w-full table-fixed" align="left">
         <thead>
           {tableConfig.getHeaderGroups().map((headerGroup: HeaderGroup<T>) => (
