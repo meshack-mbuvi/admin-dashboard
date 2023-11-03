@@ -40,14 +40,15 @@ export default function DisclosureComponent({
                 {networkInfo.network && (
                   <>
                     {networkInfo.network.name.replace(" ", " - ")} (
-                    {itemCount.toLocaleString()} {disclosureTitle})
+                    {itemCount.toLocaleString()}
+                    {disclosureTitle && ` ${disclosureTitle}`})
                   </>
                 )}
 
                 {!networkInfo.network && (
                   <>
-                    Chain ID: {networkId} ({itemCount.toLocaleString()}{" "}
-                    {disclosureTitle})
+                    Chain ID: {networkId} ({itemCount.toLocaleString()}
+                    {disclosureTitle && ` ${disclosureTitle}`})
                   </>
                 )}
               </div>
