@@ -203,7 +203,7 @@ export default function AddContractModal(props: AddContractModalProps) {
                   currentNetwork={networkId}
                   setCurrentNetwork={setNetworkId}
                   placeholder="Select preliminary network"
-                  above={true}
+                  above={false}
                   disabled={isFreePlan}
                 />
               </div>

@@ -35,7 +35,9 @@ export default function ProjectContracts({
       header: () => <span className="pl-7">Name</span>,
       cell: (info) =>
         info.getValue() ? (
-          <span className="text-white pl-7">{info.getValue()}</span>
+          <div className="text-white pl-7">
+            {info.getValue()}
+          </div>
         ) : (
           <span className="text-gray-3 pl-7">--</span>
         ),
