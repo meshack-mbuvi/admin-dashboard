@@ -20,10 +20,14 @@ export default function useContractABI(
       }`
       const response = await fetch(baseurl)
       const json = await response.json()
+
+      if (!json.ok) throw new Error(json.error)
+
       return json.abi
     },
     {
       enabled: !!contractAddress && !!networkId,
+      retry: 0,
     }
   )
 }

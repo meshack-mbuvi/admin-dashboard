@@ -1,5 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react"
-import { AbiFunction, AbiParameter } from "abitype"
+import { AbiFunction, formatAbiItem } from "abitype"
 import clsx from "clsx"
 import { useParams } from "next/navigation"
 import { Fragment, useEffect, useMemo, useState } from "react"
@@ -34,19 +34,6 @@ const parseABI = (abi: string): AbiFunction[] | null => {
   } catch (e) {
     return null
   }
-}
-
-const formatAbiParams = (abiParams: readonly AbiParameter[]): string => {
-  const params = abiParams
-    .map((i) => {
-      if (i.type.includes("tuple")) {
-        // @ts-ignore
-        return `${formatAbiParams(i.components)}${i.type.split("tuple")[1]}`
-      }
-      return `${i.type}${i.name ? " " + i.name : ""}`
-    })
-    .join(", ")
-  return `(${params})`
 }
 
 export default function AddContractModal(props: AddContractModalProps) {
@@ -94,10 +81,14 @@ export default function AddContractModal(props: AddContractModalProps) {
 
   const functionSignatures = useMemo(() => {
     if (!allowedFunctions.length) return []
-    const formattedFunctions = allowedFunctions.map(
-      (allowedFunction) =>
-        `${allowedFunction.name}${formatAbiParams(allowedFunction.inputs)}`
-    )
+    const formattedFunctions = allowedFunctions.map((func) => {
+      const signature = formatAbiItem(func)
+
+      // DEV: this will only replace the first instance of the word "function "
+      const trimmedSignature = signature.replace("function ", "")
+
+      return trimmedSignature
+    })
     return formattedFunctions
   }, [allowedFunctions])
 
