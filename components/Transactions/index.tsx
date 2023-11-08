@@ -68,15 +68,17 @@ export default function TransactionTables() {
               <ArrowUpperRight className="h-4 w-4 ml-2" />
             </Link>
 
-            <Search
-              searchTerm={searchReqsTerm}
-              setSearchTerm={setSearchReqsTerm}
-              placeholder="Search requests"
-            />
+            {!!(searchReqsTerm || failedTxResponse?.total) && (
+              <Search
+                searchTerm={searchReqsTerm}
+                setSearchTerm={setSearchReqsTerm}
+                placeholder="Search requests"
+              />
+            )}
           </div>
         )}
 
-        {activeTabIndex === 0 && (
+        {activeTabIndex === 0 && !!(searchTxsTerm || txCount) && (
           <Search
             searchTerm={searchTxsTerm}
             setSearchTerm={setSearchTxsTerm}
