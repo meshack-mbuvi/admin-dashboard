@@ -92,6 +92,12 @@ export default function AddContractModal(props: AddContractModalProps) {
     )
   }, [parsedABI])
 
+  useEffect(() => {
+    if (abiFunctions?.length === 1) {
+      setAllowedFunctions(abiFunctions)
+    }
+  }, [abiFunctions])
+
   const functionSignatures = useMemo(() => {
     if (!allowedFunctions.length) return []
     const formattedFunctions = allowedFunctions.map(
