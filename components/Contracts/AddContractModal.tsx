@@ -79,6 +79,12 @@ export default function AddContractModal(props: AddContractModalProps) {
     )
   }, [parsedABI])
 
+  useEffect(() => {
+    if (abiFunctions?.length === 1) {
+      setAllowedFunctions(abiFunctions)
+    }
+  }, [abiFunctions])
+
   const functionSignatures = useMemo(() => {
     if (!allowedFunctions.length) return []
     const formattedFunctions = allowedFunctions.map((func) => {
@@ -136,6 +142,22 @@ export default function AddContractModal(props: AddContractModalProps) {
     () => handleValidation(),
     300
   )
+
+  const resetFields = () => {
+    setName("")
+    setContractAddress("")
+    setContractABI("")
+    setAllowedFunctions([])
+    setNetworkId(null)
+    setNameErrorMessage("")
+    setContractAddressErrorMessage("")
+  }
+
+  useEffect(() => {
+    if (!show) {
+      resetFields()
+    }
+  }, [show])
 
   const handleRequest = () => {
     if (sessionToken && networkId) {
