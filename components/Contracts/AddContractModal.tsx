@@ -82,7 +82,16 @@ export default function AddContractModal(props: AddContractModalProps) {
   const functionSignatures = useMemo(() => {
     if (!allowedFunctions.length) return []
     const formattedFunctions = allowedFunctions.map((func) => {
-      const signature = formatAbiItem(func)
+      // DEV: we remove any outputs and change the statemutability to `nonpayable`, this ensures they are not output in the signature
+      const trimmedFunction: AbiFunction = {
+        type: func.type,
+        name: func.name,
+        inputs: func.inputs,
+        outputs: [],
+        stateMutability: "nonpayable",
+      }
+
+      const signature = formatAbiItem(trimmedFunction)
 
       // DEV: this will only replace the first instance of the word "function "
       const trimmedSignature = signature.replace("function ", "")
