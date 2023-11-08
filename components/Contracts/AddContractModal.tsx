@@ -137,6 +137,22 @@ export default function AddContractModal(props: AddContractModalProps) {
     300
   )
 
+  const resetFields = () => {
+    setName("")
+    setContractAddress("")
+    setContractABI("")
+    setAllowedFunctions([])
+    setNetworkId(null)
+    setNameErrorMessage("")
+    setContractAddressErrorMessage("")
+  }
+
+  useEffect(() => {
+    if (!show) {
+      resetFields()
+    }
+  }, [show])
+
   const handleRequest = () => {
     if (sessionToken && networkId) {
       mutate({
