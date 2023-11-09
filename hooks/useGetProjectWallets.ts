@@ -52,6 +52,6 @@ export default function useGetProjectWallets(args: UseGetProjectWalletsArgs) {
 
       return data
     },
-    { enabled: !!sessionToken }
+    { enabled: !!sessionToken, retry: 6 }
   )
 }

@@ -60,7 +60,7 @@ export default function AddContractModal(props: AddContractModalProps) {
   })
 
   useEffect(() => {
-    setNetworkId(wallets?.[0].chainId ?? null)
+    setNetworkId(wallets?.[0]?.chainId ?? null)
   }, [wallets])
 
   const parsedABI = useMemo(() => {
