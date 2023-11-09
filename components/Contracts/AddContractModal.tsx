@@ -1,5 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react"
-import { AbiFunction, AbiParameter } from "abitype"
+import { AbiFunction, formatAbiItem } from "abitype"
 import clsx from "clsx"
 import { useParams } from "next/navigation"
 import { Fragment, useEffect, useMemo, useState } from "react"
@@ -34,19 +34,6 @@ const parseABI = (abi: string): AbiFunction[] | null => {
   } catch (e) {
     return null
   }
-}
-
-const formatAbiParams = (abiParams: readonly AbiParameter[]): string => {
-  const params = abiParams
-    .map((i) => {
-      if (i.type.includes("tuple")) {
-        // @ts-ignore
-        return `${formatAbiParams(i.components)}${i.type.split("tuple")[1]}`
-      }
-      return `${i.type}${i.name ? " " + i.name : ""}`
-    })
-    .join(", ")
-  return `(${params})`
 }
 
 export default function AddContractModal(props: AddContractModalProps) {
@@ -92,12 +79,31 @@ export default function AddContractModal(props: AddContractModalProps) {
     )
   }, [parsedABI])
 
+  useEffect(() => {
+    if (abiFunctions?.length === 1) {
+      setAllowedFunctions(abiFunctions)
+    }
+  }, [abiFunctions])
+
   const functionSignatures = useMemo(() => {
     if (!allowedFunctions.length) return []
-    const formattedFunctions = allowedFunctions.map(
-      (allowedFunction) =>
-        `${allowedFunction.name}${formatAbiParams(allowedFunction.inputs)}`
-    )
+    const formattedFunctions = allowedFunctions.map((func) => {
+      // DEV: we remove any outputs and change the statemutability to `nonpayable`, this ensures they are not output in the signature
+      const trimmedFunction: AbiFunction = {
+        type: func.type,
+        name: func.name,
+        inputs: func.inputs,
+        outputs: [],
+        stateMutability: "nonpayable",
+      }
+
+      const signature = formatAbiItem(trimmedFunction)
+
+      // DEV: this will only replace the first instance of the word "function "
+      const trimmedSignature = signature.replace("function ", "")
+
+      return trimmedSignature
+    })
     return formattedFunctions
   }, [allowedFunctions])
 
@@ -136,6 +142,22 @@ export default function AddContractModal(props: AddContractModalProps) {
     () => handleValidation(),
     300
   )
+
+  const resetFields = () => {
+    setName("")
+    setContractAddress("")
+    setContractABI("")
+    setAllowedFunctions([])
+    setNetworkId(null)
+    setNameErrorMessage("")
+    setContractAddressErrorMessage("")
+  }
+
+  useEffect(() => {
+    if (!show) {
+      resetFields()
+    }
+  }, [show])
 
   const handleRequest = () => {
     if (sessionToken && networkId) {
@@ -212,7 +234,7 @@ export default function AddContractModal(props: AddContractModalProps) {
                   currentNetwork={networkId}
                   setCurrentNetwork={setNetworkId}
                   placeholder="Select preliminary network"
-                  above={true}
+                  above={false}
                   disabled={isFreePlan}
                 />
               </div>

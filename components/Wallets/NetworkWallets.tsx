@@ -69,7 +69,7 @@ export default function NetworkWallets({
     <div>
       <DisclosureComponent
         networkId={networkId}
-        disclosureTitle="wallets"
+        disclosureTitle=""
         itemCount={wallets.length}
         className="text-white"
       >

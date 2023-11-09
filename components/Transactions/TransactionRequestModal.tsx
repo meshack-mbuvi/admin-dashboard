@@ -10,7 +10,6 @@ import CopyToClipboard from "../CopyToClipboard"
 import useGetProjectWallets from "@/hooks/useGetProjectWallets"
 import useTransactionSimulation from "@/hooks/useTransactionSimulation"
 import { NetworkId } from "@/utils/network"
-import { SIMULATION_SUCCESS } from "@/utils/simulateTransaction"
 import { isObject } from "@/utils/isObject"
 import ArrayArg from "./atoms/ArrayArg"
 import getFirstOrString from "@/utils/getFirstOrString"
@@ -22,14 +21,23 @@ interface TransactionRequestModalProps {
   request: RequestsDataType | null
 }
 
-export default function TransactionRequestModal(props: TransactionRequestModalProps) {
+export default function TransactionRequestModal(
+  props: TransactionRequestModalProps
+) {
   const { showModal, onCloseModal, request } = props
-  const { contractAddress, functionSignature, value, chainId, data: calldata, decodedData: functionArgs } = request || {}
+  const {
+    contractAddress,
+    functionSignature,
+    value,
+    chainId,
+    data: calldata,
+    decodedData: functionArgs,
+  } = request || {}
   const { projectId } = useParams()
   const { data: wallets, isLoading } = useGetProjectWallets({
     projectId: getFirstOrString(projectId),
   })
-  const functionArgKeys = Object.keys(functionArgs || {});
+  const functionArgKeys = Object.keys(functionArgs || {})
 
   const { data: simulationResult } = useTransactionSimulation(
     {
@@ -38,13 +46,15 @@ export default function TransactionRequestModal(props: TransactionRequestModalPr
       toAddress: contractAddress as HexType,
       functionSignature: functionSignature as string,
       // Arguments are returned from the server as an object with names or indices as keys
-      args: functionArgKeys.map(key => functionArgs?.[key]),
+      args: functionArgKeys.map((key) => functionArgs?.[key]),
       // Syndicate appended data (aka "syn"+uuid)
       dataSuffix: `0x${calldata?.substring(calldata.length - 70)}`,
       value: value as string,
     },
     Boolean(!isLoading && wallets && functionArgs)
   )
+
+  const isSuccess = simulationResult?.success
 
   return (
     <Modal
@@ -90,11 +100,14 @@ export default function TransactionRequestModal(props: TransactionRequestModalPr
 
               <span className="py-1 text-sm font-mono">
                 {functionArgKeys.map((name, index) => {
-                  const value = functionArgs[name];
+                  const value = functionArgs[name]
                   const key = `${name}-${index}`
                   if (isObject(value)) {
                     return (
-                      <div className="flex" key={key}>
+                      <div
+                        className="flex overflow-hidden break-words"
+                        key={key}
+                      >
                         <div>{name}: </div>
                         <StructArg struct={value} />
                       </div>
@@ -103,7 +116,10 @@ export default function TransactionRequestModal(props: TransactionRequestModalPr
 
                   if (Array.isArray(value)) {
                     return (
-                      <div className="flex" key={key}>
+                      <div
+                        className="flex overflow-hidden break-words"
+                        key={key}
+                      >
                         <div>{name}: </div>
                         <ArrayArg array={value} />
                       </div>
@@ -111,7 +127,7 @@ export default function TransactionRequestModal(props: TransactionRequestModalPr
                   }
 
                   return (
-                    <p key={key}>
+                    <p key={key} className="overflow-hidden break-words">
                       {name}: {value.toString() || "error parsing input"}
                     </p>
                   )
@@ -148,12 +164,10 @@ export default function TransactionRequestModal(props: TransactionRequestModalPr
               <span
                 className={clsx(
                   "py-1 text-sm font-mono",
-                  simulationResult === SIMULATION_SUCCESS
-                    ? "text-green"
-                    : "text-red"
+                  isSuccess ? "text-green" : "text-red"
                 )}
               >
-                {simulationResult}
+                {simulationResult?.message}
               </span>
             </div>
           ) : (
