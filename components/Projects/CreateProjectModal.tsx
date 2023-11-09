@@ -52,7 +52,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
     })
 
   const [name, setName] = useState<string>("")
-  const [environment, setEnvironment] = useState<SelectOption | undefined>()
+  const [environment, setEnvironment] = useState<SelectOption | null>(null)
   const [network, setNetwork] = useState<number>(0)
   const [showStepsModal, setShowStepsModal] = useState(false)
 
@@ -183,7 +183,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                     disabled={isFreePlan}
                   />
                   <p className="text-gray-3 mt-2">
-                    You can add more networks anytime
+                    You can add more networks at any time
                   </p>
                 </div>
                 <input
