@@ -12,11 +12,6 @@
     position: relative;
   }
 
-  .breadcrumb li:last-child {
-    @apply rounded-r-full;
-    @apply pr-3.5;
-  }
-
   .breadcrumb li::after,
   .breadcrumb li::before {
     content: "";
