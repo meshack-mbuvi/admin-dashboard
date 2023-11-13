@@ -1,22 +1,28 @@
 import "server-only"
-import { NetworkId } from "./network"
+import { NetworkId, networks } from "./network"
 
 export function getNetworkRPC(networkId: NetworkId | number) {
   switch (networkId) {
-    case 1:
+    case networks[1].id:
       return process.env.ALCHEMY_MAINNET_URL
 
-    case 5:
+    case networks[5].id:
       return process.env.ALCHEMY_GOERLI_URL
 
-    case 137:
+    case networks[137].id:
       return process.env.ALCHEMY_POLYGON_URL
 
-    case 1442:
+    case networks[1442].id:
       return process.env.ALCHEMY_ZKEVM_TESTNET_URL
 
-    case 80001:
+    case networks[80001].id:
       return process.env.ALCHEMY_MUMBAI_URL
+
+    case networks[8453].id:
+      return process.env.ALCHEMY_BASE_MAINNET_URL
+
+    case networks[84531].id:
+      return process.env.ALCHEMY_BASE_GOERLI_URL
 
     default:
       return
