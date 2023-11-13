@@ -16,6 +16,7 @@ import Warning from "@/components/icons/Warning"
 
 import { NetworkId } from "@/utils/network"
 import { isBalanceLow } from "@/utils/isBalanceLow"
+import { formatNativeToken } from "@/utils/formatNativeToken"
 
 interface NetworkWalletsProps {
   networkId: NetworkId
@@ -37,7 +38,7 @@ export default function NetworkWallets({
       cell: (info) =>
         info.getValue() ? (
           <div className="text-white m-0 pl-7 flex items-center">
-            {isBalanceLow(info.row.original.balance, 18) && (
+            {isBalanceLow(info.row.original.balance, -18) && (
               <div
                 className="mr-2"
                 data-tooltip-id="t-low-bal"
@@ -69,6 +70,10 @@ export default function NetworkWallets({
       maxSize: 64,
       header: () => "",
       cell: (info) => <ResourceID id={info.getValue()} context="wallet" />,
+    }),
+    columnHelper.accessor("balance", {
+      header: () => <Label className="text-gray-3 text-sm">Balance</Label>,
+      cell: (info) => <span>{formatNativeToken(info.getValue(), -18)}</span>,
     }),
     columnHelper.accessor("txCount", {
       header: () => <Label className="text-gray-3 text-sm">Transactions</Label>,
