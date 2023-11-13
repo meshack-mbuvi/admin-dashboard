@@ -17,6 +17,7 @@ export type Wallet = {
   walletAddress: string
   walletId: string
   txCount: number
+  balance: string | null
 }
 
 export type WalletNoData = Omit<Wallet, "txCount">
