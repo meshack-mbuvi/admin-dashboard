@@ -23,7 +23,7 @@ export const Header = () => {
             className="flex items-center text-sm text-gray-4 mr-8"
           >
             <Docs className="w-4 mr-2" />
-            Documentation
+            Docs
           </a>
           <UserMenu />
         </div>

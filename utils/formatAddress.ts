@@ -5,5 +5,5 @@
  * @param end number of characters to have after the ellipses.
  * */
 export const formatAddress = (address: string, start: number, end: number) => {
-  return `${address.slice(0, start)}...${address.slice(address.length - end)}`
+  return `${address.slice(0, start)}…${address.slice(address.length - end)}`
 }
