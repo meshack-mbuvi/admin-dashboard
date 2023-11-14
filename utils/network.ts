@@ -5,14 +5,21 @@ import {
   Chain,
   polygonMumbai,
   polygonZkEvmTestnet,
+  base,
+  baseGoerli,
 } from "viem/chains"
 
 export const networks = {
-  1: mainnet,
-  5: goerli,
-  137: polygon,
-  1442: polygonZkEvmTestnet,
-  80001: polygonMumbai,
+  // Ethereum L1
+  [mainnet.id]: mainnet,
+  [goerli.id]: goerli,
+  // Polygon L2
+  [polygon.id]: polygon,
+  [polygonZkEvmTestnet.id]: polygonZkEvmTestnet,
+  [polygonMumbai.id]: polygonMumbai,
+  // Base L2
+  [base.id]: base,
+  [baseGoerli.id]: baseGoerli,
 } as const
 
 export type NetworkId = keyof typeof networks
