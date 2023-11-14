@@ -17,6 +17,7 @@ export type Wallet = {
   walletAddress: string
   walletId: string
   txCount: number
+  balance: string | null
 }
 
 export type WalletNoData = Omit<Wallet, "txCount">
@@ -52,6 +53,6 @@ export default function useGetProjectWallets(args: UseGetProjectWalletsArgs) {
 
       return data
     },
-    { enabled: !!sessionToken }
+    { enabled: !!sessionToken, retry: 6 }
   )
 }

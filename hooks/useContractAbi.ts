@@ -1,10 +1,13 @@
+import { networks } from "@/utils/network"
 import { useQuery } from "@tanstack/react-query"
 
-export const networks: { [x: number]: string } = {
-  5: "goerli",
-  137: "polygon",
-  1442: "polygonZkEvmTestnet",
-  80001: "polygonMumbai",
+const networkQueryStrings: { [x: number]: string } = {
+  [networks[5].id]: "goerli",
+  [networks[137].id]: "polygon",
+  [networks[1442].id]: "polygonZkEvmTestnet",
+  [networks[80001].id]: "polygonMumbai",
+  [networks[8453].id]: "base",
+  [networks[84531].id]: "baseGoerli",
 }
 
 export default function useContractABI(
@@ -16,7 +19,9 @@ export default function useContractABI(
     async () => {
       if (!contractAddress) return
       const baseurl = `https://abidata.net/${contractAddress}${
-        networkId === 1 || !networkId ? "" : `?network=${networks[networkId]}`
+        networkId === 1 || !networkId
+          ? ""
+          : `?network=${networkQueryStrings[networkId]}`
       }`
       const response = await fetch(baseurl)
       const json = await response.json()

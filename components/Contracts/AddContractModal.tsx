@@ -60,7 +60,7 @@ export default function AddContractModal(props: AddContractModalProps) {
   })
 
   useEffect(() => {
-    setNetworkId(wallets?.[0].chainId ?? null)
+    setNetworkId(wallets?.[0]?.chainId ?? null)
   }, [wallets])
 
   const parsedABI = useMemo(() => {
@@ -148,16 +148,9 @@ export default function AddContractModal(props: AddContractModalProps) {
     setContractAddress("")
     setContractABI("")
     setAllowedFunctions([])
-    setNetworkId(null)
     setNameErrorMessage("")
     setContractAddressErrorMessage("")
   }
-
-  useEffect(() => {
-    if (!show) {
-      resetFields()
-    }
-  }, [show])
 
   const handleRequest = () => {
     if (sessionToken && networkId) {
@@ -192,6 +185,7 @@ export default function AddContractModal(props: AddContractModalProps) {
       setTimeout(() => {
         closeModal()
         reset()
+        resetFields()
       }, 1000)
     }
     setContractAddressErrorMessage(_statusText)
@@ -215,6 +209,7 @@ export default function AddContractModal(props: AddContractModalProps) {
         closeModal={() => {
           closeModal()
           setHasSubmitted(false)
+          resetFields()
         }}
         outsideOnClick={true}
         overflowYScroll={true}
@@ -297,7 +292,7 @@ export default function AddContractModal(props: AddContractModalProps) {
                   setAllowedFunctions([])
                 }}
                 value={contractABI}
-                disabled={isFreePlan || !networkId}
+                disabled={isFreePlan || !networkId || preLoadedAbi}
               />
               {!parsedABI && contractABI.length > 0 && (
                 <p className="text-red mt-3">Error parsing ABI</p>

@@ -6,6 +6,7 @@ import {
 import { useState } from "react"
 
 import ContractFunctionsModal from "@/components/Contracts/ContractFunctionsModal"
+import CopyToClipboard from "@/components/CopyToClipboard"
 import Hex from "@/components/Shared/Hex"
 import ResourceID from "@/components/Shared/ResourceID"
 import Table from "@/components/Table/Table"
@@ -35,9 +36,7 @@ export default function ProjectContracts({
       header: () => <span className="pl-7">Name</span>,
       cell: (info) =>
         info.getValue() ? (
-          <div className="text-white pl-7">
-            {info.getValue()}
-          </div>
+          <div className="text-white pl-7">{info.getValue()}</div>
         ) : (
           <span className="text-gray-3 pl-7">--</span>
         ),
@@ -46,6 +45,21 @@ export default function ProjectContracts({
       size: 64,
       header: () => "",
       cell: (info) => <ResourceID id={info.getValue()} context="contract" />,
+    }),
+    columnHelper.accessor("chainId", {
+      header: () => <span className="pl-7">Chain Id</span>,
+      cell: (info) =>
+        info.getValue() ? (
+          <div className="text-white flex pl-7 group">
+            {info.getValue()}
+            <CopyToClipboard
+              text={`${info.getValue()}`}
+              className="ml-4 invisible group-hover:visible"
+            />
+          </div>
+        ) : (
+          <span className="text-gray-3 pl-7">--</span>
+        ),
     }),
     columnHelper.accessor("address", {
       size: 480,

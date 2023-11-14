@@ -1,9 +1,9 @@
 "use client"
 
 import { useStytchB2BClient, useStytchMemberSession } from "@stytch/nextjs/b2b"
+import { DiscoveredOrganization } from "@stytch/vanilla-js"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
-import { DiscoveredOrganization } from "@stytch/vanilla-js"
 
 import Button from "@/components/Buttons"
 import Logo from "@/components/icons/Logo"

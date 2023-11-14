@@ -15,7 +15,7 @@ type MultipleSelect = {
   multiple: true
 }
 type SingleSelect = {
-  selected: SelectOption | undefined
+  selected: SelectOption | null
   setSelected: (option: SelectOption) => void
   multiple?: false
 }
