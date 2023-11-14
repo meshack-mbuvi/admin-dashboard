@@ -148,7 +148,6 @@ export default function AddContractModal(props: AddContractModalProps) {
     setContractAddress("")
     setContractABI("")
     setAllowedFunctions([])
-    setNetworkId(null)
     setNameErrorMessage("")
     setContractAddressErrorMessage("")
   }
