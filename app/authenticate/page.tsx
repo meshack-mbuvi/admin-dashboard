@@ -29,7 +29,7 @@ export default function Authenticate() {
       try {
         await stytch.discovery.intermediateSessions.exchange({
           organization_id: organizationId,
-          session_duration_minutes: 10080,
+          session_duration_minutes: 720,
         })
         router.push("/projects")
       } catch (error) {
