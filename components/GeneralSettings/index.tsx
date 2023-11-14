@@ -73,8 +73,10 @@ export default function GeneralSettings() {
         <Section className="p-10">
           <Text className="font-medium text-2xl pb-7">Details</Text>
           <div className="flex flex-col space-y-4">
-            <div className="flex flex-col">
-              <Text className="pb-3">Project name</Text>
+            <div className="flex flex-col mb-8">
+              <Text className="font-small text-gray-3 text-sm pb-3">
+                Project name
+              </Text>
               {isLoading ? (
                 <Loading className="h-14 max-w-xs" />
               ) : (
@@ -97,7 +99,9 @@ export default function GeneralSettings() {
               )}
             </div>
             <div className="flex flex-col">
-              <Text className="pb-3">Project ID</Text>
+              <Text className="font-small text-gray-3 text-sm pb-3">
+                Project ID
+              </Text>
               <ResourceID
                 id={projectIdString}
                 fullView={true}

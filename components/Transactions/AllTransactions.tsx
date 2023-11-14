@@ -4,11 +4,11 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table"
+import clsx from "clsx"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
-import clsx from "clsx"
 
 import Loading from "@/components/Loading"
 import EmptyState from "@/components/Shared/Empty"
@@ -31,14 +31,16 @@ import useGetProjectById from "@/hooks/useGetProjectById"
 import useGetTransactions, {
   TransactionDataType,
 } from "@/hooks/useGetTransactions"
+import useIsTestUser from "@/hooks/useIsTestUser"
 import { QueryParams } from "@/types/queryParams"
+import getFirstOrString from "@/utils/getFirstOrString"
+import { Route } from "next"
 import { DarkButtonStyles } from "../Buttons"
 import CreateContractButton from "../Buttons/CreateContractButton"
 import ExternalLink from "../Shared/ExternalLink"
 import TableFilterPills from "../Table/TableFilterPills"
 import Text from "../Text"
 import TxIdFilter from "./atoms/TxStatusFilter"
-import getFirstOrString from "@/utils/getFirstOrString"
 
 const columnHelper = createColumnHelper<TransactionDataType>()
 
@@ -162,6 +164,7 @@ const AllTransactions = (props: AllTransactionsProps) => {
   const [statuses, setStatuses] =
     useState<RawStatusEnum[]>(defaultStatusFilters)
   const [reverted, setReverted] = useState<boolean | null>(null)
+  const isTestUser = useIsTestUser()
 
   const { data: projectData, isLoading: isProjectLoading } = useGetProjectById({
     projectId: projectIdString,
@@ -256,6 +259,11 @@ const AllTransactions = (props: AllTransactionsProps) => {
         return "No transactions yet"
       }
     }
+
+    const emptyTransactionDocLink: Route = `https://docs.syndicate.io/${
+      isTestUser ? "get-started/quickstart" : "guides/transactions"
+    }`
+
     return (
       <EmptyState
         heading={renderHeading()}
@@ -287,7 +295,7 @@ const AllTransactions = (props: AllTransactionsProps) => {
           </>
         ) : (
           <ExternalLink
-            href="https://docs.syndicate.io/guides/transactions"
+            href={emptyTransactionDocLink}
             className={clsx(
               DarkButtonStyles,
               "border-2 border-yellow-secondary text-white flex space-x-2 py-4 mt-10"

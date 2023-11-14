@@ -153,12 +153,6 @@ export default function AddContractModal(props: AddContractModalProps) {
     setContractAddressErrorMessage("")
   }
 
-  useEffect(() => {
-    if (!show) {
-      resetFields()
-    }
-  }, [show])
-
   const handleRequest = () => {
     if (sessionToken && networkId) {
       mutate({
@@ -192,6 +186,7 @@ export default function AddContractModal(props: AddContractModalProps) {
       setTimeout(() => {
         closeModal()
         reset()
+        resetFields()
       }, 1000)
     }
     setContractAddressErrorMessage(_statusText)
@@ -215,6 +210,7 @@ export default function AddContractModal(props: AddContractModalProps) {
         closeModal={() => {
           closeModal()
           setHasSubmitted(false)
+          resetFields()
         }}
         outsideOnClick={true}
         overflowYScroll={true}
@@ -297,7 +293,7 @@ export default function AddContractModal(props: AddContractModalProps) {
                   setAllowedFunctions([])
                 }}
                 value={contractABI}
-                disabled={isFreePlan || !networkId}
+                disabled={isFreePlan || !networkId || preLoadedAbi}
               />
               {!parsedABI && contractABI.length > 0 && (
                 <p className="text-red mt-3">Error parsing ABI</p>

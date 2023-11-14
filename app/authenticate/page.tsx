@@ -1,9 +1,9 @@
 "use client"
 
 import { useStytchB2BClient, useStytchMemberSession } from "@stytch/nextjs/b2b"
+import { DiscoveredOrganization } from "@stytch/vanilla-js"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
-import { DiscoveredOrganization } from "@stytch/vanilla-js"
 
 import Button from "@/components/Buttons"
 import Logo from "@/components/icons/Logo"
@@ -29,7 +29,7 @@ export default function Authenticate() {
       try {
         await stytch.discovery.intermediateSessions.exchange({
           organization_id: organizationId,
-          session_duration_minutes: 10080,
+          session_duration_minutes: 720,
         })
         router.push("/projects")
       } catch (error) {
