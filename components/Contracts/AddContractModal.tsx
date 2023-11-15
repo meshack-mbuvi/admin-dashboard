@@ -292,7 +292,7 @@ export default function AddContractModal(props: AddContractModalProps) {
                   setAllowedFunctions([])
                 }}
                 value={contractABI}
-                disabled={isFreePlan || !networkId || preLoadedAbi}
+                disabled={isFreePlan || !networkId}
               />
               {!parsedABI && contractABI.length > 0 && (
                 <p className="text-red mt-3">Error parsing ABI</p>
