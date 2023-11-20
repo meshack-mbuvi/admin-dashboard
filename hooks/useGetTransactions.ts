@@ -64,16 +64,16 @@ export default function useGetTransactions(args: UseGetTransactionsArgs) {
         total: number
       }
 
-      // DEV: if there are no transactions, return early
-      if (txData?.total === 0) {
-        return txData
-      }
-
       const blocks = txData?.transactionAttempts
         .map((tx) => tx.block)
         .filter((block) => block !== 0)
-      const networkId = txData?.transactionAttempts[0].chainId
+      
+      // DEV: if there are no transactions, return early
+      if (txData?.total === 0 || blocks?.length === 0) {
+        return txData
+      }
 
+      const networkId = txData?.transactionAttempts[0].chainId
       const blocksParam = blocks?.join(",")
       const res = await fetch(`/api/block/${networkId}/${blocksParam}`)
 
