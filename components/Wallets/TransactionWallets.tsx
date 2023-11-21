@@ -2,9 +2,9 @@ import { useParams } from "next/navigation"
 
 import useGetProjectWallets, { Wallet } from "@/hooks/useGetProjectWallets"
 import getFirstOrString from "@/utils/getFirstOrString"
-import { WalletSection } from "./WalletSection"
 import { NetworkId } from "@/utils/network"
 import NetworkWallets from "./NetworkWallets"
+import { WalletSection } from "./WalletSection"
 
 export function TransactionWallets() {
   const { projectId } = useParams()
@@ -21,26 +21,28 @@ export function TransactionWallets() {
     return acc
   }, {} as { [key: number]: Wallet[] })
 
-  return <WalletSection
-    title="Secure Transaction Wallets"
-    description="These wallets will be used to perform programmatic actions on your contract. Please add them as an allowed operator."
-    helperLink="https://docs.syndicate.io/features/transaction-broadcasting"
-    helperText="View Guide"
-    isLoading={isLoading}
-  >
-    {networkWallets && (
-      <div>
-        {Object.keys(networkWallets).map((key, index) => {
-          const chainId = +key as NetworkId
-          return (
-            <NetworkWallets
-              key={index}
-              networkId={chainId}
-              wallets={networkWallets[chainId]}
-            />
-          )
-        })}
-      </div>
-    )}
-  </WalletSection>
+  return (
+    <WalletSection
+      title="Secure Transaction Wallets"
+      description="These wallets will be used to perform programmatic actions on your contract. Please add them as an allowed operator."
+      helperLink="https://docs.syndicate.io/features/transaction-broadcasting"
+      helperText="View Guide"
+      isLoading={isLoading}
+    >
+      {networkWallets && (
+        <div>
+          {Object.keys(networkWallets).map((key, index) => {
+            const chainId = +key as NetworkId
+            return (
+              <NetworkWallets
+                key={index}
+                networkId={chainId}
+                wallets={networkWallets[chainId]}
+              />
+            )
+          })}
+        </div>
+      )}
+    </WalletSection>
+  )
 }

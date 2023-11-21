@@ -7,16 +7,21 @@ import { Tooltip } from "react-tooltip"
 
 import ResourceID from "@/components/Shared/ResourceID"
 import Table from "@/components/Table/Table"
+import Warning from "@/components/icons/Warning"
 import { Wallet } from "@/hooks/useGetProjectWallets"
 import Label from "../Label"
 import DateTimestamp from "../Shared/Datestamp"
 import DisclosureComponent from "../Shared/Disclosure"
 import Hex from "../Shared/Hex"
-import Warning from "@/components/icons/Warning"
 
-import { NetworkId } from "@/utils/network"
-import { isBalanceLow } from "@/utils/isBalanceLow"
+import useAuthToken from "@/hooks/useAuthToken"
+import useToggleWalletEnabled from "@/hooks/useToggleWalletEnabled"
 import { formatNativeToken } from "@/utils/formatNativeToken"
+import getFirstOrString from "@/utils/getFirstOrString"
+import { isBalanceLow } from "@/utils/isBalanceLow"
+import { NetworkId } from "@/utils/network"
+import { useParams } from "next/navigation"
+import Toggle from "../Toggle"
 
 interface NetworkWalletsProps {
   networkId: NetworkId
@@ -29,6 +34,29 @@ export default function NetworkWallets({
   networkId,
   wallets,
 }: NetworkWalletsProps) {
+  const { projectId } = useParams()
+  const projectIdString = getFirstOrString(projectId)
+
+  const { mutate, error, data } = useToggleWalletEnabled(projectIdString)
+
+  const sessionToken = useAuthToken()
+
+  const handleWalletToggle = (walletAddress: string, enabled: boolean) => {
+    if (!projectId || !walletAddress) return
+
+    mutate({
+      method: "POST",
+      sessionToken,
+      endpointPath: `/wallet/toggleIsActive`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        walletAddress,
+        projectId,
+      }),
+    })
+  }
   const columns = [
     columnHelper.accessor("walletAddress", {
       size: 510,
@@ -82,6 +110,17 @@ export default function NetworkWallets({
     columnHelper.accessor("createdAt", {
       header: () => <Label className="text-gray-3 text-sm">Date Added</Label>,
       cell: (info) => <DateTimestamp date={info.getValue()} showTime={true} />,
+    }),
+    columnHelper.accessor("isActive", {
+      header: () => <Label className="text-gray-3 text-sm">Enabled</Label>,
+      cell: (info) => (
+        <Toggle
+          enabled={info.getValue()}
+          setEnabled={(enabled: boolean) =>
+            handleWalletToggle(info.row.original.walletAddress, enabled)
+          }
+        />
+      ),
     }),
   ]
 
