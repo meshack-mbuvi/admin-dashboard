@@ -3,17 +3,19 @@ import { useParams } from "next/navigation"
 import clsx from "clsx"
 
 import Modal from "@/components/Modal"
-import StructArg from "./atoms/StructArg"
 import Spinner from "../icons/Spinner"
 import Hex from "../Shared/Hex"
 import CopyToClipboard from "../CopyToClipboard"
+import DateTimestamp from "../Shared/Datestamp"
+
 import useGetProjectWallets from "@/hooks/useGetProjectWallets"
 import useTransactionSimulation from "@/hooks/useTransactionSimulation"
+import { RequestsDataType } from "@/hooks/useGetRequests"
 import { NetworkId } from "@/utils/network"
 import { isObject } from "@/utils/isObject"
-import ArrayArg from "./atoms/ArrayArg"
 import getFirstOrString from "@/utils/getFirstOrString"
-import { RequestsDataType } from "@/hooks/useGetRequests"
+import StructArg from "./atoms/StructArg"
+import ArrayArg from "./atoms/ArrayArg"
 
 interface TransactionRequestModalProps {
   showModal: boolean
@@ -159,7 +161,7 @@ export default function TransactionRequestModal(
           {simulationResult ? (
             <div className="py-4 break-words flex flex-col">
               <span className="text-gray-3 font-semibold text-base py-1">
-                Failure Reason
+                Simulation Result
               </span>
               <span
                 className={clsx(
@@ -168,7 +170,20 @@ export default function TransactionRequestModal(
                 )}
               >
                 {simulationResult?.message}
+                {isSuccess && (
+                  <>
+                    {" "}
+                    as of{" "}
+                    <DateTimestamp date={new Date().toJSON() ?? ""} showTime />
+                  </>
+                )}
               </span>
+              {isSuccess && (
+                <span className="text-sm text-gray-3 mt-3">
+                  We simulate the transaction based on the current blockchain
+                  state, this means the transaction may have initially failed.
+                </span>
+              )}
             </div>
           ) : (
             // We need wallets and functionArgs to simulate the transaction
