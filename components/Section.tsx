@@ -5,7 +5,7 @@ export default function Section(props: React.HTMLAttributes<HTMLDivElement>) {
 
   return (
     <div
-      className={clsx("rounded-2xl bg-gray-9 border border-gray-8", className)}
+      className={clsx("rounded-2xl bg-gray-8 border border-gray-7", className)}
       onClick={onClick}
     >
       {children}

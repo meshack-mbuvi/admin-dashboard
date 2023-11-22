@@ -38,6 +38,7 @@ export default function RequestCard(props: RequestCardProps) {
               hexValue={request.contractAddress}
               hexType={"address"}
               chainId={request.chainId}
+              truncate={false}
             />
           </div>
         </div>
@@ -64,7 +65,7 @@ export default function RequestCard(props: RequestCardProps) {
         </div>
       </div>
 
-      <div className="sm:ml-auto flex flex-col gap-4">
+      <div className="sm:ml-auto flex gap-4 shrink-0">
         <div>
           <p className="text-xs text-gray-4 mb-1">Chain ID</p>
           <div className="flex items-center">
