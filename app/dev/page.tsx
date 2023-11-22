@@ -107,7 +107,7 @@ function FormSection() {
           <TextInput
             name="contractAddress"
             label="Contract Address"
-            placeholder="0x..."
+            placeholder="0x…"
             validate={{
               required: "Please enter a contract address",
               validate: { isValidEthereumAddress },

@@ -102,7 +102,7 @@ export default function QuickStartChoices({
         show={showStepsModal}
         onComplete={handleOnComplete}
         canComplete={isSuccess}
-        title={"Creating demo project..."}
+        title={"Creating demo project…"}
         handleClose={() => setShowStepsModal(false)}
       />
     </div>

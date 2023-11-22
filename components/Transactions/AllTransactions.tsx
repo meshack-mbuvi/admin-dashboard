@@ -1,9 +1,5 @@
-import {
-  FiltersTableState,
-  createColumnHelper,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table"
+import { Route } from "next"
+import { FiltersTableState } from "@tanstack/react-table"
 import clsx from "clsx"
 import Link from "next/link"
 import { useParams } from "next/navigation"
@@ -12,140 +8,29 @@ import { useDebouncedCallback } from "use-debounce"
 
 import Loading from "@/components/Loading"
 import EmptyState from "@/components/Shared/Empty"
-import Hex from "@/components/Shared/Hex"
-import ResourceID from "@/components/Shared/ResourceID"
-import Table from "@/components/Table/Table"
 import TablePagination, {
   DEFAULT_TABLE_LIMIT,
 } from "@/components/Table/TablePagination"
-import TableTimeStampCell from "@/components/Table/TableTimeStampCell"
-import TransactionBlock from "@/components/Transactions/atoms/Block"
-import TransactionStatus, {
+import {
   RawStatusEnum,
   StatusEnum,
   getRawStatusFromStatus,
-  getStatusLabel,
 } from "@/components/Transactions/atoms/Status"
-import CaretDown from "@/components/icons/CaretDown"
 import useGetProjectById from "@/hooks/useGetProjectById"
-import useGetTransactions, {
-  TransactionDataType,
-} from "@/hooks/useGetTransactions"
+import useGetTransactions from "@/hooks/useGetTransactions"
 import useIsTestUser from "@/hooks/useIsTestUser"
 import { QueryParams } from "@/types/queryParams"
 import getFirstOrString from "@/utils/getFirstOrString"
-import { Route } from "next"
 import { DarkButtonStyles } from "../Buttons"
 import CreateContractButton from "../Buttons/CreateContractButton"
 import ExternalLink from "../Shared/ExternalLink"
-import TableFilterPills from "../Table/TableFilterPills"
-import Text from "../Text"
-import TxIdFilter from "./atoms/TxStatusFilter"
-
-const columnHelper = createColumnHelper<TransactionDataType>()
-
-const columns = [
-  columnHelper.accessor("transactionId", {
-    size: 400,
-    enableColumnFilter: true,
-    meta: {
-      filterComponent: (setFilterValue, filterValues) => (
-        <TxIdFilter
-          setFilter={setFilterValue}
-          filters={(filterValues as StatusEnum[]) || []}
-        />
-      ),
-    },
-    header: () => <span className="font-normal">Transaction ID</span>,
-    cell: (info) => (
-      <span className="text-white flex items-center space-x-3 font-mono">
-        <TransactionStatus
-          transactionId={info.getValue()}
-          transactionStatus={info.row.original.status}
-          reverted={info.row.original.reverted}
-        />
-        <ResourceID
-          id={info.getValue()}
-          fullView={true}
-          context="transaction"
-          className="grow-0 overflow-x-hidden"
-        />
-      </span>
-    ),
-  }),
-  columnHelper.accessor("chainId", {
-    size: 80,
-    enableColumnFilter: false,
-    header: () => <span>Chain ID</span>,
-    cell: (info) => <Text className="text-gray-3">{info.getValue()}</Text>,
-  }),
-  columnHelper.accessor((row) => row.hash, {
-    enableColumnFilter: false,
-    id: "TX Hash",
-    cell: (info) => (
-      <Hex
-        hexValue={info.getValue()}
-        hexType={"tx"}
-        chainId={info.row.original.chainId}
-      />
-    ),
-    header: () => <span>TX Hash</span>,
-  }),
-  columnHelper.accessor("block", {
-    size: 100,
-    enableColumnFilter: false,
-    header: () => (
-      <span className="flex space-x-[5px] items-center">
-        <span>Block </span>
-        <span className="h-[5px] w-[11px]">
-          <CaretDown />
-        </span>
-      </span>
-    ),
-    cell: (info) => (
-      <TransactionBlock
-        blockValue={info.getValue()}
-        viewType={"block"}
-        chainId={info.row.original.chainId}
-      />
-    ),
-  }),
-  columnHelper.accessor("blockTimestamp", {
-    enableColumnFilter: false,
-    header: () => <span>Block Age</span>,
-    cell: (info) => (
-      <TableTimeStampCell
-        id={info.row.original.transactionId}
-        timeStamp={info.getValue()}
-      />
-    ),
-  }),
-  columnHelper.accessor("walletAddress", {
-    enableColumnFilter: false,
-    header: "From",
-    cell: (info) => (
-      <Hex
-        hexValue={info.getValue()}
-        hexType={"address"}
-        chainId={info.row.original.chainId}
-      />
-    ),
-  }),
-]
+import TransactionCard from "./TransactionCard"
 
 const defaultStatusFilters = [
   RawStatusEnum.PENDING,
   RawStatusEnum.SUBMITTED,
   RawStatusEnum.CONFIRMED,
 ]
-
-const filterTitles = {
-  id: { transactionId: "Transaction Status" },
-  value: Object.values(StatusEnum).reduce((acc, curr) => {
-    acc[curr] = getStatusLabel(curr)
-    return acc
-  }, {} as { [key in StatusEnum]: string }),
-}
 
 interface AllTransactionsProps {
   searchTerm: string
@@ -156,9 +41,7 @@ const AllTransactions = (props: AllTransactionsProps) => {
   const { searchTerm, setTxCount } = props
   const { projectId } = useParams()
   const projectIdString = getFirstOrString(projectId)
-  const [columnFilters, setColumnFilters] = useState<
-    FiltersTableState["columnFilters"]
-  >([])
+  const [columnFilters] = useState<FiltersTableState["columnFilters"]>([])
   const [page, setPage] = useState<number>(0)
   const [limit] = useState<number>(DEFAULT_TABLE_LIMIT)
   const [statuses, setStatuses] =
@@ -206,18 +89,6 @@ const AllTransactions = (props: AllTransactionsProps) => {
     debouncedFetch()
   }, [searchTerm, debouncedFetch])
 
-  const table = useReactTable({
-    data: transactionsResp?.transactionAttempts || [],
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-    manualFiltering: true,
-    enableColumnFilters: true,
-    onColumnFiltersChange: setColumnFilters,
-    state: {
-      columnFilters,
-    },
-  })
-
   useEffect(() => {
     const filters =
       (columnFilters.find((filter) => filter.id === "transactionId")
@@ -239,13 +110,7 @@ const AllTransactions = (props: AllTransactionsProps) => {
     return (
       <>
         {[...Array(6)].map((_, i) => (
-          <div className="flex gap-5 py-4" key={i}>
-            <Loading className="w-1/5 h-4" />
-            <Loading className="w-1/5 h-4" />
-            <Loading className="w-1/5 h-4" />
-            <Loading className="w-1/5 h-4" />
-            <Loading className="w-1/5 h-4" />
-          </div>
+          <Loading key={i} className="w-full h-18 mb-6" />
         ))}
       </>
     )
@@ -309,12 +174,15 @@ const AllTransactions = (props: AllTransactionsProps) => {
 
   return (
     <div className="flex flex-col items-center">
-      <TableFilterPills tableConfig={table} titles={filterTitles} />
-      <Table
-        tableConfig={table}
-        isLoading={isFetching || isPreviousData}
-        noDataMessage="No transactions found"
-      />
+      <div className="flex flex-col gap-4 w-full">
+        {transactionsResp?.transactionAttempts.map((transaction) => (
+          <TransactionCard
+            key={transaction.transactionId}
+            transaction={transaction}
+          />
+        ))}
+      </div>
+
       <TablePagination
         page={page}
         limit={limit}

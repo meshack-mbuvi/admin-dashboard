@@ -34,7 +34,7 @@ export default function Block(props: BlockProps) {
 
           <CopyToClipboard
             text={blockValue.toString()}
-            className="ml-4 invisible group-hover:visible"
+            className="ml-2 invisible group-hover:visible flex"
           />
         </span>
       )}

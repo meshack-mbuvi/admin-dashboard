@@ -49,7 +49,7 @@ export default function CopyToClipboard(props: CopyToClipboardProps) {
   return (
     <span className={className}>
       <button
-        className="relative flex align-center w-full"
+        className="relative flex align-center w-full self-center"
         onClick={copyContent}
       >
         <span
