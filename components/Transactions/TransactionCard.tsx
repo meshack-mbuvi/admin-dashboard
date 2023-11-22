@@ -8,6 +8,7 @@ import TransactionStatus from "./atoms/Status"
 import Block from "./atoms/Block"
 import TableTimeStampCell from "../Table/TableTimeStampCell"
 import { getNetworkIcon } from "@/utils/getNetworkIcon"
+import ResourceID from "../Shared/ResourceID"
 
 interface TransactionCardProps {
   transaction: TransactionDataType
@@ -15,8 +16,6 @@ interface TransactionCardProps {
 
 export default function TransactionCard(props: TransactionCardProps) {
   const { transaction } = props
-
-  console.log(transaction)
 
   return (
     <Section className="py-2 px-4 w-full">
@@ -27,7 +26,12 @@ export default function TransactionCard(props: TransactionCardProps) {
           reverted={transaction.reverted}
         />
         <div>
-          <p className="font-mono text-gray-1">{transaction.transactionId}</p>
+          <ResourceID
+            id={transaction.transactionId}
+            fullView={true}
+            context="Transaction"
+            className="text-gray-1 font-mono overflow-x-hidden text-ellipsis block"
+          />
         </div>
       </div>
 

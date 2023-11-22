@@ -13,10 +13,10 @@ const TableTimeStampCell = (props: TableTimeStampCellProps) => {
   return (
     <div>
       {!timeStamp ? (
-        <span className="text-gray-6 font-mono">•••</span>
+        <span className="text-gray-4 font-mono">…</span>
       ) : (
         <span
-          className="text-gray-3"
+          className="text-gray-1"
           data-tooltip-id={`timeTooltip-${id}`}
           data-tooltip-content={format(
             new Date(timeStamp),

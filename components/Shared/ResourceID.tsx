@@ -13,12 +13,8 @@ export default function ResourceID(props: {
 }) {
   const { id, className, fullView, copyIcon, context = "project" } = props
 
-  const tooltipCopyText = fullView
-    ? "Click to copy ID"
-    : `Click to copy <br/> ${id}`
-  const tooltipCopiedText = fullView
-    ? "ID Copied"
-    : `Copied ${context} ID <br/> ${id}`
+  const tooltipCopyText = fullView ? "Click to copy ID" : "Click to copy"
+  const tooltipCopiedText = fullView ? "ID Copied" : `Copied ${context} ID`
 
   return (
     <span className={clsx(className, copyIcon && "flex space-x-4 group")}>

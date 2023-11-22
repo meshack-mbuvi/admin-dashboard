@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 
 import gatewayFetch from "@/utils/gatewayFetch"
+import { NetworkId } from "@/utils/network"
 import useAuthToken from "./useAuthToken"
 
 interface UseGetRequestsArgs {
@@ -15,7 +16,7 @@ export interface RequestsDataType {
   invalid: boolean
   transactionId: string
   updatedAt: string
-  chainId: number
+  chainId: NetworkId
   contractAddress: string
   functionSignature: string
   data: string

@@ -66,7 +66,7 @@ export default function CopyToClipboard(props: CopyToClipboardProps) {
       <Tooltip
         hidden={false}
         id={"copy-" + copyId}
-        className="text-center font-mono text-xs rounded-md"
+        className="text-center font-sans text-xs rounded-md"
         disableStyleInjection={true}
       />
     </span>
