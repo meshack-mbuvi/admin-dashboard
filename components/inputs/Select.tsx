@@ -85,7 +85,7 @@ const Select: React.FC<SelectProps> = ({
               <Listbox.Options
                 className={clsx(
                   above ? "bottom-full" : "top-full",
-                  "absolute z-10 w-full overflow-auto bg-gray-8 text-white border border-gray-7 rounded-lg"
+                  "absolute z-10 w-full overflow-auto bg-gray-7 text-white border border-gray-6 rounded-lg"
                 )}
               >
                 {options.map((option, index) => (
@@ -94,7 +94,7 @@ const Select: React.FC<SelectProps> = ({
                     className={({ active }) =>
                       clsx(
                         active ? "bg-white/10" : "",
-                        "flex gap-4 cursor-default select-none py-2 px-3 max-h-38 rounded-lg items-center justify-between"
+                        "flex gap-4 cursor-pointer select-none py-2 px-3 max-h-38 rounded-lg items-center justify-between"
                       )
                     }
                     value={option}

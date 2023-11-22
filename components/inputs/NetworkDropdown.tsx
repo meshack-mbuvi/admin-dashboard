@@ -59,7 +59,7 @@ const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
               <Listbox.Options
                 className={clsx(
                   above ? "bottom-full" : "top-full",
-                  "absolute z-10 w-full overflow-auto bg-gray-8 text-white border border-gray-7 rounded-lg"
+                  "absolute z-10 w-full overflow-auto bg-gray-7 text-white border border-gray-6 rounded-lg"
                 )}
               >
                 {Object.keys(networks).map((chainId) => (
@@ -68,7 +68,7 @@ const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
                     className={({ active }) =>
                       clsx(
                         active ? "bg-white/10" : "",
-                        "flex gap-4 cursor-default select-none py-2 pl-3 pr-9 max-h-38 rounded-lg"
+                        "flex gap-4 cursor-pointer select-none py-2 pl-3 pr-9 max-h-38 rounded-lg"
                       )
                     }
                     value={+chainId}
