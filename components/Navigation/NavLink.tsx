@@ -16,9 +16,7 @@ const NavLink = (props: NavLinkProps) => {
 
   const segment = useSelectedLayoutSegment()
 
-  const isActive = () => {
-    return segment === page
-  }
+  const isActive = segment === page
 
   return (
     <Link
@@ -27,7 +25,7 @@ const NavLink = (props: NavLinkProps) => {
       }}
       className={clsx(
         className,
-        isActive() ? "bg-white text-black" : "text-gray-3 hover:bg-gray-8"
+        isActive ? "text-black bg-white" : "text-gray-3 hover:bg-gray-8"
       )}
     >
       {children}

@@ -95,11 +95,9 @@ export default function ProjectCard(props: ProjectCardProps) {
 
         <div>
           <p className="text-xs text-gray-4 mb-1">Networks</p>
-          <p className="just">
-            {networks?.length > 0 && (
-              <>{getNetworkIcon(networks[0].id, "w-5 h-5")}</>
-            )}
-          </p>
+          <div className="flex gap-2">
+            {networks?.map((network) => getNetworkIcon(network.id, "w-5 h-5"))}
+          </div>
         </div>
       </div>
     </Section>

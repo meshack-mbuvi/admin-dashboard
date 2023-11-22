@@ -2,15 +2,15 @@
 
 import RequestsIcon from "@/components/icons/Requests"
 import SettingsIcon from "@/components/icons/Settings"
-import ContractIcon from "../icons/Contract"
-import WalletIcon from "../icons/Wallet"
+import ContractIcon from "@/components/icons/Contract"
+import WalletIcon from "@/components/icons/Wallet"
 import NavLink from "./NavLink"
 import MetadataIcon from "../icons/Metadata"
 
 export default function TopBarNav() {
-  const linkStyles = "text-sm rounded-full"
+  const linkStyles = "text-sm rounded-full flex items-center"
   return (
-    <div className="flex space-x-4 p-1 border w-fit border-gray-6 rounded-full">
+    <div className="lg:flex lg:space-x-4 lg:p-1 lg:border w-fit lg:border-gray-6 lg:rounded-full">
       <NavLink path="transactions" page="transactions" className={linkStyles}>
         <p className="flex space-x-2 px-6 py-2">
           <RequestsIcon className="w-5" />

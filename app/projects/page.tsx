@@ -33,7 +33,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between">
+      <div className="sm:flex justify-between">
         <Tab
           headers={tabHeaders}
           activeIndex={activeTabIndex}
@@ -42,22 +42,26 @@ export default function Dashboard() {
 
         <Button
           onClick={tabButtonHandler[activeTabIndex]}
-          className={clsx(LightButtonStyles, "flex items-center")}
+          className={clsx(
+            LightButtonStyles,
+            "flex items-center mb-6 md:mb-0 ml-auto"
+          )}
         >
           <Add className="h-4 w-4 mr-4" />
           {tabButtonText[activeTabIndex]}
         </Button>
-
-        <AddUserModal
-          show={showAddUserModal}
-          onClose={() => setShowAddUserModal(false)}
-        />
-        <CreateProjectModal
-          show={showCreateProjectModal}
-          onClose={() => setShowCreateProjectModal(false)}
-        />
       </div>
+
       {tabComponents[tabHeaders[activeTabIndex]]}
+
+      <AddUserModal
+        show={showAddUserModal}
+        onClose={() => setShowAddUserModal(false)}
+      />
+      <CreateProjectModal
+        show={showCreateProjectModal}
+        onClose={() => setShowCreateProjectModal(false)}
+      />
     </div>
   )
 }

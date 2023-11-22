@@ -36,7 +36,7 @@ export default function UserMenu() {
         onClick={handleToggleMenu}
       >
         <User className="w-3 text-gray-4" />
-        <span className="text-sm flex items-center text-gray-2">
+        <span className="text-xs md:text-sm hidden sm:flex items-center text-gray-2">
           {member?.name}
         </span>
       </div>
