@@ -15,7 +15,7 @@ export default function Projects({ onCreateProject }: ProjectsProps) {
     <>
       <div className="flex flex-col space-y-5">
         {isLoading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <Loading className="h-24 w-full" />
             <Loading className="h-24 w-full" />
             <Loading className="h-24 w-full" />
@@ -29,7 +29,7 @@ export default function Projects({ onCreateProject }: ProjectsProps) {
         )}
         {data && data.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               {data.map((project) => (
                 <ProjectCard key={project.id} project={project} />
               ))}
