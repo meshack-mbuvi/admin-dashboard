@@ -6,7 +6,7 @@ import Docs from "@/components/icons/Docs"
 
 export const Header = () => {
   return (
-    <div className="flex py-7 mb-7 mx-10 bg-black z-50">
+    <div className="flex py-7 mb-7 mx-6 md:mx-10 bg-black z-50">
       <div className="mr-11 flex items-center">
         <Logo className="w-8" />
       </div>
