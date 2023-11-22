@@ -109,8 +109,8 @@ const AllTransactions = (props: AllTransactionsProps) => {
   if (isTransactionsLoading || isProjectLoading) {
     return (
       <>
-        {[...Array(6)].map((_, i) => (
-          <Loading key={i} className="w-full h-18 mb-6" />
+        {[...Array(10)].map((_, i) => (
+          <Loading key={i} className="w-full h-24 mb-6" />
         ))}
       </>
     )
@@ -174,7 +174,12 @@ const AllTransactions = (props: AllTransactionsProps) => {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="flex flex-col gap-4 w-full">
+      <div
+        className={clsx(
+          "flex flex-col gap-4 w-full",
+          isFetching && "opacity-60 pointer-events-none"
+        )}
+      >
         {transactionsResp?.transactionAttempts.map((transaction) => (
           <TransactionCard
             key={transaction.transactionId}
