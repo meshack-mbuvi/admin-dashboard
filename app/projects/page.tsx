@@ -57,7 +57,7 @@ export default function Dashboard() {
           onClose={() => setShowCreateProjectModal(false)}
         />
       </div>
-      <div className="ml-2">{tabComponents[tabHeaders[activeTabIndex]]}</div>
+      {tabComponents[tabHeaders[activeTabIndex]]}
     </div>
   )
 }
