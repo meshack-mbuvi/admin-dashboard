@@ -15,7 +15,7 @@ const Search = (props: SearchProps) => {
   }
 
   return (
-    <div className="">
+    <div className="mb-4 md:mb-4">
       <div className="relative mt-2 rounded-md shadow-sm w-full focus:border focus:border-b-white">
         <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 bg-black ring-0 ">
           <SearchIcon className="h-4 w-4 text-gray-400" aria-hidden="true" />

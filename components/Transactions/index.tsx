@@ -47,7 +47,7 @@ export default function TransactionTables() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between">
+      <div className="md:flex justify-between">
         <Tab
           headers={tabHeaders}
           activeIndex={activeTabIndex}
