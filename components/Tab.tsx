@@ -14,8 +14,8 @@ export type TabProps = {
 
 const getTabClassName = (isActive: boolean) => {
   return clsx(
-    "w-fit pb-1",
-    isActive ? "border-b text-gray-1 border-gray-1" : "text-gray-5 "
+    "w-fit pb-1 z-10",
+    isActive ? "border-b text-gray-1 border-gray-1" : "text-gray-5"
   )
 }
 
@@ -42,7 +42,7 @@ export const Tab = (props: TabProps) => {
 export const TabContainer: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className="flex flex-col">
-      <div className="flex w-full mt-2 md:mb-12 mb-6 space-x-10">
+      <div className="flex w-full mt-2 md:mb-12 mb-6 space-x-10 before:content-[''] before:block before:absolute before:w-full before:border-b before:border-gray-8 before:bottom-0 relative before:z-0">
         {children}
       </div>
     </div>

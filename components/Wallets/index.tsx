@@ -15,12 +15,12 @@ export default function Wallets() {
 
   return (
     <div>
-      <Tab 
+      <Tab
         headers={tabHeaders}
         activeIndex={activeTabIndex}
         setActiveIndex={setActiveTabIndex}
       />
-      <div className="ml-2">{tabComponents[tabHeaders[activeTabIndex]]}</div>
+      <div>{tabComponents[tabHeaders[activeTabIndex]]}</div>
     </div>
   )
 }

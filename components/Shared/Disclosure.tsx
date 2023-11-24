@@ -59,7 +59,7 @@ export default function DisclosureComponent({
               )}
             </Disclosure.Button>
           </dt>
-          <Disclosure.Panel as="dd" className="mt-2 pr-12 pl-7">
+          <Disclosure.Panel as="dd" className="mt-4 pl-7">
             {children}
           </Disclosure.Panel>
         </>
