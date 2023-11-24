@@ -27,11 +27,11 @@ export function WalletSection(props: WalletSelectionProps) {
   return (
     <div className="flex flex-col">
       <Text className="text-2xl pb-2">{title}</Text>
-      <div className="flex flex-row pb-7 items-baseline justify-between">
+      <div className="sm:flex flex-row pb-7 items-baseline justify-between">
         <p className="font-small text-gray-3 text-sm pr-2 max-w-prose">
           {description}
         </p>
-        <div className="flex space-x-7 items-center">
+        <div className="flex space-x-7 items-center mt-4 sm:mt-0">
           {isFreePlan && <PremiumPill />}
           <Link
             href={helperLink}

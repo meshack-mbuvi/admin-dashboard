@@ -44,8 +44,8 @@ export default function TxWalletCard(props: TxWalletCardProps) {
 
   return (
     <Section className="py-2 px-4 w-full flex flex-col">
-      <div className="flex items-center mb-6">
-        <div className="flex items-center">
+      <div className="flex items-center flex-wrap sm:mb-6 mb-4">
+        <div className="flex items-center overflow-hidden">
           {isBalanceLow(wallet.balance, -18) && (
             <div
               className="mr-2"
@@ -64,15 +64,17 @@ export default function TxWalletCard(props: TxWalletCardProps) {
             </div>
           )}
           <ResourceID id={wallet.walletId} context="wallet" className="mr-2" />
+
           <Hex
             hexValue={wallet.walletAddress}
             hexType={"address"}
             chainId={wallet.chainId}
             truncate={false}
+            className="text-sm sm:text-base"
           />
         </div>
 
-        <div className="ml-auto flex items-center">
+        <div className="ml-auto mt-4 sm:mt-0 flex items-center">
           <Toggle
             enabled={wallet.isActive}
             setEnabled={() => handleWalletToggle()}
