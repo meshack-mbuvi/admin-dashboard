@@ -154,7 +154,7 @@ export default function APIKeys() {
 
   return (
     <div>
-      <div className="flex flex-col p-10 border border-gray-8 bg-gray-9 rounded-2lg mb-10 mr-10">
+      <div className="flex flex-col p-10 border border-gray-8 bg-gray-9 rounded-2lg mb-10">
         <div className="flex justify-between">
           <Text className="font-medium text-2xl pb-5">Secret keys</Text>
           <div className="flex space-x-7">

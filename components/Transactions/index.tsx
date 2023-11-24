@@ -47,7 +47,7 @@ export default function TransactionTables() {
 
   return (
     <div className="flex flex-col">
-      <div className="md:flex justify-between">
+      <div className="md:flex flex-wrap justify-between items-baseline">
         <Tab
           headers={tabHeaders}
           activeIndex={activeTabIndex}
@@ -55,7 +55,7 @@ export default function TransactionTables() {
           tabSuffixes={tabSuffixes}
         />
         {activeTabIndex === 1 && (
-          <div className="flex">
+          <div className="flex md:ml-6 flex-shrink-0">
             <Link
               href="https://docs.syndicate.io/guides/transactions"
               target="_blank"
@@ -79,11 +79,13 @@ export default function TransactionTables() {
         )}
 
         {activeTabIndex === 0 && !!(searchTxsTerm || txCount) && (
-          <Search
-            searchTerm={searchTxsTerm}
-            setSearchTerm={setSearchTxsTerm}
-            placeholder="Search transactions"
-          />
+          <div className="md:ml-6">
+            <Search
+              searchTerm={searchTxsTerm}
+              setSearchTerm={setSearchTxsTerm}
+              placeholder="Search transactions"
+            />
+          </div>
         )}
       </div>
       {tabComponents[tabHeaders[activeTabIndex]]}

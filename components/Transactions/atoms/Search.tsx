@@ -24,7 +24,7 @@ const Search = (props: SearchProps) => {
           type="text"
           name="search"
           id="search-transactions"
-          className="block w-full rounded-md border-0 py-1.5 pl-10 pr-8 text-white bg-black outline-none focus:ring-gray-4 placeholder:text-gray-400 sm:leading-6 "
+          className="block rounded-md border-0 py-1.5 pl-10 text-white bg-black outline-none focus:ring-gray-4 placeholder:text-gray-400 sm:leading-6 "
           placeholder={placeholder}
           onChange={(e): void => setSearchTerm(e.target.value)}
           value={searchTerm}

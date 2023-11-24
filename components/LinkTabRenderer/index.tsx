@@ -32,7 +32,7 @@ export default function LinkTabRenderer<T extends Record<string, TabContent>>(
   }))
   return (
     <div>
-      <div className="flex justify-between ml-10">
+      <div className="flex justify-between">
         <LinkTab tabs={tabLinks} />
       </div>
       <div>{tabs[slug].component}</div>

@@ -33,7 +33,7 @@ export default function Dashboard() {
 
   return (
     <div className="flex flex-col">
-      <div className="sm:flex justify-between">
+      <div className="sm:flex justify-between items-baseline">
         <Tab
           headers={tabHeaders}
           activeIndex={activeTabIndex}
@@ -44,7 +44,7 @@ export default function Dashboard() {
           onClick={tabButtonHandler[activeTabIndex]}
           className={clsx(
             LightButtonStyles,
-            "flex items-center mb-6 md:mb-0 ml-auto"
+            "flex items-center mb-6 md:mb-0 flex-shrink-0 sm:ml-6 text-center"
           )}
         >
           <Add className="h-4 w-4 mr-4" />
