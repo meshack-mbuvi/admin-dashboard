@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 import Section from "../Section"
 import Hex from "../Shared/Hex"
 
@@ -13,14 +15,14 @@ export default function MetadataCard(props: MetadataCardProps) {
 
   return (
     <Section className="py-2 px-4 w-full flex flex-col">
-      <div className="flex flex-wrap justify-between gap-4 mb-4">
+      <div className="flex flex-wrap justify-between gap-4">
         <div>
           <p className="text-xs text-gray-4 mb-1">Contract address</p>
           <Hex
             hexValue={metadata.tokenAddress}
             hexType={"address"}
             chainId={metadata.chainId}
-            truncate={false}
+            truncate
             className="text-sm sm:text-base"
           />
         </div>
@@ -34,12 +36,16 @@ export default function MetadataCard(props: MetadataCardProps) {
           <p className="text-xs text-gray-4 mb-1">Chain ID</p>
           <p className="text-sm sm:text-base">{metadata.chainId}</p>
         </div>
-      </div>
 
-      <div className="flex flex-col md:flex-row flex-wrap justify-between gap-4 overflow-hidden">
-        <div>
+        <div className="overflow-hidden">
           <p className="text-xs text-gray-4 mb-1">Metadata ID</p>
-          <p className="text-sm sm:text-base">{metadata.metadataId}</p>
+          <Link
+            href={`https://ipfs.io/ipfs/${metadata.metadataId}`}
+            target="_blank"
+            className="text-sm sm:text-base text-blue-1"
+          >
+            {metadata.metadataId}
+          </Link>
         </div>
 
         <div>

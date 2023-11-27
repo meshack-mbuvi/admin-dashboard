@@ -62,8 +62,8 @@ export default function ContractCard(props: ContractCardProps) {
         </div>
       </div>
 
-      <div className="mt-4">
-        <p className="text-xs text-gray-4 mb-1">Allowed functions</p>
+      <div className="mt-6">
+        <p className="text-xs text-gray-4 mb-1.5">Allowed functions</p>
         {contract.functionSignatures.length ? (
           <div className="font-mono text-xs">
             {contract.functionSignatures.map((func, i) => {
@@ -86,7 +86,7 @@ export default function ContractCard(props: ContractCardProps) {
 
         {contract.functionSignatures.length > 3 && (
           <button
-            className="mt-3 text-blue-1 text-sm"
+            className="mt-2 text-blue-1 text-sm"
             onClick={() => setIsViewMore((prev) => !prev)}
           >
             View {isViewMore ? "less" : "more"}

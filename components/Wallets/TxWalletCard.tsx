@@ -51,11 +51,11 @@ export default function TxWalletCard(props: TxWalletCardProps) {
 
   return (
     <Section className="py-2 px-4 w-full flex flex-col">
-      <div className="flex items-center flex-wrap gap-4 sm:mb-6 mb-4">
-        <div className="flex items-center overflow-hidden">
+      <div className="flex items-center flex-wrap justify-between gap-4">
+        <div className="flex overflow-hidden">
           {isBalanceLow(wallet.balance, -18) && (
             <div
-              className="mr-2"
+              className="mr-2 mt-5 sm:mt-6 "
               data-tooltip-id="t-low-bal"
               data-tooltip-content="Wallet has low balance"
               data-tooltip-place="top"
@@ -70,26 +70,24 @@ export default function TxWalletCard(props: TxWalletCardProps) {
               />
             </div>
           )}
-          <ResourceID id={wallet.walletId} context="wallet" className="mr-2" />
+          <div>
+            <p className="text-xs text-gray-4 mb-1">Wallet address</p>
 
-          <Hex
-            hexValue={wallet.walletAddress}
-            hexType={"address"}
-            chainId={wallet.chainId}
-            truncate={false}
-            className="text-sm sm:text-base"
-          />
+            <Hex
+              hexValue={wallet.walletAddress}
+              hexType={"address"}
+              chainId={wallet.chainId}
+              truncate
+              className="text-sm sm:text-base"
+            />
+          </div>
         </div>
 
-        <div className="ml-auto flex items-center">
-          <Toggle
-            enabled={isWalletEnabled}
-            setEnabled={(enabled) => handleWalletToggle(enabled)}
-          />
+        <div>
+          <p className="text-xs text-gray-4 mb-1">ID</p>
+          <ResourceID id={wallet.walletId} context="wallet" truncate fullView />
         </div>
-      </div>
 
-      <div className="flex flex-wrap gap-4 justify-between">
         <div>
           <p className="text-xs text-gray-4 mb-1">Balance</p>
           <p className="text-gray-1 text-sm sm:text-base">
@@ -107,6 +105,15 @@ export default function TxWalletCard(props: TxWalletCardProps) {
           <p className="text-gray-1 text-sm sm:text-base">
             <DateTimestamp date={wallet.createdAt} showTime={true} />
           </p>
+        </div>
+
+        <div className="">
+          <p className="text-xs text-gray-4 mb-1">Enabled</p>
+
+          <Toggle
+            enabled={isWalletEnabled}
+            setEnabled={(enabled) => handleWalletToggle(enabled)}
+          />
         </div>
       </div>
     </Section>
