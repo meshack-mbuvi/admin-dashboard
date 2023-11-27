@@ -204,8 +204,8 @@ export default function APIKeys() {
                 >
                   <div className="col-span-2 lg:grid grid-cols-2 gap-x-8 items-center">
                     <BlurredView>
-                      <div className="flex space-x-4 justify-between">
-                        <span className=""></span>
+                      <div className="flex space-x-4 justify-between items-center">
+                        <span />
                         <Text className="font-mono grow">{AccessKey?.key}</Text>
                         <CopyToClipboard text={AccessKey?.key} />
                       </div>

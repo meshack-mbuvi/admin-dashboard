@@ -22,7 +22,7 @@ interface TxWalletCardProps {
 export default function TxWalletCard(props: TxWalletCardProps) {
   const { wallet } = props
 
-  const { mutate, error, data } = useToggleWalletEnabled(wallet.projectId)
+  const { mutate } = useToggleWalletEnabled(wallet.projectId)
 
   const [isWalletEnabled, setIsWalletEnabled] = useState<boolean>(
     wallet.isActive
