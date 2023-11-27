@@ -79,13 +79,11 @@ export default function TransactionTables() {
         )}
 
         {activeTabIndex === 0 && !!(searchTxsTerm || txCount) && (
-          <div className="md:ml-6">
-            <Search
-              searchTerm={searchTxsTerm}
-              setSearchTerm={setSearchTxsTerm}
-              placeholder="Search transactions"
-            />
-          </div>
+          <Search
+            searchTerm={searchTxsTerm}
+            setSearchTerm={setSearchTxsTerm}
+            placeholder="Search transactions"
+          />
         )}
       </div>
       {tabComponents[tabHeaders[activeTabIndex]]}
