@@ -53,7 +53,10 @@ export default function Breadcrumbs() {
 
         {projectId && (
           <li className="flex items-center pl-10 py-2.5 active text-xs md:text-base bg-gray-8 text-gray-2">
-            <Link href={{ pathname: `/projects/${projectId}/transactions` }}>
+            <Link
+              href={{ pathname: `/projects/${projectId}/transactions` }}
+              className="whitespace-nowrap"
+            >
               {isProjectDataLoading ? (
                 <Loading className="h-6 w-24" />
               ) : (
@@ -73,7 +76,7 @@ export default function Breadcrumbs() {
             tooltipPosition="right"
             className="self-stretch hidden sm:flex items-center px-4"
           >
-            <div className="text-gray-3 text-sm font-mono">
+            <div className="text-gray-3 text-xs md:text-sm font-mono whitespace-nowrap">
               {formatAddress(projectData?.id, 4, 4)}
             </div>
           </CopyToClipboard>
