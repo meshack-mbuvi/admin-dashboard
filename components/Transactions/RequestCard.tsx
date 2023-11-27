@@ -17,40 +17,23 @@ export default function RequestCard(props: RequestCardProps) {
 
   return (
     <Section className="py-2 px-4 w-full flex flex-col">
-      <div className="flex gap-2 mb-6 items-center">
-        <div className="h-[1.625rem] w-10  rounded-[1.875rem] px-[0.625rem] py-[0.125rem] flex justify-center items-center border text-red border-red/[.12] bg-red/[.12]">
-          <WarningOctagon className="h-3.5 w-3.5" />
-        </div>
-        <ResourceID
-          id={request.transactionId}
-          fullView={true}
-          context="Request"
-          className="text-gray-1 font-mono overflow-x-hidden text-ellipsis block text-sm sm:text-base"
-        />
-      </div>
-
       <div className="flex flex-wrap justify-between gap-4 mb-4">
-        <div>
-          <p className="text-xs text-gray-4 mb-1">Function</p>
-
-          <p className="text-gray-1 font-mono text-sm">
-            {request.functionSignature}
-          </p>
+        <div className="flex gap-2 items-end">
+          <div className="h-[1.625rem] w-10 rounded-[1.875rem] px-[0.625rem] py-[0.125rem] flex justify-center items-center border text-red border-red/[.12] bg-red/[.12]">
+            <WarningOctagon className="h-3.5 w-3.5" />
+          </div>
+          <div>
+            <p className="text-xs text-gray-4 mb-1">ID</p>
+            <ResourceID
+              id={request.transactionId}
+              fullView
+              truncate
+              context="Request"
+              className="text-gray-1 font-mono overflow-x-hidden text-ellipsis block text-sm sm:text-base"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="mb-4">
-        <button
-          className="text-blue-1 text-sm"
-          onClick={() => {
-            onShowRequestDetails(request)
-          }}
-        >
-          View request details
-        </button>
-      </div>
-
-      <div className="flex flex-wrap justify-between gap-4 mb-4">
         <div>
           <p className="text-xs text-gray-4 mb-1">Contract address</p>
 
@@ -77,6 +60,23 @@ export default function RequestCard(props: RequestCardProps) {
             timeStamp={request.updatedAt}
             className="text-sm sm:text-base"
           />
+        </div>
+      </div>
+
+      <div className="flex flex-wrap justify-between gap-4">
+        <div>
+          <p className="text-xs text-gray-4 mb-1">Function request</p>
+
+          <p className="text-gray-1 font-mono text-sm">
+            <button
+              className="text-blue-1 text-sm"
+              onClick={() => {
+                onShowRequestDetails(request)
+              }}
+            >
+              {request.functionSignature}
+            </button>
+          </p>
         </div>
       </div>
     </Section>

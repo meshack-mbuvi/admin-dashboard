@@ -19,23 +19,25 @@ export default function TransactionCard(props: TransactionCardProps) {
 
   return (
     <Section className="py-2 px-4 w-full">
-      <div className="flex gap-2 mb-6 items-center">
-        <TransactionStatus
-          transactionId={transaction.transactionId}
-          transactionStatus={transaction.status}
-          reverted={transaction.reverted}
-        />
-        <div>
-          <ResourceID
-            id={transaction.transactionId}
-            fullView={true}
-            context="Transaction"
-            className="text-gray-1 font-mono overflow-x-hidden text-ellipsis block text-sm sm:text-base"
-          />
-        </div>
-      </div>
-
       <div className="flex flex-wrap justify-between gap-4">
+        <div className="flex gap-2 items-end">
+          <TransactionStatus
+            transactionId={transaction.transactionId}
+            transactionStatus={transaction.status}
+            reverted={transaction.reverted}
+          />
+          <div>
+            <p className="text-xs text-gray-4 mb-1">ID</p>
+            <ResourceID
+              id={transaction.transactionId}
+              fullView
+              truncate
+              context="Transaction"
+              className="text-gray-1 font-mono overflow-x-hidden text-ellipsis block text-sm sm:text-base"
+            />
+          </div>
+        </div>
+
         <div>
           <p className="text-xs text-gray-4 mb-1">Tx hash</p>
           <Hex

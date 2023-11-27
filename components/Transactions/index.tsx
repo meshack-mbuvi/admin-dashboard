@@ -56,18 +56,6 @@ export default function TransactionTables() {
         />
         {activeTabIndex === 1 && (
           <div className="flex flex-shrink-0 items-center sm:items-end">
-            <Link
-              href="https://docs.syndicate.io/guides/transactions"
-              target="_blank"
-              className={clsx(
-                DarkButtonStyles,
-                "border-yellow-secondary flex items-baseline mr-4"
-              )}
-            >
-              Troubleshoot
-              <ArrowUpperRight className="h-4 w-4 ml-2" />
-            </Link>
-
             {!!(searchReqsTerm || failedTxResponse?.total) && (
               <Search
                 searchTerm={searchReqsTerm}
@@ -75,6 +63,18 @@ export default function TransactionTables() {
                 placeholder="Search requests"
               />
             )}
+
+            <Link
+              href="https://docs.syndicate.io/guides/transactions"
+              target="_blank"
+              className={clsx(
+                DarkButtonStyles,
+                "border-yellow-secondary flex items-baseline ml-2"
+              )}
+            >
+              Troubleshoot
+              <ArrowUpperRight className="h-4 w-4 ml-2" />
+            </Link>
           </div>
         )}
 
