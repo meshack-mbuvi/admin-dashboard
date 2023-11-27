@@ -8,6 +8,8 @@ const networkQueryStrings: { [x: number]: string } = {
   [networks[80001].id]: "polygonMumbai",
   [networks[8453].id]: "base",
   [networks[84531].id]: "baseGoerli",
+  [networks[10].id]: "optimism",
+  [networks[420].id]: "optimismGoerli",
 }
 
 export default function useContractABI(

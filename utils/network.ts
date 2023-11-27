@@ -7,6 +7,8 @@ import {
   polygonZkEvmTestnet,
   base,
   baseGoerli,
+  optimism,
+  optimismGoerli,
 } from "viem/chains"
 
 export const networks = {
@@ -20,6 +22,9 @@ export const networks = {
   // Base L2
   [base.id]: base,
   [baseGoerli.id]: baseGoerli,
+  // Optimism L2
+  [optimism.id]: optimism,
+  [optimismGoerli.id]: optimismGoerli,
 } as const
 
 export type NetworkId = keyof typeof networks
