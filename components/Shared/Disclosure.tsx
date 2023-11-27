@@ -31,10 +31,15 @@ export default function DisclosureComponent({
           <dt>
             <Disclosure.Button
               className={clsx(
-                "flex items-center py-6 pl-7 hover:bg-gray-8 rounded-lg space-x-2.5 h-full w-full cursor-pointer",
+                "flex items-center py-6 pl-2 bg-gray-8 hover:bg-gray-7 rounded-lg space-x-2.5 h-full w-full cursor-pointer transition-colors",
                 className
               )}
             >
+              {open ? (
+                <ChevronDown className="w-4 h-auto" />
+              ) : (
+                <ChevronRight className="w-4 h-auto" />
+              )}
               {networkInfo.networkIcon}
               <div className="leading-5">
                 {networkInfo.network && (
@@ -52,11 +57,6 @@ export default function DisclosureComponent({
                   </>
                 )}
               </div>
-              {open ? (
-                <ChevronDown className="w-4 h-auto" />
-              ) : (
-                <ChevronRight className="w-4 h-auto" />
-              )}
             </Disclosure.Button>
           </dt>
           <Disclosure.Panel as="dd" className="mt-4 pl-7">
