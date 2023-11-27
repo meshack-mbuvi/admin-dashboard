@@ -58,7 +58,7 @@ export default function CopyToClipboard(props: CopyToClipboardProps) {
             copied ? tooltipCopiedText || "Copied" : tooltipCopyText
           }
           data-tooltip-place={tooltipPosition || "top"}
-          className="w-full "
+          className="w-full hover:text-blue-1"
         >
           {children ? children : <Clipboard className="cursor-pointer w-4" />}
         </span>
