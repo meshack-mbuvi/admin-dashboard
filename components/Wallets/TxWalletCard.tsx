@@ -13,6 +13,7 @@ import { formatNativeToken } from "@/utils/formatNativeToken"
 import { Wallet } from "@/hooks/useGetProjectWallets"
 import useToggleWalletEnabled from "@/hooks/useToggleWalletEnabled"
 import useAuthToken from "@/hooks/useAuthToken"
+import { useState } from "react"
 
 interface TxWalletCardProps {
   wallet: Wallet
@@ -23,10 +24,16 @@ export default function TxWalletCard(props: TxWalletCardProps) {
 
   const { mutate, error, data } = useToggleWalletEnabled(wallet.projectId)
 
+  const [isWalletEnabled, setIsWalletEnabled] = useState<boolean>(
+    wallet.isActive
+  )
+
   const sessionToken = useAuthToken()
 
-  const handleWalletToggle = () => {
+  const handleWalletToggle = (enabled: boolean) => {
     if (!wallet) return
+
+    setIsWalletEnabled(enabled)
 
     mutate({
       method: "POST",
@@ -36,7 +43,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        walletAddress: wallet.walletId,
+        walletAddress: wallet.walletAddress,
         projectId: wallet.projectId,
       }),
     })
@@ -76,8 +83,8 @@ export default function TxWalletCard(props: TxWalletCardProps) {
 
         <div className="ml-auto flex items-center">
           <Toggle
-            enabled={wallet.isActive}
-            setEnabled={() => handleWalletToggle()}
+            enabled={isWalletEnabled}
+            setEnabled={(enabled) => handleWalletToggle(enabled)}
           />
         </div>
       </div>
