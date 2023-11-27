@@ -34,7 +34,7 @@ export default function ContractCard(props: ContractCardProps) {
 
         <div>
           <p className="text-xs text-gray-4 mb-1">Chain ID</p>
-          <div className="text-white flex group">
+          <div className="text-white flex group text-sm sm:text-base">
             {contract.chainId}
             <CopyToClipboard
               text={contract.chainId.toString()}
@@ -45,7 +45,7 @@ export default function ContractCard(props: ContractCardProps) {
 
         <div>
           <p className="text-xs text-gray-4 mb-1">Date added</p>
-          <p className="text-gray-1">
+          <p className="text-gray-1 text-sm sm:text-base">
             <DateTimestamp date={contract.createdAt} showTime={true} />
           </p>
         </div>

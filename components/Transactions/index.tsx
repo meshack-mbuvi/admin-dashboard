@@ -47,7 +47,7 @@ export default function TransactionTables() {
 
   return (
     <div className="flex flex-col">
-      <div className="md:flex flex-wrap justify-between items-baseline mt-2 md:mb-12 mb-6">
+      <div className="flex flex-row flex-wrap justify-between items-end gap-4 md:mb-12 mb-6">
         <Tab
           headers={tabHeaders}
           activeIndex={activeTabIndex}
@@ -55,7 +55,7 @@ export default function TransactionTables() {
           tabSuffixes={tabSuffixes}
         />
         {activeTabIndex === 1 && (
-          <div className="flex md:ml-6 flex-shrink-0">
+          <div className="flex md:ml-6 flex-shrink-0 items-center sm:items-end">
             <Link
               href="https://docs.syndicate.io/guides/transactions"
               target="_blank"

@@ -25,7 +25,7 @@ export default function RequestCard(props: RequestCardProps) {
           id={request.transactionId}
           fullView={true}
           context="Request"
-          className="text-gray-1 font-mono overflow-x-hidden text-ellipsis block"
+          className="text-gray-1 font-mono overflow-x-hidden text-ellipsis block text-sm sm:text-base"
         />
       </div>
 
@@ -58,12 +58,13 @@ export default function RequestCard(props: RequestCardProps) {
             hexValue={request.contractAddress}
             hexType={"address"}
             chainId={request.chainId}
+            className="text-sm sm:text-base"
           />
         </div>
 
         <div>
           <p className="text-xs text-gray-4 mb-1">Chain ID</p>
-          <div className="flex items-center">
+          <div className="flex items-center text-sm sm:text-base">
             {getNetworkIcon(request.chainId, "w-5 h-5")}
             <p className="text-gray-1 ml-2">{request.chainId}</p>
           </div>
@@ -74,6 +75,7 @@ export default function RequestCard(props: RequestCardProps) {
           <TableTimeStampCell
             id={request.transactionId}
             timeStamp={request.updatedAt}
+            className="text-sm sm:text-base"
           />
         </div>
       </div>

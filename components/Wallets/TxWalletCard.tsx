@@ -44,7 +44,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
 
   return (
     <Section className="py-2 px-4 w-full flex flex-col">
-      <div className="flex items-center flex-wrap sm:mb-6 mb-4">
+      <div className="flex items-center flex-wrap gap-4 sm:mb-6 mb-4">
         <div className="flex items-center overflow-hidden">
           {isBalanceLow(wallet.balance, -18) && (
             <div
@@ -74,7 +74,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
           />
         </div>
 
-        <div className="ml-auto mt-4 sm:mt-0 flex items-center">
+        <div className="ml-auto flex items-center">
           <Toggle
             enabled={wallet.isActive}
             setEnabled={() => handleWalletToggle()}
@@ -85,19 +85,19 @@ export default function TxWalletCard(props: TxWalletCardProps) {
       <div className="flex flex-wrap gap-4 justify-between">
         <div>
           <p className="text-xs text-gray-4 mb-1">Balance</p>
-          <p className="text-gray-1">
+          <p className="text-gray-1 text-sm sm:text-base">
             {formatNativeToken(wallet.balance, -18)}
           </p>
         </div>
 
         <div>
           <p className="text-xs text-gray-4 mb-1">Transactions</p>
-          <p className="text-gray-1">{wallet.txCount}</p>
+          <p className="text-gray-1 text-sm sm:text-base">{wallet.txCount}</p>
         </div>
 
         <div>
           <p className="text-xs text-gray-4 mb-1">Date added</p>
-          <p className="text-gray-1">
+          <p className="text-gray-1 text-sm sm:text-base">
             <DateTimestamp date={wallet.createdAt} showTime={true} />
           </p>
         </div>

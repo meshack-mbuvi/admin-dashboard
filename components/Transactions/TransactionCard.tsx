@@ -30,7 +30,7 @@ export default function TransactionCard(props: TransactionCardProps) {
             id={transaction.transactionId}
             fullView={true}
             context="Transaction"
-            className="text-gray-1 font-mono overflow-x-hidden text-ellipsis block"
+            className="text-gray-1 font-mono overflow-x-hidden text-ellipsis block text-sm sm:text-base"
           />
         </div>
       </div>
@@ -42,19 +42,22 @@ export default function TransactionCard(props: TransactionCardProps) {
             hexValue={transaction.hash}
             hexType={"tx"}
             chainId={transaction.chainId}
+            className="text-sm sm:text-base"
           />
         </div>
         <div>
           <p className="text-xs text-gray-4 mb-1">Chain ID</p>
           <div className="flex items-center">
             {getNetworkIcon(transaction.chainId, "w-5 h-5")}
-            <p className="text-gray-1 ml-2">{transaction.chainId}</p>
+            <p className="text-gray-1 ml-2 text-sm sm:text-base">
+              {transaction.chainId}
+            </p>
           </div>
         </div>
 
         <div>
           <p className="text-xs text-gray-4 mb-1"> Block No</p>
-          <p className="text-gray-1">
+          <p className="text-gray-1 text-sm sm:text-base">
             <Block
               viewType="block"
               chainId={transaction.chainId}
@@ -68,6 +71,7 @@ export default function TransactionCard(props: TransactionCardProps) {
           <TableTimeStampCell
             id={transaction.transactionId}
             timeStamp={transaction.blockTimestamp}
+            className="text-sm sm:text-base"
           />
         </div>
       </div>

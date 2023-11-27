@@ -3,24 +3,26 @@ import { useQuery } from "@tanstack/react-query"
 import gatewayFetch from "@/utils/gatewayFetch"
 import useAuthToken from "./useAuthToken"
 
+import { NetworkId } from "@/utils/network"
+
 interface UseGetProjectMetadataArgs {
-  page: number;
-  limit: number;
-  projectId: string;
+  page: number
+  limit: number
+  projectId: string
 }
 
 export interface TokenMetadata {
-  createdAt: string;
-  updatedAt: string;
-  chainId: number;
-  tokenAddress: string;
-  tokenId: string;
-  metadataId: string;
+  createdAt: string
+  updatedAt: string
+  chainId: NetworkId
+  tokenAddress: string
+  tokenId: string
+  metadataId: string
 }
 
 type GetTokenMetadataResponse = {
-  metadata: TokenMetadata[];
-  total: number;
+  metadata: TokenMetadata[]
+  total: number
 }
 
 export default function useGetTokenMetadata(args: UseGetProjectMetadataArgs) {
