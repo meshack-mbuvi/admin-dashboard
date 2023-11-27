@@ -55,7 +55,7 @@ export default function TransactionTables() {
           tabSuffixes={tabSuffixes}
         />
         {activeTabIndex === 1 && (
-          <div className="flex md:ml-6 flex-shrink-0 items-center sm:items-end">
+          <div className="flex flex-shrink-0 items-center sm:items-end">
             <Link
               href="https://docs.syndicate.io/guides/transactions"
               target="_blank"
