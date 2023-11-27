@@ -57,13 +57,13 @@ export default function TransactionCard(props: TransactionCardProps) {
 
         <div>
           <p className="text-xs text-gray-4 mb-1"> Block No</p>
-          <p className="text-gray-1 text-sm sm:text-base">
+          <div className="text-gray-1 text-sm sm:text-base">
             <Block
               viewType="block"
               chainId={transaction.chainId}
               blockValue={transaction.block}
             />
-          </p>
+          </div>
         </div>
 
         <div>
