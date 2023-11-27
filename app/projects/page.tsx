@@ -32,8 +32,8 @@ export default function Dashboard() {
   ]
 
   return (
-    <div className="flex flex-col">
-      <div className="sm:flex justify-between items-baseline">
+    <div className="flex flex-col ">
+      <div className="sm:flex justify-between items-end md:mb-12 mb-6">
         <Tab
           headers={tabHeaders}
           activeIndex={activeTabIndex}

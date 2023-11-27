@@ -42,7 +42,7 @@ export const Tab = (props: TabProps) => {
 export const TabContainer: React.FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className="flex flex-col flex-grow">
-      <div className="flex w-full mt-2 md:mb-12 mb-6 space-x-10 before:content-[''] before:block before:absolute before:w-full before:border-b before:border-gray-7 before:bottom-0 relative before:z-0">
+      <div className="flex w-full space-x-10 before:content-[''] before:block before:absolute before:w-full before:border-b before:border-gray-7 before:bottom-0 relative before:z-0">
         {children}
       </div>
     </div>
