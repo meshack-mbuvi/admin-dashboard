@@ -24,6 +24,12 @@ export function getNetworkRPC(networkId: NetworkId | number) {
     case networks[84531].id:
       return process.env.ALCHEMY_BASE_GOERLI_URL
 
+    case networks[10].id:
+      return process.env.ALCHEMY_OPTIMISM_MAINNET_URL
+
+    case networks[420].id:
+      return process.env.ALCHEMY_OPTIMISM_GOERLI_URL
+
     default:
       return
   }
