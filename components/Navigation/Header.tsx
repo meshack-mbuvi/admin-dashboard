@@ -20,7 +20,7 @@ export const Header = () => {
           <a
             href="https://docs.syndicate.io"
             target="_blank"
-            className="hidden md:flex items-center text-xs md:text-sm text-gray-4 ml-2 mr-4 md:mr-8"
+            className="hidden md:flex items-center text-xs md:text-sm text-gray-4 ml-2 mr-4"
           >
             <Docs className="w-4 mr-2" />
             Docs

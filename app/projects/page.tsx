@@ -44,7 +44,7 @@ export default function Dashboard() {
           onClick={tabButtonHandler[activeTabIndex]}
           className={clsx(
             LightButtonStyles,
-            "flex items-center mb-6 md:mb-0 flex-shrink-0 sm:ml-6 text-center"
+            "flex items-center flex-shrink-0 sm:ml-6 mt-6 sm:mt-0 text-center"
           )}
         >
           <Add className="h-4 w-4 mr-4" />
