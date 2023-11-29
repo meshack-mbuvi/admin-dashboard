@@ -1,5 +1,3 @@
-import { format, formatDistanceToNowStrict } from "date-fns"
-
 import Section from "../Section"
 import Hex from "../Shared/Hex"
 
@@ -7,7 +5,7 @@ import { TransactionDataType } from "@/hooks/useGetTransactions"
 import TransactionStatus from "./atoms/Status"
 import Block from "./atoms/Block"
 import TableTimeStampCell from "../Table/TableTimeStampCell"
-import { getNetworkIcon } from "@/utils/getNetworkIcon"
+import NetworkIcon from "@/components/NetworkIcon"
 import ResourceID from "../Shared/ResourceID"
 
 interface TransactionCardProps {
@@ -50,7 +48,8 @@ export default function TransactionCard(props: TransactionCardProps) {
         <div>
           <p className="text-xs text-gray-4 mb-1">Chain ID</p>
           <div className="flex items-center">
-            {getNetworkIcon(transaction.chainId, "w-5 h-5")}
+            <NetworkIcon networkId={transaction.chainId} className="w-5" />
+
             <p className="text-gray-1 ml-2 text-sm sm:text-base">
               {transaction.chainId}
             </p>

@@ -139,7 +139,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
 
             <button
               className="text-black text-xs rounded-full px-2 py-0.5 bg-white hover:bg-gray-2 transition-colors"
-              disabled={isFaucetLoading}
+              disabled={isFaucetLoading || isFaucetSuccess}
               onClick={() =>
                 dripFaucet({
                   projectId: wallet.projectId,

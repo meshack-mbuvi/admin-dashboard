@@ -5,7 +5,7 @@ import TableTimeStampCell from "../Table/TableTimeStampCell"
 import WarningOctagon from "../icons/WarningOctagon"
 
 import { RequestsDataType } from "@/hooks/useGetRequests"
-import { getNetworkIcon } from "@/utils/getNetworkIcon"
+import NetworkIcon from "@/components/NetworkIcon"
 
 interface RequestCardProps {
   request: RequestsDataType
@@ -48,7 +48,7 @@ export default function RequestCard(props: RequestCardProps) {
         <div>
           <p className="text-xs text-gray-4 mb-1">Chain ID</p>
           <div className="flex items-center text-sm sm:text-base">
-            {getNetworkIcon(request.chainId, "w-5 h-5")}
+            <NetworkIcon networkId={request.chainId} className="w-5" />
             <p className="text-gray-1 ml-2">{request.chainId}</p>
           </div>
         </div>

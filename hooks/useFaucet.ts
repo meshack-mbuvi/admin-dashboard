@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 import useAuthToken from "./useAuthToken"
 
@@ -18,6 +18,7 @@ interface FaucetFundsResponse extends Response {
 
 export default function useFaucet() {
   const sessionToken = useAuthToken()
+  const queryClient = useQueryClient()
 
   return useMutation<FaucetFundsResponse, ResponseError, FaucetFundsArgs>(
     (args) => {
@@ -34,6 +35,13 @@ export default function useFaucet() {
         }),
         sessionToken,
       })
+    },
+    {
+      onSettled: (_, error, args) => {
+        queryClient.invalidateQueries({
+          queryKey: ["get-project-wallets", args.projectId, true],
+        })
+      },
     }
   )
 }

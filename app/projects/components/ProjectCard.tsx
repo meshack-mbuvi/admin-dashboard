@@ -11,7 +11,7 @@ import useGetProjectTransactionStats from "@/hooks/useGetProjectTransactionStats
 import useGetProjectWallets from "@/hooks/useGetProjectWallets"
 
 import { getNetwork } from "@/utils/network"
-import { getNetworkIcon } from "@/utils/getNetworkIcon"
+import NetworkIcon from "@/components/NetworkIcon"
 
 interface ProjectCardProps {
   project: Project
@@ -96,7 +96,9 @@ export default function ProjectCard(props: ProjectCardProps) {
         <div>
           <p className="text-xs text-gray-4 mb-1">Networks</p>
           <div className="flex gap-2">
-            {networks?.map((network) => getNetworkIcon(network.id, "w-5 h-5"))}
+            {networks?.map((network, i) => (
+              <NetworkIcon key={i} networkId={network.id} className="w-5 " />
+            ))}
           </div>
         </div>
       </div>
