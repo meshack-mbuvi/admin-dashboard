@@ -57,7 +57,7 @@ export default function ProjectCard(props: ProjectCardProps) {
 
   return (
     <Section
-      className="flex flex-col py-2 px-4 cursor-pointer justify-between hover:bg-gray-8 hover:-translate-y-0.5 hover:border-gray-7 transition-all duration-200"
+      className="flex flex-col p-4 cursor-pointer justify-between hover:bg-gray-8 hover:-translate-y-0.5 hover:border-gray-7 transition-all duration-200"
       onClick={handleProjectClick}
     >
       <div className="flex items-start mb-4">

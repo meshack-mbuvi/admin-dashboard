@@ -19,7 +19,7 @@ export default function ContractCard(props: ContractCardProps) {
   const [isViewMore, setIsViewMore] = useState(false)
 
   return (
-    <Section className="py-2 px-4 w-full flex flex-col">
+    <Section className="p-4 w-full flex flex-col">
       <div className="flex flex-wrap gap-4 justify-between">
         <div>
           <p className="text-xs text-gray-4 mb-1">Name</p>

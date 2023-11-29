@@ -16,7 +16,7 @@ export default function RequestCard(props: RequestCardProps) {
   const { request, onShowRequestDetails } = props
 
   return (
-    <Section className="py-2 px-4 w-full flex flex-col">
+    <Section className="p-4 w-full flex flex-col">
       <div className="flex flex-wrap justify-between gap-4 mb-4">
         <div className="flex gap-2 items-end">
           <div className="h-[1.625rem] w-10 rounded-[1.875rem] px-[0.625rem] py-[0.125rem] flex justify-center items-center border text-red border-red/[.12] bg-red/[.12]">

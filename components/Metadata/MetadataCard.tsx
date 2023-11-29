@@ -14,7 +14,7 @@ export default function MetadataCard(props: MetadataCardProps) {
   const { metadata } = props
 
   return (
-    <Section className="py-2 px-4 w-full flex flex-col">
+    <Section className="p-4 w-full flex flex-col">
       <div className="flex flex-wrap justify-between gap-4">
         <div>
           <p className="text-xs text-gray-4 mb-1">Contract address</p>

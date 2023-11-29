@@ -198,7 +198,7 @@ export default function APIKeys() {
             sortedData.map(({ AccessKey }) => {
               return (
                 <Section
-                  className="py-2 px-4 w-full flex flex-wrap justify-between gap-4"
+                  className="p-4 w-full flex flex-wrap justify-between gap-4"
                   key={AccessKey?.id}
                 >
                   <div>

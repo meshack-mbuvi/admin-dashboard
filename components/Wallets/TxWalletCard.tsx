@@ -62,7 +62,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
   const isLowBalance = isBalanceLow(wallet.balance, -18)
 
   return (
-    <Section className="py-2 px-4 w-full flex flex-col">
+    <Section className="p-4 w-full flex flex-col">
       <div className="flex items-center flex-wrap justify-between gap-4">
         <div className="flex overflow-hidden">
           {isLowBalance && (

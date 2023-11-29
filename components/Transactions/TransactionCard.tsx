@@ -18,7 +18,7 @@ export default function TransactionCard(props: TransactionCardProps) {
   const { transaction } = props
 
   return (
-    <Section className="py-2 px-4 w-full">
+    <Section className="p-4 w-full">
       <div className="flex flex-wrap justify-between gap-4">
         <div className="flex gap-2 items-end">
           <TransactionStatus
