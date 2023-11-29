@@ -28,7 +28,7 @@ export default function useGetOrganization() {
   const sessionToken = useAuthToken()
 
   return useQuery(
-    ["get-organization"],
+    ["get-organization", sessionToken],
     async () => {
       const res = await gatewayFetch({
         endpointPath: "/admin/organization",

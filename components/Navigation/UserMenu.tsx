@@ -6,18 +6,24 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import ClickAwayListener from "react-click-away-listener"
 
+import User from "@/components/icons/User"
+import SwitchOrgModal from "@/components/Navigation/SwitchOrgModal"
 import ArrowUpperRight from "@/components/icons/ArrowUpperRight"
 import useGetUser from "@/hooks/useGetUser"
 import CheckCircle from "@/components/icons/CheckCircle"
-import User from "../icons/User"
+import useGetOrganization from "@/hooks/useGetOrganization"
+import useGetOrganizations from "@/hooks/useGetOrganizations"
 
 export default function UserMenu() {
   const { member } = useStytchMember()
   const stytchClient = useStytchB2BClient()
   const router = useRouter()
-  const [menuOpen, setMenuOpen] = useState(false)
-
+  const { data: organizationData } = useGetOrganization()
   const { data: user } = useGetUser()
+  const { data: organizations } = useGetOrganizations()
+
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [showOrgModal, setShowOrgModal] = useState(false)
 
   const handleToggleMenu = () => {
     setMenuOpen(!menuOpen)
@@ -27,6 +33,10 @@ export default function UserMenu() {
     handleToggleMenu()
     await stytchClient.session.revoke()
     router.push("/")
+  }
+
+  const handleOrgSwitch = () => {
+    setShowOrgModal(true)
   }
 
   return (
@@ -64,15 +74,28 @@ export default function UserMenu() {
                 </Link>
               )}
             </div>
-            <button
-              className="w-full bg-gray-6 rounded-lg py-4 font-medium"
-              onClick={handleLogout}
-            >
-              Sign out
-            </button>
+            {!!organizations?.length && organizations?.length > 1 && (
+              <div className="mb-4 text-blue-1 align-middle">
+                <button onClick={handleOrgSwitch}>Switch Organization</button>
+              </div>
+            )}
+            <div className="flex space-x-4">
+              <button
+                className="w-full bg-gray-6 rounded-lg py-4 font-medium"
+                onClick={handleLogout}
+              >
+                Sign out
+              </button>
+            </div>
           </div>
         </ClickAwayListener>
       )}
+      <SwitchOrgModal
+        showModal={showOrgModal}
+        onCloseModal={() => setShowOrgModal(false)}
+        organizations={organizations}
+        currentOrganizationId={organizationData?.organization.stytchId}
+      />
     </div>
   )
 }

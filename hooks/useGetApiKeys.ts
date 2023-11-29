@@ -27,7 +27,7 @@ export default function useGetProjectApiKeys(args: UseGetProjectApiKeysArgs) {
   const sessionToken = useAuthToken()
 
   return useQuery(
-    ["get-project-api-keys", projectId],
+    ["get-project-api-keys", projectId, sessionToken],
     async () => {
       const res = await gatewayFetch({
         sessionToken,

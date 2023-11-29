@@ -45,6 +45,7 @@ export default function useGetTransactions(args: UseGetTransactionsArgs) {
       statusFilters,
       search,
       reverted,
+      sessionToken,
     ],
     async () => {
       let endpointPath: `/${string}` = `/wallet/project/${projectId}/transactions?page=${page}&limit=${limit}&${statusFilters}`
