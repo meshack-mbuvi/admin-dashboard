@@ -2,7 +2,8 @@ import { Listbox, Transition } from "@headlessui/react"
 import clsx from "clsx"
 import { Fragment, useState } from "react"
 
-import { getNetworkIcon } from "@/utils/getNetworkIcon"
+import NetworkIcon from "@/components/NetworkIcon"
+
 import { networks } from "@/utils/network"
 
 type NetworkDropdownProps = {
@@ -41,7 +42,9 @@ const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
                 "flex gap-4 border bg-gray-8 outline-none border-gray-7 rounded-lg px-4 py-4 w-full text-left disabled:cursor-not-allowed"
               )}
             >
-              {!!selected && getNetworkIcon(selected, "w-5 h-5")}
+              {!!selected && (
+                <NetworkIcon networkId={selected} className="w-5" />
+              )}
               <span className="block truncate">
                 {selected
                   ? networks[selected as keyof typeof networks].name
@@ -73,7 +76,7 @@ const NetworkDropdown: React.FC<NetworkDropdownProps> = ({
                     }
                     value={+chainId}
                   >
-                    {getNetworkIcon(+chainId, "w-5 h-5")}
+                    <NetworkIcon networkId={+chainId} className="w-5" />
                     <span className="block truncate">
                       {networks[+chainId as keyof typeof networks].name}
                     </span>

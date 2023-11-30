@@ -65,4 +65,5 @@ module.exports = {
     },
   },
   plugins: [],
+  safelist: ["z-0", "z-10"],
 }

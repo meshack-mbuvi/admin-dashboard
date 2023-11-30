@@ -161,7 +161,7 @@ export default function Authenticate() {
           })}
         </div>
       ) : (
-        "Loading..."
+        "Loading…"
       )}
     </div>
   )

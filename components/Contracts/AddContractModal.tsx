@@ -258,7 +258,7 @@ export default function AddContractModal(props: AddContractModalProps) {
               </p>
               <Input
                 className="bg-white/[0.01] disabled:cursor-not-allowed"
-                placeholder="0x...."
+                placeholder="0x…"
                 value={contractAddress}
                 onChange={(e) => handleContractAddressChange(e)}
                 disabled={isFreePlan || !networkId}

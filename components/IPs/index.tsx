@@ -68,7 +68,7 @@ export default function IpRanges() {
 
   return (
     <div>
-      <div className="flex flex-col p-10 border border-gray-8 bg-gray-9 rounded-2lg mb-10 mr-10">
+      <div className="flex flex-col p-10 border border-gray-8 bg-gray-9 rounded-2lg mb-10">
         <div className="flex justify-between">
           <div className="flex flex-col">
             <Text className="font-medium text-2xl ">Allowed IP Ranges</Text>

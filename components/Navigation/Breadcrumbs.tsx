@@ -30,7 +30,7 @@ export default function Breadcrumbs() {
             ) : (
               <>
                 {organizationData?.stytchInformation?.organization_logo_url && (
-                  <span className="relative h-6 w-6 my-auto">
+                  <span className="relative h-6 w-6 my-auto hidden md:block">
                     <Image
                       src={
                         organizationData?.stytchInformation
@@ -43,7 +43,7 @@ export default function Breadcrumbs() {
                   </span>
                 )}
 
-                <span className="flex text-center uppercase items-center font-sans font-bold text-gray-2 text-sm pl-2">
+                <span className="flex text-center uppercase items-center font-sans font-bold text-gray-2 text-xs md:text-sm pl-2">
                   {organizationData?.organization.name}
                 </span>
               </>
@@ -52,8 +52,11 @@ export default function Breadcrumbs() {
         </li>
 
         {projectId && (
-          <li className="flex items-center pl-10 py-2.5 active text-base bg-gray-8 text-gray-2">
-            <Link href={{ pathname: `/projects/${projectId}/transactions` }}>
+          <li className="flex items-center pl-10 py-2.5 active text-xs md:text-base bg-gray-8 text-gray-2">
+            <Link
+              href={{ pathname: `/projects/${projectId}/transactions` }}
+              className="whitespace-nowrap"
+            >
               {isProjectDataLoading ? (
                 <Loading className="h-6 w-24" />
               ) : (
@@ -71,9 +74,9 @@ export default function Breadcrumbs() {
             tooltipCopyText="Copy project ID"
             tooltipCopiedText="Copied"
             tooltipPosition="right"
-            className="self-stretch flex items-center px-4"
+            className="self-stretch hidden sm:flex items-center px-4"
           >
-            <div className="text-gray-3 text-sm font-mono">
+            <div className="text-gray-3 text-xs md:text-sm font-mono whitespace-nowrap">
               {formatAddress(projectData?.id, 4, 4)}
             </div>
           </CopyToClipboard>

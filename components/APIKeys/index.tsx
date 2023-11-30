@@ -13,6 +13,10 @@ import UpgradeRequiredModal from "@/components/Shared/UpgradeRequiredModal"
 import Text from "@/components/Text"
 import Add from "@/components/icons/Add"
 import Trash from "@/components/icons/Trash"
+import DateTimestamp from "../Shared/Datestamp"
+import PremiumPill from "../Shared/PremiumPill"
+import { InsufficientPermissionsText } from "../Shared/constants"
+import Section from "../Section"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import useCreateApiKey from "@/hooks/useCreateApiKey"
@@ -22,9 +26,6 @@ import useGetProjectApiKeys from "@/hooks/useGetApiKeys"
 import useGetUser from "@/hooks/useGetUser"
 import { GatewayFetchArgs, ResponseError } from "@/utils/gatewayFetch"
 import getFirstOrString from "@/utils/getFirstOrString"
-import DateTimestamp from "../Shared/Datestamp"
-import PremiumPill from "../Shared/PremiumPill"
-import { InsufficientPermissionsText } from "../Shared/constants"
 
 export default function APIKeys() {
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -153,15 +154,24 @@ export default function APIKeys() {
   })
 
   return (
-    <div>
-      <div className="flex flex-col p-10 border border-gray-8 bg-gray-9 rounded-2lg mb-10 mr-10">
-        <div className="flex justify-between">
-          <Text className="font-medium text-2xl pb-5">Secret keys</Text>
-          <div className="flex space-x-7">
-            {isFreePlan && <PremiumPill />}
+    <>
+      <div className="flex flex-col">
+        <div className="flex flex-col md:flex-row">
+          <div>
+            <Text className="font-medium text-2xl pb-5">Secret keys</Text>
+            <p className="font-small text-gray-3 text-sm pb-7">
+              Secret keys are used for API endpoint authentication.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap md:flex-nowrap gap-6 mb-4 md:mb-0 ml-auto">
+            {true && <PremiumPill className="self-start" />}
 
             <Button
-              className={clsx(LightButtonStyles, "flex items-center")}
+              className={clsx(
+                LightButtonStyles,
+                "flex items-center whitespace-nowrap"
+              )}
               onClick={handleCreateAccessKey}
             >
               <Add className="h-4 w-4 mr-4" />
@@ -169,65 +179,63 @@ export default function APIKeys() {
             </Button>
           </div>
         </div>
-        <p className="font-small text-gray-3 text-sm pb-7">
-          Secret keys are used for API endpoint authentication.
-        </p>
-        <div className="pb-5 overflow-x-auto">
-          {isLoading ? (
-            [...Array(6)].map((_, i) => (
-              <div className="flex gap-x-8 py-4" key={i}>
-                <Loading className="w-1/4 h-4" />
-                <Loading className=" w-1/4 h-4" />
-              </div>
-            ))
-          ) : sortedData && sortedData.length ? (
-            <div className="grid-cols-3 pb-5 hidden lg:grid">
-              <div className="col-span-2 grid grid-cols-2 gap-x-8">
-                <Text className="font-small text-gray-3 text-sm pb-3">Key</Text>
-                <Text className="font-small text-gray-3 text-sm pb-3">
-                  Created
-                </Text>
-              </div>
-              <div /> {/* Empty div for spacing */}
-            </div>
-          ) : (
-            <p className="text-lg pb-5">
-              There are currently no API keys for this project
-            </p>
-          )}
+
+        {isLoading && (
+          <div className="mt-6">
+            <Loading className="h-24 my-4" />
+            <Loading className="h-24 my-4" />
+            <Loading className="h-24" />
+          </div>
+        )}
+
+        {sortedData && !sortedData.length && (
+          <p className="text-lg">
+            There are currently no API keys for this project
+          </p>
+        )}
+        <div className="flex flex-col gap-4">
           {sortedData &&
             sortedData.map(({ AccessKey }) => {
               return (
-                <div
-                  className="flex lg:grid grid-cols-3 pb-5"
+                <Section
+                  className="p-4 w-full flex flex-wrap justify-between gap-4"
                   key={AccessKey?.id}
                 >
-                  <div className="col-span-2 lg:grid grid-cols-2 gap-x-8 items-center">
+                  <div>
+                    <p className="text-xs text-gray-4 mb-1">API key</p>
+
                     <BlurredView>
-                      <div className="flex space-x-4 justify-between">
-                        <span className=""></span>
-                        <Text className="font-mono grow">{AccessKey?.key}</Text>
+                      <div className="flex space-x-4 justify-between items-center">
+                        <span />
+                        <Text className="font-mono grow text-sm sm:text-base">
+                          {AccessKey?.key}
+                        </Text>
                         <CopyToClipboard text={AccessKey?.key} />
                       </div>
                     </BlurredView>
+                  </div>
 
-                    <Text className="flex font-mono flex-shrink-0 whitespace-nowrap">
+                  <div>
+                    <p className="text-xs text-gray-4 mb-1">Date created</p>
+
+                    <Text className="flex font-mono flex-shrink-0 whitespace-nowrap text-sm sm:text-base">
                       <DateTimestamp
                         date={AccessKey?.createdAt}
                         showTime={true}
                       />
                     </Text>
                   </div>
-                  <div
-                    className="flex justify-end ml-auto lg:mr-16 flex-row cursor-pointer lg:items-center items-baseline hover:opacity-90 mt-auto lg:mt-0"
+
+                  <button
+                    className="flex justify-end flex-row cursor-pointer items-center hover:opacity-90"
                     onClick={() => handleDeleteAccessKey(AccessKey?.id)}
                   >
                     <Trash className="w-3.5 h-4 text-red" />
-                    <Text className="text-red pl-2 hidden md:block">
+                    <Text className="text-red pl-2 text-sm sm:text-base">
                       Delete
                     </Text>
-                  </div>
-                </div>
+                  </button>
+                </Section>
               )
             })}
         </div>
@@ -258,7 +266,7 @@ export default function APIKeys() {
         show={showLimitedAccessModal}
         handleClose={() => setShowLimitedAccessModal(false)}
       />
-    </div>
+    </>
   )
 }
 
@@ -282,7 +290,7 @@ const BlurredView = (props: BlurredViewProps) => {
             Im a fake test key gkdkdfdsfsfsd
           </p>
           <div
-            className="absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-center opacity-100 text-sm font-mono"
+            className="absolute top-1/2 left-1/2 w-full -translate-x-1/2 -translate-y-1/2 text-center opacity-100 font-mono"
             onClick={() => setIsBlurred(false)}
           >
             CLICK TO REVEAL

@@ -47,7 +47,7 @@ export default function TransactionTables() {
 
   return (
     <div className="flex flex-col">
-      <div className="flex justify-between">
+      <div className="flex flex-row flex-wrap justify-between items-end gap-4 md:mb-12 mb-6">
         <Tab
           headers={tabHeaders}
           activeIndex={activeTabIndex}
@@ -55,19 +55,7 @@ export default function TransactionTables() {
           tabSuffixes={tabSuffixes}
         />
         {activeTabIndex === 1 && (
-          <div className="flex">
-            <Link
-              href="https://docs.syndicate.io/guides/transactions"
-              target="_blank"
-              className={clsx(
-                DarkButtonStyles,
-                "border-yellow-secondary flex items-baseline mr-4"
-              )}
-            >
-              Troubleshoot
-              <ArrowUpperRight className="h-4 w-4 ml-2" />
-            </Link>
-
+          <div className="flex flex-shrink-0 items-center sm:items-end">
             {!!(searchReqsTerm || failedTxResponse?.total) && (
               <Search
                 searchTerm={searchReqsTerm}
@@ -75,6 +63,18 @@ export default function TransactionTables() {
                 placeholder="Search requests"
               />
             )}
+
+            <Link
+              href="https://docs.syndicate.io/guides/transactions"
+              target="_blank"
+              className={clsx(
+                DarkButtonStyles,
+                "border-yellow-secondary flex items-baseline ml-2"
+              )}
+            >
+              Troubleshoot
+              <ArrowUpperRight className="h-4 w-4 ml-2" />
+            </Link>
           </div>
         )}
 
@@ -86,7 +86,7 @@ export default function TransactionTables() {
           />
         )}
       </div>
-      <div className="ml-2">{tabComponents[tabHeaders[activeTabIndex]]}</div>
+      {tabComponents[tabHeaders[activeTabIndex]]}
     </div>
   )
 }

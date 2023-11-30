@@ -27,7 +27,16 @@ export const networks = {
   [optimismGoerli.id]: optimismGoerli,
 } as const
 
+export const testnetNetworks = [
+  goerli.id,
+  polygonZkEvmTestnet.id,
+  polygonMumbai.id,
+  baseGoerli.id,
+  optimismGoerli.id,
+]
+
 export type NetworkId = keyof typeof networks
+export type TestnetNetworkID = (typeof testnetNetworks)[number]
 
 export const isKnownNetwork = (
   networkId: NetworkId | number
@@ -37,4 +46,10 @@ export const getNetwork = (networkId: NetworkId | number): Chain | null => {
   if (isKnownNetwork(networkId)) return networks[networkId]
 
   return null
+}
+
+export const isTestnetNetwork = (
+  networkId: any
+): networkId is TestnetNetworkID => {
+  return testnetNetworks.includes(networkId)
 }

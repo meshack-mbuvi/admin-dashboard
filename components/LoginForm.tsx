@@ -32,9 +32,17 @@ export default function LoginForm() {
   }
 
   return loginContinued ? (
-    <h2 className="font-medium text-2xl mb-14">
-      Check your email for Dashboard Access
-    </h2>
+    <div>
+      <h2 className="font-medium text-2xl mb-14 text-center">
+        Check your email for dashboard access, you can now close this window.
+      </h2>
+
+      <p className="w-[500px] text-center text-gray-4">
+        <button onClick={() => setLoginContinued(false)} className="underline">
+          Return home
+        </button>
+      </p>
+    </div>
   ) : (
     <>
       <h2 className="font-medium text-2xl mb-14">Welcome to Syndicate</h2>

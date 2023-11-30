@@ -24,7 +24,7 @@ export default function DashboardLayout(props: LayoutProps) {
   return (
     <div>
       <Header />
-      <div className="ml-28 mr-10">{children}</div>
+      <div className="mx-6 lg:mx-10">{children}</div>
       <Footer />
       <Modals />
       <Analytics />

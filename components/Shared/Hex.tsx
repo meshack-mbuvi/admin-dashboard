@@ -33,7 +33,7 @@ export default function Hex(props: HexProps) {
       return formatAddress(hexValue, 6, 4)
     }
     if (hexType === "tx") {
-      return `${hexValue.slice(0, 13)}...`
+      return `${hexValue.slice(0, 13)}…`
     }
   }, [hexValue, hexType, truncate])
 
@@ -55,7 +55,7 @@ export default function Hex(props: HexProps) {
         </MaybeLink>
         <CopyToClipboard
           text={hexValue}
-          className="ml-4 invisible group-hover:visible"
+          className="ml-2 invisible group-hover:visible flex"
         />
       </span>
     </div>

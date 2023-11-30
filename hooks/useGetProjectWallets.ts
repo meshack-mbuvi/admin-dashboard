@@ -1,6 +1,8 @@
 import gatewayFetch from "@/utils/gatewayFetch"
 import { UseQueryResult, useQuery } from "@tanstack/react-query"
+
 import useAuthToken from "./useAuthToken"
+import { NetworkId } from "@/utils/network"
 
 interface UseGetProjectWalletsArgs {
   projectId: string
@@ -8,7 +10,7 @@ interface UseGetProjectWalletsArgs {
 }
 
 export type Wallet = {
-  chainId: number
+  chainId: NetworkId
   createdAt: string
   isActive: boolean
   nonce: number

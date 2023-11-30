@@ -16,9 +16,9 @@ export default function Block(props: BlockProps) {
 
   return (
     <div>
-      {!blockValue && <span className="text-gray-6 font-mono">•••</span>}
+      {!blockValue && <span className="text-gray-4 font-mono">…</span>}
       {!!(viewType === "block" && blockValue) && (
-        <span className="hover:text-blue-1 text-gray-3 group flex cursor-pointer">
+        <span className="hover:text-blue-1 text-gray-1 group flex cursor-pointer">
           {networkConfig ? (
             <Link
               href={{
@@ -29,12 +29,12 @@ export default function Block(props: BlockProps) {
               {blockValue}
             </Link>
           ) : (
-            <span className="text-gray-3 cursor-default">{blockValue}</span>
+            <span className="text-gray-1 cursor-default">{blockValue}</span>
           )}
 
           <CopyToClipboard
             text={blockValue.toString()}
-            className="ml-4 invisible group-hover:visible"
+            className="ml-2 invisible group-hover:visible flex"
           />
         </span>
       )}

@@ -3,7 +3,14 @@ import Polygon from "@/components/icons/Polygon"
 import Base from "@/components/icons/Base"
 import Optimism from "@/components/icons/Optimism"
 
-export const getNetworkIcon = (networkId: number, className?: string) => {
+interface NetworkIconProps {
+  networkId: number
+  className?: string
+}
+
+export default function NetworkIcon(props: NetworkIconProps) {
+  const { networkId, className } = props
+
   switch (networkId) {
     case 1: // Ethereum Mainnet
     case 5: // Goerli

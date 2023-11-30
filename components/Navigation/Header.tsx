@@ -6,8 +6,8 @@ import Docs from "@/components/icons/Docs"
 
 export const Header = () => {
   return (
-    <div className="flex py-7 mb-7 mx-10 bg-black z-50">
-      <div className="mr-11 flex items-center">
+    <div className="flex py-7 md:mb-7 mx-4 md:mx-6 lg:mx-10 bg-black z-50">
+      <div className="mr-4 md:mr-11 flex items-center">
         <Logo className="w-8" />
       </div>
 
@@ -20,7 +20,7 @@ export const Header = () => {
           <a
             href="https://docs.syndicate.io"
             target="_blank"
-            className="flex items-center text-sm text-gray-4 mr-8"
+            className="hidden md:flex items-center text-xs md:text-sm text-gray-4 ml-2 mr-4"
           >
             <Docs className="w-4 mr-2" />
             Docs

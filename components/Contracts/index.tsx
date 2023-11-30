@@ -54,7 +54,7 @@ export default function Contracts() {
   }, [projectData?.contracts])
 
   return (
-    <Section className="flex flex-col p-10 rounded-lg mr-10">
+    <div className="flex flex-col">
       <Text className="text-2xl pb-2">Contracts</Text>
 
       <div className="flex flex-row pb-7 items-baseline justify-between">
@@ -104,6 +104,6 @@ export default function Contracts() {
         show={showAddContractModal}
         closeModal={() => setShowAddContractModal(false)}
       />
-    </Section>
+    </div>
   )
 }

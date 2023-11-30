@@ -42,11 +42,11 @@ export default function UserMenu() {
   return (
     <div className="relative">
       <div
-        className="flex space-x-2 rounded-full bg-gray-8 w-fit py-[10px] px-4 cursor-pointer select-none"
+        className="flex space-x-2 rounded-full bg-gray-8 py-[10px] px-4 cursor-pointer select-none"
         onClick={handleToggleMenu}
       >
         <User className="w-3 text-gray-4" />
-        <span className="text-sm flex items-center text-gray-2">
+        <span className="text-xs md:text-sm hidden sm:flex items-center text-gray-2 whitespace-nowrap">
           {member?.name}
         </span>
       </div>
