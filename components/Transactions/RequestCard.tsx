@@ -65,16 +65,17 @@ export default function RequestCard(props: RequestCardProps) {
 
       <div className="flex flex-wrap justify-between gap-4">
         <div>
-          <p className="text-xs text-gray-4 mb-1">Function request</p>
+          <p className="text-xs text-gray-4 mb-1">Function request </p>
 
           <p className="text-gray-1 font-mono text-sm">
+            {request.functionSignature}
             <button
-              className="text-blue-1 text-sm"
+              className="text-blue-1 text-xs ml-4"
               onClick={() => {
                 onShowRequestDetails(request)
               }}
             >
-              {request.functionSignature}
+              View request details
             </button>
           </p>
         </div>
