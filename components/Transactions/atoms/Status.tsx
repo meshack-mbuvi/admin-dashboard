@@ -120,14 +120,14 @@ const TransactionStatus = (props: StatusProps) => {
         <div
           className={clsx(
             "h-[1.625rem] w-10  rounded-[1.875rem] px-[0.625rem]",
-            "py-[0.125rem] flex justify-center items-center border",
+            "py-[0.125rem] flex justify-center items-center border text-xs",
             StatusObject[status].styleClasses
           )}
           data-tooltip-id={`statusTooltip-${transactionId}`}
           data-tooltip-content={StatusObject[status].info}
           data-tooltip-place="bottom"
         >
-          <Tooltip id={`statusTooltip-${transactionId}`} className="" />
+          <Tooltip id={`statusTooltip-${transactionId}`} />
           {StatusObject[status].icon}
         </div>
       )}
