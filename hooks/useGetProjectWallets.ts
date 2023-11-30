@@ -44,7 +44,7 @@ export default function useGetProjectWallets(args: UseGetProjectWalletsArgs) {
   const searchQuery = new URLSearchParams(searchParams)
 
   return useQuery(
-    ["get-project-wallets", projectId, withOnchainData],
+    ["get-project-wallets", projectId, withOnchainData, sessionToken],
     async () => {
       const res = await gatewayFetch({
         endpointPath: `/wallet/project/${projectId}/wallets?${searchQuery.toString()}`,

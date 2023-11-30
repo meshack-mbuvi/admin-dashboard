@@ -21,7 +21,7 @@ export default function useGetProjectTransactionStats(
   const sessionToken = useAuthToken()
 
   return useQuery(
-    ["get-project-transaction-stats", projectId],
+    ["get-project-transaction-stats", projectId, sessionToken],
     async () => {
       const res = await gatewayFetch({
         endpointPath: `/wallet/project/${projectId}/transactionStats`,

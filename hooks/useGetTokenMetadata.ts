@@ -29,7 +29,7 @@ export default function useGetTokenMetadata(args: UseGetProjectMetadataArgs) {
   const { projectId, page, limit } = args
   const sessionToken = useAuthToken()
   return useQuery(
-    ["get-contract-metadata", projectId, page, limit],
+    ["get-contract-metadata", projectId, page, limit, sessionToken],
     async () => {
       const res = await gatewayFetch({
         endpointPath: `/token-metadata/${projectId}?page=${page}&limit=${limit}`,

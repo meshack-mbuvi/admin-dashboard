@@ -30,7 +30,7 @@ export default function useGetProjects() {
   const sessionToken = useAuthToken()
 
   return useQuery(
-    ["get-projects"],
+    ["get-projects", sessionToken],
     async () => {
       const res = await gatewayFetch({
         endpointPath: "/admin/organization/projects",

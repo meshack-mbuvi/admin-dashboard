@@ -31,7 +31,7 @@ export default function useGetRequests(args: UseGetRequestsArgs) {
   const sessionToken = useAuthToken()
 
   return useQuery(
-    ["get-requests", projectId, page, limit, invalid, search],
+    ["get-requests", projectId, page, limit, invalid, search, sessionToken],
     async () => {
       let endpointPath = `/wallet/project/${projectId}/requests?invalid=${invalid}&page=${page}&limit=${limit}`
 

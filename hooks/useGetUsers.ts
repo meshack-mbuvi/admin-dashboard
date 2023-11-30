@@ -7,7 +7,7 @@ export default function useGetUsers() {
   const sessionToken = useAuthToken()
 
   return useQuery(
-    ["get-users"],
+    ["get-users", sessionToken],
     async () => {
       const usersResponse = await gatewayFetch({
         endpointPath: `/admin/organization/users`,

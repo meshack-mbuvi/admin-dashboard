@@ -9,19 +9,21 @@ interface UseGetProjectGasFundedArgs {
   end?: string
 }
 
-type GetGasFundedResponse = Array<{chainId: number, amount: string}>
+type GetGasFundedResponse = Array<{ chainId: number; amount: string }>
 
-export default function useGetProjectGasFunded(args: UseGetProjectGasFundedArgs) {
+export default function useGetProjectGasFunded(
+  args: UseGetProjectGasFundedArgs
+) {
   const { projectId, start, end } = args
   const sessionToken = useAuthToken()
-  const searchParams = { 
+  const searchParams = {
     ...(start && { start }),
     ...(end && { end }),
-   }
+  }
   const searchQuery = new URLSearchParams(searchParams)
 
   return useQuery(
-    ["get-project-gas-funded"],
+    ["get-project-gas-funded", sessionToken, projectId, searchQuery.toString()],
     async () => {
       const res = await gatewayFetch({
         endpointPath: `/funding/project/${projectId}/gasFunded?${searchQuery.toString()}`,

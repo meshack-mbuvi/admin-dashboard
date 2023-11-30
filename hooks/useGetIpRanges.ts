@@ -18,7 +18,7 @@ export default function useGetIpRanges({ projectId }: useGetIpRangesArgs) {
   const sessionToken = useAuthToken()
 
   return useQuery(
-    ["get-ip-ranges", projectId],
+    ["get-ip-ranges", projectId, sessionToken],
     async () => {
       const allowedIPResponse = await gatewayFetch({
         endpointPath: `/admin/project/${projectId}/allowedIPRanges`,
