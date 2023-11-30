@@ -29,7 +29,7 @@ export default function Breadcrumbs() {
               <Loading className="h-6 w-24" />
             ) : (
               <>
-                {organizationData?.stytchInformation.organization_logo_url && (
+                {organizationData?.stytchInformation?.organization_logo_url && (
                   <span className="relative h-6 w-6 my-auto hidden md:block">
                     <Image
                       src={
