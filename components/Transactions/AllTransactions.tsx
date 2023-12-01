@@ -28,6 +28,7 @@ import TransactionCard from "./TransactionCard"
 
 const defaultStatusFilters = [
   RawStatusEnum.PENDING,
+  RawStatusEnum.PROCESSED,
   RawStatusEnum.SUBMITTED,
   RawStatusEnum.CONFIRMED,
 ]
