@@ -1,4 +1,4 @@
-import ProjectCard from "@/app/projects/components/ProjectCard"
+import ProjectCard from "@/components/Projects/ProjectCard"
 import Loading from "@/components/Loading"
 import QuickStartChoices from "@/components/Projects/QuickStartChoices"
 
