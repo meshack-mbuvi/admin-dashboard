@@ -66,7 +66,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
 
   return (
     <Section className="p-4 w-full flex flex-col">
-      <div className="flex items-center flex-wrap justify-between gap-4 lg:gap-x-12">
+      <div className="flex items-center flex-wrap justify-between gap-4">
         <div className="flex overflow-hidden min-w-[165px]">
           <div>
             <p className="text-xs text-gray-4 mb-1">Wallet address</p>

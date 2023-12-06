@@ -5,6 +5,7 @@ import Hex from "../Shared/Hex"
 
 import { TokenMetadata } from "@/hooks/useGetTokenMetadata"
 import TableTimeStampCell from "../Table/TableTimeStampCell"
+import { centerTruncate } from "@/utils/centerTruncate"
 
 interface MetadataCardProps {
   metadata: TokenMetadata
@@ -29,22 +30,22 @@ export default function MetadataCard(props: MetadataCardProps) {
 
         <div>
           <p className="text-xs text-gray-4 mb-1">Token ID</p>
-          <p className="text-sm sm:text-base">{metadata.tokenId}</p>
+          <p className="text-sm sm:text-base font-mono">{metadata.tokenId}</p>
         </div>
 
         <div>
           <p className="text-xs text-gray-4 mb-1">Chain ID</p>
-          <p className="text-sm sm:text-base">{metadata.chainId}</p>
+          <p className="text-sm sm:text-base font-mono">{metadata.chainId}</p>
         </div>
 
-        <div className="overflow-hidden">
+        <div className="overflow-hidden min-w-[160px]">
           <p className="text-xs text-gray-4 mb-1">Metadata ID</p>
           <Link
             href={`https://ipfs.io/ipfs/${metadata.metadataId}`}
             target="_blank"
-            className="text-sm sm:text-base text-blue-1"
+            className="text-sm sm:text-base text-blue-1 font-mono"
           >
-            {metadata.metadataId}
+            {centerTruncate(metadata.metadataId, 8, 8)}
           </Link>
         </div>
 

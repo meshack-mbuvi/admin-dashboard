@@ -3,7 +3,7 @@ import { cn } from "@/utils/cn"
 import CopyToClipboard from "@/components/CopyToClipboard"
 import Clipboard from "@/components/icons/Clipboard"
 import IdIcon from "@/components/icons/ID"
-import { formatAddress } from "@/utils/formatAddress"
+import { centerTruncate } from "@/utils/centerTruncate"
 
 export default function ResourceID(props: {
   id: string
@@ -29,7 +29,7 @@ export default function ResourceID(props: {
     <span className={cn(className, copyIcon && "flex space-x-4 group")}>
       {copyIcon && fullView && (
         <span className="overflow-x-hidden text-ellipsis">
-          {truncate ? formatAddress(id, 4, 4) : id}
+          {truncate ? centerTruncate(id, 4, 4) : id}
         </span>
       )}
       <CopyToClipboard
@@ -42,7 +42,7 @@ export default function ResourceID(props: {
           <Clipboard className="cursor-pointer w-4 invisible group-hover:visible" />
         ) : fullView ? (
           <span className="overflow-x-hidden text-ellipsis block text-left">
-            {truncate ? formatAddress(id, 4, 4) : id}
+            {truncate ? centerTruncate(id, 4, 4) : id}
           </span>
         ) : (
           <IdIcon className="cursor-pointer w-5" />

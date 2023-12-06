@@ -7,7 +7,7 @@ import Link from "next/link"
 import { useParams } from "next/navigation"
 import Loading from "../Loading"
 import getFirstOrString from "@/utils/getFirstOrString"
-import { formatAddress } from "@/utils/formatAddress"
+import { centerTruncate } from "@/utils/centerTruncate"
 import CopyToClipboard from "../CopyToClipboard"
 
 export default function Breadcrumbs() {
@@ -77,7 +77,7 @@ export default function Breadcrumbs() {
             className="self-stretch hidden sm:flex items-center px-4"
           >
             <div className="text-gray-3 text-xs md:text-sm font-mono whitespace-nowrap">
-              {formatAddress(projectData?.id, 4, 4)}
+              {centerTruncate(projectData?.id, 4, 4)}
             </div>
           </CopyToClipboard>
         )}

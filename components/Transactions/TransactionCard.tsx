@@ -50,7 +50,7 @@ export default function TransactionCard(props: TransactionCardProps) {
           <div className="flex items-center">
             <NetworkIcon networkId={transaction.chainId} className="w-5" />
 
-            <p className="text-gray-1 ml-2 text-sm sm:text-base">
+            <p className="text-gray-1 ml-2 text-sm sm:text-base font-mono">
               {transaction.chainId}
             </p>
           </div>
