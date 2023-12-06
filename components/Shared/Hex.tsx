@@ -1,6 +1,6 @@
+import clsx from "clsx"
 import Link from "next/link"
 import { useMemo } from "react"
-import clsx from "clsx"
 
 import CopyToClipboard from "@/components/CopyToClipboard"
 import { formatAddress } from "@/utils/formatAddress"
@@ -12,16 +12,26 @@ interface HexProps {
   chainId: NetworkId
   truncate?: boolean
   className?: string
+  enabled?: boolean
 }
 
 interface MaybeLinkProps {
   children: React.ReactNode
   isLink: boolean
   href: string
+  enabled?: boolean
 }
+const inActiveTextColor = "text-gray-5"
 
 export default function Hex(props: HexProps) {
-  const { hexType, hexValue, chainId, truncate = true, className } = props
+  const {
+    hexType,
+    hexValue,
+    chainId,
+    enabled,
+    className,
+    truncate = true,
+  } = props
 
   const networkConfig = getNetwork(chainId)
 
@@ -47,8 +57,17 @@ export default function Hex(props: HexProps) {
           className
         )}
       >
-        <MaybeLink href={linkAddress} isLink={Boolean(networkConfig)}>
-          <span className="text-gray-3 group-hover/link:text-blue-1">
+        <MaybeLink
+          href={linkAddress}
+          isLink={Boolean(networkConfig)}
+          enabled={enabled}
+        >
+          <span
+            className={clsx(
+              "group-hover/link:text-blue-1",
+              enabled ? "text-gray-3" : inActiveTextColor
+            )}
+          >
             {formattedHexValue?.slice(0, 2)}
           </span>
           {formattedHexValue?.slice(2)}
@@ -63,16 +82,26 @@ export default function Hex(props: HexProps) {
 }
 
 function MaybeLink(props: MaybeLinkProps) {
-  const { children, isLink, href } = props
+  const { children, isLink, href, enabled } = props
   if (!isLink) {
     return (
-      <span className="cursor-default text-white group/link">{children}</span>
+      <span
+        className={clsx(
+          "cursor-default group/link",
+          enabled ? "text-white" : inActiveTextColor
+        )}
+      >
+        {children}
+      </span>
     )
   }
 
   return (
     <Link
-      className="hover:text-blue-1 text-white group/link"
+      className={clsx(
+        "hover:text-blue-1 group/link",
+        enabled ? "text-white" : inActiveTextColor
+      )}
       href={{
         pathname: href,
       }}

@@ -2,21 +2,22 @@ import { useState } from "react"
 import { Tooltip } from "react-tooltip"
 
 import Section from "../Section"
+import DateTimestamp from "../Shared/Datestamp"
 import Hex from "../Shared/Hex"
 import ResourceID from "../Shared/ResourceID"
-import Warning from "../icons/Warning"
-import DateTimestamp from "../Shared/Datestamp"
 import Toggle from "../Toggle"
 import Question from "../icons/Question"
+import Warning from "../icons/Warning"
 
-import { isBalanceLow } from "@/utils/isBalanceLow"
 import { formatNativeToken } from "@/utils/formatNativeToken"
+import { isBalanceLow } from "@/utils/isBalanceLow"
 import { isTestnetNetwork } from "@/utils/network"
 
-import { Wallet } from "@/hooks/useGetProjectWallets"
-import useToggleWalletEnabled from "@/hooks/useToggleWalletEnabled"
 import useAuthToken from "@/hooks/useAuthToken"
 import useFaucet from "@/hooks/useFaucet"
+import { Wallet } from "@/hooks/useGetProjectWallets"
+import useToggleWalletEnabled from "@/hooks/useToggleWalletEnabled"
+import clsx from "clsx"
 
 interface TxWalletCardProps {
   wallet: Wallet
@@ -61,8 +62,15 @@ export default function TxWalletCard(props: TxWalletCardProps) {
 
   const isLowBalance = isBalanceLow(wallet.balance, -18)
 
+  const inActiveTextColor = "text-gray-5"
+
   return (
-    <Section className="p-4 w-full flex flex-col">
+    <Section
+      className={clsx(
+        "p-4 w-full flex flex-col",
+        !isWalletEnabled && "bg-gray-7 bg-opacity-50"
+      )}
+    >
       <div className="flex items-center flex-wrap justify-between gap-4">
         <div className="flex overflow-hidden">
           {isLowBalance && (
@@ -83,44 +91,105 @@ export default function TxWalletCard(props: TxWalletCardProps) {
             </div>
           )}
           <div>
-            <p className="text-xs text-gray-4 mb-1">Wallet address</p>
+            <p
+              className={clsx(
+                "text-xs mb-1",
+                isWalletEnabled ? `text-gray-4` : inActiveTextColor
+              )}
+            >
+              Wallet address
+            </p>
 
             <Hex
               hexValue={wallet.walletAddress}
               hexType={"address"}
               chainId={wallet.chainId}
               truncate
-              className="text-sm sm:text-base"
+              className={clsx(
+                "text-sm sm:text-base",
+                !isWalletEnabled && inActiveTextColor
+              )}
+              enabled={isWalletEnabled}
             />
           </div>
         </div>
 
-        <div>
-          <p className="text-xs text-gray-4 mb-1">ID</p>
+        <div className={clsx(!isWalletEnabled && inActiveTextColor)}>
+          <p
+            className={clsx(
+              "text-xs mb-1",
+              isWalletEnabled ? `text-gray-4` : inActiveTextColor
+            )}
+          >
+            ID
+          </p>
           <ResourceID id={wallet.walletId} context="wallet" truncate fullView />
         </div>
 
         <div>
-          <p className="text-xs text-gray-4 mb-1">Balance</p>
-          <p className="text-gray-1 text-sm sm:text-base">
+          <p
+            className={clsx(
+              "text-xs mb-1",
+              isWalletEnabled ? `text-gray-4` : inActiveTextColor
+            )}
+          >
+            Balance
+          </p>
+          <p
+            className={clsx(
+              "text-sm sm:text-base",
+              isWalletEnabled ? `text-gray-1` : inActiveTextColor
+            )}
+          >
             {formatNativeToken(wallet.balance, -18)}
           </p>
         </div>
 
         <div>
-          <p className="text-xs text-gray-4 mb-1">Transactions</p>
-          <p className="text-gray-1 text-sm sm:text-base">{wallet.txCount}</p>
+          <p
+            className={clsx(
+              "text-xs mb-1",
+              isWalletEnabled ? `text-gray-4` : inActiveTextColor
+            )}
+          >
+            Transactions
+          </p>
+          <p
+            className={clsx(
+              "text-sm sm:text-base",
+              isWalletEnabled ? `text-gray-1` : inActiveTextColor
+            )}
+          >
+            {wallet.txCount}
+          </p>
         </div>
 
         <div>
-          <p className="text-xs text-gray-4 mb-1">Date added</p>
-          <p className="text-gray-1 text-sm sm:text-base">
+          <p
+            className={clsx(
+              "text-xs mb-1",
+              isWalletEnabled ? `text-gray-4` : inActiveTextColor
+            )}
+          >
+            Date added
+          </p>
+          <p
+            className={clsx(
+              "text-sm sm:text-base",
+              isWalletEnabled ? `text-gray-1` : inActiveTextColor
+            )}
+          >
             <DateTimestamp date={wallet.createdAt} showTime={true} />
           </p>
         </div>
         {isTestnetNetwork(wallet.chainId) && isLowBalance && (
           <div>
-            <div className="text-xs text-gray-4 mb-1 flex">
+            <div
+              className={clsx(
+                "text-xs mb-1 flex",
+                isWalletEnabled ? `text-gray-4` : inActiveTextColor
+              )}
+            >
               Faucet
               <span
                 className="self-center ml-1"
@@ -159,8 +228,20 @@ export default function TxWalletCard(props: TxWalletCardProps) {
           </div>
         )}
 
-        <div>
-          <p className="text-xs text-gray-4 mb-1">Enabled</p>
+        <div
+          className={clsx(
+            "text-xs mb-1",
+            isWalletEnabled ? `text-gray-4` : inActiveTextColor
+          )}
+        >
+          <p
+            className={clsx(
+              "text-xs mb-1",
+              isWalletEnabled ? `text-gray-4` : inActiveTextColor
+            )}
+          >
+            Enabled
+          </p>
 
           <Toggle
             enabled={isWalletEnabled}

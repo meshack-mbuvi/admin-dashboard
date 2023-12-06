@@ -13,7 +13,7 @@ export default function Toggle(props: Props) {
       checked={enabled}
       onChange={setEnabled}
       className={clsx(
-        enabled ? "bg-green" : "bg-gray-200",
+        enabled ? "bg-green" : "bg-gray-5",
         "mx-1 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-1 focus:ring-green focus:ring-offset-2"
       )}
     >
