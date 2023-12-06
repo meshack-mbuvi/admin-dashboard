@@ -65,168 +65,115 @@ export default function TxWalletCard(props: TxWalletCardProps) {
   const inActiveTextColor = "text-gray-5"
 
   return (
-    <Section
-      className={cn(
-        "p-4 w-full flex flex-col",
-        !isWalletEnabled && "bg-gray-7 bg-opacity-50"
-      )}
-    >
-      <div className="flex items-center flex-wrap justify-between gap-4">
-        <div className="flex overflow-hidden">
-          {isLowBalance && (
-            <div
-              className="mr-2 mt-5 sm:mt-6 "
-              data-tooltip-id="t-low-bal"
-              data-tooltip-content="Wallet has low balance"
-              data-tooltip-place="top"
-            >
-              <Warning className="text-warning w-4" />
-              <Tooltip
-                id="t-low-bal"
-                className="drop-shadow-2xl opacity-100"
-                style={{
-                  padding: "8px",
-                }}
+    <Section className="p-4 w-full flex flex-col">
+      <div className="flex items-center flex-wrap justify-between gap-4 lg:gap-x-12">
+        <div className="flex overflow-hidden min-w-[165px]">
+          <div>
+            <p className="text-xs text-gray-4 mb-1">Wallet address</p>
+
+            <div className="flex items-center">
+              {isLowBalance && (
+                <div
+                  className="mr-2"
+                  data-tooltip-id="t-low-bal"
+                  data-tooltip-content="Wallet has low balance"
+                  data-tooltip-place="top"
+                >
+                  <Warning className="text-warning w-4" />
+                  <Tooltip
+                    id="t-low-bal"
+                    className="drop-shadow-2xl opacity-100"
+                    style={{
+                      padding: "8px",
+                    }}
+                  />
+                </div>
+              )}
+
+              <Hex
+                hexValue={wallet.walletAddress}
+                hexType={"address"}
+                chainId={wallet.chainId}
+                truncate
+                className="text-sm sm:text-base"
               />
             </div>
-          )}
-          <div>
-            <p
-              className={cn(
-                "text-xs mb-1",
-                isWalletEnabled ? `text-gray-4` : inActiveTextColor
-              )}
-            >
-              Wallet address
-            </p>
-
-            <Hex
-              hexValue={wallet.walletAddress}
-              hexType={"address"}
-              chainId={wallet.chainId}
-              truncate
-              className={cn(
-                "text-sm sm:text-base",
-                !isWalletEnabled && inActiveTextColor
-              )}
-              enabled={isWalletEnabled}
-            />
           </div>
         </div>
 
-        <div className={cn(!isWalletEnabled && inActiveTextColor)}>
-          <p
-            className={cn(
-              "text-xs mb-1",
-              isWalletEnabled ? `text-gray-4` : inActiveTextColor
-            )}
-          >
-            ID
-          </p>
-          <ResourceID id={wallet.walletId} context="wallet" truncate fullView />
+        <div>
+          <p className="text-xs text-gray-4 mb-1">ID</p>
+          <ResourceID
+            id={wallet.walletId}
+            context="wallet"
+            truncate
+            fullView
+            className="font-mono"
+          />
         </div>
 
-        <div>
-          <p
-            className={cn(
-              "text-xs mb-1",
-              isWalletEnabled ? `text-gray-4` : inActiveTextColor
-            )}
-          >
-            Balance
-          </p>
-          <p
-            className={cn(
-              "text-sm sm:text-base",
-              isWalletEnabled ? `text-gray-1` : inActiveTextColor
-            )}
-          >
+        <div className="min-w-[64px]">
+          <p className="text-xs text-gray-4 mb-1">Balance</p>
+          <p className="text-gray-1 text-sm sm:text-base font-mono">
             {formatNativeToken(wallet.balance, -18)}
           </p>
         </div>
 
         <div>
-          <p
-            className={cn(
-              "text-xs mb-1",
-              isWalletEnabled ? `text-gray-4` : inActiveTextColor
-            )}
-          >
-            Transactions
-          </p>
-          <p
-            className={cn(
-              "text-sm sm:text-base",
-              isWalletEnabled ? `text-gray-1` : inActiveTextColor
-            )}
-          >
+          <p className="text-xs text-gray-4 mb-1">Transactions</p>
+          <p className="text-gray-1 text-sm sm:text-base font-mono">
             {wallet.txCount}
           </p>
         </div>
 
         <div>
-          <p
-            className={cn(
-              "text-xs mb-1",
-              isWalletEnabled ? `text-gray-4` : inActiveTextColor
-            )}
-          >
-            Date added
-          </p>
-          <p
-            className={cn(
-              "text-sm sm:text-base",
-              isWalletEnabled ? `text-gray-1` : inActiveTextColor
-            )}
-          >
+          <p className="text-xs text-gray-4 mb-1">Date added</p>
+          <p className="text-gray-1 text-sm sm:text-base font-mono">
             <DateTimestamp date={wallet.createdAt} showTime={true} />
           </p>
         </div>
-        {isTestnetNetwork(wallet.chainId) && isLowBalance && (
-          <div>
-            <div
-              className={cn(
-                "text-xs mb-1 flex",
-                isWalletEnabled ? `text-gray-4` : inActiveTextColor
-              )}
-            >
-              Faucet
-              <span
-                className="self-center ml-1"
-                data-tooltip-id="faucet-help"
-                data-tooltip-content="You can request funds for this wallet every 24 hours."
-              >
-                <Tooltip
-                  hidden={false}
-                  id="faucet-help"
-                  className="text-center font-sans text-xs rounded-md"
-                  disableStyleInjection={true}
-                />
-                <Question className="w-3" />
-              </span>
-            </div>
+        <div className="min-w-[84px]">
+          {isTestnetNetwork(wallet.chainId) && isLowBalance && (
+            <div>
+              <div className="text-xs text-gray-4 mb-1 flex">
+                Faucet
+                <span
+                  className="self-center ml-1"
+                  data-tooltip-id="faucet-help"
+                  data-tooltip-content="You can request funds for this wallet every 24 hours."
+                >
+                  <Tooltip
+                    hidden={false}
+                    id="faucet-help"
+                    className="text-center font-sans text-xs rounded-md"
+                    disableStyleInjection={true}
+                  />
+                  <Question className="w-3" />
+                </span>
+              </div>
 
-            <button
-              className="text-black text-xs rounded-full px-2 py-0.5 bg-white hover:bg-gray-2 transition-colors"
-              disabled={isFaucetLoading || isFaucetSuccess}
-              onClick={() =>
-                dripFaucet({
-                  projectId: wallet.projectId,
-                  walletAddress: wallet.walletAddress,
-                  chainId: wallet.chainId,
-                })
-              }
-            >
-              {isFaucetSuccess
-                ? "Success"
-                : isFaucetError
-                ? "Error"
-                : isFaucetLoading
-                ? "Sending"
-                : "Fund wallet"}
-            </button>
-          </div>
-        )}
+              <button
+                className="text-black text-xs rounded-full px-2 py-0.5 bg-white hover:bg-gray-2 transition-colors"
+                disabled={isFaucetLoading || isFaucetSuccess}
+                onClick={() =>
+                  dripFaucet({
+                    projectId: wallet.projectId,
+                    walletAddress: wallet.walletAddress,
+                    chainId: wallet.chainId,
+                  })
+                }
+              >
+                {isFaucetSuccess
+                  ? "Success"
+                  : isFaucetError
+                  ? "Error"
+                  : isFaucetLoading
+                  ? "Sending"
+                  : "Fund wallet"}
+              </button>
+            </div>
+          )}
+        </div>
 
         <div
           className={cn(

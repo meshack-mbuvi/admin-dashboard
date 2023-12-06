@@ -9,7 +9,7 @@ export const formatNativeToken = (
   const parsedValue = parseUnits(amount, decimals)
   const formattedValue = Number(formatEther(parsedValue)).toLocaleString(
     "en-GB",
-    { minimumFractionDigits: 2, maximumFractionDigits: 4 }
+    { minimumFractionDigits: 0, maximumFractionDigits: 4 }
   )
 
   return formattedValue
