@@ -4,7 +4,7 @@ import ChevronDown from "@/components/icons/ChevronDown"
 import ChevronRight from "@/components/icons/ChevronRight"
 import { useNetworkInfo } from "@/hooks/useNetworkInfo"
 import { NetworkId } from "@/utils/network"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 
 interface DisclosureComponentProps {
   networkId: NetworkId
@@ -30,7 +30,7 @@ export default function DisclosureComponent({
         <>
           <dt>
             <Disclosure.Button
-              className={clsx(
+              className={cn(
                 "flex items-center py-6 pl-2 bg-gray-8 hover:bg-gray-7 rounded-lg space-x-2.5 h-full w-full cursor-pointer transition-colors",
                 className
               )}

@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import React from "react"
 
 export const RegularInputFieldStyles =
@@ -33,7 +33,7 @@ export const InputField = (
         <div className="mb-[10px]">{label}</div>
 
         <input
-          className={clsx(
+          className={cn(
             className,
             errorText ? "border-red-500" : "border-gray-7"
           )}

@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import { useRouter } from "next/navigation"
 
 import Button, { LightButtonStyles } from "@/components/Buttons"
@@ -31,7 +31,7 @@ export default function No2FAModal(props: No2FAModalProps) {
           </div>
         </div>
         <Button
-          className={clsx(LightButtonStyles, "mt-6")}
+          className={cn(LightButtonStyles, "mt-6")}
           onClick={() => router.push("/2fa")}
         >
           Continue

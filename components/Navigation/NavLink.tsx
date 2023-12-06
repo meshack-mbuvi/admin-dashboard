@@ -1,6 +1,6 @@
 "use client"
 
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import Link from "next/link"
 import { useParams, useSelectedLayoutSegment } from "next/navigation"
 
@@ -23,7 +23,7 @@ const NavLink = (props: NavLinkProps) => {
       href={{
         pathname: `/projects/${projectId}/${path}`,
       }}
-      className={clsx(
+      className={cn(
         className,
         isActive ? "text-black bg-white" : "text-gray-3 hover:bg-gray-8"
       )}

@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import React, { PropsWithChildren } from "react"
 import {
   Controller,
@@ -61,7 +61,7 @@ export function FormControl(props: FormControlProps) {
           {label && (
             <Label
               htmlFor={name}
-              className={clsx(
+              className={cn(
                 "text-base",
                 "flex",
                 "justify-between",

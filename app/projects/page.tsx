@@ -1,6 +1,6 @@
 "use client"
 
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import { useState } from "react"
 
 import AddUserModal from "@/components/Users/AddUserModal"
@@ -42,7 +42,7 @@ export default function Dashboard() {
 
         <Button
           onClick={tabButtonHandler[activeTabIndex]}
-          className={clsx(
+          className={cn(
             LightButtonStyles,
             "flex items-center flex-shrink-0 sm:ml-6 mt-6 sm:mt-0 text-center"
           )}

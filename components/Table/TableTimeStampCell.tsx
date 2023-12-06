@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import formatDistanceToNowStrict from "date-fns/formatDistanceToNowStrict"
 import format from "date-fns/format"
 import { Tooltip } from "react-tooltip"
@@ -15,10 +15,10 @@ const TableTimeStampCell = (props: TableTimeStampCellProps) => {
   return (
     <div>
       {!timeStamp ? (
-        <span className={clsx("text-gray-4 font-mono", className)}>…</span>
+        <span className={cn("text-gray-4 font-mono", className)}>…</span>
       ) : (
         <span
-          className={clsx("text-gray-1", className)}
+          className={cn("text-gray-1", className)}
           data-tooltip-id={`timeTooltip-${id}`}
           data-tooltip-content={format(
             new Date(timeStamp),

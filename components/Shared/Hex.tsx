@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import Link from "next/link"
 import { useMemo } from "react"
 
@@ -52,7 +52,7 @@ export default function Hex(props: HexProps) {
   return (
     <div className="flex space-x-5 group">
       <span
-        className={clsx(
+        className={cn(
           "flex focus:outline-none text-base leading-5.5 group text-white hover:text-blue-1 cursor-pointer font-mono",
           className
         )}
@@ -63,7 +63,7 @@ export default function Hex(props: HexProps) {
           enabled={enabled}
         >
           <span
-            className={clsx(
+            className={cn(
               "group-hover/link:text-blue-1",
               enabled ? "text-gray-3" : inActiveTextColor
             )}
@@ -86,7 +86,7 @@ function MaybeLink(props: MaybeLinkProps) {
   if (!isLink) {
     return (
       <span
-        className={clsx(
+        className={cn(
           "cursor-default group/link",
           enabled ? "text-white" : inActiveTextColor
         )}
@@ -98,7 +98,7 @@ function MaybeLink(props: MaybeLinkProps) {
 
   return (
     <Link
-      className={clsx(
+      className={cn(
         "hover:text-blue-1 group/link",
         enabled ? "text-white" : inActiveTextColor
       )}

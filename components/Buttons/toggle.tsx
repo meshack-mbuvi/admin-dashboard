@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import Button, { DarkButtonStyles, LightButtonStyles } from "."
 
 const ActiveStyles =
@@ -22,13 +22,13 @@ export const ButtonToggle = (props: {
     <div className="p-1 flex h-10 items-center border border-gray-6 rounded-[40px]">
       <button
         onClick={() => handleToggle(value1)}
-        className={clsx(activeTab === value1 ? ActiveStyles : InactiveStyles)}
+        className={cn(activeTab === value1 ? ActiveStyles : InactiveStyles)}
       >
         {value1}
       </button>
       <button
         onClick={() => handleToggle(value2)}
-        className={clsx(activeTab === value2 ? ActiveStyles : InactiveStyles)}
+        className={cn(activeTab === value2 ? ActiveStyles : InactiveStyles)}
       >
         {value2}
       </button>

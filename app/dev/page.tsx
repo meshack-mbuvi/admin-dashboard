@@ -17,7 +17,7 @@ import { networks } from "@/utils/network"
 import TextAreaInput from "@/components/Form/TextAreaInput"
 import Checkbox from "@/components/Checkbox"
 import Popover from "@/components/Popover"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import Button, { LightButtonStyles } from "@/components/Buttons"
 
 const networkSelectOptions = Object.keys(networks).map((id) => ({
@@ -46,7 +46,7 @@ interface DevSectionProps {
 function DevSection(props: PropsWithChildren<DevSectionProps>) {
   const { children, title, className } = props
   return (
-    <Section className={clsx("max-w-lg p-4 bg-gray-8 w-full", className)}>
+    <Section className={cn("max-w-lg p-4 bg-gray-8 w-full", className)}>
       {title && (
         <div className="text-gray-4 text-sm mb-2 text-right">{title}</div>
       )}

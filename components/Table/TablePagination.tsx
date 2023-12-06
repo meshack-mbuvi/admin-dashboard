@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 
 import ArrowLeft from "@/components/icons/ArrowLeft"
 import ArrowRight from "@/components/icons/ArrowRight"
@@ -31,14 +31,14 @@ const TablePagination = (props: TablePaginationProps) => {
 
   return (
     <div
-      className={clsx(
+      className={cn(
         "flex font-mono space-x-10 items-center mt-10 mb-11",
         (page + 1) * limit >= total && page === 0 && "invisible"
       )}
     >
       <button
         onClick={prevPage}
-        className={clsx(
+        className={cn(
           page === 0 && "invisible",
           isLoading ? "cursor-wait" : "cursor-pointer"
         )}
@@ -53,7 +53,7 @@ const TablePagination = (props: TablePaginationProps) => {
       </div>
       <button
         onClick={nextPage}
-        className={clsx(
+        className={cn(
           (page + 1) * limit >= total && "invisible",
           isLoading ? "cursor-wait" : "cursor-pointer"
         )}

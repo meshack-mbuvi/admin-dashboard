@@ -1,5 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import { Fragment } from "react"
 
 import Check from "../icons/Check"
@@ -67,7 +67,7 @@ const Select: React.FC<SelectProps> = ({
         <>
           <div className="relative mt-2">
             <Listbox.Button
-              className={clsx(
+              className={cn(
                 !isSelected && "text-gray-4",
                 "flex gap-4 border bg-gray-8 outline-none disabled:cursor-not-allowed border-gray-7 rounded-lg px-4 py-4 w-full text-left"
               )}
@@ -83,7 +83,7 @@ const Select: React.FC<SelectProps> = ({
               leaveTo="opacity-0"
             >
               <Listbox.Options
-                className={clsx(
+                className={cn(
                   above ? "bottom-full" : "top-full",
                   "absolute z-10 w-full overflow-auto bg-gray-7 text-white border border-gray-6 rounded-lg"
                 )}
@@ -92,7 +92,7 @@ const Select: React.FC<SelectProps> = ({
                   <Listbox.Option
                     key={`${option.id}-${index}`}
                     className={({ active }) =>
-                      clsx(
+                      cn(
                         active ? "bg-white/10" : "",
                         "flex gap-4 cursor-pointer select-none py-2 px-3 max-h-38 rounded-lg items-center justify-between"
                       )

@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import { LightButtonStyles } from "../Buttons"
 
 type AppreciationModalProps = {
@@ -23,7 +23,7 @@ export default function AppreciationContent(props: AppreciationModalProps) {
       </p>
 
       <button
-        className={clsx(LightButtonStyles, "rounded-lg w-full")}
+        className={cn(LightButtonStyles, "rounded-lg w-full")}
         onClick={handleCloseClick}
       >
         Go back to dashboard

@@ -5,7 +5,7 @@ import type {
   Table,
 } from "@tanstack/react-table"
 import { flexRender } from "@tanstack/react-table"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 
 // DEV: custom filters are not supported in TanStack table v8
 // so we add support here for a meta property on the column definition to pass in a custom filter component
@@ -28,7 +28,7 @@ interface TableProps<T> {
 export default function Table<T>(props: TableProps<T>) {
   const { tableConfig, isLoading, noDataMessage } = props
   return (
-    <div className={clsx("w-full overflow-x-auto", isLoading && "opacity-70")}>
+    <div className={cn("w-full overflow-x-auto", isLoading && "opacity-70")}>
       <table className="w-full table-fixed" align="left">
         <thead>
           {tableConfig.getHeaderGroups().map((headerGroup: HeaderGroup<T>) => (
@@ -40,7 +40,7 @@ export default function Table<T>(props: TableProps<T>) {
                   className="text-left font-semibold text-sm"
                 >
                   <span
-                    className={clsx(
+                    className={cn(
                       "w-full",
                       header.column.getCanFilter() &&
                         "inline-flex justify-between"

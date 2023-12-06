@@ -1,5 +1,5 @@
 "use client"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import type { Route } from "next"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -13,7 +13,7 @@ export type TabProps = {
 }
 
 const getTabClassName = (isActive: boolean) => {
-  return clsx(
+  return cn(
     "w-fit pb-1 z-10 shrink-0",
     isActive ? "border-b text-gray-1 border-gray-1" : "text-gray-5"
   )

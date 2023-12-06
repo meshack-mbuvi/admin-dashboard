@@ -17,7 +17,7 @@ import useAuthToken from "@/hooks/useAuthToken"
 import useFaucet from "@/hooks/useFaucet"
 import { Wallet } from "@/hooks/useGetProjectWallets"
 import useToggleWalletEnabled from "@/hooks/useToggleWalletEnabled"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 
 interface TxWalletCardProps {
   wallet: Wallet
@@ -66,7 +66,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
 
   return (
     <Section
-      className={clsx(
+      className={cn(
         "p-4 w-full flex flex-col",
         !isWalletEnabled && "bg-gray-7 bg-opacity-50"
       )}
@@ -92,7 +92,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
           )}
           <div>
             <p
-              className={clsx(
+              className={cn(
                 "text-xs mb-1",
                 isWalletEnabled ? `text-gray-4` : inActiveTextColor
               )}
@@ -105,7 +105,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
               hexType={"address"}
               chainId={wallet.chainId}
               truncate
-              className={clsx(
+              className={cn(
                 "text-sm sm:text-base",
                 !isWalletEnabled && inActiveTextColor
               )}
@@ -114,9 +114,9 @@ export default function TxWalletCard(props: TxWalletCardProps) {
           </div>
         </div>
 
-        <div className={clsx(!isWalletEnabled && inActiveTextColor)}>
+        <div className={cn(!isWalletEnabled && inActiveTextColor)}>
           <p
-            className={clsx(
+            className={cn(
               "text-xs mb-1",
               isWalletEnabled ? `text-gray-4` : inActiveTextColor
             )}
@@ -128,7 +128,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
 
         <div>
           <p
-            className={clsx(
+            className={cn(
               "text-xs mb-1",
               isWalletEnabled ? `text-gray-4` : inActiveTextColor
             )}
@@ -136,7 +136,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
             Balance
           </p>
           <p
-            className={clsx(
+            className={cn(
               "text-sm sm:text-base",
               isWalletEnabled ? `text-gray-1` : inActiveTextColor
             )}
@@ -147,7 +147,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
 
         <div>
           <p
-            className={clsx(
+            className={cn(
               "text-xs mb-1",
               isWalletEnabled ? `text-gray-4` : inActiveTextColor
             )}
@@ -155,7 +155,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
             Transactions
           </p>
           <p
-            className={clsx(
+            className={cn(
               "text-sm sm:text-base",
               isWalletEnabled ? `text-gray-1` : inActiveTextColor
             )}
@@ -166,7 +166,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
 
         <div>
           <p
-            className={clsx(
+            className={cn(
               "text-xs mb-1",
               isWalletEnabled ? `text-gray-4` : inActiveTextColor
             )}
@@ -174,7 +174,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
             Date added
           </p>
           <p
-            className={clsx(
+            className={cn(
               "text-sm sm:text-base",
               isWalletEnabled ? `text-gray-1` : inActiveTextColor
             )}
@@ -185,7 +185,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
         {isTestnetNetwork(wallet.chainId) && isLowBalance && (
           <div>
             <div
-              className={clsx(
+              className={cn(
                 "text-xs mb-1 flex",
                 isWalletEnabled ? `text-gray-4` : inActiveTextColor
               )}
@@ -229,13 +229,13 @@ export default function TxWalletCard(props: TxWalletCardProps) {
         )}
 
         <div
-          className={clsx(
+          className={cn(
             "text-xs mb-1",
             isWalletEnabled ? `text-gray-4` : inActiveTextColor
           )}
         >
           <p
-            className={clsx(
+            className={cn(
               "text-xs mb-1",
               isWalletEnabled ? `text-gray-4` : inActiveTextColor
             )}

@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 
 import QuickStartChoice from "@/components/Projects/QuickStartChoice"
 import Demo from "@/components/icons/Demo"
@@ -90,7 +90,7 @@ export default function QuickStartChoices({
         </div>
         <ExternalLink
           href="https://docs.syndicate.io/get-started/quickstart"
-          className={clsx(
+          className={cn(
             DarkButtonStyles,
             "border-2 border-warning text-white flex space-x-2 py-4 "
           )}

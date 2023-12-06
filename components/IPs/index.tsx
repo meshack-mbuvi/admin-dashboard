@@ -4,7 +4,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import { useParams } from "next/navigation"
 
 import { DarkButtonStyles } from "@/components/Buttons"
@@ -81,7 +81,7 @@ export default function IpRanges() {
 
             <ExternalLink
               href="https://docs.syndicate.io/guides/ip-range"
-              className={clsx(
+              className={cn(
                 DarkButtonStyles,
                 "border-2 border-warning text-white flex space-x-2 py-3"
               )}

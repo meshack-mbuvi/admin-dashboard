@@ -1,6 +1,6 @@
 "use client"
 
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 import { useState } from "react"
@@ -51,7 +51,7 @@ export default function Metadata() {
           <Link
             href="https://docs.syndicate.io/guides/dynamic-nft-metadata"
             target="_blank"
-            className={clsx(
+            className={cn(
               DarkButtonStyles,
               "border-yellow-secondary flex items-baseline mt-8"
             )}

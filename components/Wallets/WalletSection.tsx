@@ -1,6 +1,6 @@
 import { Route } from "next"
 import { UrlObject } from "url"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import Link from "next/link"
 
 import useFreePlan from "@/hooks/useFreePlan"
@@ -36,7 +36,7 @@ export function WalletSection(props: WalletSelectionProps) {
           <Link
             href={helperLink}
             target="_blank"
-            className={clsx(
+            className={cn(
               DarkButtonStyles,
               "border-yellow-secondary flex items-baseline shrink-0"
             )}

@@ -1,7 +1,7 @@
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import React from "react"
 
-export const inputBaseStyle = clsx(
+export const inputBaseStyle = cn(
   "border bg-gray-8 outline-none border-gray-7 outline-offset-0 ring-0 focus:border-blue-neptune rounded-lg px-4 py-4"
 )
 
@@ -13,7 +13,7 @@ export const Input = React.forwardRef<
   return (
     <input
       ref={ref}
-      className={clsx(inputBaseStyle, className)}
+      className={cn(inputBaseStyle, className)}
       placeholder={placeholder}
       onChange={onChange}
       value={value}

@@ -1,6 +1,6 @@
 import { Route } from "next"
 import { FiltersTableState } from "@tanstack/react-table"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
@@ -162,7 +162,7 @@ const AllTransactions = (props: AllTransactionsProps) => {
         ) : (
           <ExternalLink
             href={emptyTransactionDocLink}
-            className={clsx(
+            className={cn(
               DarkButtonStyles,
               "border-2 border-yellow-secondary text-white flex space-x-2 py-4 mt-10"
             )}
@@ -176,7 +176,7 @@ const AllTransactions = (props: AllTransactionsProps) => {
   return (
     <div className="flex flex-col items-center">
       <div
-        className={clsx(
+        className={cn(
           "flex flex-col gap-4 w-full",
           isFetching && "opacity-60 pointer-events-none"
         )}
