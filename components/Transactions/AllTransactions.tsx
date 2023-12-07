@@ -1,5 +1,4 @@
 import { Route } from "next"
-import { FiltersTableState } from "@tanstack/react-table"
 import { cn } from "@/utils/cn"
 import Link from "next/link"
 import { useParams } from "next/navigation"
@@ -11,11 +10,7 @@ import EmptyState from "@/components/Shared/Empty"
 import TablePagination, {
   DEFAULT_TABLE_LIMIT,
 } from "@/components/Table/TablePagination"
-import {
-  RawStatusEnum,
-  StatusEnum,
-  getRawStatusFromStatus,
-} from "@/components/Transactions/atoms/Status"
+import { RawStatusEnum } from "@/components/Transactions/atoms/Status"
 import useGetProjectById from "@/hooks/useGetProjectById"
 import useGetTransactions from "@/hooks/useGetTransactions"
 import useIsTestUser from "@/hooks/useIsTestUser"
@@ -42,12 +37,10 @@ const AllTransactions = (props: AllTransactionsProps) => {
   const { searchTerm, setTxCount } = props
   const { projectId } = useParams()
   const projectIdString = getFirstOrString(projectId)
-  const [columnFilters] = useState<FiltersTableState["columnFilters"]>([])
   const [page, setPage] = useState<number>(0)
   const [limit] = useState<number>(DEFAULT_TABLE_LIMIT)
-  const [statuses, setStatuses] =
-    useState<RawStatusEnum[]>(defaultStatusFilters)
-  const [reverted, setReverted] = useState<boolean | null>(null)
+  const [statuses] = useState<RawStatusEnum[]>(defaultStatusFilters)
+  const [reverted] = useState<boolean | null>(null)
   const isTestUser = useIsTestUser()
 
   const { data: projectData, isLoading: isProjectLoading } = useGetProjectById({
@@ -90,23 +83,6 @@ const AllTransactions = (props: AllTransactionsProps) => {
     debouncedFetch()
   }, [searchTerm, debouncedFetch])
 
-  useEffect(() => {
-    const filters =
-      (columnFilters.find((filter) => filter.id === "transactionId")
-        ?.value as StatusEnum[]) || []
-    const revertedFilter = !!filters.find((item) => item === StatusEnum.Failed)
-    const statusFilter = filters.filter((item) => item !== StatusEnum.Failed)
-    setPage(0)
-    setReverted(revertedFilter || null)
-    setStatuses(
-      statusFilter.length === 0
-        ? defaultStatusFilters
-        : (statusFilter.map((status) =>
-            getRawStatusFromStatus(status)
-          ) as RawStatusEnum[])
-    )
-  }, [columnFilters])
-
   if (isTransactionsLoading || isProjectLoading) {
     return (
       <>
@@ -115,7 +91,7 @@ const AllTransactions = (props: AllTransactionsProps) => {
         ))}
       </>
     )
-  } else if (!transactionsResp?.total && columnFilters.length === 0) {
+  } else if (!transactionsResp?.total) {
     const renderHeading = () => {
       if (searchTerm) {
         return "No transactions found"
