@@ -10,7 +10,7 @@ import TransactionRequestModal from "./TransactionRequestModal"
 
 import getFirstOrString from "@/utils/getFirstOrString"
 import RequestCard from "./RequestCard"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 
 interface FailedRequestsProps {
   searchTerm: string
@@ -64,7 +64,7 @@ export default function FailedRequests(props: FailedRequestsProps) {
       ) : !isLoading && requestsResp?.total ? (
         <div className="flex flex-col items-center">
           <div
-            className={clsx(
+            className={cn(
               "flex flex-col gap-4 w-full",
               isFetching && "opacity-60 pointer-events-none"
             )}

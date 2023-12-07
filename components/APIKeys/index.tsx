@@ -1,6 +1,6 @@
 "use client"
 
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import { useParams } from "next/navigation"
 import { useMemo, useState } from "react"
 
@@ -168,7 +168,7 @@ export default function APIKeys() {
             {true && <PremiumPill className="self-start" />}
 
             <Button
-              className={clsx(
+              className={cn(
                 LightButtonStyles,
                 "flex items-center whitespace-nowrap"
               )}

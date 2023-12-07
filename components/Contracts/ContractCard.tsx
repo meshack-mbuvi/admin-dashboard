@@ -1,5 +1,5 @@
 import { useState } from "react"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 
 import CopyToClipboard from "../CopyToClipboard"
 import Section from "../Section"
@@ -70,7 +70,7 @@ export default function ContractCard(props: ContractCardProps) {
               return (
                 <div
                   key={i}
-                  className={clsx(
+                  className={cn(
                     "pb-2 mb-2 border-gray-6 border-b last:border-b-0 last:mb-0 last:pb-0",
                     i > 2 && !isViewMore && "hidden"
                   )}

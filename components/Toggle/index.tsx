@@ -1,5 +1,5 @@
 import { Switch } from "@headlessui/react"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 
 type Props = {
   enabled: boolean
@@ -12,20 +12,20 @@ export default function Toggle(props: Props) {
     <Switch
       checked={enabled}
       onChange={setEnabled}
-      className={clsx(
+      className={cn(
         enabled ? "bg-green" : "bg-gray-5",
         "mx-1 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-1 focus:ring-green focus:ring-offset-2"
       )}
     >
       <span className="sr-only">Use setting</span>
       <span
-        className={clsx(
+        className={cn(
           enabled ? "translate-x-5" : "translate-x-0",
           "pointer-events-none relative inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"
         )}
       >
         <span
-          className={clsx(
+          className={cn(
             enabled
               ? "opacity-0 duration-100 ease-out"
               : "opacity-100 duration-200 ease-in",
@@ -48,7 +48,7 @@ export default function Toggle(props: Props) {
           </svg>
         </span>
         <span
-          className={clsx(
+          className={cn(
             enabled
               ? "opacity-100 duration-200 ease-in"
               : "opacity-0 duration-100 ease-out",

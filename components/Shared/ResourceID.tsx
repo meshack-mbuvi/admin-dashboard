@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 
 import CopyToClipboard from "@/components/CopyToClipboard"
 import Clipboard from "@/components/icons/Clipboard"
@@ -26,7 +26,7 @@ export default function ResourceID(props: {
   const tooltipCopiedText = fullView ? "ID Copied" : `Copied ${context} ID`
 
   return (
-    <span className={clsx(className, copyIcon && "flex space-x-4 group")}>
+    <span className={cn(className, copyIcon && "flex space-x-4 group")}>
       {copyIcon && fullView && (
         <span className="overflow-x-hidden text-ellipsis">
           {truncate ? formatAddress(id, 4, 4) : id}

@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import { Fragment, useRef } from "react"
 
 import Close from "@/components/icons/Close"
@@ -85,7 +85,7 @@ export default function Modal(props: ModalProps): JSX.Element {
           leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         >
           <div
-            className={clsx(
+            className={cn(
               "no-scroll-bar md:my-14 align-middle mx-auto inline-block max-h-screen bg-gray-8 rounded-2xl text-left shadow-xl transform transition-all w-11/12 md:w-1/2 lg:w-2/5 p-2 sm:p-6",
               overflowYScroll && "overflow-y-auto"
             )}
@@ -99,7 +99,7 @@ export default function Modal(props: ModalProps): JSX.Element {
             }}
           >
             <div
-              className={clsx(
+              className={cn(
                 "no-scroll-bar mx-4 align-middle",
                 maxHeight && "max-h-modal",
                 overflowXScroll && "overflow-x-scroll"

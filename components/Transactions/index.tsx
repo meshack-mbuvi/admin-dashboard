@@ -1,5 +1,5 @@
 import { useState } from "react"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 
@@ -67,7 +67,7 @@ export default function TransactionTables() {
             <Link
               href="https://docs.syndicate.io/guides/transactions"
               target="_blank"
-              className={clsx(
+              className={cn(
                 DarkButtonStyles,
                 "border-yellow-secondary flex items-baseline ml-2"
               )}

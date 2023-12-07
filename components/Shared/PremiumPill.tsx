@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 
 import { useUpgradeModalStore } from "@/store/useUpgradeModalStore"
 
@@ -12,7 +12,7 @@ export default function PremiumPill(props: PremiumPillProps) {
   return (
     <div
       onClick={() => toggle(true)}
-      className={clsx(
+      className={cn(
         "bg-blue-nasa w-fit px-6 py-3 rounded-full items-center justify-center flex cursor-pointer whitespace-nowrap",
         className
       )}

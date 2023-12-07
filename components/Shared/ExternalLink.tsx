@@ -1,7 +1,7 @@
 import { Route } from "next"
 import Link from "next/link"
 import ArrowUpperRight from "../icons/ArrowUpperRight"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 
 type ExternalLinkProps = {
   href: Route
@@ -17,7 +17,7 @@ export default function ExternalLink(props: ExternalLinkProps) {
       href={href}
       target="_blank"
       rel="noopener"
-      className={clsx("flex", className)}
+      className={cn("flex", className)}
     >
       {linkText} <ArrowUpperRight className="w-4 ml-2" />
     </Link>

@@ -1,6 +1,6 @@
 "use client"
 
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 
@@ -62,7 +62,7 @@ export default function TwoFactorAuth() {
       <div className="left-6 top-6 fixed z-10">
         <button
           onClick={() => router.back()}
-          className={clsx(
+          className={cn(
             "flex items-center justify-center h-12 w-12",
             "rounded-full bg-gray-7 justify-self-start"
           )}
@@ -79,7 +79,7 @@ export default function TwoFactorAuth() {
           {tabComponents[tabHeaders[activeTabIndex]]}
         </div>
         <Button
-          className={clsx(
+          className={cn(
             DarkButtonStyles,
             "lg:order-first self-start lg:self-auto",
             activeTabIndex === 0 && "invisible",
@@ -96,7 +96,7 @@ export default function TwoFactorAuth() {
           </div>
         </Button>
         <Button
-          className={clsx(
+          className={cn(
             LightButtonStyles,
             "lg:order-last self-start lg:self-auto",
             activeTabIndex === 3 && "invisible"

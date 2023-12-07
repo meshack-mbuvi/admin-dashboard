@@ -1,6 +1,6 @@
 "use client"
 
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
 
@@ -81,7 +81,7 @@ export default function UpgradeRequiredModalModal(
           </div>
 
           <button
-            className={clsx(LightButtonStyles, "rounded-lg w-full relative")}
+            className={cn(LightButtonStyles, "rounded-lg w-full relative")}
             onClick={handleUpgradeClick}
             disabled={isLoading}
           >

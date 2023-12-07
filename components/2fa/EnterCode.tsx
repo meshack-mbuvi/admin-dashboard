@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import AuthCode from "react-auth-code-input"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 
 import CheckCircle from "../icons/CheckCircle"
 import Spinner from "../icons/Spinner"
@@ -100,7 +100,7 @@ export default function EnterCode(props: CodeProps) {
         <AuthCode
           onChange={setAuthCode}
           disabled={success || verifySuccess}
-          inputClassName={clsx(
+          inputClassName={cn(
             "border rounded-lg  w-13 h-18 text-3xl text-center font-mono uppercase focus:outline-none",
             (success || verifySuccess) && "border-success bg-success/10",
             (error || verifyError) &&
@@ -114,7 +114,7 @@ export default function EnterCode(props: CodeProps) {
           containerClassName="flex justify-center space-x-4"
         />
         <div
-          className={clsx(
+          className={cn(
             "mt-7 h-6 text-center",
             (success || verifySuccess) &&
               "flex justify-center space-x-2 text-success visible",

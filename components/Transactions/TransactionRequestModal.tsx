@@ -1,6 +1,6 @@
 import { Hex as HexType } from "viem"
 import { useParams } from "next/navigation"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 
 import Modal from "@/components/Modal"
 import Spinner from "../icons/Spinner"
@@ -164,7 +164,7 @@ export default function TransactionRequestModal(
                 Simulation Result
               </span>
               <span
-                className={clsx(
+                className={cn(
                   "py-1 text-sm font-mono",
                   isSuccess ? "text-green" : "text-red"
                 )}

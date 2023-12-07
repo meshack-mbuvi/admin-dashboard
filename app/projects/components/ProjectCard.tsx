@@ -1,5 +1,5 @@
 import { MouseEvent, useMemo } from "react"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import { Chain } from "viem"
 import { useRouter } from "next/navigation"
 
@@ -69,7 +69,7 @@ export default function ProjectCard(props: ProjectCardProps) {
         <p className="text-gray-1 mr-4">{project.name}</p>
 
         <span
-          className={clsx(
+          className={cn(
             "ml-auto text-xs border rounded-full px-1.5 py-0.5 ",
             project.environment === "production"
               ? "text-blue-1 border-blue-1"

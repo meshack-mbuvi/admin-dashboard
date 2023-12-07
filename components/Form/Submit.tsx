@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import { PropsWithChildren } from "react"
 
 import { useFormContextSafe } from "."
@@ -16,7 +16,7 @@ export default function Submit(props: SubmitButtonProps) {
   return (
     <Button
       disabled={disabled || isSubmitting}
-      className={clsx(SubmitButtonStyles, className)}
+      className={cn(SubmitButtonStyles, className)}
       {...rest}
     >
       {children ? children : "Submit"}

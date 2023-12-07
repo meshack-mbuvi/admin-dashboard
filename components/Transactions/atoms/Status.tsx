@@ -1,6 +1,6 @@
 import { Tooltip } from "react-tooltip"
 import { useMemo } from "react"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 
 import Check from "@/components/icons/Check"
 import DoubleCheck from "@/components/icons/DoubleCheck"
@@ -118,7 +118,7 @@ const TransactionStatus = (props: StatusProps) => {
     <>
       {status && (
         <div
-          className={clsx(
+          className={cn(
             "h-[1.625rem] w-10  rounded-[1.875rem] px-[0.625rem]",
             "py-[0.125rem] flex justify-center items-center border text-xs",
             StatusObject[status].styleClasses

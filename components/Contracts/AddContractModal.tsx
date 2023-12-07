@@ -1,6 +1,6 @@
 import { Listbox, Transition } from "@headlessui/react"
 import { AbiFunction, formatAbiItem } from "abitype"
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import { useParams } from "next/navigation"
 import { Fragment, useEffect, useMemo, useState } from "react"
 import { useDebouncedCallback } from "use-debounce"
@@ -277,7 +277,7 @@ export default function AddContractModal(props: AddContractModalProps) {
 
               <textarea
                 rows={3}
-                className={clsx(
+                className={cn(
                   "border bg-gray-8 outline-none border-gray-7 outline-offset-0 ring-0 focus:border-blue-neptune rounded-lg px-4 py-2 min-h-[100px] font-mono text-sm disabled:cursor-not-allowed",
                   !parsedABI &&
                     contractABI.length > 0 &&
@@ -313,13 +313,13 @@ export default function AddContractModal(props: AddContractModalProps) {
                   <>
                     <div className="relative mt-2">
                       <Listbox.Button
-                        className={clsx(
+                        className={cn(
                           !allowedFunctions && "text-gray-4",
                           "flex gap-4 border bg-gray-8 outline-none border-gray-7 rounded-lg px-4 py-4 w-full text-left disabled:cursor-not-allowed"
                         )}
                       >
                         <span
-                          className={clsx(
+                          className={cn(
                             "block truncate",
                             !allowedFunctions.length && "text-gray-4"
                           )}
@@ -350,7 +350,7 @@ export default function AddContractModal(props: AddContractModalProps) {
                             <Listbox.Option
                               key={index}
                               className={({ active }) =>
-                                clsx(
+                                cn(
                                   active ? "bg-white/10" : "",
                                   "flex gap-4 cursor-default select-none py-2 pl-3 pr-9 max-h-38 rounded-lg"
                                 )
@@ -360,7 +360,7 @@ export default function AddContractModal(props: AddContractModalProps) {
                               {({ selected }) => (
                                 <div className="flex items-center justify-between">
                                   <span
-                                    className={clsx(
+                                    className={cn(
                                       "pr-4",
                                       selected ? "visible" : "invisible"
                                     )}

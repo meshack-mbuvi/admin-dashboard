@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import { useEffect, useState } from "react"
 import QRCode from "react-qr-code"
 
@@ -61,7 +61,7 @@ export default function Setup() {
         tooltipPosition="bottom"
       >
         <div
-          className={clsx(
+          className={cn(
             "w-full border border-gray-6 rounded-lg",
             "bg-white/[.02] mt-5 px-6 py-4 font-mono"
           )}

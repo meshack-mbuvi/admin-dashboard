@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import { cn } from "@/utils/cn"
 import React, { useState } from "react"
 
 import Form, { useFormContextSafe } from "@/components/Form"
@@ -173,7 +173,7 @@ function TryAgainButton(props: TryAgainButtonProps) {
   return (
     <button
       type="button"
-      className={clsx(LightButtonStyles, "mx-auto")}
+      className={cn(LightButtonStyles, "mx-auto")}
       onClick={handleFormReset}
     >
       Try again
