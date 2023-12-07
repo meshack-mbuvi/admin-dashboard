@@ -63,8 +63,10 @@ export default function Authenticate() {
         if (tokenType === "multi_tenant_magic_links") {
           await stytch.magicLinks.authenticate({
             magic_links_token: token,
-            // DEV: 7 days in minutes
-            session_duration_minutes: 10080,
+            // The session duration value must be less than or equal to the max session duration we set in Stytch
+            // A too long session duration will cause a "duration exceeds maximum set for this project" error in Stytch
+            // DEV: 12 hours in minutes
+            session_duration_minutes: 720,
           })
 
           router.push("/projects")
