@@ -65,11 +65,23 @@ export default function TxWalletCard(props: TxWalletCardProps) {
   const inActiveTextColor = "text-gray-5"
 
   return (
-    <Section className="p-4 w-full flex flex-col">
+    <Section
+      className={cn(
+        "p-4 w-full flex flex-col",
+        !isWalletEnabled && "bg-gray-7 bg-opacity-50"
+      )}
+    >
       <div className="flex items-center flex-wrap justify-between gap-4">
         <div className="flex overflow-hidden min-w-[165px]">
           <div>
-            <p className="text-xs text-gray-4 mb-1">Wallet address</p>
+            <p
+              className={cn(
+                "text-xs mb-1",
+                isWalletEnabled ? `text-gray-4` : inActiveTextColor
+              )}
+            >
+              Wallet address
+            </p>
 
             <div className="flex items-center">
               {isLowBalance && (
@@ -95,14 +107,25 @@ export default function TxWalletCard(props: TxWalletCardProps) {
                 hexType={"address"}
                 chainId={wallet.chainId}
                 truncate
-                className="text-sm sm:text-base"
+                className={cn(
+                  "text-sm sm:text-base",
+                  !isWalletEnabled && inActiveTextColor
+                )}
+                enabled={isWalletEnabled}
               />
             </div>
           </div>
         </div>
 
-        <div>
-          <p className="text-xs text-gray-4 mb-1">ID</p>
+        <div className={cn(!isWalletEnabled && inActiveTextColor)}>
+          <p
+            className={cn(
+              "text-xs mb-1",
+              isWalletEnabled ? "text-gray-4" : inActiveTextColor
+            )}
+          >
+            ID
+          </p>
           <ResourceID
             id={wallet.walletId}
             context="wallet"
@@ -113,29 +136,70 @@ export default function TxWalletCard(props: TxWalletCardProps) {
         </div>
 
         <div className="min-w-[64px]">
-          <p className="text-xs text-gray-4 mb-1">Balance</p>
-          <p className="text-gray-1 text-sm sm:text-base font-mono">
+          <p
+            className={cn(
+              "text-xs mb-1",
+              isWalletEnabled ? "text-gray-4" : inActiveTextColor
+            )}
+          >
+            Balance
+          </p>
+          <p
+            className={cn(
+              "text-sm sm:text-base font-mono",
+              isWalletEnabled ? "text-gray-1" : inActiveTextColor
+            )}
+          >
             {formatNativeToken(wallet.balance, -18)}
           </p>
         </div>
 
         <div>
-          <p className="text-xs text-gray-4 mb-1">Transactions</p>
-          <p className="text-gray-1 text-sm sm:text-base font-mono">
+          <p
+            className={cn(
+              "text-xs mb-1",
+              isWalletEnabled ? "text-gray-4" : inActiveTextColor
+            )}
+          >
+            Transactions
+          </p>
+          <p
+            className={cn(
+              "text-sm sm:text-base font-mono",
+              isWalletEnabled ? "text-gray-1" : inActiveTextColor
+            )}
+          >
             {wallet.txCount}
           </p>
         </div>
 
         <div>
-          <p className="text-xs text-gray-4 mb-1">Date added</p>
-          <p className="text-gray-1 text-sm sm:text-base font-mono">
+          <p
+            className={cn(
+              "text-xs mb-1",
+              isWalletEnabled ? "text-gray-4" : inActiveTextColor
+            )}
+          >
+            Date added
+          </p>
+          <p
+            className={cn(
+              "text-sm sm:text-base font-mono",
+              isWalletEnabled ? "text-gray-1" : inActiveTextColor
+            )}
+          >
             <DateTimestamp date={wallet.createdAt} showTime={true} />
           </p>
         </div>
         <div className="min-w-[84px]">
           {isTestnetNetwork(wallet.chainId) && isLowBalance && (
             <div>
-              <div className="text-xs text-gray-4 mb-1 flex">
+              <div
+                className={cn(
+                  "text-xs mb-1 flex",
+                  isWalletEnabled ? "text-gray-4" : inActiveTextColor
+                )}
+              >
                 Faucet
                 <span
                   className="self-center ml-1"
@@ -178,13 +242,13 @@ export default function TxWalletCard(props: TxWalletCardProps) {
         <div
           className={cn(
             "text-xs mb-1",
-            isWalletEnabled ? `text-gray-4` : inActiveTextColor
+            isWalletEnabled ? "text-gray-4" : inActiveTextColor
           )}
         >
           <p
             className={cn(
               "text-xs mb-1",
-              isWalletEnabled ? `text-gray-4` : inActiveTextColor
+              isWalletEnabled ? "text-gray-4" : inActiveTextColor
             )}
           >
             Enabled
