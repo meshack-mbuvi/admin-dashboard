@@ -4,8 +4,8 @@ import { cn } from "@/utils/cn"
 
 import CheckCircle from "../icons/CheckCircle"
 import Spinner from "../icons/Spinner"
-import use2FA from "@/hooks/use2FA"
 import useAuthToken from "@/hooks/useAuthToken"
+import useComplete2FA from "@/hooks/useComplete2FA"
 
 interface CodeProps {
   onSetupVerified?: (next: boolean) => void
@@ -42,8 +42,7 @@ export default function EnterCode(props: CodeProps) {
     setError(true)
   }
 
-  const { mutate: verify2FAMutation, isLoading } = use2FA({
-    requestType: "complete2FA",
+  const { mutate: verify2FAMutation, isLoading } = useComplete2FA({
     onSuccess: completeVerification,
     onError: handleError,
   })
@@ -51,12 +50,7 @@ export default function EnterCode(props: CodeProps) {
   useEffect(() => {
     if (authCode?.length === 6) {
       if (mode === "verify") return onAuthCode?.(authCode)
-      verify2FAMutation({
-        method: "POST",
-        sessionToken,
-        endpointPath: `/admin/user/complete2FA`,
-        body: JSON.stringify({ Code: authCode }),
-      })
+      sessionToken && verify2FAMutation({ authCode, sessionToken })
     }
     return () => {
       setError(false)

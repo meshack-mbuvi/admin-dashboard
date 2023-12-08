@@ -11,9 +11,9 @@ import { DarkButtonStyles } from "@/components/Buttons"
 import ExternalLink from "@/components/Shared/ExternalLink"
 
 import useAuthToken from "@/hooks/useAuthToken"
-import useCreateProject from "@/hooks/useCreateProject"
 import useGetOrganization from "@/hooks/useGetOrganization"
 import useFreePlan from "@/hooks/useFreePlan"
+import useCreateDemoProject from "@/hooks/useCreateDemoProject"
 import { useUpgradeModalStore } from "@/store/useUpgradeModalStore"
 
 interface QuickStartChoicesProps {
@@ -35,7 +35,7 @@ export default function QuickStartChoices({
   const { toggle } = useUpgradeModalStore()
 
   const sessionToken = useAuthToken()
-  const { mutate, isSuccess } = useCreateProject({
+  const { mutate, isSuccess } = useCreateDemoProject({
     onSuccess: (data) => {
       data?.json().then((data) => {
         router.push(`/projects/${data.id}/transactions`)
@@ -46,15 +46,11 @@ export default function QuickStartChoices({
   const [showStepsModal, setShowStepsModal] = useState(false)
 
   const handleCreateDemoProject = () => {
-    if (sessionToken) {
+    if (sessionToken && organizationData?.organization.id) {
       setShowStepsModal(true)
       return mutate({
-        method: "POST",
+        organizationId: organizationData.organization.id,
         sessionToken,
-        endpointPath: "/admin/project/demo",
-        body: JSON.stringify({
-          organizationId: organizationData?.organization.id,
-        }),
       })
     }
   }

@@ -1,12 +1,26 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+
+import { SessionToken } from "@/utils/gatewayFetch";
 import gatewayFetch, {
-  GatewayFetchArgs,
   ResponseError,
 } from "@/utils/gatewayFetch"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+
+export interface CreateUserParams extends SessionToken {
+  name: string;
+  email: string;
+}
 
 export default function useCreateUser() {
   const queryClient = useQueryClient()
-  return useMutation<Response, ResponseError, GatewayFetchArgs>(gatewayFetch, {
+  return useMutation<Response, ResponseError, CreateUserParams>(({ sessionToken, ...user }) => gatewayFetch({
+    method: "POST",
+    endpointPath: "/admin/user",
+    body: JSON.stringify({
+      ...user,
+      roleTitle: "admin"
+    }),
+    sessionToken
+  }), {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["get-users"],

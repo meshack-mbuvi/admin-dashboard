@@ -57,12 +57,8 @@ export default function GeneralSettings() {
 
     if (sessionToken && _projectName) {
       updateProjectNameMutation.mutate({
-        method: "POST",
-        sessionToken,
-        endpointPath: `/admin/project/${projectId}/updateName`,
-        body: JSON.stringify({
-          name: _projectName,
-        }),
+        name: _projectName,
+        sessionToken
       })
     }
   }

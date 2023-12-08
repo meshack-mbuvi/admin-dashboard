@@ -4,42 +4,34 @@ import { Fragment } from "react"
 
 import Check from "../icons/Check"
 
-export type SelectOption = {
-  id: number | string
+export type SelectOption<T = string | number> = {
+  id: T
   label: string
 }
 
-type MultipleSelect = {
-  selected: SelectOption[]
-  setSelected: (option: SelectOption[]) => void
+type MultipleSelect<T> = {
+  selected: SelectOption<T>[]
+  setSelected: (option: SelectOption<T>[]) => void
   multiple: true
 }
-type SingleSelect = {
-  selected: SelectOption | null
-  setSelected: (option: SelectOption) => void
+type SingleSelect<T> = {
+  selected: SelectOption<T> | null
+  setSelected: (option: SelectOption<T>) => void
   multiple?: false
 }
 
-export interface BaseSelectProps {
-  options: SelectOption[]
+export interface BaseSelectProps<T> {
+  options: SelectOption<T>[]
   placeholder?: string
   above?: boolean
   name?: string
   disabled?: boolean
 }
 
-export type SelectProps = BaseSelectProps & (MultipleSelect | SingleSelect)
+export type SelectProps<T = string | number> = BaseSelectProps<T> & (MultipleSelect<T> | SingleSelect<T>)
 
-const Select: React.FC<SelectProps> = ({
-  options,
-  selected,
-  setSelected,
-  placeholder = "Select option",
-  above = false,
-  name,
-  disabled,
-  multiple,
-}) => {
+function Select<T = string | number>(props: SelectProps<T>) {
+  const { options, selected, setSelected, placeholder = "Select option", above = false, name, disabled, multiple } = props;
   let label = placeholder
   let isSelected = false
   if (selected) {

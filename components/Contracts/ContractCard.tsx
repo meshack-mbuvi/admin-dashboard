@@ -6,11 +6,11 @@ import Section from "../Section"
 import DateTimestamp from "../Shared/Datestamp"
 import Hex from "../Shared/Hex"
 import ResourceID from "../Shared/ResourceID"
+import { Contract } from "@/hooks/useCreateContract"
 
-import { IContract } from "@/hooks/useGetProjectById"
 
 interface ContractCardProps {
-  contract: IContract
+  contract: Contract
 }
 
 export default function ContractCard(props: ContractCardProps) {

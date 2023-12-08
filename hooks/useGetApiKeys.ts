@@ -1,6 +1,8 @@
-import gatewayFetch from "@/utils/gatewayFetch"
 import { useQuery } from "@tanstack/react-query"
+
+import gatewayFetch from "@/utils/gatewayFetch"
 import useAuthToken from "./useAuthToken"
+import { DateTime, Nullable } from "@/types/utils"
 
 interface UseGetProjectApiKeysArgs {
   projectId: string
@@ -13,12 +15,12 @@ export interface ProjectAccessKeys {
 
 export interface AccessKey {
   id: string
-  createdAt: string
-  updatedAt: string
+  createdAt: DateTime
+  updatedAt: DateTime
   deletedAt: any
   key: string
   hash: string
-  expiresAt: any
+  expiresAt: Nullable<DateTime>
   organizationId: string
 }
 

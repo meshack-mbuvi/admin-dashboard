@@ -2,26 +2,19 @@ import { useQuery } from "@tanstack/react-query"
 
 import gatewayFetch from "@/utils/gatewayFetch"
 import useAuthToken from "./useAuthToken"
+import { DateTime, Nullable } from "@/types/utils"
+import { Contract } from "./useCreateContract"
 
 export type Project = {
   id: string
-  createdAt: string
-  updatedAt: string | null
-  deletedAt: string | null
+  createdAt: DateTime
+  updatedAt: Nullable<DateTime>
+  deletedAt: Nullable<DateTime>
   name: string
   environment: string
   organizationId: string
-  tokens: {
-    id: string
-    createdAt: string
-    updatedAt: string | null
-    deletedAt: string | null
-    chainId: number
-    address: string
-    expiresAt: string | null
-    functionSignatures: []
-    projectId: string
-  }[]
+  allowlistIpRanges: Nullable<string[]>
+  contracts: Contract[]
 }
 
 type GetProjectsResponse = Project[]

@@ -8,14 +8,8 @@ import Submit from "@/components/Form/Submit"
 import TextInput from "@/components/Form/TextInput"
 import Text from "@/components/Text"
 import Logo from "@/components/icons/Logo"
-import useCreateOrganization from "@/hooks/useCreateOrganization"
+import useCreateOrganization, { CreateOrganizationParams } from "@/hooks/useCreateOrganization"
 import Link from "next/link"
-
-type OrganizationFields = {
-  organizationName: string
-  emailAddress: string
-  userName: string
-}
 
 export default function CreateOrganization() {
   const { mutateAsync, isError } = useCreateOrganization()
@@ -51,15 +45,9 @@ export default function CreateOrganization() {
     return true
   }
 
-  const onSubmit = async (values: OrganizationFields) => {
+  const onSubmit = async (values: CreateOrganizationParams) => {
     if (isOrganizationNameAvailable) {
-      mutateAsync({
-        method: "POST",
-        endpointPath: "/public/createOrganization",
-        body: JSON.stringify({
-          ...values,
-        }),
-      })
+      mutateAsync(values)
         .then(async () => {
           return fetch("/api/signup", {
             method: "POST",

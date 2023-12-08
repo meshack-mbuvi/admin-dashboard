@@ -1,12 +1,27 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+
 import gatewayFetch, {
-  GatewayFetchArgs,
+  JsonAwaitableResponse,
   ResponseError,
 } from "@/utils/gatewayFetch"
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { SessionToken } from "@/utils/gatewayFetch";
+import { Wallet } from "./useGetProjectWallets";
+
+interface ToggleWalletParams extends SessionToken {
+  walletAddress: string;
+}
 
 export default function useToggleWalletEnabled(projectId: string) {
   const queryClient = useQueryClient()
-  return useMutation<Response, ResponseError, GatewayFetchArgs>(gatewayFetch, {
+  return useMutation<JsonAwaitableResponse<Wallet>, ResponseError, ToggleWalletParams>(({ sessionToken, ...params }) => gatewayFetch({
+    method: "POST",
+    endpointPath: '/wallet/toggleIsActive',
+    body: JSON.stringify({
+      ...params,
+      projectId
+    }),
+    sessionToken
+  }), {
     onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: ["get-project-wallets", projectId],

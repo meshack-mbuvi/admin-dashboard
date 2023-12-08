@@ -6,6 +6,7 @@ import gatewayFetch from "@/utils/gatewayFetch"
 import { NetworkId } from "@/utils/network"
 import { formatISO, fromUnixTime } from "date-fns"
 import useAuthToken from "./useAuthToken"
+import { DateTime } from "@/types/utils"
 
 interface UseGetTransactionsArgs {
   projectId: string
@@ -18,12 +19,12 @@ interface UseGetTransactionsArgs {
 export interface TransactionDataType {
   block: number | null
   chainId: NetworkId
-  createdAt: string
+  createdAt: DateTime
   hash: string
   reverted: boolean
   status: RawStatusEnum
   transactionId: string
-  updatedAt: string
+  updatedAt: DateTime
   walletAddress: string
   blockTimestamp: string | null
 }

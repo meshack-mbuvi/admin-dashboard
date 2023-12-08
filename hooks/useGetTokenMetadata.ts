@@ -4,6 +4,7 @@ import gatewayFetch from "@/utils/gatewayFetch"
 import useAuthToken from "./useAuthToken"
 
 import { NetworkId } from "@/utils/network"
+import { DateTime } from "@/types/utils"
 
 interface UseGetProjectMetadataArgs {
   page: number
@@ -12,8 +13,8 @@ interface UseGetProjectMetadataArgs {
 }
 
 export interface TokenMetadata {
-  createdAt: string
-  updatedAt: string
+  createdAt: DateTime
+  updatedAt: DateTime
   chainId: NetworkId
   tokenAddress: string
   tokenId: string

@@ -3,16 +3,17 @@ import { useQuery } from "@tanstack/react-query"
 import gatewayFetch from "@/utils/gatewayFetch"
 import { Project } from "./useGetProjects"
 import { UserDataType } from "./useGetUser"
+import { DateTime, Nullable } from "@/types/utils"
 
 export interface Organization {
   organization: {
     id: string
-    createdAt: string
-    updatedAt: string
-    deletedAt: string | null
+    createdAt: DateTime
+    updatedAt: DateTime
+    deletedAt: Nullable<DateTime>
     name: string
     contact: string
-    accessKeys: string[] | null
+    accessKeys: Nullable<string[]>
     projects: Project[]
     users: UserDataType[]
     stytchId: string
@@ -20,7 +21,7 @@ export interface Organization {
   }
   stytchInformation: {
     email_allowed_domains: string[]
-    organization_logo_url: string | null
+    organization_logo_url: Nullable<string>
   }
 }
 

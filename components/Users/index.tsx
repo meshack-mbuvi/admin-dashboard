@@ -25,6 +25,7 @@ import useGetUsers from "@/hooks/useGetUsers"
 import useIsTestUser from "@/hooks/useIsTestUser"
 import useIsViewerUser from "@/hooks/useIsViewerUser"
 import { InsufficientPermissionsText } from "../Shared/constants"
+import { Nullable } from "@/types/utils"
 
 const columnHelper = createColumnHelper<UserDataType>()
 
@@ -37,8 +38,7 @@ export default function Users() {
   const { data: user } = useGetUser()
   const isTestUser = useIsTestUser()
   const isViewerUser = useIsViewerUser()
-  const [pendingRequestParams, setPendingRequestParams] =
-    useState<GatewayFetchArgs>()
+  const [userToDeleteId, setUserToDeleteId] = useState<Nullable<string>>(null)
 
   const authCodeError: boolean = useMemo(() => {
     const error = deleteMutation.error as ResponseError
@@ -63,72 +63,68 @@ export default function Users() {
   }, [deleteMutation.error, deleteMutation.isError, deleteMutation.isSuccess])
 
   const complete2FARequest = (authCode: string) => {
-    const params = {
-      ...pendingRequestParams,
-      headers: { "x-2fa-code": authCode },
+    if (sessionToken && userToDeleteId) { 
+      deleteMutation.mutateAsync({ authCode, sessionToken, id: userToDeleteId }).then(() => setUserToDeleteId(null))
     }
-    deleteMutation.mutate(params as GatewayFetchArgs)
   }
   const { data, isFetching, isLoading } = useGetUsers()
 
-  const handleDeleteUser = (id: any) => {
-    setPendingRequestParams({
-      method: "DELETE",
-      sessionToken,
-      endpointPath: `/admin/user/${id}`,
-    })
+  const columns = useMemo(() => {
+    const handleDeleteUser = (id: any) => {
+      setUserToDeleteId(id)
 
-    if (!user?.is2FaEnabled) return setShowNo2FAModal(true)
+      if (!user?.is2FaEnabled) return setShowNo2FAModal(true)
 
-    const confirm = window.confirm("Are you sure you want to delete this user?")
-    if (sessionToken && confirm) {
-      setShowModal(true)
+      const confirm = window.confirm("Are you sure you want to delete this user?")
+      if (sessionToken && confirm) {
+        setShowModal(true)
+      }
     }
-  }
 
-  const columns = [
-    columnHelper.accessor("name", {
-      size: 250,
-      header: () => <ColumnHeader>Name</ColumnHeader>,
-      cell: (info) => (
-        <div className="flex justify-between space-x-3 pr-6 lg:pr-10 xl:pr-24">
-          <Text>{info.getValue()}</Text>
-          <ResourceID id={info.row.original.id} context="user" />
-        </div>
-      ),
-    }),
-    columnHelper.accessor("emailAddress", {
-      header: () => <ColumnHeader>Email</ColumnHeader>,
-      cell: (info) => <Text>{info.getValue()}</Text>,
-    }),
-    columnHelper.accessor("role", {
-      header: () => <ColumnHeader>Role</ColumnHeader>,
-      cell: (info) => <Text className="capitalize">{info.getValue()}</Text>,
-    }),
-    columnHelper.accessor("status", {
-      header: () => <ColumnHeader>Status</ColumnHeader>,
-      cell: (info) => <Text className="capitalize">{info.getValue()}</Text>,
-    }),
+    return [
+      columnHelper.accessor("name", {
+        size: 250,
+        header: () => <ColumnHeader>Name</ColumnHeader>,
+        cell: (info) => (
+          <div className="flex justify-between space-x-3 pr-6 lg:pr-10 xl:pr-24">
+            <Text>{info.getValue()}</Text>
+            <ResourceID id={info.row.original.id} context="user" />
+          </div>
+        ),
+      }),
+      columnHelper.accessor("emailAddress", {
+        header: () => <ColumnHeader>Email</ColumnHeader>,
+        cell: (info) => <Text>{info.getValue()}</Text>,
+      }),
+      columnHelper.accessor("role", {
+        header: () => <ColumnHeader>Role</ColumnHeader>,
+        cell: (info) => <Text className="capitalize">{info.getValue()}</Text>,
+      }),
+      columnHelper.accessor("status", {
+        header: () => <ColumnHeader>Status</ColumnHeader>,
+        cell: (info) => <Text className="capitalize">{info.getValue()}</Text>,
+      }),
 
-    columnHelper.accessor("id", {
-      header: () => <></>,
-      cell: (info) => {
-        const canRemove =
-          (!isTestUser || !isViewerUser) && info.row.original.id !== user?.id
+      columnHelper.accessor("id", {
+        header: () => <></>,
+        cell: (info) => {
+          const canRemove =
+            (!isTestUser || !isViewerUser) && info.row.original.id !== user?.id
 
-        if (!canRemove) return null
+          if (!canRemove) return null
 
-        return (
-          <Button
-            className="flex items-center text-red text-sm "
-            onClick={() => handleDeleteUser(info.row.original.id)}
-          >
-            <RemoveIcon className="w-4 h-4 mr-2" /> Remove
-          </Button>
-        )
-      },
-    }),
-  ]
+          return (
+            <Button
+              className="flex items-center text-red text-sm "
+              onClick={() => handleDeleteUser(info.row.original.id)}
+            >
+              <RemoveIcon className="w-4 h-4 mr-2" /> Remove
+            </Button>
+          )
+        },
+      }),
+    ]
+  }, [isTestUser, isViewerUser, sessionToken, user])
 
   const table = useReactTable({
     data: data || [],

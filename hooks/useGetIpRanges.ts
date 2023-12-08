@@ -2,11 +2,12 @@ import { useQuery } from "@tanstack/react-query"
 
 import useAuthToken from "@/hooks/useAuthToken"
 import gatewayFetch from "@/utils/gatewayFetch"
+import { DateTime } from "@/types/utils"
 
 export interface IPsDataType {
   id: string
   ipRange: string
-  createdAt: string
+  createdAt: DateTime
   note: string
 }
 

@@ -2,7 +2,7 @@ import { UseQueryOptions, useQuery } from "@tanstack/react-query"
 
 import gatewayFetch from "@/utils/gatewayFetch"
 import useAuthToken from "./useAuthToken"
-import { NetworkId } from "@/utils/network"
+import { Project } from "./useGetProjects"
 
 interface UseGetProjectByIdArgs {
   projectId: string
@@ -13,33 +13,12 @@ export interface IFunctionSignature {
   signature: string
 }
 
-export interface IContract {
-  id: string
-  name: string
-  address: string
-  functionSignatures: IFunctionSignature[]
-  createdAt: string
-  updatedAt: string
-  chainId: NetworkId
-}
-
-export interface ProjectInterface {
-  id: string
-  createdAt: string
-  updatedAt: string
-  deletedAt: any
-  name: string
-  organizationId: string
-  tokens: any[]
-  contracts: IContract[]
-}
-
 export default function useGetProjectById(
   args: UseGetProjectByIdArgs,
   queryOptions?: UseQueryOptions<
-    ProjectInterface,
+    Project,
     unknown,
-    ProjectInterface,
+    Project,
     string[]
   >
 ) {
@@ -54,7 +33,7 @@ export default function useGetProjectById(
         sessionToken,
       })
 
-      const data = (await res.json()) as ProjectInterface
+      const data = (await res.json()) as Project
 
       return data
     },

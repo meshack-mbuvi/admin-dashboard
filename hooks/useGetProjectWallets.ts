@@ -3,6 +3,7 @@ import { UseQueryResult, useQuery } from "@tanstack/react-query"
 
 import useAuthToken from "./useAuthToken"
 import { NetworkId } from "@/utils/network"
+import { DateTime, Nullable } from "@/types/utils"
 
 interface UseGetProjectWalletsArgs {
   projectId: string
@@ -11,15 +12,15 @@ interface UseGetProjectWalletsArgs {
 
 export type Wallet = {
   chainId: NetworkId
-  createdAt: string
+  createdAt: DateTime
   isActive: boolean
   nonce: number
   projectId: string
-  updatedAt: string
+  updatedAt: DateTime
   walletAddress: string
   walletId: string
   txCount: number
-  balance: string | null
+  balance: Nullable<string>
 }
 
 export type WalletNoData = Omit<Wallet, "txCount">

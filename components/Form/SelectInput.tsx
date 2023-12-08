@@ -4,16 +4,16 @@ import usePrevious from "@/hooks/usePrevious";
 import { BaseFormInput, BaseFormInputProps, useFormContextSafe } from ".";
 import Select, { SelectOption, SelectProps } from "../inputs/Select";
 
-interface SelectInputProps extends Omit<BaseFormInputProps<SelectOption | SelectOption[]>, 'render'>, 
-    Pick<SelectProps, 'options' | 'placeholder' | 'above' | 'multiple'> {
+interface SelectInputProps<T> extends Omit<BaseFormInputProps<SelectOption<T> | SelectOption<T>[]>, 'render'>, 
+    Pick<SelectProps<T>, 'options' | 'placeholder' | 'above' | 'multiple'> {
     disabled?: boolean
 }
 
-export default function SelectInput(props: SelectInputProps) {
+export default function SelectInput<T = string | number>(props: SelectInputProps<T>) {
     const { options, placeholder, above, multiple, disabled, defaultValue, ...rest } = props
     const context = useFormContextSafe()
     const defValue = useMemo(() => defaultValue ? defaultValue : multiple ? [] : undefined, [defaultValue, multiple])
-    const previousOptions = usePrevious<SelectOption[]>(options)
+    const previousOptions = usePrevious<SelectOption<T>[]>(options)
     // reset value to default value if options change
     useEffect(() => {
         const prevKeys = previousOptions?.map(o => o.id)
@@ -23,10 +23,10 @@ export default function SelectInput(props: SelectInputProps) {
             context.setValue(rest.name, defValue)
         }
     }, [options, previousOptions, rest.name, context, defValue])
-    return <BaseFormInput<SelectOption | SelectOption[]>
+    return <BaseFormInput<SelectOption<T> | SelectOption<T>[]>
         {...rest}
         defaultValue={defValue}
-        render={({ field, formState }, onChange) => <Select 
+        render={({ field, formState }, onChange) => <Select<T> 
                 multiple={multiple}
                 above={above}
                 placeholder={placeholder}
@@ -34,7 +34,7 @@ export default function SelectInput(props: SelectInputProps) {
                 disabled={disabled || formState.isSubmitting}
                 name={field.name}
                 selected={field.value}
-                setSelected={(value: SelectOption | SelectOption[]) => {
+                setSelected={(value: SelectOption<T> | SelectOption<T>[]) => {
                     onChange && onChange(value)
                     field.onChange(value)
                 }}

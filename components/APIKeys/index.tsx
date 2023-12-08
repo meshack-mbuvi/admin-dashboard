@@ -24,13 +24,15 @@ import useDeleteApiKey from "@/hooks/useDeleteApiKey"
 import useFreePlan from "@/hooks/useFreePlan"
 import useGetProjectApiKeys from "@/hooks/useGetApiKeys"
 import useGetUser from "@/hooks/useGetUser"
-import { GatewayFetchArgs, ResponseError } from "@/utils/gatewayFetch"
+import { ResponseError } from "@/utils/gatewayFetch"
 import getFirstOrString from "@/utils/getFirstOrString"
 
 export default function APIKeys() {
   const [showModal, setShowModal] = useState<boolean>(false)
   const [showNo2FAModal, setShowNo2FAModal] = useState<boolean>(false)
   const { projectId } = useParams()
+
+  const [accessKeyId, setAccessKeyId] = useState<string | null>()
 
   const projectIdString = getFirstOrString(projectId)
   const { data, isLoading } = useGetProjectApiKeys({
@@ -46,8 +48,6 @@ export default function APIKeys() {
   const [pendingRequest, setPendingRequest] = useState<string>(
     "create" || "delete"
   )
-  const [pendingRequestParams, setPendingRequestParams] =
-    useState<GatewayFetchArgs>()
 
   const authCodeError: boolean = useMemo(() => {
     const error =
@@ -98,15 +98,6 @@ export default function APIKeys() {
     if (!user?.is2FaEnabled) return setShowNo2FAModal(true)
     if (sessionToken) {
       setPendingRequest("create")
-      setPendingRequestParams({
-        method: "POST",
-        sessionToken,
-        endpointPath: `/admin/accessKey`,
-        body: JSON.stringify({
-          projectId: projectId,
-          roleTitle: "admin",
-        }),
-      })
       setShowModal(true)
     }
   }
@@ -119,30 +110,18 @@ export default function APIKeys() {
 
     if (confirm && sessionToken) {
       setPendingRequest("delete")
-      setPendingRequestParams({
-        sessionToken,
-        method: "DELETE",
-        endpointPath: `/admin/accessKey/${keyId}`,
-      })
+      setAccessKeyId(keyId)
       setShowModal(true)
     }
   }
 
   const complete2FARequest = (authCode: string) => {
-    if (pendingRequest == "create") {
-      const params = {
-        ...pendingRequestParams,
-        headers: { "x-2fa-code": authCode },
-      }
-      createMutation.mutate(params as GatewayFetchArgs)
+    if (pendingRequest == "create" && sessionToken) {
+      createMutation.mutate({ authCode, sessionToken })
     }
 
-    if (pendingRequest == "delete") {
-      const params = {
-        ...pendingRequestParams,
-        headers: { "x-2fa-code": authCode },
-      }
-      deleteMutation.mutate(params as GatewayFetchArgs)
+    if (pendingRequest == "delete" && accessKeyId && sessionToken) {
+      deleteMutation.mutateAsync({ accessKeyId, authCode, sessionToken }).then(() => setAccessKeyId(null))
     }
   }
 

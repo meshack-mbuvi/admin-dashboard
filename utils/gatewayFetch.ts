@@ -7,15 +7,34 @@ export interface ResponseError extends Error {
   status?: number
 }
 
+export interface JsonAwaitableResponse<T> extends Response {
+  json: () => Promise<T>
+}
+
+export interface AuthCode {
+  authCode: string;
+}
+export interface SessionToken {
+  sessionToken: string;
+}
+
+
 export default async function gatewayFetch(args: GatewayFetchArgs) {
-  const { endpointPath, sessionToken, ...otherProps } = args
+  const { endpointPath, sessionToken, method, ...otherProps } = args
+
+  const headers =  new Headers({
+    Authorization: `Bearer Stytch ${sessionToken}`,
+    ...otherProps.headers,
+  })
+
+  if (method === "POST") {
+    headers.set("Content-Type", "application/json")
+  }
 
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpointPath}`, {
     ...otherProps,
-    headers: new Headers({
-      Authorization: `Bearer Stytch ${sessionToken}`,
-      ...otherProps.headers,
-    }),
+    method,
+    headers,
   })
 
   if (!res.ok) {

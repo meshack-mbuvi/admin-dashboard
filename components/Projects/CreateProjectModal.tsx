@@ -12,7 +12,7 @@ import ContactUsToUpgrade from "@/components/Shared/ContactUsToUpgrade"
 import { InsufficientPermissionsText } from "@/components/Shared/constants"
 
 import useAuthToken from "@/hooks/useAuthToken"
-import useCreateProject from "@/hooks/useCreateProject"
+import useCreateProject, { Environment } from "@/hooks/useCreateProject"
 import useFreePlan from "@/hooks/useFreePlan"
 import useGetOrganization from "@/hooks/useGetOrganization"
 
@@ -24,7 +24,7 @@ type CreateProjectModalProps = {
 const PendingStatusText = "Creating project"
 const ErrorStatusText = "Error creating project"
 
-const environmentOptions = [
+const environmentOptions: {id: Environment, label: string}[] = [
   { id: "staging", label: "Staging" },
   { id: "production", label: "Production" },
 ]
@@ -52,7 +52,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
     })
 
   const [name, setName] = useState<string>("")
-  const [environment, setEnvironment] = useState<SelectOption | null>(null)
+  const [environment, setEnvironment] = useState<SelectOption<Environment> | null>(null)
   const [network, setNetwork] = useState<number>(0)
   const [showStepsModal, setShowStepsModal] = useState(false)
 
@@ -66,16 +66,12 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
       onClose()
       setShowStepsModal(true)
       return mutate({
-        method: "POST",
-        sessionToken,
-        endpointPath: "/admin/project",
-        body: JSON.stringify({
-          organizationId: organizationData?.organization.id,
+          sessionToken,
+          organizationId: organizationData!.organization.id,
           name: name,
-          environment: environment?.id,
+          environment: environment!.id,
           chainId: network,
           numWallets: 1,
-        }),
       })
     }
   }
@@ -166,7 +162,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
                   <p className="font-sans font-medium text-white text-sm mb-2">
                     Environment
                   </p>
-                  <Select
+                  <Select<Environment>
                     options={environmentOptions}
                     placeholder="Select environment type"
                     selected={environment}

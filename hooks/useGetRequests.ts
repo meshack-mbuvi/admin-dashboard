@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query"
 import gatewayFetch from "@/utils/gatewayFetch"
 import { NetworkId } from "@/utils/network"
 import useAuthToken from "./useAuthToken"
+import { DateTime } from "@/types/utils"
 
 interface UseGetRequestsArgs {
   projectId: string
@@ -12,7 +13,7 @@ interface UseGetRequestsArgs {
   search?: string
 }
 export interface RequestsDataType {
-  createdAt: string
+  createdAt: DateTime
   invalid: boolean
   transactionId: string
   updatedAt: string

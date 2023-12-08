@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 import TopBarNav from "@/components/Navigation/TopBarNav"
 import gatewayFetch from "@/utils/gatewayFetch"
 import getAuthToken from "@/utils/getAuthToken"
+import { Project } from "@/hooks/useGetProjects"
 
 interface ProjectLayoutProps {
   children: React.ReactNode
@@ -16,16 +17,6 @@ interface GetProjectByIdProps {
   sessionToken: string | undefined
 }
 
-export interface ProjectInterface {
-  id: string
-  createdAt: string
-  updatedAt: string
-  deletedAt: any
-  name: string
-  organizationId: string
-  tokens: any[]
-}
-
 async function getProjectById(args: GetProjectByIdProps) {
   const { projectId, sessionToken } = args
 
@@ -36,7 +27,7 @@ async function getProjectById(args: GetProjectByIdProps) {
     sessionToken,
   })
 
-  const data = (await res.json()) as ProjectInterface
+  const data = (await res.json()) as Project
 
   return data
 }

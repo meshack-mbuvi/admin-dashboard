@@ -3,9 +3,9 @@ import { useEffect, useState } from "react"
 import QRCode from "react-qr-code"
 
 import CopyToClipboard from "@/components/CopyToClipboard"
-import use2FA from "@/hooks/use2FA"
 import useAuthToken from "@/hooks/useAuthToken"
 import Loading from "@/components/Loading"
+import useSetup2FA from "@/hooks/useSetup2FA"
 
 export default function Setup() {
   const sessionToken = useAuthToken()
@@ -18,19 +18,13 @@ export default function Setup() {
     setSecret(response.split(`secret=`)[1])
   }
 
-  const { mutate: Set2FAMutation, isLoading } = use2FA({
-    requestType: "setup2FA",
+  const { mutate: Set2FAMutation, isLoading } = useSetup2FA({
     onSuccess: handleAuthString,
   })
 
   useEffect(() => {
     if (!sessionToken || !Set2FAMutation) return
-    Set2FAMutation({
-      method: "POST",
-      sessionToken,
-      endpointPath: `/admin/user/set2FA`,
-      body: JSON.stringify({}),
-    })
+    Set2FAMutation({ sessionToken })
     return () => {}
   }, [sessionToken, Set2FAMutation])
 

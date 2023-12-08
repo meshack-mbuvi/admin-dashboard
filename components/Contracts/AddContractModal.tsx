@@ -155,19 +155,12 @@ export default function AddContractModal(props: AddContractModalProps) {
   const handleRequest = () => {
     if (sessionToken && networkId) {
       mutate({
-        method: "POST",
         sessionToken,
-        endpointPath: "/admin/contract/authorizeWithFunctionSignatures",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: name,
-          address: contractAddress,
-          chainId: networkId,
-          functionSignatures: functionSignatures,
-          projectId: projectId,
-        }),
+        name: name,
+        address: contractAddress,
+        chainId: networkId,
+        functionSignatures: functionSignatures,
+        projectId: getFirstOrString(projectId),
       })
     }
   }

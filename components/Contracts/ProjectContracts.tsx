@@ -1,12 +1,12 @@
 import ContractCard from "./ContractCard"
 import DisclosureComponent from "../Shared/Disclosure"
 
-import { IContract } from "@/hooks/useGetProjectById"
 import { NetworkId } from "@/utils/network"
+import { Contract } from "@/hooks/useCreateContract"
 
 interface ProjectNetworkProps {
   networkId: NetworkId
-  contracts: IContract[]
+  contracts: Contract[]
 }
 
 export default function ProjectContracts({

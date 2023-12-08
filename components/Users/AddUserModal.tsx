@@ -14,7 +14,7 @@ import { Spinner } from "@/components/Spinner"
 import { InsufficientPermissionsText } from "@/components/Shared/constants"
 
 import useAuthToken from "@/hooks/useAuthToken"
-import useCreateUser from "@/hooks/useCreateUser"
+import useCreateUser, { CreateUserParams } from "@/hooks/useCreateUser"
 import useFreePlan from "@/hooks/useFreePlan"
 import useGetUsers from "@/hooks/useGetUsers"
 
@@ -23,10 +23,7 @@ type AddUserModalProps = {
   onClose: () => void
 }
 
-type NewUserInfo = {
-  email: string
-  name: string
-}
+type NewUserInfo = Pick<CreateUserParams, 'name' | 'email'>
 
 const PendingStatusText = "Inviting user"
 const SuccessStatusText = "User invitation sent"
@@ -52,15 +49,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ show, onClose }) => {
 
   const onSubmit = (values: NewUserInfo) => {
     if (sessionToken) {
-      mutate({
-        method: "POST",
-        sessionToken,
-        endpointPath: "/admin/user",
-        body: JSON.stringify({
-          ...values,
-          roleTitle: "admin",
-        }),
-      })
+      mutate({ sessionToken, ...values })
     }
   }
 

@@ -1,33 +1,29 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 
-import useAuthToken from "./useAuthToken"
+import gatewayFetch, { JsonAwaitableResponse, ResponseError } from "@/utils/gatewayFetch"
+import { SessionToken } from "@/utils/gatewayFetch"
 
-import gatewayFetch, { ResponseError } from "@/utils/gatewayFetch"
-
-interface FaucetFundsArgs {
+interface FaucetFundsParams extends SessionToken {
   projectId: string
   chainId: number
   walletAddress: string
 }
 
-interface FaucetFundsResponse extends Response {
-  json: () => Promise<{
-    success: boolean
-  }>
+interface FaucetFundsResponse {
+  success: boolean
 }
 
 export default function useFaucet() {
-  const sessionToken = useAuthToken()
   const queryClient = useQueryClient()
 
-  return useMutation<FaucetFundsResponse, ResponseError, FaucetFundsArgs>(
-    (args) => {
+  return useMutation<JsonAwaitableResponse<FaucetFundsResponse>, ResponseError, FaucetFundsParams>(
+    ({
+      sessionToken,
+      ...args
+    }) => {
       return gatewayFetch({
         method: "POST",
         endpointPath: "/funding/dripFaucet",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({
           projectId: args.projectId,
           chainId: args.chainId,

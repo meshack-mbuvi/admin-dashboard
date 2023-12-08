@@ -46,18 +46,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
 
     setIsWalletEnabled(enabled)
 
-    mutate({
-      method: "POST",
-      sessionToken,
-      endpointPath: `/wallet/toggleIsActive`,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        walletAddress: wallet.walletAddress,
-        projectId: wallet.projectId,
-      }),
-    })
+    sessionToken && mutate({ walletAddress: wallet.walletAddress, sessionToken })
   }
 
   const isLowBalance = isBalanceLow(wallet.balance, -18)
@@ -220,10 +209,11 @@ export default function TxWalletCard(props: TxWalletCardProps) {
                 className="text-black text-xs rounded-full px-2 py-0.5 bg-white hover:bg-gray-2 transition-colors"
                 disabled={isFaucetLoading || isFaucetSuccess}
                 onClick={() =>
-                  dripFaucet({
+                  sessionToken && dripFaucet({
                     projectId: wallet.projectId,
                     walletAddress: wallet.walletAddress,
                     chainId: wallet.chainId,
+                    sessionToken
                   })
                 }
               >
