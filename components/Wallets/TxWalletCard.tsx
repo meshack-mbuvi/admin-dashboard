@@ -111,7 +111,7 @@ export default function TxWalletCard(props: TxWalletCardProps) {
                   "text-sm sm:text-base",
                   !isWalletEnabled && inActiveTextColor
                 )}
-                enabled={isWalletEnabled}
+                disabled={!isWalletEnabled}
               />
             </div>
           </div>

@@ -12,23 +12,23 @@ interface HexProps {
   chainId: NetworkId
   truncate?: boolean
   className?: string
-  enabled?: boolean
+  disabled?: boolean
 }
 
 interface MaybeLinkProps {
   children: React.ReactNode
   isLink: boolean
   href: string
-  enabled?: boolean
+  disabled?: boolean
 }
-const inActiveTextColor = "text-gray-5"
+const disabledColor = "text-gray-5"
 
 export default function Hex(props: HexProps) {
   const {
     hexType,
     hexValue,
     chainId,
-    enabled,
+    disabled,
     className,
     truncate = true,
   } = props
@@ -60,12 +60,12 @@ export default function Hex(props: HexProps) {
         <MaybeLink
           href={linkAddress}
           isLink={Boolean(networkConfig)}
-          enabled={enabled}
+          disabled={disabled}
         >
           <span
             className={cn(
               "group-hover/link:text-blue-1",
-              enabled ? "text-gray-3" : inActiveTextColor
+              disabled ? disabledColor : "text-gray-3"
             )}
           >
             {formattedHexValue?.slice(0, 2)}
@@ -82,13 +82,13 @@ export default function Hex(props: HexProps) {
 }
 
 function MaybeLink(props: MaybeLinkProps) {
-  const { children, isLink, href, enabled } = props
+  const { children, isLink, href, disabled } = props
   if (!isLink) {
     return (
       <span
         className={cn(
           "cursor-default group/link",
-          enabled ? "text-white" : inActiveTextColor
+          disabled ? disabledColor : "text-white"
         )}
       >
         {children}
@@ -100,7 +100,7 @@ function MaybeLink(props: MaybeLinkProps) {
     <Link
       className={cn(
         "hover:text-blue-1 group/link",
-        enabled ? "text-white" : inActiveTextColor
+        disabled ? disabledColor : "text-white"
       )}
       href={{
         pathname: href,
