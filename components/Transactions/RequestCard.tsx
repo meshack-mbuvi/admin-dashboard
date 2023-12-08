@@ -49,7 +49,7 @@ export default function RequestCard(props: RequestCardProps) {
           <p className="text-xs text-gray-4 mb-1">Chain ID</p>
           <div className="flex items-center text-sm sm:text-base">
             <NetworkIcon networkId={request.chainId} className="w-5" />
-            <p className="text-gray-1 ml-2">{request.chainId}</p>
+            <p className="text-gray-1 ml-2 font-mono">{request.chainId}</p>
           </div>
         </div>
 

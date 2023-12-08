@@ -50,15 +50,15 @@ export default function TransactionCard(props: TransactionCardProps) {
           <div className="flex items-center">
             <NetworkIcon networkId={transaction.chainId} className="w-5" />
 
-            <p className="text-gray-1 ml-2 text-sm sm:text-base">
+            <p className="text-gray-1 ml-2 text-sm sm:text-base font-mono">
               {transaction.chainId}
             </p>
           </div>
         </div>
 
-        <div>
+        <div className="min-w-[112px]">
           <p className="text-xs text-gray-4 mb-1"> Block No</p>
-          <div className="text-gray-1 text-sm sm:text-base">
+          <div className="text-gray-1 text-sm sm:text-base font-mono">
             <Block
               viewType="block"
               chainId={transaction.chainId}
@@ -67,7 +67,7 @@ export default function TransactionCard(props: TransactionCardProps) {
           </div>
         </div>
 
-        <div>
+        <div className="min-w-[100px]">
           <p className="text-xs text-gray-4 mb-1">Block age</p>
           <TableTimeStampCell
             id={transaction.transactionId}

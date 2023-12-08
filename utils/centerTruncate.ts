@@ -4,6 +4,7 @@
  * @param start the position to start slicing the address from.
  * @param end number of characters to have after the ellipses.
  * */
-export const formatAddress = (address: string, start: number, end: number) => {
-  return `${address.slice(0, start)}…${address.slice(address.length - end)}`
+export const centerTruncate = (string: string, start: number, end: number) => {
+  if (string.length <= start + end) return string
+  return `${string.slice(0, start)}…${string.slice(string.length - end)}`
 }

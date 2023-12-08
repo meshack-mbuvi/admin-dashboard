@@ -8,13 +8,12 @@ interface Props {
 const DateTimestamp: React.FC<Props> = ({ date, showTime }) => {
   const dateOptions: Intl.DateTimeFormatOptions = {
     year: "numeric",
-    month: "short",
+    month: "numeric",
     day: "numeric",
     ...(showTime && {
       hour: "numeric",
       minute: "numeric",
       hour12: false,
-      timeZoneName: "short",
       timeZone: "UTC",
     }),
   }

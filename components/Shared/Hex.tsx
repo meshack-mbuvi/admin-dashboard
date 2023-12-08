@@ -3,7 +3,7 @@ import Link from "next/link"
 import { useMemo } from "react"
 
 import CopyToClipboard from "@/components/CopyToClipboard"
-import { formatAddress } from "@/utils/formatAddress"
+import { centerTruncate } from "@/utils/centerTruncate"
 import { getNetwork, NetworkId } from "@/utils/network"
 
 interface HexProps {
@@ -40,7 +40,7 @@ export default function Hex(props: HexProps) {
     if (!truncate) return hexValue
 
     if (hexType === "address") {
-      return formatAddress(hexValue, 6, 4)
+      return centerTruncate(hexValue, 6, 4)
     }
     if (hexType === "tx") {
       return `${hexValue.slice(0, 13)}…`
