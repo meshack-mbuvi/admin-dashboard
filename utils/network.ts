@@ -9,12 +9,14 @@ import {
   baseGoerli,
   optimism,
   optimismGoerli,
+  sepolia,
 } from "viem/chains"
 
 export const networks = {
   // Ethereum L1
   [mainnet.id]: mainnet,
   [goerli.id]: goerli,
+  [sepolia.id]: sepolia,
   // Polygon L2
   [polygon.id]: polygon,
   [polygonZkEvmTestnet.id]: polygonZkEvmTestnet,
@@ -29,6 +31,7 @@ export const networks = {
 
 export const testnetNetworks = [
   goerli.id,
+  sepolia.id,
   polygonZkEvmTestnet.id,
   polygonMumbai.id,
   baseGoerli.id,
