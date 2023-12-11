@@ -14,6 +14,7 @@ export default function NetworkIcon(props: NetworkIconProps) {
   switch (networkId) {
     case 1: // Ethereum Mainnet
     case 5: // Goerli
+    case 11155111: // Sepolia
       return <Ethereum className={className} />
 
     case 137: // Polygon Mainnet
