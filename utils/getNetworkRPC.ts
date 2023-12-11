@@ -6,9 +6,6 @@ export function getNetworkRPC(networkId: NetworkId | number) {
     case networks[1].id:
       return process.env.ALCHEMY_MAINNET_URL
 
-    case networks[5].id:
-      return process.env.ALCHEMY_GOERLI_URL
-
     case networks[11155111].id:
       return process.env.ALCHEMY_SEPOLIA_URL
 

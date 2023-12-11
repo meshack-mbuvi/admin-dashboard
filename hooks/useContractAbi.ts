@@ -2,7 +2,6 @@ import { networks } from "@/utils/network"
 import { useQuery } from "@tanstack/react-query"
 
 const networkQueryStrings: { [x: number]: string } = {
-  [networks[5].id]: "goerli",
   [networks[11155111].id]: "sepolia",
   [networks[137].id]: "polygon",
   [networks[1442].id]: "polygonZkEvmTestnet",
